@@ -7,8 +7,20 @@ namespace Domain
     {
         public ServiceDeskContext() : base() { }
 
-        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Brunch> Brunches { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }        
+        
+        public virtual DbSet<Organization> Organizations { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
+        public virtual DbSet<Priority> Priorities { get; set; }
+        public virtual DbSet<RefuelingLimits> RefuelingLimits { get; set; }
         public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<Status> Statuses { get; set; }
+        public virtual DbSet<Subdivision> Subdivisions { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            
+        }
     }
 }

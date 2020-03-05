@@ -51,15 +51,75 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\LifeCycle.cs" />
+    <Compile Include="Abstract\Request.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Attachment.cs" />
+    <Compile Include="Models\Cabinet.cs" />
+    <Compile Include="Models\Campus.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Component.cs" />
+    <Compile Include="Models\Consumable.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Equipment.cs" />
+    <Compile Include="Models\EquipmentType.cs" />
+    <Compile Include="Models\ExecutorGroup.cs" />
+    <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\Permission.cs" />
+    <Compile Include="Models\Priority.cs" />
+    <Compile Include="Models\RefuelingLimits.cs" />
+    <Compile Include="Models\Requests\Accounts\AccountCancellationRequest.cs" />
+    <Compile Include="Models\Requests\Accounts\AccountCancellationRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Accounts\AccountDisconnectRequest.cs" />
+    <Compile Include="Models\Requests\Accounts\AccountDisconnectRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Accounts\AccountLossRequest.cs" />
+    <Compile Include="Models\Requests\Accounts\AccountLossRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Accounts\AccountRegistrationRequest.cs" />
+    <Compile Include="Models\Requests\Accounts\AccountRegistrationRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Communication\HoldingPhoneLineRequest.cs" />
+    <Compile Include="Models\Requests\Communication\HoldingPhoneLineRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Communication\PhoneLineRepairRequest.cs" />
+    <Compile Include="Models\Requests\Communication\PhoneLineRepairRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Communication\PhoneNumberAllocationRequest.cs" />
+    <Compile Include="Models\Requests\Communication\PhoneNumberAllocationRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Communication\PhoneRepairRequest.cs" />
+    <Compile Include="Models\Requests\Communication\PhoneRepairRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Communication\VideoCommunicationRequest.cs" />
+    <Compile Include="Models\Requests\Communication\VideoCommunicationRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Email\EmailRegistrationRequest.cs" />
+    <Compile Include="Models\Requests\Email\EmailRegistrationRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Email\EmailSizeIncreaseRequest.cs" />
+    <Compile Include="Models\Requests\Email\EmailSizeIncreaseRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Equipment\ComponentReplaceRequest.cs" />
+    <Compile Include="Models\Requests\Equipment\ComponentReplaceRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentInstallationRequest.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentInstallationRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentRefillRequest.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentRefillRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentRepairRequest.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentRepairRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentReplaceRequest.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentReplaceRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Equipment\InstallationEquipments.cs" />
+    <Compile Include="Models\Requests\Equipment\RefillEquipments.cs" />
+    <Compile Include="Models\Requests\Equipment\RepairEquipments.cs" />
+    <Compile Include="Models\Requests\Equipment\ReplaceComponents.cs" />
+    <Compile Include="Models\Requests\Equipment\ReplaceEquipments.cs" />
+    <Compile Include="Models\Requests\Network\ConnectionEquipments.cs" />
+    <Compile Include="Models\Requests\Network\NetworkConnectionRequest.cs" />
+    <Compile Include="Models\Requests\Network\NetworkConnectionRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Software\SoftwareDevelopmentRequest.cs" />
+    <Compile Include="Models\Requests\Software\SoftwareDevelopmentRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Software\SoftwareReworkRequest.cs" />
+    <Compile Include="Models\Requests\Software\SoftwareReworkRequestLifeCycle.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\Brunch.cs" />
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\Subdivision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceDeskContext.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Abstract\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

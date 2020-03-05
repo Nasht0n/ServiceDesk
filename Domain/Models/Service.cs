@@ -1,26 +1,52 @@
-﻿namespace Domain.Models
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Models
 {
     /// <summary>
-    /// Класс-сущность таблицы "Вид работы заявки"
+    /// Класс-сущность, содержащий описание данных для хранения в таблице "Виды работ"
     /// </summary>
     public class Service
     {
         /// <summary>
-        /// Идентификатор категории заявки
+        /// Идентификатор вида работы заявки
         /// </summary>
+        [Key]
         public int Id { get; set; }
         /// <summary>
-        /// Наименование категории заявки
+        /// Наименование вида работы заявки
         /// </summary>
+        [Required]
+        [MaxLength(150)]
         public string Name { get; set; }
         /// <summary>
-        /// Идентификатор категории заявки
+        /// Требует ли, согласования данный вид работы
         /// </summary>
+        [Required]
+        public bool ApprovalRequired { get; set; }
+        /// <summary>
+        /// Наименование контроллера веб приложения, выполняющего обработку текущего вида работы
+        /// </summary>
+        [Required]
+        [MaxLength(150)]
+        public string Controller { get; set; }
+        /// <summary>
+        /// Идентификатор категории работы, текущего вида работы
+        /// </summary>
+        [Required]
         public int CategoryId { get; set; }
         /// <summary>
-        /// Категория заявки
+        /// Объект категории работы, текущего вида работы
         /// </summary>
         public Category Category { get; set; }
+        /// <summary>
+        /// Список пользователей, согласовывающие текущий вид работы
+        /// </summary>
+        public IList<Employee> Approvers { get; set; }
+        /// <summary>
+        /// Список групп исполнителей, закрепленных за данным видом работы
+        /// </summary>
+        public IList<ExecutorGroup> ExecutorGroups { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
@@ -28,52 +54,45 @@
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>
-        /// <param name="id">Идентификатор вида работы заявки</param>
         /// <param name="name">Наименование вида работы</param>
-        /// <param name="categoryId">Идентификатор категории заявки</param>
-        public Service(int id, string name, int categoryId)
+        /// <param name="approvalRequired">Признак, необходимого согласования текущей работы</param>
+        /// <param name="controller">Наименование контроллера обработки текущей работы</param>
+        /// <param name="categoryId">Категория работы</param>
+        public Service(string name, bool approvalRequired, string controller, int categoryId)
         {
-            Id = id;
             Name = name;
+            ApprovalRequired = approvalRequired;
+            Controller = controller;
             CategoryId = categoryId;
         }
         /// <summary>
-        /// Конструктор с параметрами
-        /// </summary>        
-        /// <param name="name">Наименование категории</param>
-        /// <param name="categoryId">Идентификатор категории заявки</param>
-        public Service(string name, int categoryId)
-        {
-            Name = name;
-            CategoryId = categoryId;
-        }
-        /// <summary>
-        /// Переопределенный метод строкового представления объекта категории заявки
+        /// Метод переопределения стандартного метода ToString(). 
+        /// Выводим информацию о текущем объекте.
         /// </summary>
-        /// <returns>Возвращает строку, содержащую данные объекта категории заявки</returns>
+        /// <returns>Возвращает строковое представление объекта вида работы.</returns>
         public override string ToString()
         {
-            return $"Вид работы заявки: [Идентификатор вида работы заявки:{Id}; Идентификатор категории заявки: {CategoryId}; Наименование вида работы: {Name}].";
+            return $"Service object:(Id:[{Id}];Name:[{Name}];Controller:[{Controller}];CategoryId:[{CategoryId}];ApprovalRequired:[{ApprovalRequired}]).";
         }
         /// <summary>
-        /// Переопределенный метод сравнения объектов категории заявки
+        /// Метод переопределения стандартного метода сравнения объектов.
         /// </summary>
         /// <param name="obj">Объект для сравнения</param>
-        /// <returns>Возвращает true — если объекты одинаковые, иначе — false</returns>
+        /// <returns>Возвращает true — в случае идентичности объектов, иначе — false.</returns>
         public override bool Equals(object obj)
         {
-            if (obj != null && obj is Service)
+            if(obj is Service && obj != null)
             {
-                var temp = (Service)obj;
-                if (Id == temp.Id && Name == temp.Name && CategoryId == temp.CategoryId) return true;
+                Service temp = (Service)obj;
+                if (temp.Id == Id && temp.ApprovalRequired == ApprovalRequired && temp.CategoryId == CategoryId && temp.Controller == Controller && temp.Name == Name) return true;
                 else return false;
             }
             return false;
         }
         /// <summary>
-        /// Переопределенный метод получения хэш кода объекта категории заявки
+        /// Метод переопределния стандартного метода получения хэш-кода объекта
         /// </summary>
-        /// <returns>Возвращает хэш код объекта категории заявки</returns>
+        /// <returns>Возвращает хэш-код объекта</returns>
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
