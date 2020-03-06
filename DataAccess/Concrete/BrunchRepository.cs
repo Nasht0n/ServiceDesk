@@ -14,7 +14,7 @@ namespace DataAccess.Concrete
     /// <summary>
     /// Репозиторий доступа к данным специализации заявок
     /// </summary>
-    public class BrunchRepository : IServiceDeskRepository<Brunch>
+    public class BrunchRepository : IServiceDeskRepository<Branch>
     {
         /// <summary>
         /// Контекст данных 
@@ -41,7 +41,7 @@ namespace DataAccess.Concrete
         /// </summary>
         /// <param name="record">Cпециализация заявки, подлежащая удалению</param>
         /// <returns></returns>
-        public async Task Delete(Brunch record)
+        public async Task Delete(Branch record)
         {
             // объект для отслеживания времени проведения операции
             Stopwatch watch = new Stopwatch();
@@ -69,7 +69,7 @@ namespace DataAccess.Concrete
         /// Асинхронный метод получения списка специализаций заявок
         /// </summary>
         /// <returns>Возвращает список специализаций заявок</returns>
-        public async Task<List<Brunch>> GetList()
+        public async Task<List<Branch>> GetList()
         {
             // объект для отслеживания времени проведения операции
             Stopwatch watch = new Stopwatch();
@@ -79,7 +79,7 @@ namespace DataAccess.Concrete
                 // запуск таймера
                 watch.Start();
                 // для записи результата выполнения метода
-                List<Brunch> result = await context.Brunches.ToListAsync();
+                List<Branch> result = await context.Brunches.ToListAsync();
                 // остановка таймера
                 watch.Stop();
                 // результат операции
@@ -107,7 +107,7 @@ namespace DataAccess.Concrete
         /// </summary>
         /// <param name="record">Специализация заявки, подлежащая добавлению</param>
         /// <returns>Возвращает объект специализации заявки, добавленный в систему</returns>
-        public async Task<Brunch> Insert(Brunch record)
+        public async Task<Branch> Insert(Branch record)
         {
             // объект для отслеживания времени проведения операции
             Stopwatch watch = new Stopwatch();
@@ -140,7 +140,7 @@ namespace DataAccess.Concrete
         /// </summary>
         /// <param name="record">Специализация заявки, подлежащая редактированию</param>
         /// <returns>Возвращает отредактированный объект специализации заявки</returns>
-        public async Task<Brunch> Update(Brunch record)
+        public async Task<Branch> Update(Branch record)
         {
             // объект для отслеживания времени проведения операции
             Stopwatch watch = new Stopwatch();

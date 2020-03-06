@@ -7,7 +7,7 @@ namespace Domain
     {
         public ServiceDeskContext() : base() { }
 
-        public virtual DbSet<Brunch> Brunches { get; set; }
+        public virtual DbSet<Branch> Brunches { get; set; }
         public virtual DbSet<Category> Categories { get; set; }        
         
         public virtual DbSet<Organization> Organizations { get; set; }

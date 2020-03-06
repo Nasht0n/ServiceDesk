@@ -113,7 +113,7 @@
     <Compile Include="Models\Requests\Software\SoftwareReworkRequest.cs" />
     <Compile Include="Models\Requests\Software\SoftwareReworkRequestLifeCycle.cs" />
     <Compile Include="Models\Service.cs" />
-    <Compile Include="Models\Brunch.cs" />
+    <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\Subdivision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

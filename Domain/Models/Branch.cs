@@ -3,17 +3,17 @@
 namespace Domain.Models
 {
     /// <summary>
-    /// Класс-сущность, содержащий описание данных для хранения в таблице "Тип оборудования"
+    /// Класс-сущность, содержащий описание данных для хранения в таблице "Отрасль поддержки"
     /// </summary>
-    public class EquipmentType
+    public class Branch
     {
         /// <summary>
-        /// Идентификатор типа оборудования
+        /// Идентификатор отрасли поддержки
         /// </summary>
         [Key]
         public int Id { get; set; }
         /// <summary>
-        /// Наименование типа оборудования
+        /// Наименование отрасли поддержки
         /// </summary>
         [Required]
         [MaxLength(150)]
@@ -21,15 +21,12 @@ namespace Domain.Models
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public EquipmentType()
-        {
-
-        }
+        public Branch() { }
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>
-        /// <param name="name">Наименование типа оборудования</param>
-        public EquipmentType(string name)
+        /// <param name="name">Наименование категории заявки</param>
+        public Branch(string name)
         {
             // инициализация переменных
             Name = name;
@@ -41,18 +38,18 @@ namespace Domain.Models
         /// <returns>Возвращает true — в случае идентичности объектов, иначе — false.</returns>
         public override bool Equals(object obj)
         {
-            return obj is EquipmentType type &&
-                   Id == type.Id &&
-                   Name == type.Name;
+            return obj is Branch branch &&
+                   Id == branch.Id &&
+                   Name == branch.Name;
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 
         /// Выводим информацию о текущем объекте.
         /// </summary>
-        /// <returns>Возвращает строковое представление объекта типа оборудования.</returns>
+        /// <returns>Возвращает строковое представление объекта отрасли заявки.</returns>
         public override string ToString()
         {
-            return $"EquipmentType object:(Id:[{Id}];Name:[{Name}]).";
+            return $"Branch object:(Id:[{Id}];Name:[{Name}]).";
         }
         /// <summary>
         /// Метод переопределния стандартного метода получения хэш-кода объекта

@@ -156,7 +156,7 @@ namespace DataAccess.Concrete
                 var updated = await context.Categories.FirstOrDefaultAsync(a => a.Id == record.Id);
                 if (updated != null)
                 {
-                    updated.BrunchId = record.BrunchId;
+                    updated.BranchId = record.BranchId;
                     updated.Name = record.Name;
                 }
                 await context.SaveChangesAsync();
