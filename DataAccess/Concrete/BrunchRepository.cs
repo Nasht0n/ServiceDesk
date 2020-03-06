@@ -23,9 +23,9 @@ namespace DataAccess.Concrete
         /// <summary>
         /// Логгер настроеный на запись в файл
         /// </summary>
-        private ILogger logger = new LoggerConfiguration()
+        private readonly ILogger logger = new LoggerConfiguration()
             .MinimumLevel.Information()
-            .MinimumLevel.Override("ApplicationSpecializationRepository", LogEventLevel.Information)
+            .MinimumLevel.Override("ApplicationBrunchRepository", LogEventLevel.Information)
             .WriteTo.File("Logs/DataAccess.text", fileSizeLimitBytes: null, rollingInterval: RollingInterval.Month)
             .CreateLogger();
         /// <summary>
@@ -89,7 +89,6 @@ namespace DataAccess.Concrete
                 }
                 else
                 {
-
                     logger.Debug($"Статус операции: Операция завершена. Список специализаций заявок получен. Количество записей: {result}. Затраченное время: {watch.Elapsed}.");
                 }
                 return result;
@@ -135,6 +134,7 @@ namespace DataAccess.Concrete
                 return null;
             }
         }
+
         /// <summary>
         /// Асинхронный метод редактирования записи специализации заявки
         /// </summary>

@@ -20,6 +20,11 @@ namespace Domain.Models
         [MaxLength(150)]
         public string Name { get; set; }
         /// <summary>
+        /// Видимость вида работы
+        /// </summary>
+        [Required]
+        public bool Visible { get; set; }
+        /// <summary>
         /// Требует ли, согласования данный вид работы
         /// </summary>
         [Required]

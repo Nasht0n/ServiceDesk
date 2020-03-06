@@ -3,13 +3,10 @@ using Domain;
 using Domain.Models;
 using Serilog;
 using Serilog.Events;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
@@ -157,6 +154,9 @@ namespace DataAccess.Concrete
                 if (updated != null)
                 {
                     updated.CategoryId = record.CategoryId;
+                    updated.Controller = record.Controller;
+                    updated.Visible = record.Visible;
+                    updated.ApprovalRequired = record.ApprovalRequired;
                     updated.Name = record.Name;
                 }
                 await context.SaveChangesAsync();

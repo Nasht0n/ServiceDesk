@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IServiceDeskRepository.cs" />
+    <Compile Include="Concrete\AccountRepository.cs" />
     <Compile Include="Concrete\CategoryRepository.cs" />
     <Compile Include="Concrete\ServiceRepository.cs" />
     <Compile Include="Concrete\BrunchRepository.cs" />
