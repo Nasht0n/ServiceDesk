@@ -8,6 +8,8 @@ namespace Domain.Models
     /// </summary>
     public class Organization
     {
+        [Key]
+        public int Id { get; set; }
         /// <summary>
         /// Полное наименование организации
         /// </summary>
