@@ -1,4 +1,5 @@
-﻿using DataAccess.Concrete;
+﻿using BusinessLogic;
+using DataAccess.Concrete;
 using System.Diagnostics;
 using System.Web.Mvc;
 using WebUI.Models;
@@ -9,6 +10,7 @@ namespace WebUI.Controllers
     public class ServiceDeskController : Controller
     {
         private ServiceDesk serviceDesk = new ServiceDesk();
+        private AccountService accountService = new AccountService();
 
         public ActionResult Index()
         {
@@ -37,7 +39,7 @@ namespace WebUI.Controllers
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
                 // Авторизация
-                var account = serviceDesk.AccountRepository.Get(a=>a.Username == model.Username && a.Password == model.Password);
+                var account = accountService.GetAccountByCredentials(model.Username, model.Password);
                 watch.Stop();
                 if(account != null)
                 {

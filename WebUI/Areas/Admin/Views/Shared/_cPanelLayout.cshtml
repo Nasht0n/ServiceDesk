@@ -1,0 +1,114 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Slate/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/fonts/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/Content/cpanel.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body class="bg-primary">
+    <section id="cpanel_navbar">
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Service Desk</a>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="btn btn-secondary" href="#">Выход из системы</a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-home"></i>
+                                <span class="ml-2">Главная</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Subdivisions","Subdivision",null)">
+                                <i class="fa fa-sitemap"></i>
+                                <span class="ml-2">Подразделения</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Employees","Employee",null)">
+                                <i class="fa fa-users"></i>
+                                <span class="ml-2">Сотрудники</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-university"></i>
+                                <span class="ml-2">Учебные корпуса</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-hdd"></i>
+                                <span class="ml-2">Оборудование</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-tasks"></i>
+                                <span class="ml-2">Виды заявок</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-keyboard"></i>
+                                <span class="ml-2">Расходные материалы</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-info-circle"></i>
+                                <span class="ml-2">Об организации</span>
+                            </a>
+                        </li>
+
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Отчеты системы</span>
+                        </h6>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-file"></i>
+                                <span class="ml-1">Отчет за месяц</span>
+                            </a>
+                        </li>
+                    </ul>                    
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-10 ml-md-auto px-4">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/umd/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @*<script src="~/Scripts/servicedesk/cPanelItemActive.js"></script>*@
+</body>
+</html>

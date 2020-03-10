@@ -103,6 +103,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cpanel.css" />
     <Content Include="Content\fonts\fa-brands-400.svg" />
     <Content Include="Content\fonts\fa-regular-400.svg" />
     <Content Include="Content\fonts\fa-solid-900.svg" />
@@ -900,8 +901,18 @@
     <Content Include="Content\Images\capicon\black\.DS_Store" />
     <Content Include="Content\Images\capicon\white\.DS_Store" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Shared\_ControlPanelLayout.cshtml" />
-    <Content Include="Areas\Admin\Views\ControlPanel\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_cPanelLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\CPanel\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Subdivision\Subdivisions.cshtml" />
+    <Content Include="Areas\Admin\Views\Subdivision\AddSubdivision.cshtml" />
+    <Content Include="Areas\Admin\Views\Subdivision\EditSubdivision.cshtml" />
+    <Content Include="Areas\Admin\Views\Subdivision\DeleteSubdivision.cshtml" />
+    <Content Include="Areas\Admin\Views\Subdivision\SubdivisionsCardView.cshtml" />
+    <Content Include="Areas\Admin\Views\Employee\Employees.cshtml" />
+    <Content Include="Areas\Admin\Views\Employee\AddEmployee.cshtml" />
+    <Content Include="Areas\Admin\Views\Employee\EditEmployee.cshtml" />
+    <Content Include="Areas\Admin\Views\Employee\DeleteEmployee.cshtml" />
+    <Content Include="Areas\Admin\Views\Employee\EmployeesCardView.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -916,6 +927,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\servicedesk\cPanelItemActive.js" />
     <Content Include="Scripts\servicedesk\NavItemActive.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
@@ -999,16 +1011,26 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\ControlPanelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CPanelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EmployeeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SubdivisionController.cs" />
     <Compile Include="Areas\IT\ITAreaRegistration.cs" />
     <Compile Include="Controllers\ServiceDeskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\PagingHelpers.cs" />
+    <Compile Include="Models\DataFromModel.cs" />
     <Compile Include="Models\MailSender.cs" />
+    <Compile Include="Models\ModelFromData.cs" />
+    <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
+    <Compile Include="ViewModels\Employee\EmployeesListViewModel.cs" />
+    <Compile Include="ViewModels\Employee\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Subdivision\SubdivisionViewModel.cs" />
+    <Compile Include="ViewModels\Subdivision\SubdivisionsListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1040,6 +1062,10 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
+      <Project>{3230A783-1315-4606-A968-026137070B83}</Project>
+      <Name>BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{5E201C53-A4E4-4511-9B94-BC37377FA08C}</Project>
       <Name>DataAccess</Name>
