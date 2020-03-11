@@ -1,0 +1,26 @@
+﻿@model WebUI.ViewModels.Equipment.EquipmentsListViewModel
+@using WebUI.HtmlHelpers
+
+@foreach (var item in Model.Equipments)
+{
+    <div class="card mt-1">
+        <div class="card-body">
+            <h4 class="card-title text-white">Наименование оборудования: @item.Name</h4>
+            <h6 class="card-subtitle mb-2 text-muted">Тип оборудования: @item.EquipmentTypeModel.Name</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Инвентарный номер: @item.InventoryNumber</h6>
+
+            <a href="@Url.Action("EditEquipment","Equipment",new { id = item.Id })" class="card-link">
+                <i class="fa fa-edit"></i>
+                <span class="ml-1">Редактировать</span>
+            </a>
+            <a href="@Url.Action("DeleteEquipment","Equipment",new { id = item.Id })" class="card-link text-danger">
+                <i class="fa fa-trash"></i>
+                <span class="ml-1">Удалить</span>
+            </a>
+        </div>
+    </div>
+}
+
+<div class="my-1">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Equipments", new { search = Model.Search, equipmentType = Model.EquipmentTypeId, page = x }))
+</div>

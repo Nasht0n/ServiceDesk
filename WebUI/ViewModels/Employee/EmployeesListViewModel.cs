@@ -8,5 +8,6 @@ namespace WebUI.ViewModels.Employee
         public List<EmployeeViewModel> Employees { get; set; }
         public PagingInfo PagingInfo { get; set; }
         public string Search { get; set; }
+        public int SubdivisionId { get; set; }
     }
 }

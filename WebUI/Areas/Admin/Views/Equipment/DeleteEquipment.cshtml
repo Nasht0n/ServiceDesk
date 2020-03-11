@@ -1,0 +1,29 @@
+﻿@model WebUI.ViewModels.Equipment.EquipmentViewModel
+
+@{
+    ViewBag.Title = "DeleteEquipment";
+    Layout = "~/Areas/Admin/Views/Shared/_cPanelLayout.cshtml";
+}
+
+<h2 class="text-center text-white display-4 my-3">Оборудование</h2>
+<h3 class="mt-5">Вы уверены, что хотите удалить это оборудование?</h3>
+<div>
+    <div class="card my-3">
+        <div class="card-body">
+            <h4 class="card-title text-white">Наименование оборудования: @Model.Name</h4>
+            <h6 class="card-subtitle mb-2 text-muted">Тип оборудования: @Model.EquipmentTypeModel.Name</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Инвентарный номер: @Model.InventoryNumber</h6>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить запись" class="btn btn-danger" />
+            @Html.ActionLink("К списку оборудования", "Equipments", "Equipment")
+        </div>
+    }
+</div>
+

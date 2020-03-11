@@ -33,7 +33,9 @@ namespace WebUI.ViewModels.Employee
         public string Phone { get; set; }
         [Display(Name = "Сотрудник начальник подразделения?")]
         public bool HeadOfUnit { get; set; }
+        [Display(Name = "Идентификатор подразделения")]
+        public int SubdivisionId { get; set; }
         [Display(Name = "Подразделение")]
-        public SubdivisionViewModel SubdivisionModel { get; set; }
+        public SubdivisionViewModel SubdivisionModel { get; set; }        
     }
 }

@@ -1,0 +1,70 @@
+﻿@model WebUI.ViewModels.Equipment.EquipmentViewModel
+
+@{
+    ViewBag.Title = "Регистрация нового оборудования";
+    Layout = "~/Areas/Admin/Views/Shared/_cPanelLayout.cshtml";
+}
+
+<h2 class="text-center text-white display-4 my-3">Оборудование</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div class="d-flex justify-content-between mt-5">
+        <div class="align-self-center">
+            <h4 >Регистрация нового оборудования</h4>
+        </div>
+        <div class="align-self-end">
+            @Html.ActionLink("Импорт оборудования", "AddEquipment", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+   
+    
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-12">
+            <div class="col-auto">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EquipmentTypeModel, htmlAttributes: new { @class = "control-label darkblue" })
+                    @Html.DropDownListFor(model => model.EquipmentTypeId, new SelectList(ViewBag.EquipmentTypes, "Id", "Name"), htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-auto">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Введите наименование оборудования", @autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-auto">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.InventoryNumber, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.InventoryNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Введите инвентарный номер оборудования", @autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.InventoryNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Создать новую запись" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("К списку оборудования", "Equipments", "Equipment")
+</div>
+

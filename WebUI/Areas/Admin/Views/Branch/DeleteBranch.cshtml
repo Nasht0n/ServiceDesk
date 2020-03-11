@@ -1,0 +1,27 @@
+﻿@model WebUI.ViewModels.Branch.BranchViewModel
+
+@{
+    ViewBag.Title = "Удаление отрасли службы поддержки";
+    Layout = "~/Areas/Admin/Views/Shared/_cPanelLayout.cshtml";
+}
+
+<h2 class="text-center text-white display-4 my-3">Отрасли службы поддержки</h2>
+<h3 class="mt-5">Вы уверены, что хотите удалить запись отрасли службы поддержки?</h3>
+<div>
+    <div class="card my-3">
+        <div class="card-body">
+            <h4 class="card-title text-white">Наименование отрасли: @Model.Name</h4>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить запись" class="btn btn-danger" />
+            @Html.ActionLink("К списку отраслей службы поддержки", "Branches", "Branch")
+        </div>
+    }
+</div>
+

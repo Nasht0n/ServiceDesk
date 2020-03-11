@@ -1,0 +1,23 @@
+﻿@model WebUI.ViewModels.EquipmentType.EquipmentTypesListViewModel
+@{
+    ViewBag.Title = "Типы оборудования";
+    Layout = "~/Areas/Admin/Views/Shared/_cPanelLayout.cshtml";
+}
+
+<h2 class="text-center display-4 my-3 text-white">Типы оборудования</h2>
+<div class="d-flex">
+    <div class="align-self-center">
+        @Html.ActionLink("Добавить тип оборудования", "AddEquipmentType", null, new { @class = "btn btn-success" })
+    </div>
+    <div class="flex-grow-1 align-self-center">
+        @using (Html.BeginForm("EquipmentTypes", "EquipmentType", new { search = Model.Search }, FormMethod.Get, new { @class = "input-group", role = "form" }))
+        {
+            @Html.TextBox("search", Model.Search as string, new { @class = "form-control ml-1", @placeholder = "Поиск типа оборудования", @autocomplete = "off" })
+            <div class="input-group-append">
+                <input type="submit" value="Поиск" class="btn btn-info" />
+            </div>
+        }
+    </div>
+</div>
+@Html.Partial("EquipmentTypesCardView")
+

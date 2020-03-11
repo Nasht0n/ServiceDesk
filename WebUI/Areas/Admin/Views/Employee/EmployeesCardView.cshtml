@@ -8,6 +8,17 @@
             <h4 class="card-title text-white">ФИО Сотрудника: @item.Fullname</h4>
             <h6 class="card-subtitle mb-2 text-muted">Подразделение: @item.SubdivisionModel.Fullname</h6>
             <h6 class="card-subtitle mb-2 text-muted">Должность сотрудника: @item.Post</h6>
+            @{
+                if (!string.IsNullOrWhiteSpace(item.Email))
+                {
+                    <h6 class="card-subtitle mb-2 text-muted">Электронная почта сотрудника: @item.Email</h6>
+                }
+                if (!string.IsNullOrWhiteSpace(item.Phone))
+                {
+                    <h6 class="card-subtitle mb-2 text-muted">Телефон сотрудника: @item.Phone</h6>
+                }
+            }
+
             <a href="@Url.Action("EditEmployee","Employee",new { id = item.Id })" class="card-link">
                 <i class="fa fa-edit"></i>
                 <span class="ml-1">Редактировать</span>
@@ -21,5 +32,5 @@
 }
 
 <div class="my-1">
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Subdivisions", new { search = Model.Search, page = x }))
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Employees", new { search = Model.Search, page = x }))
 </div>

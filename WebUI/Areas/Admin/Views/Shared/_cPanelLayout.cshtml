@@ -36,6 +36,10 @@
                             </a>
                         </li>
 
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Справочники</span>
+                        </h6>
+
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Subdivisions","Subdivision",null)">
                                 <i class="fa fa-sitemap"></i>
@@ -51,23 +55,37 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="@Url.Action("Campuses","Campus",null)">
                                 <i class="fa fa-university"></i>
                                 <span class="ml-2">Учебные корпуса</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="@Url.Action("Equipments","Equipment",null)">
                                 <i class="fa fa-hdd"></i>
                                 <span class="ml-2">Оборудование</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fa fa-tasks"></i>
-                                <span class="ml-2">Виды заявок</span>
+                            <a class="nav-link" href="@Url.Action("Branches","Branch",null)">
+                                <i class="fa fa-code-branch"></i>
+                                <span class="ml-2">Отрасль службы поддержки</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Categories","Category",null)">
+                                <i class="fa fa-list-ul"></i>
+                                <span class="ml-2">Категории заявок</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Services","Service",null)">
+                                <i class="fa fa-list-ol"></i>
+                                <span class="ml-2">Виды работ</span>
                             </a>
                         </li>
 
@@ -86,7 +104,7 @@
                         </li>
 
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                            <span>Отчеты системы</span>
+                            <span>Отчеты</span>
                         </h6>
 
                         <li class="nav-item">

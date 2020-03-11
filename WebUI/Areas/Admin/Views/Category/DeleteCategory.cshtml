@@ -1,0 +1,28 @@
+﻿@model WebUI.ViewModels.Category.CategoryViewModel
+
+@{
+    ViewBag.Title = "Удаление категории заявки";
+    Layout = "~/Areas/Admin/Views/Shared/_cPanelLayout.cshtml";
+}
+
+<h2 class="text-center text-white display-4 my-3">Категория заявки</h2>
+<h3 class="mt-5">Вы уверены, что хотите удалить эту категорию заявки?</h3>
+<div>
+    <div class="card my-3">
+        <div class="card-body">
+            <h4 class="card-title text-white">Наименование категории заявки: @Model.Name</h4>
+            <h6 class="card-subtitle mb-2 text-muted">Отрасль заявки: @Model.BranchModel.Name</h6>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить запись" class="btn btn-danger" />
+            @Html.ActionLink("К списку категорий", "Categories", "Category")
+        </div>
+    }
+</div>
+

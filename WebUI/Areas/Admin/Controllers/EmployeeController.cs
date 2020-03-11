@@ -1,12 +1,8 @@
 ﻿using BusinessLogic;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels;
 using WebUI.ViewModels.Employee;
 
 namespace WebUI.Areas.Admin.Controllers
@@ -14,17 +10,20 @@ namespace WebUI.Areas.Admin.Controllers
     public class EmployeeController : Controller
     {
         private EmployeeService employeeService = new EmployeeService();
+        private SubdvisionService subdvisionService = new SubdvisionService();
         private readonly int pageSize = 5;
 
-        public ActionResult Employees(string search = "", int page = 1)
+        public ActionResult Employees(string search = "", int page = 1, int subdivision = 0)
         {
+            ViewBag.Subdivisions = subdvisionService.GetSubdivisions();
             List<Employee> employees = employeeService.GetEmployees();
-            EmployeesListViewModel model = ModelFromData.GetListViewModel(employees, search, page, pageSize);
+            EmployeesListViewModel model = ModelFromData.GetListViewModel(employees, search, subdivision, page, pageSize);
             return View(model);
         }
 
         public ActionResult AddEmployee()
         {
+            ViewBag.Subdivisions = subdvisionService.GetSubdivisions();
             return View(new EmployeeViewModel());
         }
 
@@ -41,9 +40,10 @@ namespace WebUI.Areas.Admin.Controllers
         }
 
         public ActionResult EditEmployee(int id)
-        {
+        {            
             Employee employee = employeeService.GetEmployeeById(id);
             EmployeeViewModel model = ModelFromData.GetViewModel(employee);
+            ViewBag.Subdivisions = subdvisionService.GetSubdivisions();
             return View(model);
         }
         [HttpPost]
