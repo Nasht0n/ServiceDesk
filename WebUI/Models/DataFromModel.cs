@@ -3,6 +3,7 @@ using System;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
+using WebUI.ViewModels.Consumable;
 using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
 using WebUI.ViewModels.EquipmentType;
@@ -97,6 +98,15 @@ namespace WebUI.Models
                 ApprovalRequired = model.ApprovalRequired,
                 Controller = model.Controller,
                 CategoryId = model.CategoryId                
+            };
+        }
+
+        public static Consumable GetData(ConsumableViewModel model)
+        {
+            return new Consumable
+            {
+                Id = model.Id,
+                Name = model.Name
             };
         }
     }

@@ -928,21 +928,11 @@
     <Content Include="Areas\Admin\Views\Equipment\AddEquipment.cshtml" />
     <Content Include="Areas\Admin\Views\Equipment\EditEquipment.cshtml" />
     <Content Include="Areas\Admin\Views\Equipment\DeleteEquipment.cshtml" />
-    <Content Include="Areas\Admin\Views\Branch\Branches.cshtml" />
-    <Content Include="Areas\Admin\Views\Branch\AddBranch.cshtml" />
-    <Content Include="Areas\Admin\Views\Branch\EditBranch.cshtml" />
-    <Content Include="Areas\Admin\Views\Branch\DeleteBranch.cshtml" />
-    <Content Include="Areas\Admin\Views\Branch\BranchesCardView.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\Categories.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\AddCategory.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\EditCategory.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\DeleteCategory.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\CategoriesCardView.cshtml" />
-    <Content Include="Areas\Admin\Views\Service\Services.cshtml" />
-    <Content Include="Areas\Admin\Views\Service\AddService.cshtml" />
-    <Content Include="Areas\Admin\Views\Service\EditService.cshtml" />
-    <Content Include="Areas\Admin\Views\Service\DeleteService.cshtml" />
-    <Content Include="Areas\Admin\Views\Service\ServicesCardView.cshtml" />
+    <Content Include="Areas\Admin\Views\Consumable\Consumables.cshtml" />
+    <Content Include="Areas\Admin\Views\Consumable\AddConsumable.cshtml" />
+    <Content Include="Areas\Admin\Views\Consumable\EditConsumable.cshtml" />
+    <Content Include="Areas\Admin\Views\Consumable\DeleteConsumable.cshtml" />
+    <Content Include="Areas\Admin\Views\Consumable\ConsumablesCardView.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1041,14 +1031,12 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\BranchController.cs" />
     <Compile Include="Areas\Admin\Controllers\CampusController.cs" />
-    <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ConsumableController.cs" />
     <Compile Include="Areas\Admin\Controllers\CPanelController.cs" />
     <Compile Include="Areas\Admin\Controllers\EmployeeController.cs" />
     <Compile Include="Areas\Admin\Controllers\EquipmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\EquipmentTypeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ServiceController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubdivisionController.cs" />
     <Compile Include="Areas\IT\ITAreaRegistration.cs" />
     <Compile Include="Controllers\ServiceDeskController.cs" />
@@ -1067,6 +1055,8 @@
     <Compile Include="ViewModels\Campus\CampusViewModel.cs" />
     <Compile Include="ViewModels\Category\CategoriesListViewModel.cs" />
     <Compile Include="ViewModels\Category\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\Consumable\ConsumablesListViewModel.cs" />
+    <Compile Include="ViewModels\Consumable\ConsumableViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\Employee\EmployeesListViewModel.cs" />
     <Compile Include="ViewModels\Employee\EmployeeViewModel.cs" />
@@ -1075,8 +1065,11 @@
     <Compile Include="ViewModels\Equipment\EquipmentsListViewModel.cs" />
     <Compile Include="ViewModels\Equipment\EquipmentViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Priority\PriorityViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentInstallationRequestViewModel.cs" />
     <Compile Include="ViewModels\Service\ServicesListViewModel.cs" />
     <Compile Include="ViewModels\Service\ServiceViewModel.cs" />
+    <Compile Include="ViewModels\Status\StatusViewModel.cs" />
     <Compile Include="ViewModels\Subdivision\SubdivisionViewModel.cs" />
     <Compile Include="ViewModels\Subdivision\SubdivisionsListViewModel.cs" />
   </ItemGroup>

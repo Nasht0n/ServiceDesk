@@ -28,7 +28,7 @@ namespace Domain.Models.Requests.Accounts
         /// <param name="cabinetId">Идентификатор кабинета сотрудника</param>
         /// <param name="clientId">Идентификатор клиента</param>
         /// <param name="executorGroupId">Идентификатор группы исполнителей</param>
-        public AccountLossRequest(string title, string justification, string description, int serviceId, int statusId, int priorityId, int cabinetId, int clientId, int executorGroupId)
+        public AccountLossRequest(string title, string justification, string description, int serviceId, int statusId, int priorityId, int clientId, int executorGroupId)
         {
             Title = title;
             Justification = justification;
@@ -36,7 +36,6 @@ namespace Domain.Models.Requests.Accounts
             ServiceId = serviceId;
             StatusId = statusId;
             PriorityId = priorityId;
-            CabinetId = cabinetId;
             ClientId = clientId;
             ExecutorGroupId = executorGroupId;
         }
@@ -48,7 +47,7 @@ namespace Domain.Models.Requests.Accounts
         public override string ToString()
         {
             return $"AccountLossRequest object:(Id:[{Id}];Title:[{Title}];Justification:[{Justification}];Description:[{Description}];ServiceId:[{ServiceId}];" +
-                $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];CabinetId:[{CabinetId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]).";
+                $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]).";
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
@@ -61,7 +60,7 @@ namespace Domain.Models.Requests.Accounts
             {
                 AccountLossRequest temp = (AccountLossRequest)obj;
                 if (temp.Id == Id && temp.Title == Title && temp.Justification == Justification && temp.Description == Description && temp.ServiceId == ServiceId &&
-                    temp.StatusId == StatusId && temp.PriorityId == PriorityId && temp.CabinetId == CabinetId && temp.ClientId == ClientId && temp.ExecutorGroupId == ExecutorGroupId) return true;
+                    temp.StatusId == StatusId && temp.PriorityId == PriorityId && temp.ClientId == ClientId && temp.ExecutorGroupId == ExecutorGroupId) return true;
                 else return false;
             }
             return false;

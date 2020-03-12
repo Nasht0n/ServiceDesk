@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initialize : DbMigration
+    public partial class CreateModel : DbMigration
     {
         public override void Up()
         {
@@ -116,13 +116,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
@@ -132,7 +130,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -159,13 +156,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
@@ -175,7 +170,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -211,13 +205,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
@@ -227,7 +219,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -243,13 +234,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
@@ -259,7 +248,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -275,13 +263,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
@@ -291,7 +277,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -307,13 +292,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
@@ -323,7 +306,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -391,7 +373,7 @@
                         EmployeeId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.EmployeeId, cascadeDelete: true)
+                .ForeignKey("dbo.Employees", t => t.EmployeeId, cascadeDelete: false)
                 .Index(t => t.EmployeeId);
             
             CreateTable(
@@ -442,13 +424,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -460,7 +440,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -541,13 +520,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
@@ -557,7 +534,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -590,13 +566,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
@@ -606,7 +580,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -640,13 +613,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -658,7 +629,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -691,13 +661,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -709,7 +677,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -772,13 +739,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -790,7 +755,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -848,13 +812,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -866,7 +828,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -928,13 +889,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -946,7 +905,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -980,13 +938,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -998,7 +954,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -1046,13 +1001,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -1064,7 +1017,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -1098,13 +1050,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -1116,7 +1066,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -1150,13 +1099,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -1168,7 +1115,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -1249,13 +1195,11 @@
                         ServiceId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
                         PriorityId = c.Int(nullable: false),
-                        CabinetId = c.Int(nullable: false),
                         ClientId = c.Int(nullable: false),
                         ExecutorId = c.Int(nullable: false),
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cabinets", t => t.CabinetId, cascadeDelete: true)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
                 .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
@@ -1267,7 +1211,6 @@
                 .Index(t => t.ServiceId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PriorityId)
-                .Index(t => t.CabinetId)
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
@@ -1299,17 +1242,17 @@
                 .Index(t => t.EmployeeId);
             
             CreateTable(
-                "dbo.CabinetsEmployees",
+                "dbo.CabinetEmployees",
                 c => new
                     {
-                        CabinetId = c.Int(nullable: false),
-                        EmployeeId = c.Int(nullable: false),
+                        Cabinet_Id = c.Int(nullable: false),
+                        Employee_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.CabinetId, t.EmployeeId })
-                .ForeignKey("dbo.Employees", t => t.CabinetId, cascadeDelete: true)
-                .ForeignKey("dbo.Cabinets", t => t.EmployeeId, cascadeDelete: true)
-                .Index(t => t.CabinetId)
-                .Index(t => t.EmployeeId);
+                .PrimaryKey(t => new { t.Cabinet_Id, t.Employee_Id })
+                .ForeignKey("dbo.Cabinets", t => t.Cabinet_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Employees", t => t.Employee_Id, cascadeDelete: true)
+                .Index(t => t.Cabinet_Id)
+                .Index(t => t.Employee_Id);
             
             CreateTable(
                 "dbo.ExecutorGroupMembers",
@@ -1319,8 +1262,8 @@
                         EmployeeId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.ExecutorGroupId, t.EmployeeId })
-                .ForeignKey("dbo.Employees", t => t.ExecutorGroupId, cascadeDelete: true)
-                .ForeignKey("dbo.ExecutorGroups", t => t.EmployeeId, cascadeDelete: true)
+                .ForeignKey("dbo.Employees", t => t.ExecutorGroupId, cascadeDelete: false)
+                .ForeignKey("dbo.ExecutorGroups", t => t.EmployeeId, cascadeDelete: false)
                 .Index(t => t.ExecutorGroupId)
                 .Index(t => t.EmployeeId);
             
@@ -1423,8 +1366,8 @@
                         PermissionId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.AccountId, t.PermissionId })
-                .ForeignKey("dbo.Accounts", t => t.AccountId, cascadeDelete: true)
-                .ForeignKey("dbo.Permissions", t => t.PermissionId, cascadeDelete: true)
+                .ForeignKey("dbo.Accounts", t => t.AccountId, cascadeDelete: false)
+                .ForeignKey("dbo.Permissions", t => t.PermissionId, cascadeDelete: false)
                 .Index(t => t.AccountId)
                 .Index(t => t.PermissionId);
             
@@ -1440,7 +1383,6 @@
             DropForeignKey("dbo.VideoCommunicationRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.VideoCommunicationRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.VideoCommunicationRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.VideoCommunicationRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.VideoCommunicationRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.SoftwareReworkRequestLifeCycles", "RequestId", "dbo.SoftwareReworkRequests");
             DropForeignKey("dbo.SoftwareReworkRequestLifeCycles", "EmployeeId", "dbo.Employees");
@@ -1455,7 +1397,6 @@
             DropForeignKey("dbo.PhoneRepairRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.PhoneRepairRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.PhoneRepairRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.PhoneRepairRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.PhoneRepairRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.PhoneNumberAllocationRequestLifeCycles", "RequestId", "dbo.PhoneNumberAllocationRequests");
             DropForeignKey("dbo.PhoneNumberAllocationRequests", "StatusId", "dbo.Status");
@@ -1465,7 +1406,6 @@
             DropForeignKey("dbo.PhoneNumberAllocationRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.PhoneNumberAllocationRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.PhoneNumberAllocationRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.PhoneNumberAllocationRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.PhoneNumberAllocationRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.PhoneLineRepairRequestLifeCycles", "RequestId", "dbo.PhoneLineRepairRequests");
             DropForeignKey("dbo.PhoneLineRepairRequests", "StatusId", "dbo.Status");
@@ -1475,7 +1415,6 @@
             DropForeignKey("dbo.PhoneLineRepairRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.PhoneLineRepairRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.PhoneLineRepairRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.PhoneLineRepairRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.PhoneLineRepairRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.NetworkConnectionRequestLifeCycles", "RequestId", "dbo.NetworkConnectionRequests");
             DropForeignKey("dbo.NetworkConnectionRequests", "StatusId", "dbo.Status");
@@ -1486,7 +1425,6 @@
             DropForeignKey("dbo.ConnectionEquipments", "NetworkConnectionRequest_Id", "dbo.NetworkConnectionRequests");
             DropForeignKey("dbo.NetworkConnectionRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.NetworkConnectionRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.NetworkConnectionRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.NetworkConnectionRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.HoldingPhoneLineRequestLifeCycles", "RequestId", "dbo.HoldingPhoneLineRequests");
             DropForeignKey("dbo.HoldingPhoneLineRequests", "StatusId", "dbo.Status");
@@ -1496,7 +1434,6 @@
             DropForeignKey("dbo.HoldingPhoneLineRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.HoldingPhoneLineRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.HoldingPhoneLineRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.HoldingPhoneLineRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.HoldingPhoneLineRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.Equipments", "EquipmentTypeId", "dbo.EquipmentTypes");
             DropForeignKey("dbo.EquipmentReplaceRequestLifeCycles", "RequestId", "dbo.EquipmentReplaceRequests");
@@ -1509,7 +1446,6 @@
             DropForeignKey("dbo.EquipmentReplaceRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentReplaceRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentReplaceRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.EquipmentReplaceRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.EquipmentReplaceRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentRepairRequestLifeCycles", "RequestId", "dbo.EquipmentRepairRequests");
             DropForeignKey("dbo.EquipmentRepairRequests", "StatusId", "dbo.Status");
@@ -1521,7 +1457,6 @@
             DropForeignKey("dbo.EquipmentRepairRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentRepairRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentRepairRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.EquipmentRepairRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.EquipmentRepairRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentRefillRequestLifeCycles", "RequestId", "dbo.EquipmentRefillRequests");
             DropForeignKey("dbo.EquipmentRefillRequestLifeCycles", "EmployeeId", "dbo.Employees");
@@ -1533,7 +1468,6 @@
             DropForeignKey("dbo.EquipmentRefillRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentRefillRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentRefillRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.EquipmentRefillRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.EquipmentInstallationRequestLifeCycles", "RequestId", "dbo.EquipmentInstallationRequests");
             DropForeignKey("dbo.EquipmentInstallationRequests", "StatusId", "dbo.Status");
             DropForeignKey("dbo.EquipmentInstallationRequests", "ServiceId", "dbo.Services");
@@ -1544,7 +1478,6 @@
             DropForeignKey("dbo.EquipmentInstallationRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentInstallationRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.EquipmentInstallationRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.EquipmentInstallationRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.EquipmentInstallationRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.EmailSizeIncreaseRequestLifeCycles", "RequestId", "dbo.EmailSizeIncreaseRequests");
             DropForeignKey("dbo.EmailSizeIncreaseRequests", "StatusId", "dbo.Status");
@@ -1553,7 +1486,6 @@
             DropForeignKey("dbo.EmailSizeIncreaseRequests", "ExecutorGroupId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.EmailSizeIncreaseRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.EmailSizeIncreaseRequests", "ClientId", "dbo.Employees");
-            DropForeignKey("dbo.EmailSizeIncreaseRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.EmailSizeIncreaseRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.EmailRegistrationRequestLifeCycles", "RequestId", "dbo.EmailRegistrationRequests");
             DropForeignKey("dbo.EmailRegistrationRequests", "StatusId", "dbo.Status");
@@ -1562,7 +1494,6 @@
             DropForeignKey("dbo.EmailRegistrationRequests", "ExecutorGroupId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.EmailRegistrationRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.EmailRegistrationRequests", "ClientId", "dbo.Employees");
-            DropForeignKey("dbo.EmailRegistrationRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.EmailRegistrationRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.ConnectionEquipments", "EquipmentTypeId", "dbo.EquipmentTypes");
             DropForeignKey("dbo.ComponentReplaceRequestLifeCycles", "RequestId", "dbo.ComponentReplaceRequests");
@@ -1575,7 +1506,6 @@
             DropForeignKey("dbo.ComponentReplaceRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.ComponentReplaceRequests", "ClientId", "dbo.Employees");
             DropForeignKey("dbo.ComponentReplaceRequests", "CampusId", "dbo.Campus");
-            DropForeignKey("dbo.ComponentReplaceRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.ComponentReplaceRequestLifeCycles", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.AccountsPermissions", "PermissionId", "dbo.Permissions");
             DropForeignKey("dbo.AccountsPermissions", "AccountId", "dbo.Accounts");
@@ -1593,7 +1523,6 @@
             DropForeignKey("dbo.AccountCancellationRequests", "ExecutorGroupId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.AccountCancellationRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.AccountCancellationRequests", "ClientId", "dbo.Employees");
-            DropForeignKey("dbo.AccountCancellationRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.SoftwareReworkRequestAttachments", "RequestId", "dbo.SoftwareReworkRequests");
             DropForeignKey("dbo.SoftwareReworkRequestAttachments", "AttachmentId", "dbo.Attachments");
             DropForeignKey("dbo.SoftwareReworkRequests", "StatusId", "dbo.Status");
@@ -1602,7 +1531,6 @@
             DropForeignKey("dbo.SoftwareReworkRequests", "ExecutorGroupId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.SoftwareReworkRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.SoftwareReworkRequests", "ClientId", "dbo.Employees");
-            DropForeignKey("dbo.SoftwareReworkRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.SoftwareDevelopmentRequestAttachments", "RequestId", "dbo.SoftwareDevelopmentRequests");
             DropForeignKey("dbo.SoftwareDevelopmentRequestAttachments", "AttachmentId", "dbo.Attachments");
             DropForeignKey("dbo.SoftwareDevelopmentRequests", "StatusId", "dbo.Status");
@@ -1611,7 +1539,6 @@
             DropForeignKey("dbo.SoftwareDevelopmentRequests", "ExecutorGroupId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.SoftwareDevelopmentRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.SoftwareDevelopmentRequests", "ClientId", "dbo.Employees");
-            DropForeignKey("dbo.SoftwareDevelopmentRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.AccountRegistrationRequestAttachments", "RequestId", "dbo.AccountRegistrationRequests");
             DropForeignKey("dbo.AccountRegistrationRequestAttachments", "AttachmentId", "dbo.Attachments");
             DropForeignKey("dbo.AccountRegistrationRequests", "StatusId", "dbo.Status");
@@ -1620,7 +1547,6 @@
             DropForeignKey("dbo.AccountRegistrationRequests", "ExecutorGroupId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.AccountRegistrationRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.AccountRegistrationRequests", "ClientId", "dbo.Employees");
-            DropForeignKey("dbo.AccountRegistrationRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.AccountLossRequestAttachments", "RequestId", "dbo.AccountLossRequests");
             DropForeignKey("dbo.AccountLossRequestAttachments", "AttachmentId", "dbo.Attachments");
             DropForeignKey("dbo.AccountLossRequests", "StatusId", "dbo.Status");
@@ -1629,7 +1555,6 @@
             DropForeignKey("dbo.AccountLossRequests", "ExecutorGroupId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.AccountLossRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.AccountLossRequests", "ClientId", "dbo.Employees");
-            DropForeignKey("dbo.AccountLossRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.AccountDisconnectRequestAttachments", "RequestId", "dbo.AccountDisconnectRequests");
             DropForeignKey("dbo.AccountDisconnectRequestAttachments", "AttachmentId", "dbo.Attachments");
             DropForeignKey("dbo.AccountDisconnectRequests", "StatusId", "dbo.Status");
@@ -1638,7 +1563,6 @@
             DropForeignKey("dbo.AccountDisconnectRequests", "ExecutorGroupId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.AccountDisconnectRequests", "ExecutorId", "dbo.Employees");
             DropForeignKey("dbo.AccountDisconnectRequests", "ClientId", "dbo.Employees");
-            DropForeignKey("dbo.AccountDisconnectRequests", "CabinetId", "dbo.Cabinets");
             DropForeignKey("dbo.AccountCancellationRequestAttachments", "RequestId", "dbo.AccountCancellationRequests");
             DropForeignKey("dbo.AccountCancellationRequestAttachments", "AttachmentId", "dbo.Attachments");
             DropForeignKey("dbo.AccountCancellationRequestLifeCycles", "EmployeeId", "dbo.Employees");
@@ -1647,8 +1571,8 @@
             DropForeignKey("dbo.SubdivisionExecutors", "SubdivisionId", "dbo.Employees");
             DropForeignKey("dbo.ExecutorGroupMembers", "EmployeeId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.ExecutorGroupMembers", "ExecutorGroupId", "dbo.Employees");
-            DropForeignKey("dbo.CabinetsEmployees", "EmployeeId", "dbo.Cabinets");
-            DropForeignKey("dbo.CabinetsEmployees", "CabinetId", "dbo.Employees");
+            DropForeignKey("dbo.CabinetEmployees", "Employee_Id", "dbo.Employees");
+            DropForeignKey("dbo.CabinetEmployees", "Cabinet_Id", "dbo.Cabinets");
             DropForeignKey("dbo.ServicesApprovers", "EmployeeId", "dbo.Services");
             DropForeignKey("dbo.ServicesApprovers", "ServiceId", "dbo.Employees");
             DropForeignKey("dbo.ServicesExecutorGroups", "ExecutorGroupId", "dbo.Services");
@@ -1673,8 +1597,8 @@
             DropIndex("dbo.SubdivisionExecutors", new[] { "SubdivisionId" });
             DropIndex("dbo.ExecutorGroupMembers", new[] { "EmployeeId" });
             DropIndex("dbo.ExecutorGroupMembers", new[] { "ExecutorGroupId" });
-            DropIndex("dbo.CabinetsEmployees", new[] { "EmployeeId" });
-            DropIndex("dbo.CabinetsEmployees", new[] { "CabinetId" });
+            DropIndex("dbo.CabinetEmployees", new[] { "Employee_Id" });
+            DropIndex("dbo.CabinetEmployees", new[] { "Cabinet_Id" });
             DropIndex("dbo.ServicesApprovers", new[] { "EmployeeId" });
             DropIndex("dbo.ServicesApprovers", new[] { "ServiceId" });
             DropIndex("dbo.ServicesExecutorGroups", new[] { "ExecutorGroupId" });
@@ -1682,7 +1606,6 @@
             DropIndex("dbo.VideoCommunicationRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.VideoCommunicationRequests", new[] { "ExecutorId" });
             DropIndex("dbo.VideoCommunicationRequests", new[] { "ClientId" });
-            DropIndex("dbo.VideoCommunicationRequests", new[] { "CabinetId" });
             DropIndex("dbo.VideoCommunicationRequests", new[] { "PriorityId" });
             DropIndex("dbo.VideoCommunicationRequests", new[] { "StatusId" });
             DropIndex("dbo.VideoCommunicationRequests", new[] { "ServiceId" });
@@ -1697,7 +1620,6 @@
             DropIndex("dbo.PhoneRepairRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.PhoneRepairRequests", new[] { "ExecutorId" });
             DropIndex("dbo.PhoneRepairRequests", new[] { "ClientId" });
-            DropIndex("dbo.PhoneRepairRequests", new[] { "CabinetId" });
             DropIndex("dbo.PhoneRepairRequests", new[] { "PriorityId" });
             DropIndex("dbo.PhoneRepairRequests", new[] { "StatusId" });
             DropIndex("dbo.PhoneRepairRequests", new[] { "ServiceId" });
@@ -1707,7 +1629,6 @@
             DropIndex("dbo.PhoneNumberAllocationRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.PhoneNumberAllocationRequests", new[] { "ExecutorId" });
             DropIndex("dbo.PhoneNumberAllocationRequests", new[] { "ClientId" });
-            DropIndex("dbo.PhoneNumberAllocationRequests", new[] { "CabinetId" });
             DropIndex("dbo.PhoneNumberAllocationRequests", new[] { "PriorityId" });
             DropIndex("dbo.PhoneNumberAllocationRequests", new[] { "StatusId" });
             DropIndex("dbo.PhoneNumberAllocationRequests", new[] { "ServiceId" });
@@ -1717,7 +1638,6 @@
             DropIndex("dbo.PhoneLineRepairRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.PhoneLineRepairRequests", new[] { "ExecutorId" });
             DropIndex("dbo.PhoneLineRepairRequests", new[] { "ClientId" });
-            DropIndex("dbo.PhoneLineRepairRequests", new[] { "CabinetId" });
             DropIndex("dbo.PhoneLineRepairRequests", new[] { "PriorityId" });
             DropIndex("dbo.PhoneLineRepairRequests", new[] { "StatusId" });
             DropIndex("dbo.PhoneLineRepairRequests", new[] { "ServiceId" });
@@ -1727,7 +1647,6 @@
             DropIndex("dbo.NetworkConnectionRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.NetworkConnectionRequests", new[] { "ExecutorId" });
             DropIndex("dbo.NetworkConnectionRequests", new[] { "ClientId" });
-            DropIndex("dbo.NetworkConnectionRequests", new[] { "CabinetId" });
             DropIndex("dbo.NetworkConnectionRequests", new[] { "PriorityId" });
             DropIndex("dbo.NetworkConnectionRequests", new[] { "StatusId" });
             DropIndex("dbo.NetworkConnectionRequests", new[] { "ServiceId" });
@@ -1737,7 +1656,6 @@
             DropIndex("dbo.HoldingPhoneLineRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.HoldingPhoneLineRequests", new[] { "ExecutorId" });
             DropIndex("dbo.HoldingPhoneLineRequests", new[] { "ClientId" });
-            DropIndex("dbo.HoldingPhoneLineRequests", new[] { "CabinetId" });
             DropIndex("dbo.HoldingPhoneLineRequests", new[] { "PriorityId" });
             DropIndex("dbo.HoldingPhoneLineRequests", new[] { "StatusId" });
             DropIndex("dbo.HoldingPhoneLineRequests", new[] { "ServiceId" });
@@ -1750,7 +1668,6 @@
             DropIndex("dbo.EquipmentReplaceRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.EquipmentReplaceRequests", new[] { "ExecutorId" });
             DropIndex("dbo.EquipmentReplaceRequests", new[] { "ClientId" });
-            DropIndex("dbo.EquipmentReplaceRequests", new[] { "CabinetId" });
             DropIndex("dbo.EquipmentReplaceRequests", new[] { "PriorityId" });
             DropIndex("dbo.EquipmentReplaceRequests", new[] { "StatusId" });
             DropIndex("dbo.EquipmentReplaceRequests", new[] { "ServiceId" });
@@ -1762,7 +1679,6 @@
             DropIndex("dbo.EquipmentRepairRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.EquipmentRepairRequests", new[] { "ExecutorId" });
             DropIndex("dbo.EquipmentRepairRequests", new[] { "ClientId" });
-            DropIndex("dbo.EquipmentRepairRequests", new[] { "CabinetId" });
             DropIndex("dbo.EquipmentRepairRequests", new[] { "PriorityId" });
             DropIndex("dbo.EquipmentRepairRequests", new[] { "StatusId" });
             DropIndex("dbo.EquipmentRepairRequests", new[] { "ServiceId" });
@@ -1775,7 +1691,6 @@
             DropIndex("dbo.EquipmentRefillRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.EquipmentRefillRequests", new[] { "ExecutorId" });
             DropIndex("dbo.EquipmentRefillRequests", new[] { "ClientId" });
-            DropIndex("dbo.EquipmentRefillRequests", new[] { "CabinetId" });
             DropIndex("dbo.EquipmentRefillRequests", new[] { "PriorityId" });
             DropIndex("dbo.EquipmentRefillRequests", new[] { "StatusId" });
             DropIndex("dbo.EquipmentRefillRequests", new[] { "ServiceId" });
@@ -1785,7 +1700,6 @@
             DropIndex("dbo.EquipmentInstallationRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.EquipmentInstallationRequests", new[] { "ExecutorId" });
             DropIndex("dbo.EquipmentInstallationRequests", new[] { "ClientId" });
-            DropIndex("dbo.EquipmentInstallationRequests", new[] { "CabinetId" });
             DropIndex("dbo.EquipmentInstallationRequests", new[] { "PriorityId" });
             DropIndex("dbo.EquipmentInstallationRequests", new[] { "StatusId" });
             DropIndex("dbo.EquipmentInstallationRequests", new[] { "ServiceId" });
@@ -1795,7 +1709,6 @@
             DropIndex("dbo.EmailSizeIncreaseRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.EmailSizeIncreaseRequests", new[] { "ExecutorId" });
             DropIndex("dbo.EmailSizeIncreaseRequests", new[] { "ClientId" });
-            DropIndex("dbo.EmailSizeIncreaseRequests", new[] { "CabinetId" });
             DropIndex("dbo.EmailSizeIncreaseRequests", new[] { "PriorityId" });
             DropIndex("dbo.EmailSizeIncreaseRequests", new[] { "StatusId" });
             DropIndex("dbo.EmailSizeIncreaseRequests", new[] { "ServiceId" });
@@ -1804,7 +1717,6 @@
             DropIndex("dbo.EmailRegistrationRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.EmailRegistrationRequests", new[] { "ExecutorId" });
             DropIndex("dbo.EmailRegistrationRequests", new[] { "ClientId" });
-            DropIndex("dbo.EmailRegistrationRequests", new[] { "CabinetId" });
             DropIndex("dbo.EmailRegistrationRequests", new[] { "PriorityId" });
             DropIndex("dbo.EmailRegistrationRequests", new[] { "StatusId" });
             DropIndex("dbo.EmailRegistrationRequests", new[] { "ServiceId" });
@@ -1817,7 +1729,6 @@
             DropIndex("dbo.ComponentReplaceRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.ComponentReplaceRequests", new[] { "ExecutorId" });
             DropIndex("dbo.ComponentReplaceRequests", new[] { "ClientId" });
-            DropIndex("dbo.ComponentReplaceRequests", new[] { "CabinetId" });
             DropIndex("dbo.ComponentReplaceRequests", new[] { "PriorityId" });
             DropIndex("dbo.ComponentReplaceRequests", new[] { "StatusId" });
             DropIndex("dbo.ComponentReplaceRequests", new[] { "ServiceId" });
@@ -1834,42 +1745,36 @@
             DropIndex("dbo.SoftwareReworkRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.SoftwareReworkRequests", new[] { "ExecutorId" });
             DropIndex("dbo.SoftwareReworkRequests", new[] { "ClientId" });
-            DropIndex("dbo.SoftwareReworkRequests", new[] { "CabinetId" });
             DropIndex("dbo.SoftwareReworkRequests", new[] { "PriorityId" });
             DropIndex("dbo.SoftwareReworkRequests", new[] { "StatusId" });
             DropIndex("dbo.SoftwareReworkRequests", new[] { "ServiceId" });
             DropIndex("dbo.SoftwareDevelopmentRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.SoftwareDevelopmentRequests", new[] { "ExecutorId" });
             DropIndex("dbo.SoftwareDevelopmentRequests", new[] { "ClientId" });
-            DropIndex("dbo.SoftwareDevelopmentRequests", new[] { "CabinetId" });
             DropIndex("dbo.SoftwareDevelopmentRequests", new[] { "PriorityId" });
             DropIndex("dbo.SoftwareDevelopmentRequests", new[] { "StatusId" });
             DropIndex("dbo.SoftwareDevelopmentRequests", new[] { "ServiceId" });
             DropIndex("dbo.AccountRegistrationRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.AccountRegistrationRequests", new[] { "ExecutorId" });
             DropIndex("dbo.AccountRegistrationRequests", new[] { "ClientId" });
-            DropIndex("dbo.AccountRegistrationRequests", new[] { "CabinetId" });
             DropIndex("dbo.AccountRegistrationRequests", new[] { "PriorityId" });
             DropIndex("dbo.AccountRegistrationRequests", new[] { "StatusId" });
             DropIndex("dbo.AccountRegistrationRequests", new[] { "ServiceId" });
             DropIndex("dbo.AccountLossRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.AccountLossRequests", new[] { "ExecutorId" });
             DropIndex("dbo.AccountLossRequests", new[] { "ClientId" });
-            DropIndex("dbo.AccountLossRequests", new[] { "CabinetId" });
             DropIndex("dbo.AccountLossRequests", new[] { "PriorityId" });
             DropIndex("dbo.AccountLossRequests", new[] { "StatusId" });
             DropIndex("dbo.AccountLossRequests", new[] { "ServiceId" });
             DropIndex("dbo.AccountDisconnectRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.AccountDisconnectRequests", new[] { "ExecutorId" });
             DropIndex("dbo.AccountDisconnectRequests", new[] { "ClientId" });
-            DropIndex("dbo.AccountDisconnectRequests", new[] { "CabinetId" });
             DropIndex("dbo.AccountDisconnectRequests", new[] { "PriorityId" });
             DropIndex("dbo.AccountDisconnectRequests", new[] { "StatusId" });
             DropIndex("dbo.AccountDisconnectRequests", new[] { "ServiceId" });
             DropIndex("dbo.AccountCancellationRequests", new[] { "ExecutorGroupId" });
             DropIndex("dbo.AccountCancellationRequests", new[] { "ExecutorId" });
             DropIndex("dbo.AccountCancellationRequests", new[] { "ClientId" });
-            DropIndex("dbo.AccountCancellationRequests", new[] { "CabinetId" });
             DropIndex("dbo.AccountCancellationRequests", new[] { "PriorityId" });
             DropIndex("dbo.AccountCancellationRequests", new[] { "StatusId" });
             DropIndex("dbo.AccountCancellationRequests", new[] { "ServiceId" });
@@ -1887,7 +1792,7 @@
             DropTable("dbo.AccountCancellationRequestAttachments");
             DropTable("dbo.SubdivisionExecutors");
             DropTable("dbo.ExecutorGroupMembers");
-            DropTable("dbo.CabinetsEmployees");
+            DropTable("dbo.CabinetEmployees");
             DropTable("dbo.ServicesApprovers");
             DropTable("dbo.ServicesExecutorGroups");
             DropTable("dbo.VideoCommunicationRequests");

@@ -48,7 +48,6 @@ namespace Domain.Models.Requests.Communication
             ServiceId = serviceId;
             StatusId = statusId;
             PriorityId = priorityId;
-            CabinetId = cabinetId;
             ClientId = clientId;
             ExecutorGroupId = executorGroupId;
             Location = location;
@@ -62,7 +61,7 @@ namespace Domain.Models.Requests.Communication
         public override string ToString()
         {
             return $"HoldingPhoneLineRequest object:(Id:[{Id}];Title:[{Title}];Justification:[{Justification}];Description:[{Description}];ServiceId:[{ServiceId}];" +
-                $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];CabinetId:[{CabinetId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]);Location:[{Location}];" +
+                $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]);Location:[{Location}];" +
                 $"CampusId:[{CampusId}].";
         }
         /// <summary>
@@ -76,7 +75,7 @@ namespace Domain.Models.Requests.Communication
             {
                 HoldingPhoneLineRequest temp = (HoldingPhoneLineRequest)obj;
                 if (temp.Id == Id && temp.Title == Title && temp.Justification == Justification && temp.Description == Description && temp.ServiceId == ServiceId &&
-                    temp.StatusId == StatusId && temp.PriorityId == PriorityId && temp.CabinetId == CabinetId && temp.ClientId == ClientId && 
+                    temp.StatusId == StatusId && temp.PriorityId == PriorityId &&  temp.ClientId == ClientId && 
                     temp.ExecutorGroupId == ExecutorGroupId && temp.Location == Location && temp.CampusId == CampusId) return true;
                 else return false;
             }

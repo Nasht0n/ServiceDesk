@@ -1,0 +1,24 @@
+﻿@model WebUI.ViewModels.Consumable.ConsumablesListViewModel
+
+@{
+    ViewBag.Title = "Расходные материалы";
+    Layout = "~/Areas/Admin/Views/Shared/_cPanelLayout.cshtml";
+}
+
+<h2 class="text-center display-4 my-3 text-white">@ViewBag.Title</h2>
+<div class="d-flex flex-row justify-content-between">
+    <div class="flex-fill align-self-center">
+        @Html.ActionLink("Новая запись", "AddConsumable", null, new { @class = "btn btn-success" })
+    </div>
+    <div class="flex-fill align-self-center">
+        @using (Html.BeginForm("Consumables", "Consumable", new { search = Model.Search }, FormMethod.Get, new { @class = "input-group", role = "form" }))
+        {
+            @Html.TextBox("search", Model.Search as string, new { @class = "form-control ml-1", @placeholder = "Поиск расходного материала", @autocomplete = "off" })
+            <div class="input-group-append">
+                <input type="submit" value="Поиск" class="btn btn-info" />
+            </div>
+        }
+    </div>
+</div>
+@Html.Partial("ConsumablesCardView")
+

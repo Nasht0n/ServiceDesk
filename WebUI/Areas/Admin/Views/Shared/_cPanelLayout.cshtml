@@ -68,7 +68,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Branches","Branch",null)">
                                 <i class="fa fa-code-branch"></i>
                                 <span class="ml-2">Отрасль службы поддержки</span>
@@ -87,10 +87,10 @@
                                 <i class="fa fa-list-ol"></i>
                                 <span class="ml-2">Виды работ</span>
                             </a>
-                        </li>
+                        </li>*@
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="@Url.Action("Consumables", "Consumable", null)">
                                 <i class="fa fa-keyboard"></i>
                                 <span class="ml-2">Расходные материалы</span>
                             </a>
@@ -127,6 +127,6 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/umd/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    @*<script src="~/Scripts/servicedesk/cPanelItemActive.js"></script>*@
+    <script src="~/Scripts/servicedesk/cPanelItemActive.js"></script>
 </body>
 </html>

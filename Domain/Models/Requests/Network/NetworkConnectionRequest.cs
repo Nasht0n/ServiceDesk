@@ -46,7 +46,7 @@ namespace Domain.Models.Requests.Network
         /// <param name="executorGroupId">Идентификатор группы исполнителей</param>
         /// <param name="location">Расположение</param>
         /// <param name="campusId">Идентификатор учебного корпуса</param>
-        public NetworkConnectionRequest(string title, string justification, string description, int serviceId, int statusId, int priorityId, int cabinetId,
+        public NetworkConnectionRequest(string title, string justification, string description, int serviceId, int statusId, int priorityId, 
             int clientId, int executorGroupId, string location, int campusId)
         {
             Title = title;
@@ -55,7 +55,6 @@ namespace Domain.Models.Requests.Network
             ServiceId = serviceId;
             StatusId = statusId;
             PriorityId = priorityId;
-            CabinetId = cabinetId;
             ClientId = clientId;
             ExecutorGroupId = executorGroupId;
             Location = location;
@@ -70,7 +69,7 @@ namespace Domain.Models.Requests.Network
         public override string ToString()
         {
             return $"NetworkConnectionRequest object:(Id:[{Id}];Title:[{Title}];Justification:[{Justification}];Description:[{Description}];ServiceId:[{ServiceId}];" +
-                $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];CabinetId:[{CabinetId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]);Location:[{Location}];" +
+                $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]);Location:[{Location}];" +
                 $"CampusId:[{CampusId}].";
         }
         /// <summary>
@@ -84,7 +83,7 @@ namespace Domain.Models.Requests.Network
             {
                 NetworkConnectionRequest temp = (NetworkConnectionRequest)obj;
                 if (temp.Id == Id && temp.Title == Title && temp.Justification == Justification && temp.Description == Description && temp.ServiceId == ServiceId &&
-                    temp.StatusId == StatusId && temp.PriorityId == PriorityId && temp.CabinetId == CabinetId && temp.ClientId == ClientId &&
+                    temp.StatusId == StatusId && temp.PriorityId == PriorityId  && temp.ClientId == ClientId &&
                     temp.ExecutorGroupId == ExecutorGroupId && temp.Location == Location && temp.CampusId == CampusId) return true;
                 else return false;
             }

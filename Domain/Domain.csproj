@@ -53,9 +53,9 @@
   <ItemGroup>
     <Compile Include="Abstract\LifeCycle.cs" />
     <Compile Include="Abstract\Request.cs" />
-    <Compile Include="Migrations\202003091155326_Initialize.cs" />
-    <Compile Include="Migrations\202003091155326_Initialize.designer.cs">
-      <DependentUpon>202003091155326_Initialize.cs</DependentUpon>
+    <Compile Include="Migrations\202003121157311_CreateModel.cs" />
+    <Compile Include="Migrations\202003121157311_CreateModel.designer.cs">
+      <DependentUpon>202003121157311_CreateModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
@@ -132,8 +132,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003091155326_Initialize.resx">
-      <DependentUpon>202003091155326_Initialize.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003121157311_CreateModel.resx">
+      <DependentUpon>202003121157311_CreateModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

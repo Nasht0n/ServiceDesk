@@ -1,2 +1,26 @@
 ﻿@model WebUI.ViewModels.Service.ServicesListViewModel
+@using WebUI.HtmlHelpers
 
+@foreach (var item in Model.Services)
+{
+    <div class="card mt-1">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Отрасль заявки: @item.CategoryModel.BranchModel.Name</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Категория заявки: @item.CategoryModel.Name</h6>
+            <h4 class="card-title text-white">Наименование вида работы: @item.Name</h4>
+
+            <a href="@Url.Action("EditService","Service",new { id = item.Id })" class="card-link">
+                <i class="fa fa-edit"></i>
+                <span class="ml-1">Редактировать</span>
+            </a>
+            <a href="@Url.Action("DeleteService","Service",new { id = item.Id })" class="card-link text-danger">
+                <i class="fa fa-trash"></i>
+                <span class="ml-1">Удалить</span>
+            </a>
+        </div>
+    </div>
+}
+
+<div class="my-1">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Services", new { search = Model.Search, branch=Model.BranchId, category = Model.CategoryId, page = x }))
+</div>

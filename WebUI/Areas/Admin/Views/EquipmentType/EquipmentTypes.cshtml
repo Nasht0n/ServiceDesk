@@ -7,7 +7,7 @@
 <h2 class="text-center display-4 my-3 text-white">Типы оборудования</h2>
 <div class="d-flex">
     <div class="align-self-center">
-        @Html.ActionLink("Добавить тип оборудования", "AddEquipmentType", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Новая запись", "AddEquipmentType", null, new { @class = "btn btn-success" })
     </div>
     <div class="flex-grow-1 align-self-center">
         @using (Html.BeginForm("EquipmentTypes", "EquipmentType", new { search = Model.Search }, FormMethod.Get, new { @class = "input-group", role = "form" }))

@@ -61,7 +61,6 @@ namespace Domain
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<Branch> Brunches { get; set; }
-        public virtual DbSet<Cabinet> Cabinets { get; set; }
         public virtual DbSet<Campus> Campuses { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Component> Components { get; set; }
@@ -118,11 +117,6 @@ namespace Domain
                 .HasMany(e => e.ApprovalServices)
                 .WithMany(e => e.Approvers)
                 .Map(m=>m.ToTable("ServicesApprovers").MapLeftKey("ServiceId").MapRightKey("EmployeeId"));
-
-            modelBuilder.Entity<Employee>()
-                .HasMany(e => e.Cabinets)
-                .WithMany(e => e.Employees)
-                .Map(m => m.ToTable("CabinetsEmployees").MapLeftKey("CabinetId").MapRightKey("EmployeeId"));
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ExecutorGroups)

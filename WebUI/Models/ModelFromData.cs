@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
+using WebUI.ViewModels.Consumable;
 using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
 using WebUI.ViewModels.EquipmentType;
@@ -284,10 +286,11 @@ namespace WebUI.Models
             };
         }
 
-        public static ServicesListViewModel GetListViewModel(List<Service> services, string search, int category, int page, int pageSize)
+        public static ServicesListViewModel GetListViewModel(List<Service> services, string search, int category, int branch, int page, int pageSize)
         {
             ServicesListViewModel model = new ServicesListViewModel();
             List<ServiceViewModel> serviceModels = new List<ServiceViewModel>();
+            if (branch != 0) services = services.Where(e => e.Category.BranchId == branch).ToList();
             if (category != 0) services = services.Where(e => e.CategoryId == category).ToList();
             if (!string.IsNullOrWhiteSpace(search)) services = services.Where(e => e.Name.Contains(search)).ToList();
             foreach (var service in services)
@@ -308,6 +311,39 @@ namespace WebUI.Models
             };
             model.Search = search;
             model.CategoryId = category;
+            return model;
+        }
+
+        public static ConsumableViewModel GetViewModel(Consumable consumable)
+        {
+            return new ConsumableViewModel
+            {
+                Id = consumable.Id,
+                Name = consumable.Name
+            };
+        }
+
+        public static ConsumablesListViewModel GetListViewModel(List<Consumable> consumables, string search, int page, int pageSize)
+        {
+            ConsumablesListViewModel model = new ConsumablesListViewModel();
+            List<ConsumableViewModel> consumableModels = new List<ConsumableViewModel>();
+            if (!string.IsNullOrWhiteSpace(search)) consumables = consumables.Where(c => c.Name.Contains(search)).ToList();
+            foreach (var consumable in consumables)
+            {
+                ConsumableViewModel item = GetViewModel(consumable);
+                consumableModels.Add(item);
+            }
+            model.Consumables = consumableModels
+                .OrderBy(c => c.Name)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToList();
+            model.PagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                ItemsPerPage = pageSize,
+                TotalItems = consumableModels.Count()
+            };
+            model.Search = search;
             return model;
         }
     }

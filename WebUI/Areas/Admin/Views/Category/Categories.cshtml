@@ -8,7 +8,7 @@
 <h2 class="text-center display-4 my-3 text-white">Категории заявки</h2>
 <div class="d-flex">
     <div class="align-self-center">
-        @Html.ActionLink("Добавить категорию заявки", "AddCategory", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Новая запись", "AddCategory", null, new { @class = "btn btn-success" })
     </div>
     <div class="flex-grow-1 align-self-center">
         @using (Html.BeginForm("Categories", "Category", new { search = Model.Search, branch = Model.BranchId }, FormMethod.Get, new { @class = "input-group", role = "form" }))

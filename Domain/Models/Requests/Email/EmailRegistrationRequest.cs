@@ -34,7 +34,7 @@ namespace Domain.Models.Requests.Email
         /// <param name="clientId">Идентификатор клиента</param>
         /// <param name="executorGroupId">Идентификатор группы исполнителей</param>
         /// <param name="email">Желаемый адрес электронной почты</param>
-        public EmailRegistrationRequest(string title, string justification, string description, int serviceId, int statusId, int priorityId, int cabinetId, int clientId, int executorGroupId, string email)
+        public EmailRegistrationRequest(string title, string justification, string description, int serviceId, int statusId, int priorityId, int clientId, int executorGroupId, string email)
         {
             Title = title;
             Justification = justification;
@@ -42,7 +42,6 @@ namespace Domain.Models.Requests.Email
             ServiceId = serviceId;
             StatusId = statusId;
             PriorityId = priorityId;
-            CabinetId = cabinetId;
             ClientId = clientId;
             ExecutorGroupId = executorGroupId;
             Email = email;
@@ -55,7 +54,7 @@ namespace Domain.Models.Requests.Email
         public override string ToString()
         {
             return $"EmailRegistrationRequest object:(Id:[{Id}];Title:[{Title}];Justification:[{Justification}];Description:[{Description}];ServiceId:[{ServiceId}];" +
-                $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];CabinetId:[{CabinetId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]);Email:[{Email}].";
+                $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]);Email:[{Email}].";
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
@@ -68,7 +67,7 @@ namespace Domain.Models.Requests.Email
             {
                 EmailRegistrationRequest temp = (EmailRegistrationRequest)obj;
                 if (temp.Id == Id && temp.Title == Title && temp.Justification == Justification && temp.Description == Description && temp.ServiceId == ServiceId &&
-                    temp.StatusId == StatusId && temp.PriorityId == PriorityId && temp.CabinetId == CabinetId && temp.ClientId == ClientId && 
+                    temp.StatusId == StatusId && temp.PriorityId == PriorityId && temp.ClientId == ClientId && 
                     temp.ExecutorGroupId == ExecutorGroupId && temp.Email == Email) return true;
                 else return false;
             }

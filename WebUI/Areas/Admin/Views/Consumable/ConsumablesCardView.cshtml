@@ -1,0 +1,23 @@
+﻿@model WebUI.ViewModels.Consumable.ConsumablesListViewModel
+@using WebUI.HtmlHelpers
+
+@foreach (var item in Model.Consumables)
+{
+    <div class="card mt-1">
+        <div class="card-body">
+            <h4 class="card-title text-white">Наименование расходного материала: @item.Name</h4>
+            <a href="@Url.Action("EditConsumable","Consumable",new { id = item.Id })" class="card-link">
+                <i class="fa fa-edit"></i>
+                <span class="ml-1">Редактировать</span>
+            </a>
+            <a href="@Url.Action("DeleteConsumable","Consumable",new { id = item.Id })" class="card-link text-danger">
+                <i class="fa fa-trash"></i>
+                <span class="ml-1">Удалить</span>
+            </a>
+        </div>
+    </div>
+}
+
+<div class="my-1">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Consumables", new { search = Model.Search, page = x }))
+</div>

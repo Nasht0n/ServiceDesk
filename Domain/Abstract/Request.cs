@@ -59,15 +59,6 @@ namespace Domain.Abstract
         /// </summary>
         public Priority Priority { get; set; }
         /// <summary>
-        /// Идентификатор кабинета системы, создавшего указанную заявку
-        /// </summary>
-        [Required]
-        public int CabinetId { get; set; }
-        /// <summary>
-        /// Объект кабинета системы, создавшего указанную заявку
-        /// </summary>
-        public Cabinet Cabinet { get; set; }
-        /// <summary>
         /// Идентификатор пользователя, создавшего указанную заявку
         /// </summary>
         [Required]

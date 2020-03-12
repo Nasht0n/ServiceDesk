@@ -8,7 +8,7 @@
 <h2 class="text-center display-4 my-3 text-white">Учебные корпуса</h2>
 <div class="d-flex flex-row justify-content-between">
     <div class="flex-fill align-self-center">
-        @Html.ActionLink("Новый корпус", "AddCampus", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Новая запись", "AddCampus", null, new { @class = "btn btn-success" })
     </div>
     <div class="flex-fill align-self-center">
         @using (Html.BeginForm("Campuses", "Campus", new { search = Model.Search }, FormMethod.Get, new { @class = "input-group", role = "form" }))

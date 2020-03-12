@@ -45,6 +45,7 @@
     <Compile Include="BranchService.cs" />
     <Compile Include="CampusService.cs" />
     <Compile Include="CategoryService.cs" />
+    <Compile Include="ConsumableService.cs" />
     <Compile Include="EmployeeService.cs" />
     <Compile Include="EquipmentService.cs" />
     <Compile Include="EquipmentTypeService.cs" />

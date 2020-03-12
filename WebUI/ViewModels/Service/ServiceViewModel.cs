@@ -1,4 +1,5 @@
-﻿using WebUI.ViewModels.Category;
+﻿using WebUI.ViewModels.Branch;
+using WebUI.ViewModels.Category;
 
 namespace WebUI.ViewModels.Service
 {
@@ -11,5 +12,7 @@ namespace WebUI.ViewModels.Service
         public string Controller { get; set; }
         public int CategoryId { get; set; }
         public CategoryViewModel CategoryModel { get; set; }
+        public int BranchId { get; set; }
+        public BranchViewModel BranchModel { get; set; }
     }
 }

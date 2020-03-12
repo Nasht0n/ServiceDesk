@@ -12,21 +12,34 @@ namespace WebUI.Areas.Admin.Controllers
 {
     public class ServiceController : Controller
     {
+        private BranchService branchService = new BranchService();
         private ServiceService serviceService = new ServiceService();
         private CategoryService categoryService = new CategoryService();
         private readonly int pageSize = 5;
 
-        public ActionResult Services(string search = "", int page = 1, int category = 0)
+        public ActionResult Services(string search = "", int page = 1, int category = 0, int branch=0)
         {
-            ViewBag.Categories = categoryService.GetCategories();
+            var branches = branchService.GetBranches();
+            ViewBag.Branches = branches;      
+            if(branch == 0) ViewBag.Categories = categoryService.GetCategories().Where(c => c.BranchId == branches[0].Id);
+            else ViewBag.Categories = categoryService.GetCategories().Where(c => c.BranchId == branch);
             List<Service> services = serviceService.GetServices();
-            ServicesListViewModel model = ModelFromData.GetListViewModel(services, search, category, page, pageSize);
+            ServicesListViewModel model = ModelFromData.GetListViewModel(services, search, category, branch, page, pageSize);
             return View(model);
+        }
+
+        public ActionResult GetCategory(int branch)
+        {
+            var categories = categoryService.GetCategories().Where(c => c.BranchId == branch).OrderBy(c=>c.Name).ToList();
+            return Json(categories, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddService()
         {
-            ViewBag.Categories = categoryService.GetCategories();
+            var branches = branchService.GetBranches();
+            var categories = categoryService.GetCategories().Where(c => c.BranchId == branches[0].Id);
+            ViewBag.Branches = branches;
+            ViewBag.Categories = categories;
             return View(new ServiceViewModel());
         }
 
@@ -45,6 +58,7 @@ namespace WebUI.Areas.Admin.Controllers
         public ActionResult EditService(int id)
         {
             ViewBag.Categories = categoryService.GetCategories();
+            ViewBag.Branches = branchService.GetBranches();
             Service service = serviceService.GetServiceById(id);
             ServiceViewModel model = ModelFromData.GetViewModel(service);
             return View(model);
