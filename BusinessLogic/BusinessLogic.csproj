@@ -49,7 +49,9 @@
     <Compile Include="EmployeeService.cs" />
     <Compile Include="EquipmentService.cs" />
     <Compile Include="EquipmentTypeService.cs" />
+    <Compile Include="LifeCycles\EquipmentInstallationRequestLifeCycleService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\EquipmentInstallationRequestService.cs" />
     <Compile Include="ServiceService.cs" />
     <Compile Include="SubdvisionService.cs" />
   </ItemGroup>

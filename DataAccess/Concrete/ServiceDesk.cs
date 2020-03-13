@@ -1,6 +1,7 @@
 ﻿using DataAccess.Abstract;
 using Domain;
 using Domain.Models;
+using Domain.Models.Requests.Equipment;
 using System;
 
 namespace DataAccess.Concrete
@@ -8,6 +9,9 @@ namespace DataAccess.Concrete
     public class ServiceDesk : IDisposable
     {
         private ServiceDeskContext context = new ServiceDeskContext();
+
+        private GenericRepository<EquipmentInstallationRequest> equipmentInstallationRequest;
+        private GenericRepository<EquipmentInstallationRequestLifeCycle> equipmentInstallationRequestLifeCycle;
 
         private GenericRepository<Subdivision> subdivisionRepository;
         private GenericRepository<Status> statusRepository;
@@ -30,6 +34,30 @@ namespace DataAccess.Concrete
         private GenericRepository<Account> accountRepository;
 
         private bool disposed = false;
+
+        public GenericRepository<EquipmentInstallationRequest> EquipmentInstallationRequest
+        {
+            get 
+            {
+                if (equipmentInstallationRequest == null)
+                { 
+                    equipmentInstallationRequest = new GenericRepository<EquipmentInstallationRequest>(context);
+                }
+                return equipmentInstallationRequest;
+            }
+        }
+
+        public GenericRepository<EquipmentInstallationRequestLifeCycle> EquipmentInstallationRequestLifeCycle
+        {
+            get
+            {
+                if(equipmentInstallationRequestLifeCycle == null)
+                {
+                    equipmentInstallationRequestLifeCycle = new GenericRepository<EquipmentInstallationRequestLifeCycle>(context);
+                }
+                return equipmentInstallationRequestLifeCycle;
+            }
+        }
 
         public GenericRepository<Subdivision> SubdivisionRepository
         {

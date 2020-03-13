@@ -69,6 +69,12 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.4.1\lib\net452\xunit.core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Razor">
@@ -1038,6 +1044,8 @@
     <Compile Include="Areas\Admin\Controllers\EquipmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\EquipmentTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubdivisionController.cs" />
+    <Compile Include="Areas\IT\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\IT\Controllers\EquipmentInstallationRequestController.cs" />
     <Compile Include="Areas\IT\ITAreaRegistration.cs" />
     <Compile Include="Controllers\ServiceDeskController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1064,9 +1072,15 @@
     <Compile Include="ViewModels\EquipmentType\EquipmentTypeViewModel.cs" />
     <Compile Include="ViewModels\Equipment\EquipmentsListViewModel.cs" />
     <Compile Include="ViewModels\Equipment\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\ExecutorGroup\ExecutorGroupsListViewModel.cs" />
+    <Compile Include="ViewModels\ExecutorGroup\ExecutorGroupViewModel.cs" />
+    <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentInstallationRequestLifeCycleViewModel.cs" />
+    <Compile Include="ViewModels\LifeCycles\IT\LifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\Priority\PriorityViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentInstallationRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentRefillRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\RequestViewModel.cs" />
     <Compile Include="ViewModels\Service\ServicesListViewModel.cs" />
     <Compile Include="ViewModels\Service\ServiceViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusViewModel.cs" />
@@ -1092,8 +1106,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\IT\Controllers\" />
     <Folder Include="Areas\IT\Data\" />
+    <Folder Include="Areas\IT\Views\Dashboard\" />
+    <Folder Include="Areas\IT\Views\EquipmentInstallationRequest\" />
     <Folder Include="Areas\IT\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
