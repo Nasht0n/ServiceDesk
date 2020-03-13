@@ -5,6 +5,7 @@ using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
 using Domain.Models.Requests.Network;
 using Domain.Models.Requests.Software;
+using Domain.Views;
 using System.Data.Entity;
 
 namespace Domain
@@ -12,7 +13,7 @@ namespace Domain
     public class ServiceDeskContext:DbContext
     {
         public ServiceDeskContext() : base() { }
-        
+
         public virtual DbSet<AccountCancellationRequest> AccountCancellationRequests { get; set; }
         public virtual DbSet<AccountCancellationRequestLifeCycle> AccountCancellationRequestLifeCycles { get; set; }
         public virtual DbSet<AccountDisconnectRequest> AccountDisconnectRequests { get; set; }
@@ -35,21 +36,27 @@ namespace Domain
         public virtual DbSet<EmailRegistrationRequestLifeCycle> EmailRegistrationRequestLifeCycles { get; set; }
         public virtual DbSet<EmailSizeIncreaseRequest> EmailSizeIncreaseRequests { get; set; }
         public virtual DbSet<EmailSizeIncreaseRequestLifeCycle> EmailSizeIncreaseRequestLifeCycles { get; set; }
+
         public virtual DbSet<ComponentReplaceRequest> ComponentReplaceRequests { get; set; }
         public virtual DbSet<ComponentReplaceRequestLifeCycle> ComponentReplaceRequestLifeCycles { get; set; }
+        public virtual DbSet<ReplaceComponents> ReplaceComponents { get; set; }
+
         public virtual DbSet<EquipmentInstallationRequest> EquipmentInstallationRequests { get; set; }
         public virtual DbSet<EquipmentInstallationRequestLifeCycle> EquipmentInstallationRequestLifeCycles { get; set; }
+        public virtual DbSet<InstallationEquipments> InstallationEquipments { get; set; }
+
         public virtual DbSet<EquipmentRefillRequest> EquipmentRefillRequests { get; set; }
         public virtual DbSet<EquipmentRefillRequestLifeCycle> EquipmentRefillRequestsLifeCycles { get; set; }
+        public virtual DbSet<RefillEquipments> RefillEquipments { get; set; }
+
         public virtual DbSet<EquipmentRepairRequest> EquipmentRepairRequests { get; set; }
         public virtual DbSet<EquipmentRepairRequestLifeCycle> EquipmentRepairRequestLifeCycles { get; set; }
+        public virtual DbSet<RepairEquipments> RepairEquipments { get; set; }
+
         public virtual DbSet<EquipmentReplaceRequest> EquipmentReplaceRequests { get; set; }
         public virtual DbSet<EquipmentReplaceRequestLifeCycle> EquipmentReplaceRequestLifeCycles { get; set; }
-        public virtual DbSet<InstallationEquipments> InstallationEquipments { get; set; }
-        public virtual DbSet<RefillEquipments> RefillEquipments { get; set; }
-        public virtual DbSet<RepairEquipments> RepairEquipments { get; set; }
-        public virtual DbSet<ReplaceComponents> ReplaceComponents { get; set; }
         public virtual DbSet<ReplaceEquipments> ReplaceEquipments { get; set; }
+
         public virtual DbSet<NetworkConnectionRequest> NetworkConnectionRequests { get; set; }
         public virtual DbSet<NetworkConnectionRequestLifeCycle> NetworkConnectionRequestLifeCycles { get; set; }
         public virtual DbSet<ConnectionEquipments> ConnectionEquipments { get; set; }
@@ -68,10 +75,10 @@ namespace Domain
         public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
         public virtual DbSet<ExecutorGroup> ExecutorGroups { get; set; }
-        public virtual DbSet<Organization> Organizations { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Priority> Priorities { get; set; }
         public virtual DbSet<RefuelingLimits> RefuelingLimits { get; set; }
+        public virtual DbSet<Requests> Requests { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<Subdivision> Subdivisions { get; set; }
@@ -132,6 +139,213 @@ namespace Domain
                 .HasMany(e => e.Services)
                 .WithMany(e => e.ExecutorGroups)
                 .Map(m => m.ToTable("ServicesExecutorGroups").MapLeftKey("ServiceId").MapRightKey("ExecutorGroupId"));
+
+            modelBuilder.Entity<Requests>()
+                .Property(r => r.Source)
+                .IsUnicode(false);
+
+            #region CascadeOnDelete Request
+            #region Accounts
+            modelBuilder.Entity<AccountCancellationRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AccountCancellationRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AccountDisconnectRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AccountDisconnectRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AccountLossRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AccountLossRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AccountRegistrationRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AccountRegistrationRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+            #endregion
+            #region Communications
+            modelBuilder.Entity<HoldingPhoneLineRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<HoldingPhoneLineRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PhoneLineRepairRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PhoneLineRepairRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PhoneNumberAllocationRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PhoneNumberAllocationRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PhoneRepairRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PhoneRepairRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<VideoCommunicationRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<VideoCommunicationRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+            #endregion
+            #region Emails
+            modelBuilder.Entity<EmailRegistrationRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EmailRegistrationRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EmailSizeIncreaseRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EmailSizeIncreaseRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+            #endregion
+            #region Equipments
+            modelBuilder.Entity<ComponentReplaceRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ComponentReplaceRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EquipmentInstallationRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EquipmentInstallationRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EquipmentRefillRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EquipmentRefillRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EquipmentRepairRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EquipmentRepairRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EquipmentReplaceRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EquipmentReplaceRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+
+            #endregion
+            #region Networks
+            modelBuilder.Entity<NetworkConnectionRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<NetworkConnectionRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+            #endregion
+            #region Softwares
+            modelBuilder.Entity<SoftwareDevelopmentRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SoftwareDevelopmentRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SoftwareReworkRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SoftwareReworkRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+            #endregion
+            #endregion
+
+
         }
     }
 }

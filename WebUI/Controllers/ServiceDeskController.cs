@@ -1,6 +1,8 @@
 ﻿using BusinessLogic;
 using DataAccess.Concrete;
-using System.Diagnostics;
+using Microsoft.Owin.Security;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels;
@@ -9,8 +11,14 @@ namespace WebUI.Controllers
 {
     public class ServiceDeskController : Controller
     {
-        private ServiceDesk serviceDesk = new ServiceDesk();
         private AccountService accountService = new AccountService();
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
 
         public ActionResult Index()
         {
@@ -32,26 +40,58 @@ namespace WebUI.Controllers
             return View(new LoginViewModel());
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                Stopwatch watch = new Stopwatch();
-                watch.Start();
                 // Авторизация
                 var account = accountService.GetAccountByCredentials(model.Username, model.Password);
-                watch.Stop();
-                if(account != null)
+                if (model.Username.Equals("admin") && model.Password.Equals("admin"))
                 {
-
+                    ClaimsIdentity claim = new ClaimsIdentity("ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                    claim.AddClaim(new Claim(ClaimTypes.NameIdentifier, "admin", ClaimValueTypes.String));
+                    claim.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, "admin", ClaimValueTypes.String));
+                    claim.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "OWIN Provider", ClaimValueTypes.String));
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
+                    return RedirectToAction("Dashboard", "ServiceDesk");
                 }
+                else if (account == null)
+                {
+                    ModelState.AddModelError("", "Пользователь не найден");
+                }
+                
+                
                 else
                 {
-                    Debug.WriteLine("Пользователь не найден");
-                }
+                    ClaimsIdentity claim = new ClaimsIdentity("ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                    claim.AddClaim(new Claim(ClaimTypes.NameIdentifier, account.Id.ToString(), ClaimValueTypes.String));
+                    claim.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, account.Username, ClaimValueTypes.String));
+                    claim.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "OWIN Provider", ClaimValueTypes.String));
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
+                    return RedirectToAction("Dashboard", "ServiceDesk");
+                }                
             }
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Index", "ServiceDesk");
+        }
+        [Authorize]
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
     }
 }

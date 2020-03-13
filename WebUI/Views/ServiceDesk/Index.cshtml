@@ -43,7 +43,8 @@
                 <br /> Используется для обработки заявок клиентов, простой постановки задач, организации полноценной службы поддержки
             </p>
             <p class="lead">
-                <a class="btn btn-primary btn-lg mt-5" href="#" role="button">Начать работу</a>
+                @Html.ActionLink("Начать работу", "Login", "ServiceDesk", null, new { @class = "btn btn-secondary btn-lg mt-5" })
+                @*<a class="btn btn-primary btn-lg mt-5" href="#" role="button">Начать работу</a>*@
             </p>
         </div>
     </div>

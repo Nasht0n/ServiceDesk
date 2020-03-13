@@ -7,13 +7,13 @@ namespace Domain.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class CreateModel : IMigrationMetadata
+    public sealed partial class RequestsViewModel : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RequestsViewModel));
         
         string IMigrationMetadata.Id
         {
-            get { return "202003121157311_CreateModel"; }
+            get { return "202003131145248_RequestsViewModel"; }
         }
         
         string IMigrationMetadata.Source

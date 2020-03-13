@@ -53,14 +53,17 @@
   <ItemGroup>
     <Compile Include="Abstract\LifeCycle.cs" />
     <Compile Include="Abstract\Request.cs" />
-    <Compile Include="Migrations\202003121157311_CreateModel.cs" />
-    <Compile Include="Migrations\202003121157311_CreateModel.designer.cs">
-      <DependentUpon>202003121157311_CreateModel.cs</DependentUpon>
+    <Compile Include="Migrations\202003131107394_Create.cs" />
+    <Compile Include="Migrations\202003131107394_Create.designer.cs">
+      <DependentUpon>202003131107394_Create.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003131145248_RequestsViewModel.cs" />
+    <Compile Include="Migrations\202003131145248_RequestsViewModel.designer.cs">
+      <DependentUpon>202003131145248_RequestsViewModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Attachment.cs" />
-    <Compile Include="Models\Cabinet.cs" />
     <Compile Include="Models\Campus.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Component.cs" />
@@ -69,7 +72,6 @@
     <Compile Include="Models\Equipment.cs" />
     <Compile Include="Models\EquipmentType.cs" />
     <Compile Include="Models\ExecutorGroup.cs" />
-    <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\Priority.cs" />
     <Compile Include="Models\RefuelingLimits.cs" />
@@ -123,18 +125,24 @@
     <Compile Include="Models\Subdivision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceDeskContext.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
+    <Compile Include="Views\Requests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003121157311_CreateModel.resx">
-      <DependentUpon>202003121157311_CreateModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003131107394_Create.resx">
+      <DependentUpon>202003131107394_Create.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003131145248_RequestsViewModel.resx">
+      <DependentUpon>202003131145248_RequestsViewModel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Migrations\RequestsView.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

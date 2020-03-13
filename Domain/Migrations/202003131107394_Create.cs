@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CreateModel : DbMigration
+    public partial class Create : DbMigration
     {
         public override void Up()
         {
@@ -87,15 +87,6 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.Cabinets",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 150),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
                 "dbo.Subdivisions",
                 c => new
                     {
@@ -121,8 +112,8 @@
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -161,8 +152,8 @@
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -210,8 +201,8 @@
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -239,8 +230,8 @@
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -268,8 +259,8 @@
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -297,8 +288,8 @@
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -373,7 +364,7 @@
                         EmployeeId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.EmployeeId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.EmployeeId, cascadeDelete: true)
                 .Index(t => t.EmployeeId);
             
             CreateTable(
@@ -430,8 +421,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -525,8 +516,8 @@
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -571,8 +562,8 @@
                         ExecutorGroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -619,8 +610,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -667,8 +658,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -745,8 +736,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -818,8 +809,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -895,8 +886,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -944,8 +935,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -957,20 +948,6 @@
                 .Index(t => t.ClientId)
                 .Index(t => t.ExecutorId)
                 .Index(t => t.ExecutorGroupId);
-            
-            CreateTable(
-                "dbo.Organizations",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Fullname = c.String(nullable: false, maxLength: 255),
-                        Shortname = c.String(nullable: false, maxLength: 20),
-                        Logo = c.Binary(),
-                        Address = c.String(nullable: false, maxLength: 255),
-                        Phone = c.String(nullable: false, maxLength: 20),
-                        Email = c.String(nullable: false, maxLength: 50),
-                    })
-                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.PhoneLineRepairRequestLifeCycles",
@@ -1007,8 +984,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -1056,8 +1033,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -1105,8 +1082,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -1132,6 +1109,31 @@
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Subdivisions", t => t.Subdivision_Id)
                 .Index(t => t.Subdivision_Id);
+            
+            CreateTable(
+                "dbo.RequestsView",
+                c => new
+                    {
+                        RowNumber = c.Long(nullable: false, identity: true),
+                        RequestId = c.Int(nullable: false),
+                        ActionId = c.Int(nullable: false),
+                        ActionName = c.String(),
+                        ServiceId = c.Int(nullable: false),
+                        ServiceName = c.String(),
+                        StatusId = c.Int(nullable: false),
+                        StatusName = c.String(),
+                        ClientId = c.Int(nullable: false),
+                        ClientFullname = c.String(),
+                        ExecutorId = c.Int(),
+                        ExecutorFullname = c.String(),
+                        ExecutorGroupId = c.Int(nullable: false),
+                        ExecutorGroupName = c.String(),
+                        Title = c.String(),
+                        Description = c.String(),
+                        Date = c.DateTime(nullable: false),
+                        Source = c.String(unicode: false),
+                    })
+                .PrimaryKey(t => t.RowNumber);
             
             CreateTable(
                 "dbo.SoftwareDevelopmentRequestLifeCycles",
@@ -1201,8 +1203,8 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Campus", t => t.CampusId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.ClientId, cascadeDelete: false)
-                .ForeignKey("dbo.Employees", t => t.ExecutorId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ClientId)
+                .ForeignKey("dbo.Employees", t => t.ExecutorId)
                 .ForeignKey("dbo.ExecutorGroups", t => t.ExecutorGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Priorities", t => t.PriorityId, cascadeDelete: true)
                 .ForeignKey("dbo.Services", t => t.ServiceId, cascadeDelete: true)
@@ -1242,19 +1244,6 @@
                 .Index(t => t.EmployeeId);
             
             CreateTable(
-                "dbo.CabinetEmployees",
-                c => new
-                    {
-                        Cabinet_Id = c.Int(nullable: false),
-                        Employee_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.Cabinet_Id, t.Employee_Id })
-                .ForeignKey("dbo.Cabinets", t => t.Cabinet_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.Employee_Id, cascadeDelete: true)
-                .Index(t => t.Cabinet_Id)
-                .Index(t => t.Employee_Id);
-            
-            CreateTable(
                 "dbo.ExecutorGroupMembers",
                 c => new
                     {
@@ -1262,8 +1251,8 @@
                         EmployeeId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.ExecutorGroupId, t.EmployeeId })
-                .ForeignKey("dbo.Employees", t => t.ExecutorGroupId, cascadeDelete: false)
-                .ForeignKey("dbo.ExecutorGroups", t => t.EmployeeId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.ExecutorGroupId, cascadeDelete: true)
+                .ForeignKey("dbo.ExecutorGroups", t => t.EmployeeId, cascadeDelete: true)
                 .Index(t => t.ExecutorGroupId)
                 .Index(t => t.EmployeeId);
             
@@ -1366,8 +1355,8 @@
                         PermissionId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.AccountId, t.PermissionId })
-                .ForeignKey("dbo.Accounts", t => t.AccountId, cascadeDelete: false)
-                .ForeignKey("dbo.Permissions", t => t.PermissionId, cascadeDelete: false)
+                .ForeignKey("dbo.Accounts", t => t.AccountId, cascadeDelete: true)
+                .ForeignKey("dbo.Permissions", t => t.PermissionId, cascadeDelete: true)
                 .Index(t => t.AccountId)
                 .Index(t => t.PermissionId);
             
@@ -1571,8 +1560,6 @@
             DropForeignKey("dbo.SubdivisionExecutors", "SubdivisionId", "dbo.Employees");
             DropForeignKey("dbo.ExecutorGroupMembers", "EmployeeId", "dbo.ExecutorGroups");
             DropForeignKey("dbo.ExecutorGroupMembers", "ExecutorGroupId", "dbo.Employees");
-            DropForeignKey("dbo.CabinetEmployees", "Employee_Id", "dbo.Employees");
-            DropForeignKey("dbo.CabinetEmployees", "Cabinet_Id", "dbo.Cabinets");
             DropForeignKey("dbo.ServicesApprovers", "EmployeeId", "dbo.Services");
             DropForeignKey("dbo.ServicesApprovers", "ServiceId", "dbo.Employees");
             DropForeignKey("dbo.ServicesExecutorGroups", "ExecutorGroupId", "dbo.Services");
@@ -1597,8 +1584,6 @@
             DropIndex("dbo.SubdivisionExecutors", new[] { "SubdivisionId" });
             DropIndex("dbo.ExecutorGroupMembers", new[] { "EmployeeId" });
             DropIndex("dbo.ExecutorGroupMembers", new[] { "ExecutorGroupId" });
-            DropIndex("dbo.CabinetEmployees", new[] { "Employee_Id" });
-            DropIndex("dbo.CabinetEmployees", new[] { "Cabinet_Id" });
             DropIndex("dbo.ServicesApprovers", new[] { "EmployeeId" });
             DropIndex("dbo.ServicesApprovers", new[] { "ServiceId" });
             DropIndex("dbo.ServicesExecutorGroups", new[] { "ExecutorGroupId" });
@@ -1792,13 +1777,13 @@
             DropTable("dbo.AccountCancellationRequestAttachments");
             DropTable("dbo.SubdivisionExecutors");
             DropTable("dbo.ExecutorGroupMembers");
-            DropTable("dbo.CabinetEmployees");
             DropTable("dbo.ServicesApprovers");
             DropTable("dbo.ServicesExecutorGroups");
             DropTable("dbo.VideoCommunicationRequests");
             DropTable("dbo.VideoCommunicationRequestLifeCycles");
             DropTable("dbo.SoftwareReworkRequestLifeCycles");
             DropTable("dbo.SoftwareDevelopmentRequestLifeCycles");
+            DropTable("dbo.RequestsView");
             DropTable("dbo.RefuelingLimits");
             DropTable("dbo.PhoneRepairRequests");
             DropTable("dbo.PhoneRepairRequestLifeCycles");
@@ -1806,7 +1791,6 @@
             DropTable("dbo.PhoneNumberAllocationRequestLifeCycles");
             DropTable("dbo.PhoneLineRepairRequests");
             DropTable("dbo.PhoneLineRepairRequestLifeCycles");
-            DropTable("dbo.Organizations");
             DropTable("dbo.NetworkConnectionRequests");
             DropTable("dbo.NetworkConnectionRequestLifeCycles");
             DropTable("dbo.HoldingPhoneLineRequests");
@@ -1851,7 +1835,6 @@
             DropTable("dbo.Attachments");
             DropTable("dbo.AccountCancellationRequests");
             DropTable("dbo.Subdivisions");
-            DropTable("dbo.Cabinets");
             DropTable("dbo.ExecutorGroups");
             DropTable("dbo.Branches");
             DropTable("dbo.Categories");

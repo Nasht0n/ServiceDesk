@@ -19,7 +19,6 @@ namespace DataAccess.Concrete
         private GenericRepository<RefuelingLimits> refuelingLimitsRepository;
         private GenericRepository<Priority> priorityRepository;
         private GenericRepository<Permission> permissionRepository;
-        private GenericRepository<Organization> organizationRepository;
         private GenericRepository<ExecutorGroup> executorGroupRepository;
         private GenericRepository<EquipmentType> equipmentTypeRepository;
         private GenericRepository<Equipment> equipmentRepository;
@@ -28,7 +27,6 @@ namespace DataAccess.Concrete
         private GenericRepository<Component> componentRepository;
         private GenericRepository<Category> categoryRepository;
         private GenericRepository<Campus> campusRepository;
-        private GenericRepository<Cabinet> cabinetRepository;
         private GenericRepository<Branch> branchRepository;
         private GenericRepository<Attachment> attachmentRepository;
         private GenericRepository<Account> accountRepository;
@@ -130,19 +128,7 @@ namespace DataAccess.Concrete
                 return permissionRepository;
             }
         }
-
-        public GenericRepository<Organization> OrganizationRepository
-        {
-            get
-            {
-                if (organizationRepository == null)
-                {
-                    organizationRepository = new GenericRepository<Organization>(context);
-                }
-                return organizationRepository;
-            }
-        }
-
+        
         public GenericRepository<ExecutorGroup> ExecutorGroupRepository
         {
             get
@@ -233,15 +219,6 @@ namespace DataAccess.Concrete
             {
                 if (campusRepository == null) campusRepository = new GenericRepository<Campus>(context);
                 return campusRepository;
-            }
-        }
-
-        public GenericRepository<Cabinet> CabinetRepository
-        {
-            get
-            {
-                if (cabinetRepository == null) cabinetRepository = new GenericRepository<Cabinet>(context);
-                return cabinetRepository;
             }
         }
 

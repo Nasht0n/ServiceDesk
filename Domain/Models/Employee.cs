@@ -65,7 +65,6 @@ namespace Domain.Models
         public IList<Service> ApprovalServices { get; set; }
         public IList<ExecutorGroup> ExecutorGroups { get; set; }
         public IList<Subdivision> ExecutorSubdivisions { get; set; }
-        public IList<Cabinet> Cabinets { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
