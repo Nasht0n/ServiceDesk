@@ -1,8 +1,6 @@
 ﻿using Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
@@ -31,7 +29,11 @@ namespace WebUI.Models
         {
             SubdivisionsListViewModel model = new SubdivisionsListViewModel();
             List<SubdivisionViewModel> subdivisionModels = new List<SubdivisionViewModel>();
-            if (!string.IsNullOrWhiteSpace(search)) subdivisions = subdivisions.Where(s => s.Fullname.Contains(search) || s.Shortname.Equals(search)).ToList();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                subdivisions = subdivisions.Where(s => s.Fullname.Contains(search) || s.Shortname.Equals(search)).ToList();
+            }
+
             foreach (var subdivision in subdivisions)
             {
                 SubdivisionViewModel item = GetViewModel(subdivision);
@@ -68,8 +70,16 @@ namespace WebUI.Models
         {
             EquipmentsListViewModel model = new EquipmentsListViewModel();
             List<EquipmentViewModel> equipmentModels = new List<EquipmentViewModel>();
-            if (equipmentType != 0) equipments = equipments.Where(e => e.EquipmentTypeId == equipmentType).ToList();
-            if (!string.IsNullOrWhiteSpace(search)) equipments = equipments.Where(e => e.Name.Contains(search) || (e.InventoryNumber.Contains(search))).ToList();
+            if (equipmentType != 0)
+            {
+                equipments = equipments.Where(e => e.EquipmentTypeId == equipmentType).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                equipments = equipments.Where(e => e.Name.Contains(search) || (e.InventoryNumber.Contains(search))).ToList();
+            }
+
             foreach (var equipment in equipments)
             {
                 EquipmentViewModel item = GetViewModel(equipment);
@@ -104,7 +114,11 @@ namespace WebUI.Models
         {
             EquipmentTypesListViewModel model = new EquipmentTypesListViewModel();
             List<EquipmentTypeViewModel> equipmentTypeModels = new List<EquipmentTypeViewModel>();
-            if (!string.IsNullOrWhiteSpace(search)) equipmentTypes = equipmentTypes.Where(e => e.Name.Contains(search)).ToList();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                equipmentTypes = equipmentTypes.Where(e => e.Name.Contains(search)).ToList();
+            }
+
             foreach (var type in equipmentTypes)
             {
                 EquipmentTypeViewModel item = GetViewModel(type);
@@ -138,7 +152,11 @@ namespace WebUI.Models
         {
             CampusesListViewModel model = new CampusesListViewModel();
             List<CampusViewModel> campusModels = new List<CampusViewModel>();
-            if (!string.IsNullOrWhiteSpace(search)) campuses = campuses.Where(c => c.Name.Contains(search)).ToList();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                campuses = campuses.Where(c => c.Name.Contains(search)).ToList();
+            }
+
             foreach (var campus in campuses)
             {
                 CampusViewModel item = GetViewModel(campus);
@@ -178,8 +196,16 @@ namespace WebUI.Models
         {
             EmployeesListViewModel model = new EmployeesListViewModel();
             List<EmployeeViewModel> employeeViewModels = new List<EmployeeViewModel>();
-            if (subdivision != 0) employees = employees.Where(e => e.SubdivisionId == subdivision).ToList();
-            if (!string.IsNullOrWhiteSpace(search)) employees = employees.Where(e => e.Surname.Contains(search)).ToList();
+            if (subdivision != 0)
+            {
+                employees = employees.Where(e => e.SubdivisionId == subdivision).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                employees = employees.Where(e => e.Surname.Contains(search)).ToList();
+            }
+
             foreach (var employee in employees)
             {
                 EmployeeViewModel item = GetViewModel(employee);
@@ -206,31 +232,45 @@ namespace WebUI.Models
             return new BranchViewModel
             {
                 Id = branch.Id,
-                Name = branch.Name
+                Fullname = branch.Fullname,
+                AreaName = branch.AreaName
             };
         }
 
-        public static BranchesListViewModel GetListViewModel(List<Branch> branches, string search, int page, int pageSize)
+        public static BranchesListViewModel GetListViewModel(List<Branch> branches, string search = "", int page = 0, int pageSize = 0)
         {
             BranchesListViewModel model = new BranchesListViewModel();
             List<BranchViewModel> branchModels = new List<BranchViewModel>();
-            if (!string.IsNullOrWhiteSpace(search)) branches = branches.Where(c => c.Name.Contains(search)).ToList();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                branches = branches.Where(c => c.Fullname.Contains(search)).ToList();
+            }
+
             foreach (var branch in branches)
             {
                 BranchViewModel item = GetViewModel(branch);
                 branchModels.Add(item);
             }
-            model.Branches = branchModels
-                .OrderBy(c => c.Name)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize).ToList();
-            model.PagingInfo = new PagingInfo
+
+            if (page != 0 && pageSize != 0)
             {
-                CurrentPage = page,
-                ItemsPerPage = pageSize,
-                TotalItems = branchModels.Count()
-            };
-            model.Search = search;
+                model.Branches = branchModels
+                                .OrderBy(c => c.Fullname)
+                                .Skip((page - 1) * pageSize)
+                                .Take(pageSize).ToList();
+                model.PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = branchModels.Count()
+                };
+                model.Search = search;
+            }
+            else
+            {
+                model.Branches = branchModels;
+            }
+
             return model;
         }
 
@@ -245,30 +285,45 @@ namespace WebUI.Models
             };
         }
 
-        public static CategoriesListViewModel GetListViewModel(List<Category> categories, string search, int branch, int page, int pageSize)
+        public static CategoriesListViewModel GetListViewModel(List<Category> categories, string search = "", int branch = 0, int page = 0, int pageSize = 0)
         {
             CategoriesListViewModel model = new CategoriesListViewModel();
             List<CategoryViewModel> categoryModels = new List<CategoryViewModel>();
-            if (branch != 0) categories = categories.Where(e => e.BranchId == branch).ToList();
-            if (!string.IsNullOrWhiteSpace(search)) categories = categories.Where(e => e.Name.Contains(search)).ToList();
+            if (branch != 0)
+            {
+                categories = categories.Where(e => e.BranchId == branch).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                categories = categories.Where(e => e.Name.Contains(search)).ToList();
+            }
+
             foreach (var category in categories)
             {
                 CategoryViewModel item = GetViewModel(category);
                 categoryModels.Add(item);
             }
-            model.Categories = categoryModels
-                .OrderBy(s => s.Name)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize).ToList();
-
-            model.PagingInfo = new PagingInfo
+            if (page != 0 && pageSize != 0)
             {
-                CurrentPage = page,
-                ItemsPerPage = pageSize,
-                TotalItems = categoryModels.Count()
-            };
-            model.Search = search;
-            model.BranchId = branch;
+                model.Categories = categoryModels
+                    .OrderBy(s => s.Name)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize).ToList();
+
+                model.PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = categoryModels.Count()
+                };
+                model.Search = search;
+                model.BranchId = branch;
+            }
+            else
+            {
+                model.Categories = categoryModels;
+            }
             return model;
         }
 
@@ -282,35 +337,57 @@ namespace WebUI.Models
                 ApprovalRequired = service.ApprovalRequired,
                 Controller = service.Controller,
                 CategoryId = service.CategoryId,
-                CategoryModel = GetViewModel(service.Category)
+                CategoryModel = GetViewModel(service.Category),
+                BranchModel = GetViewModel(service.Category.Branch),
+                BranchId = service.Category.BranchId
             };
         }
 
-        public static ServicesListViewModel GetListViewModel(List<Service> services, string search, int category, int branch, int page, int pageSize)
+        public static ServicesListViewModel GetListViewModel(List<Service> services, string search = "", int category = 0, int branch = 0, int page = 0, int pageSize = 0)
         {
             ServicesListViewModel model = new ServicesListViewModel();
             List<ServiceViewModel> serviceModels = new List<ServiceViewModel>();
-            if (branch != 0) services = services.Where(e => e.Category.BranchId == branch).ToList();
-            if (category != 0) services = services.Where(e => e.CategoryId == category).ToList();
-            if (!string.IsNullOrWhiteSpace(search)) services = services.Where(e => e.Name.Contains(search)).ToList();
+            if (branch != 0)
+            {
+                services = services.Where(e => e.Category.BranchId == branch).ToList();
+            }
+
+            if (category != 0)
+            {
+                services = services.Where(e => e.CategoryId == category).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                services = services.Where(e => e.Name.Contains(search)).ToList();
+            }
+
             foreach (var service in services)
             {
                 ServiceViewModel item = GetViewModel(service);
                 serviceModels.Add(item);
             }
-            model.Services = serviceModels
-                .OrderBy(s => s.Name)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize).ToList();
 
-            model.PagingInfo = new PagingInfo
+            if (page != 0 && pageSize != 0)
             {
-                CurrentPage = page,
-                ItemsPerPage = pageSize,
-                TotalItems = serviceModels.Count()
-            };
-            model.Search = search;
-            model.CategoryId = category;
+                model.Services = serviceModels
+                     .OrderBy(s => s.Name)
+                     .Skip((page - 1) * pageSize)
+                     .Take(pageSize).ToList();
+
+                model.PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = serviceModels.Count()
+                };
+                model.Search = search;
+                model.CategoryId = category;
+            }
+            else
+            {
+                model.Services = serviceModels;                
+            }
             return model;
         }
 
@@ -327,7 +404,11 @@ namespace WebUI.Models
         {
             ConsumablesListViewModel model = new ConsumablesListViewModel();
             List<ConsumableViewModel> consumableModels = new List<ConsumableViewModel>();
-            if (!string.IsNullOrWhiteSpace(search)) consumables = consumables.Where(c => c.Name.Contains(search)).ToList();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                consumables = consumables.Where(c => c.Name.Contains(search)).ToList();
+            }
+
             foreach (var consumable in consumables)
             {
                 ConsumableViewModel item = GetViewModel(consumable);

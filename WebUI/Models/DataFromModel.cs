@@ -74,7 +74,8 @@ namespace WebUI.Models
             return new Branch
             {
                 Id = model.Id,
-                Name = model.Name
+                Fullname = model.Fullname,
+                AreaName = model.AreaName
             };
         }
 

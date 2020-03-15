@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels;
+using WebUI.ViewModels.Branch;
 
 namespace WebUI.Controllers
 {
@@ -34,7 +35,6 @@ namespace WebUI.Controllers
             ModelState.Clear();
             return View();
         }
-
         public ActionResult Login()
         {
             return View(new LoginViewModel());
@@ -58,7 +58,7 @@ namespace WebUI.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Dashboard", "ServiceDesk");
+                    return RedirectToAction("Index", "Dashboard");
                 }
                 else if (account == null)
                 {
@@ -77,7 +77,7 @@ namespace WebUI.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Dashboard", "ServiceDesk");
+                    return RedirectToAction("Index", "Dashboard");
                 }                
             }
             return View();
@@ -88,10 +88,12 @@ namespace WebUI.Controllers
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "ServiceDesk");
         }
+
         [Authorize]
         public ActionResult Dashboard()
         {
             return View();
         }
+        
     }
 }

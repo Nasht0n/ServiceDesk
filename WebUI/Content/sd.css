@@ -7,6 +7,10 @@
     padding-top: 75px;
 }
 
+.footer{
+    padding-bottom:75px;
+}
+
 body {
     overflow-x: hidden;
 }
@@ -36,6 +40,7 @@ body {
 #wrapper.toggled #sidebar-wrapper {
     margin-left: 0;
 }
+
 
 @media (min-width: 768px) {
     #sidebar-wrapper {

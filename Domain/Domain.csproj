@@ -53,13 +53,17 @@
   <ItemGroup>
     <Compile Include="Abstract\LifeCycle.cs" />
     <Compile Include="Abstract\Request.cs" />
-    <Compile Include="Migrations\202003131107394_Create.cs" />
-    <Compile Include="Migrations\202003131107394_Create.designer.cs">
-      <DependentUpon>202003131107394_Create.cs</DependentUpon>
+    <Compile Include="Migrations\202003150943187_CreateModel.cs" />
+    <Compile Include="Migrations\202003150943187_CreateModel.designer.cs">
+      <DependentUpon>202003150943187_CreateModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202003131145248_RequestsViewModel.cs" />
-    <Compile Include="Migrations\202003131145248_RequestsViewModel.designer.cs">
-      <DependentUpon>202003131145248_RequestsViewModel.cs</DependentUpon>
+    <Compile Include="Migrations\202003150950297_ViewModelAdd.cs" />
+    <Compile Include="Migrations\202003150950297_ViewModelAdd.designer.cs">
+      <DependentUpon>202003150950297_ViewModelAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003152017060_ChangeBranchModel.cs" />
+    <Compile Include="Migrations\202003152017060_ChangeBranchModel.designer.cs">
+      <DependentUpon>202003152017060_ChangeBranchModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
@@ -132,17 +136,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003131107394_Create.resx">
-      <DependentUpon>202003131107394_Create.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003131145248_RequestsViewModel.resx">
-      <DependentUpon>202003131145248_RequestsViewModel.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Migrations\RequestsView.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202003150943187_CreateModel.resx">
+      <DependentUpon>202003150943187_CreateModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003150950297_ViewModelAdd.resx">
+      <DependentUpon>202003150950297_ViewModelAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003152017060_ChangeBranchModel.resx">
+      <DependentUpon>202003152017060_ChangeBranchModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -17,7 +17,8 @@ namespace WebUI.Areas.IT
             context.MapRoute(
                 "IT_default",
                 "IT/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                new[] { "WebUI.Areas.IT.Controllers" }
             );
         }
     }

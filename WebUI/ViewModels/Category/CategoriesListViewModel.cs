@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using WebUI.Models;
+using WebUI.ViewModels.Branch;
 
 namespace WebUI.ViewModels.Category
 {

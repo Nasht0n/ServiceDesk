@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -17,7 +18,11 @@ namespace Domain.Models
         /// </summary>
         [Required]
         [MaxLength(150)]
-        public string Name { get; set; }
+        public string Fullname { get; set; }
+        [Required]
+        [DefaultValue("Area")]
+        [MaxLength(150)]
+        public string AreaName { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
@@ -29,7 +34,7 @@ namespace Domain.Models
         public Branch(string name)
         {
             // инициализация переменных
-            Name = name;
+            Fullname = name;
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
@@ -40,7 +45,8 @@ namespace Domain.Models
         {
             return obj is Branch branch &&
                    Id == branch.Id &&
-                   Name == branch.Name;
+                   Fullname == branch.Fullname &&
+                   AreaName == branch.AreaName;
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 
@@ -49,7 +55,7 @@ namespace Domain.Models
         /// <returns>Возвращает строковое представление объекта отрасли заявки.</returns>
         public override string ToString()
         {
-            return $"Branch object:(Id:[{Id}];Name:[{Name}]).";
+            return $"Branch object:(Id:[{Id}];Name:[{Fullname}];AreaName:[{AreaName}]).";
         }
         /// <summary>
         /// Метод переопределния стандартного метода получения хэш-кода объекта

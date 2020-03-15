@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Create : DbMigration
+    public partial class CreateModel : DbMigration
     {
         public override void Up()
         {
@@ -1111,31 +1111,6 @@
                 .Index(t => t.Subdivision_Id);
             
             CreateTable(
-                "dbo.RequestsView",
-                c => new
-                    {
-                        RowNumber = c.Long(nullable: false, identity: true),
-                        RequestId = c.Int(nullable: false),
-                        ActionId = c.Int(nullable: false),
-                        ActionName = c.String(),
-                        ServiceId = c.Int(nullable: false),
-                        ServiceName = c.String(),
-                        StatusId = c.Int(nullable: false),
-                        StatusName = c.String(),
-                        ClientId = c.Int(nullable: false),
-                        ClientFullname = c.String(),
-                        ExecutorId = c.Int(),
-                        ExecutorFullname = c.String(),
-                        ExecutorGroupId = c.Int(nullable: false),
-                        ExecutorGroupName = c.String(),
-                        Title = c.String(),
-                        Description = c.String(),
-                        Date = c.DateTime(nullable: false),
-                        Source = c.String(unicode: false),
-                    })
-                .PrimaryKey(t => t.RowNumber);
-            
-            CreateTable(
                 "dbo.SoftwareDevelopmentRequestLifeCycles",
                 c => new
                     {
@@ -1783,7 +1758,6 @@
             DropTable("dbo.VideoCommunicationRequestLifeCycles");
             DropTable("dbo.SoftwareReworkRequestLifeCycles");
             DropTable("dbo.SoftwareDevelopmentRequestLifeCycles");
-            DropTable("dbo.RequestsView");
             DropTable("dbo.RefuelingLimits");
             DropTable("dbo.PhoneRepairRequests");
             DropTable("dbo.PhoneRepairRequestLifeCycles");

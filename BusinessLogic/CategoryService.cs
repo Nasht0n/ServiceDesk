@@ -14,6 +14,11 @@ namespace BusinessLogic
             return serviceDesk.CategoryRepository.Get(includeProperties: "Branch").ToList();
         }
 
+        public List<Category> GetCategories(int branchId)
+        {
+            return serviceDesk.CategoryRepository.Get(filter: c=>c.BranchId == branchId,includeProperties: "Branch").ToList();
+        }
+
         public Category GetCategoryById(int id)
         {
             return serviceDesk.CategoryRepository.Get(filter: e => e.Id == id, includeProperties: "Branch").FirstOrDefault();

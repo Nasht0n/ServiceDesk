@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Slate/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/fonts/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/Content/sd.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body class="bg-primary">
+    <section id="content-wrapper">
+        <div class="wrapper">
+            <div class="d-flex" id="wrapper">
+                @Html.Partial("_DashboardMenu")
+                <div id="page-content-wrapper" class="bg-light">
+                    @Html.Partial("_DashboardNabBar")
+                    <div class="container-fluid bg-light">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="footer-wrapper">
+        <div class="py-3 fixed-bottom bg-dark">
+            <h6 class="text-center">&#169; Учреждение образования "Барановичский государственный университет", 2020</h6>
+        </div>
+    </section>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/umd/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/servicedesk/menu-toggle.js"></script>
+</body>
+</html>
+
