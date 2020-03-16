@@ -46,7 +46,7 @@ namespace WebUI.ViewModels.Requests.IT
         public EmployeeViewModel Client { get; set; }
         [Required]
         [Display(Name = "Идентификатор исполнителя заявки")]
-        public int ExecutorId { get; set; }
+        public int? ExecutorId { get; set; }
         [Display(Name = "Исполнитель заявки")]
         public EmployeeViewModel Executor { get; set; }
         [Required]

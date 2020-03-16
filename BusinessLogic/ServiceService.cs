@@ -11,12 +11,12 @@ namespace BusinessLogic
 
         public List<Service> GetServices()
         {
-            return serviceDesk.ServiceRepository.Get(includeProperties: "Category, Category.Branch").ToList();
+            return serviceDesk.ServiceRepository.Get(includeProperties: "Category, Category.Branch, ExecutorGroups, Approvers").ToList();
         }
 
         public Service GetServiceById(int id)
         {
-            return serviceDesk.ServiceRepository.Get(filter: e => e.Id == id, includeProperties: "Category, Category.Branch").FirstOrDefault();
+            return serviceDesk.ServiceRepository.Get(filter: e => e.Id == id, includeProperties: "Category, Category.Branch, ExecutorGroups, Approvers").FirstOrDefault();
         }
 
         public void AddService(Service service)

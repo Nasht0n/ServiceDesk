@@ -123,22 +123,22 @@ namespace Domain
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ApprovalServices)
                 .WithMany(e => e.Approvers)
-                .Map(m=>m.ToTable("ServicesApprovers").MapLeftKey("ServiceId").MapRightKey("EmployeeId"));
+                .Map(m=>m.ToTable("ServicesApprovers").MapLeftKey("EmployeeId").MapRightKey("ServiceId"));
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ExecutorGroups)
                 .WithMany(e => e.Employees)
-                .Map(m => m.ToTable("ExecutorGroupMembers").MapLeftKey("ExecutorGroupId").MapRightKey("EmployeeId"));
+                .Map(m => m.ToTable("ExecutorGroupMembers").MapLeftKey("EmployeeId").MapRightKey("ExecutorGroupId"));
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ExecutorSubdivisions)
                 .WithMany(e => e.SubdivisionExecutors)
-                .Map(m => m.ToTable("SubdivisionExecutors").MapLeftKey("SubdivisionId").MapRightKey("EmployeeId"));
+                .Map(m => m.ToTable("SubdivisionExecutors").MapLeftKey("EmployeeId").MapRightKey("SubdivisionId"));
 
             modelBuilder.Entity<ExecutorGroup>()
                 .HasMany(e => e.Services)
                 .WithMany(e => e.ExecutorGroups)
-                .Map(m => m.ToTable("ServicesExecutorGroups").MapLeftKey("ServiceId").MapRightKey("ExecutorGroupId"));
+                .Map(m => m.ToTable("ServicesExecutorGroups").MapLeftKey("ExecutorGroupId").MapRightKey("ServiceId"));
 
             modelBuilder.Entity<Requests>()
                 .Property(r => r.Source)

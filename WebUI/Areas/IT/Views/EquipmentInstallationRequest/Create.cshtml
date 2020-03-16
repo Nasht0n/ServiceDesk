@@ -1,7 +1,6 @@
 ﻿@model WebUI.ViewModels.Requests.IT.Equipments.EquipmentInstallationRequestViewModel
-
 @{
-    ViewBag.Title = "Создание заявки на установку оборудования";
+    ViewBag.Title = "Заявка на установку оборудования";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
@@ -12,11 +11,10 @@
     <li class="breadcrumb-item text-white active">Установка оборудования</li>
 </ol>
 
-<div class="container footer">
+<div class="container-fluid footer">
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-
         <div class="form-horizontal">
             <h6 class="text-dark">Пожалуйста, заполните поля для регистрации новой заявки</h6>
             <hr />
@@ -26,18 +24,16 @@
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок заявки (Пример: Установка принтера)", autocomplete = "off" } })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Установка принтера)", autocomplete = "off" } })
 
                 </div>
             </div>
-
-
 
             <div class="row">
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Justification, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
 
-                    @Html.EditorFor(model => model.Justification, new { htmlAttributes = new { @class = "form-control", placeholder = "Опишите необходимость заявки", @rows = 4 } })
+                    @Html.EditorFor(model => model.Justification, new { htmlAttributes = new { @class = "form-control", Name = "Model.Justification", placeholder = "Опишите необходимость заявки", @rows = 4 } })
                     @Html.ValidationMessageFor(model => model.Justification, "", new { @class = "text-danger" })
 
                 </div>
@@ -46,32 +42,68 @@
             <div class="row">
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Name = "Model.Description", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
 
                 </div>
             </div>
 
-
-
             <div class="row">
                 <div class="col-md-4 form-group">
                     @Html.LabelFor(model => model.PriorityModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.DropDownListFor(model => model.PriorityId, new SelectList(ViewBag.Priorities, "Id", "Fullname"), htmlAttributes: new { @class = "form-control", id = "Priority" })
+                    @Html.DropDownListFor(model => model.PriorityId, new SelectList(ViewBag.Priorities, "Id", "Fullname"), htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
                 </div>
                 <div class="col-md-4 form-group">
                     @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.DropDownListFor(model => model.CampusId, new SelectList(ViewBag.Campuses, "Id", "Name"), htmlAttributes: new { @class = "form-control", id = "Campus" })
+                    @Html.DropDownListFor(model => model.CampusId, new SelectList(ViewBag.Campuses, "Id", "Name"), htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
 
                 </div>
                 <div class="col-md-4 form-group">
                     @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-
                     @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите номер аудитории/кабинета", autocomplete = "off" } })
-
+                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории/кабинета", autocomplete = "off" } })
                 </div>
+            </div>
+
+            <div class="row m-1">
+                <h6 class="text-center text-dark">Список устанавливаемого оборудования</h6>
+                <table id="tblIntallations" class="table table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="d-none"></th>
+                            <th class="d-none"></th>
+                            <th>Тип оборудования</th>
+                            <th>Количество</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Installations)
+                        {
+                            <tr>
+                                <td class="w-100">@Html.LabelFor(modelItem => item.EquipmentTypeModel.Name, new { @class = "form-control", @readonly = "readonly" })</td>
+                                <td class="w-100">@Html.LabelFor(modelItem => item.Count, new { @class = "form-control", @readonly = "readonly" })</td>
+                                <td>
+                                    <button type="button" value="Удалить" class="btn btn-danger w-100" onclick="Remove(this)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>@Html.DropDownList("EquipmentTypes", new SelectList(ViewBag.EquipmentTypes, "Id", "Name"), "Выберите тип оборудования", htmlAttributes: new { @class = "form-control" })</td>
+                            <td>@Html.TextBox("Count", "", new { @class = "form-control", id = "Count" })</td>
+                            <td>
+                                <input type="button" id="btnAdd" value="Добавить" class="btn btn-info w-100" />
+                            </td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+
             </div>
 
             <div class="row">

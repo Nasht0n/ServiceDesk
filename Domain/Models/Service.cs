@@ -11,7 +11,6 @@ namespace Domain.Models
         /// <summary>
         /// Идентификатор вида работы заявки
         /// </summary>
-        [Key]
         public int Id { get; set; }
         /// <summary>
         /// Наименование вида работы заявки

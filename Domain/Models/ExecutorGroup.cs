@@ -11,7 +11,7 @@ namespace Domain.Models
         /// <summary>
         /// Идентификатор группы исполнителей
         /// </summary>
-        [Key]
+
         public int Id { get; set; }
         /// <summary>
         /// Наименование группы исполнителей

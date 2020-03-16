@@ -11,17 +11,17 @@ namespace BusinessLogic
 
         public List<Subdivision> GetSubdivisions()
         {
-            return serviceDesk.SubdivisionRepository.Get().ToList();
+            return serviceDesk.SubdivisionRepository.Get(includeProperties: "SubdivisionExecutors").ToList();
         }
 
         public List<Subdivision> GetSubdivisions(string search)
         {
-            return serviceDesk.SubdivisionRepository.Get(s=>!string.IsNullOrEmpty(search) && (s.Fullname.Contains(search) || s.Shortname.Equals(search))).ToList();
+            return serviceDesk.SubdivisionRepository.Get(filter: s=>!string.IsNullOrEmpty(search) && (s.Fullname.Contains(search) || s.Shortname.Equals(search)), includeProperties: "SubdivisionExecutors").ToList();
         }
 
         public Subdivision GetSubdivisionById(int id)
         {
-            return serviceDesk.SubdivisionRepository.GetByID(id);
+            return serviceDesk.SubdivisionRepository.Get(filter: s=>s.Id == id, includeProperties: "SubdivisionExecutors").FirstOrDefault();
         }
 
         public void AddSubdivision(Subdivision subdivision)

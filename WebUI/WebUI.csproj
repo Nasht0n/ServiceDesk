@@ -963,6 +963,7 @@
     <Content Include="Areas\Admin\Views\Consumable\DeleteConsumable.cshtml" />
     <Content Include="Areas\Admin\Views\Consumable\ConsumablesCardView.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Create.cshtml" />
+    <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -978,6 +979,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\servicedesk\cPanelItemActive.js" />
+    <Content Include="Scripts\servicedesk\installations-request-table.js" />
     <Content Include="Scripts\servicedesk\menu-toggle.js" />
     <Content Include="Scripts\servicedesk\NavItemActive.js" />
     <Content Include="Scripts\src\index.js" />
@@ -1079,6 +1081,8 @@
     </Compile>
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
     <Compile Include="Models\DataFromModel.cs" />
+    <Compile Include="Models\Enum\RequestStatus.cs" />
+    <Compile Include="Models\Helpers\RequestHelper.cs" />
     <Compile Include="Models\MailSender.cs" />
     <Compile Include="Models\ModelFromData.cs" />
     <Compile Include="Models\PagingInfo.cs" />
@@ -1104,8 +1108,10 @@
     <Compile Include="ViewModels\LifeCycles\IT\LifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\Priority\PriorityViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentInstallationDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentInstallationRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentRefillRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Equipments\InstallationEquipmentViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\RequestViewModel.cs" />
     <Compile Include="ViewModels\Service\ServicesListViewModel.cs" />
     <Compile Include="ViewModels\Service\ServiceViewModel.cs" />

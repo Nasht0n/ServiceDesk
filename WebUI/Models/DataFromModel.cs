@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.Requests.Equipment;
 using System;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
@@ -7,6 +8,7 @@ using WebUI.ViewModels.Consumable;
 using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
 using WebUI.ViewModels.EquipmentType;
+using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Service;
 using WebUI.ViewModels.Subdivision;
 
@@ -108,6 +110,17 @@ namespace WebUI.Models
             {
                 Id = model.Id,
                 Name = model.Name
+            };
+        }
+
+        public static InstallationEquipments GetData(InstallationEquipmentViewModel item)
+        {
+            return new InstallationEquipments
+            {
+                Id = item.Id,
+                Count = item.Count,
+                EquipmentTypeId = item.EquipmentTypeId,
+                RequestId = item.RequestId               
             };
         }
     }

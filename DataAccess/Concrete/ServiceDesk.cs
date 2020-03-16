@@ -33,7 +33,7 @@ namespace DataAccess.Concrete
 
         private bool disposed = false;
 
-        public GenericRepository<EquipmentInstallationRequest> EquipmentInstallationRequest
+        public GenericRepository<EquipmentInstallationRequest> EquipmentInstallationRequestRepository
         {
             get 
             {
@@ -45,7 +45,7 @@ namespace DataAccess.Concrete
             }
         }
 
-        public GenericRepository<EquipmentInstallationRequestLifeCycle> EquipmentInstallationRequestLifeCycle
+        public GenericRepository<EquipmentInstallationRequestLifeCycle> EquipmentInstallationRequestLifeCycleRepository
         {
             get
             {
@@ -249,9 +249,9 @@ namespace DataAccess.Concrete
             }
         }
 
-        public void Save()
+        public int Save()
         {
-            context.SaveChanges();
+           return context.SaveChanges();
         }
 
         protected virtual void Dispose(bool disposing)

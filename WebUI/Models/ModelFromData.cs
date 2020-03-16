@@ -1,4 +1,6 @@
 ﻿using Domain.Models;
+using Domain.Models.Requests.Equipment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebUI.ViewModels.Branch;
@@ -8,7 +10,12 @@ using WebUI.ViewModels.Consumable;
 using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
 using WebUI.ViewModels.EquipmentType;
+using WebUI.ViewModels.ExecutorGroup;
+using WebUI.ViewModels.LifeCycles.IT.Equipments;
+using WebUI.ViewModels.Priority;
+using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Service;
+using WebUI.ViewModels.Status;
 using WebUI.ViewModels.Subdivision;
 
 namespace WebUI.Models
@@ -52,6 +59,93 @@ namespace WebUI.Models
             };
             model.Search = search;
             return model;
+        }
+
+        public static EquipmentInstallationDetailsRequestViewModel GetViewModel(EquipmentInstallationRequest request, Employee user, List<EquipmentInstallationRequestLifeCycle> lifeCycles)
+        {
+            EquipmentInstallationDetailsRequestViewModel model = new EquipmentInstallationDetailsRequestViewModel();
+            model.RequestModel = new EquipmentInstallationRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+            model.RequestModel.Installations = new List<InstallationEquipmentViewModel>();
+            foreach (var item in request.InstallationEquipments)
+            {
+                model.RequestModel.Installations.Add(new InstallationEquipmentViewModel
+                {
+                    Id = item.Id,
+                    Count = item.Count,
+                    EquipmentTypeId = item.EquipmentTypeId,
+                    RequestId = item.RequestId
+                });
+            }
+            model.LifeCyclesListModel = new List<EquipmentInstallationRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new EquipmentInstallationRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = user.ApprovalServices.Count > 0 ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static StatusViewModel GetViewModel(Status status)
+        {
+            return new StatusViewModel
+            {
+                Id = status.Id,
+                Fullname = status.Fullname,
+                Shortname = status.Shortname
+            };
+        }
+
+        public static PriorityViewModel GetViewModel(Priority priority)
+        {
+            return new PriorityViewModel
+            {
+                Id = priority.Id,
+                Fullname = priority.Fullname,
+                Shortname = priority.Shortname
+            };
+        }
+
+        public static ExecutorGroupViewModel GetViewModel(ExecutorGroup executorGroup)
+        {
+            return new ExecutorGroupViewModel
+            {
+                Id = executorGroup.Id,
+                Name = executorGroup.Name
+            };
         }
 
         public static EquipmentViewModel GetViewModel(Equipment equipment)
@@ -386,7 +480,7 @@ namespace WebUI.Models
             }
             else
             {
-                model.Services = serviceModels;                
+                model.Services = serviceModels;
             }
             return model;
         }

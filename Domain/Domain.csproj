@@ -65,6 +65,22 @@
     <Compile Include="Migrations\202003152017060_ChangeBranchModel.designer.cs">
       <DependentUpon>202003152017060_ChangeBranchModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003160905219_ExecutorIdCanBeNull.cs" />
+    <Compile Include="Migrations\202003160905219_ExecutorIdCanBeNull.designer.cs">
+      <DependentUpon>202003160905219_ExecutorIdCanBeNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003161133097_SomeModelChange.cs" />
+    <Compile Include="Migrations\202003161133097_SomeModelChange.designer.cs">
+      <DependentUpon>202003161133097_SomeModelChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003161136205_ChangeServiceApprovers.cs" />
+    <Compile Include="Migrations\202003161136205_ChangeServiceApprovers.designer.cs">
+      <DependentUpon>202003161136205_ChangeServiceApprovers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003161138124_ChangeContext.cs" />
+    <Compile Include="Migrations\202003161138124_ChangeContext.designer.cs">
+      <DependentUpon>202003161138124_ChangeContext.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -150,6 +166,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003152017060_ChangeBranchModel.resx">
       <DependentUpon>202003152017060_ChangeBranchModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003160905219_ExecutorIdCanBeNull.resx">
+      <DependentUpon>202003160905219_ExecutorIdCanBeNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003161133097_SomeModelChange.resx">
+      <DependentUpon>202003161133097_SomeModelChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003161136205_ChangeServiceApprovers.resx">
+      <DependentUpon>202003161136205_ChangeServiceApprovers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003161138124_ChangeContext.resx">
+      <DependentUpon>202003161138124_ChangeContext.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

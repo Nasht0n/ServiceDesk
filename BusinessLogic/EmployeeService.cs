@@ -14,12 +14,12 @@ namespace BusinessLogic
 
         public List<Employee> GetEmployees()
         {
-            return serviceDesk.EmployeeRepository.Get(includeProperties: "Subdivision").ToList();
+            return serviceDesk.EmployeeRepository.Get(includeProperties: "Subdivision, ApprovalServices, ExecutorGroups, ExecutorSubdivisions").ToList();
         }
 
         public Employee GetEmployeeById(int id)
         {
-            return serviceDesk.EmployeeRepository.Get(filter:e=>e.Id == id, includeProperties: "Subdivision").FirstOrDefault();
+            return serviceDesk.EmployeeRepository.Get(filter:e=>e.Id == id, includeProperties: "Subdivision, ApprovalServices, ExecutorGroups, ExecutorSubdivisions").FirstOrDefault();
         }
 
         public void AddEmployee(Employee employee)

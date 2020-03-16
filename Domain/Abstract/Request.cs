@@ -70,7 +70,7 @@ namespace Domain.Abstract
         /// <summary>
         /// Идентификатор пользователя, назначенного исполнителем указанной заявки
         /// </summary>
-        public int ExecutorId { get; set; }
+        public int? ExecutorId { get; set; }
         /// <summary>
         /// Объект пользователя, назначенного исполнителем указанной заявки
         /// </summary>
