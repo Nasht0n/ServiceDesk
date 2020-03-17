@@ -964,6 +964,9 @@
     <Content Include="Areas\Admin\Views\Consumable\ConsumablesCardView.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Create.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Details.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\web.config" />
+    <Content Include="Areas\ControlPanel\Views\Employee\Index.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Employee\EmployeesCardView.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1072,6 +1075,8 @@
     <Compile Include="Areas\Admin\Controllers\EquipmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\EquipmentTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubdivisionController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\EmployeeController.cs" />
+    <Compile Include="Areas\ControlPanel\ControlPanelAreaRegistration.cs" />
     <Compile Include="Areas\IT\Controllers\EquipmentInstallationRequestController.cs" />
     <Compile Include="Areas\IT\ITAreaRegistration.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -1146,9 +1151,13 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\ControlPanel\" />
+    <Folder Include="Areas\ControlPanel\Data\" />
+    <Folder Include="Areas\ControlPanel\Views\Shared\" />
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
     <Folder Include="Areas\IT\Views\Shared\" />
+    <Folder Include="ViewModels\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

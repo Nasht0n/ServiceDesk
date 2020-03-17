@@ -12,5 +12,10 @@ namespace BusinessLogic
         {
             return serviceDesk.AccountRepository.Get(a => a.Username == username && a.Password == password).FirstOrDefault();
         } 
+
+        public Account GetAccountById(int id)
+        {
+            return serviceDesk.AccountRepository.Get(filter: a=>a.Id == id, includeProperties: "Employee, Employee.Subdivision, Permissions").FirstOrDefault();
+        }
     }
 }

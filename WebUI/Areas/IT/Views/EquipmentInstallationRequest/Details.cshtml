@@ -42,6 +42,22 @@
                         <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.Location):</span>
                         <span class="ml-1">@Model.RequestModel.Location</span>
                     </li>
+                    <li class="list-group-item bg-white text-dark">
+                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.Installations):</span>
+                        <hr class="bg-dark" />
+                        @foreach (var item in Model.RequestModel.Installations)
+                        {
+
+                    <div class="d-flex">                        
+                        <span class="font-weight-bold">Наименование:</span>
+                        <span class="ml-1">@item.EquipmentTypeModel.Name</span>
+                        <span class="ml-auto font-weight-bold">Количество: </span>
+                        <span class="ml-1">@item.Count</span>
+                    </div>
+                            <hr class="bg-dark" />
+                        }
+
+                    </li>
                 </ul>
                 <div class="card-body">
                     <div class="d-flex align-content-start flex-wrap">

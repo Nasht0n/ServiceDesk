@@ -1,0 +1,36 @@
+﻿@model WebUI.ViewModels.Employee.EmployeesListViewModel
+@using WebUI.HtmlHelpers
+
+@foreach (var item in Model.Employees)
+{
+    <div class="card mt-1">
+        <div class="card-body bg-white text-dark">
+            <h4 class="card-title text-shadow-none text-dark">ФИО Сотрудника: @item.Fullname</h4>
+            <h6 class="card-subtitle mb-2 text-shadow-none text-muted text-dark">Подразделение: @item.SubdivisionModel.Fullname</h6>
+            <h6 class="card-subtitle mb-2 text-shadow-none text-muted text-dark">Должность сотрудника: @item.Post</h6>
+            @{
+                if (!string.IsNullOrWhiteSpace(item.Email))
+                {
+                    <h6 class="card-subtitle mb-2 text-muted text-dark">Электронная почта сотрудника: @item.Email</h6>
+                }
+                if (!string.IsNullOrWhiteSpace(item.Phone))
+                {
+                    <h6 class="card-subtitle mb-2 text-muted text-dark">Телефон сотрудника: @item.Phone</h6>
+                }
+            }
+
+            <a href="@Url.Action("EditEmployee","Employee",new { id = item.Id })" class="card-link text-dark">
+                <i class="fa fa-edit"></i>
+                <span class="ml-1">Редактировать</span>
+            </a>
+            <a href="@Url.Action("DeleteEmployee","Employee",new { id = item.Id })" class="card-link text-danger">
+                <i class="fa fa-trash"></i>
+                <span class="ml-1">Удалить</span>
+            </a>
+        </div>
+    </div>
+}
+
+<div class="my-1">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { search = Model.Search, page = x }))
+</div>

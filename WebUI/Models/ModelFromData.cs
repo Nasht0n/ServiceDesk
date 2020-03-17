@@ -97,7 +97,8 @@ namespace WebUI.Models
                     Id = item.Id,
                     Count = item.Count,
                     EquipmentTypeId = item.EquipmentTypeId,
-                    RequestId = item.RequestId
+                    RequestId = item.RequestId,
+                    EquipmentTypeModel = GetViewModel(item.EquipmentType)
                 });
             }
             model.LifeCyclesListModel = new List<EquipmentInstallationRequestLifeCycleViewModel>();
@@ -286,18 +287,20 @@ namespace WebUI.Models
             };
         }
 
-        public static EmployeesListViewModel GetListViewModel(List<Employee> employees, string search, int subdivision, int page, int pageSize)
+        public static EmployeesListViewModel GetListViewModel(List<Employee> employees, string search ="", int subdivision=0, int page=0, int pageSize=0)
         {
             EmployeesListViewModel model = new EmployeesListViewModel();
             List<EmployeeViewModel> employeeViewModels = new List<EmployeeViewModel>();
             if (subdivision != 0)
             {
                 employees = employees.Where(e => e.SubdivisionId == subdivision).ToList();
+                model.SubdivisionId = subdivision;
             }
 
             if (!string.IsNullOrWhiteSpace(search))
             {
                 employees = employees.Where(e => e.Surname.Contains(search)).ToList();
+                model.Search = search;
             }
 
             foreach (var employee in employees)
@@ -305,19 +308,21 @@ namespace WebUI.Models
                 EmployeeViewModel item = GetViewModel(employee);
                 employeeViewModels.Add(item);
             }
-            model.Employees = employeeViewModels
+
+            if(page!=0 && pageSize != 0)
+            {
+                model.Employees = employeeViewModels
                 .OrderBy(s => s.Surname)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize).ToList();
 
-            model.PagingInfo = new PagingInfo
-            {
-                CurrentPage = page,
-                ItemsPerPage = pageSize,
-                TotalItems = employeeViewModels.Count()
-            };
-            model.Search = search;
-            model.SubdivisionId = subdivision;
+                model.PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = employeeViewModels.Count()
+                };
+            }                     
             return model;
         }
 
