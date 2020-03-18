@@ -10,26 +10,30 @@
     <li class="breadcrumb-item">Информационные технологии</li>
     <li class="breadcrumb-item">Оборудование</li>
     <li class="breadcrumb-item">Установка оборудования</li>
-    <li class="breadcrumb-item text-white active">Регистрация заявки</li>
+    <li class="breadcrumb-item text-white active">Редактирование заявки</li>
 </ol>
 
 <div class="container-fluid footer">
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
+
         <div class="form-horizontal">
-            <h6 class="text-dark">Пожалуйста, заполните поля для регистрации новой заявки</h6>
+            <h4>EquipmentInstallationRequestViewModel</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.Id, htmlAttributes: new { @class = "form-control", Name = "Model.Id" })
+            @Html.HiddenFor(model => model.ServiceId, htmlAttributes: new { @class = "form-control", Name = "Model.ServiceId" })
+            @Html.HiddenFor(model => model.StatusId, htmlAttributes: new { @class = "form-control", Name = "Model.StatusId" })
+            @Html.HiddenFor(model => model.ClientId, htmlAttributes: new { @class = "form-control", Name = "Model.ClientId" })
+            @Html.HiddenFor(model => model.ExecutorGroupId, htmlAttributes: new { @class = "form-control", Name = "Model.ExecutorGroupId" })
+            @Html.HiddenFor(model => model.ExecutorId, htmlAttributes: new { @class = "form-control", Name = "Model.ExecutorId" })
 
             <div class="row">
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                     @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Установка принтера)", autocomplete = "off" } })
-
                 </div>
             </div>
 
@@ -83,18 +87,30 @@
                     </thead>
 
                     <tbody>
-                        @foreach (var item in Model.Installations)
-                        {
-                            <tr>
-                                <td class="w-100">@Html.TextBoxFor(modelItem => item.EquipmentTypeModel.Name, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
-                                <td class="w-100">@Html.TextBoxFor(modelItem => item.Count, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
-                                <td>
-                                    <button type="button" value="Удалить" class="btn btn-danger w-100" onclick="Remove(this)">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                        @{
+                            int index = 0;
+                            foreach (var item in Model.Installations)
+                            {
+                        <tr>
+                            <td class="d-none">
+                                @Html.HiddenFor(modelItem => item.EquipmentTypeModel.Id, new { Name = $"Model.Installations[{index}].EquipmentTypeId" })
+                            </td>
+                            <td class="d-none">
+                                @Html.HiddenFor(modelItem => item.EquipmentTypeModel.Id, new { Name = $"Model.Installations[{index}].EquipmentTypeModel.Id" })
+                            </td>
+
+                            <td class="w-100">@Html.TextBoxFor(modelItem => item.EquipmentTypeModel.Name, new { @class = "form-control tblItem bg-light border-0", Name = $"Model.Installations[{index}].EquipmentTypeModel.Name", @readonly = "readonly" })</td>
+                            <td class="w-100">@Html.TextBoxFor(modelItem => item.Count, new { @class = "form-control tblItem bg-light border-0", Name = $"Model.Installations[{index}].Count", @readonly = "readonly" })</td>
+                            <td>
+                                <button type="button" value="Удалить" class="btn btn-danger w-100" onclick="Remove(this)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                                index++;
+                            }
                         }
+
                     </tbody>
                     <tfoot>
                         <tr>
@@ -109,17 +125,19 @@
                 </table>
 
             </div>
+        </div>
 
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-auto">
-                        <input type="submit" value="Сохранить" class="btn btn-success" />
-                    </div>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-auto">
+                    <input type="submit" value="Сохранить" class="btn btn-success" />
                 </div>
-                <div class="text-dark">
-                    @Html.ActionLink("Вернуться к созданию заявки", "ChooseBranch", "Dashboard", new { Area = "" }, new { @class = "btn btn-secondary" })
-                </div>
+            </div>
+            <div class="text-dark">
+                @Html.ActionLink("Вернуться к созданию заявки", "ChooseBranch", "Dashboard", new { Area = "" }, new { @class = "btn btn-secondary" })
             </div>
         </div>
     }
+
 </div>
+

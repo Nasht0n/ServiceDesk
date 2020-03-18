@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Models.Requests.Equipment;
 using System;
+using System.Collections.Generic;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
@@ -122,6 +123,25 @@ namespace WebUI.Models
                 EquipmentTypeId = item.EquipmentTypeId,
                 RequestId = item.RequestId               
             };
+        }
+
+        public static EquipmentInstallationRequest GetData(EquipmentInstallationRequestViewModel model)
+        {
+            EquipmentInstallationRequest request = new EquipmentInstallationRequest {
+                Id = model.Id,
+                CampusId =model.CampusId,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                Location = model.Location,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title                
+            };            
+            return request;
         }
     }
 }

@@ -41,10 +41,22 @@ namespace BusinessLogic.Requests
                 .FirstOrDefault();
         }
 
-        public int AddRequest(EquipmentInstallationRequest request)
+        public void AddRequest(EquipmentInstallationRequest request)
         {
             serviceDesk.EquipmentInstallationRequestRepository.Insert(request);
-            return serviceDesk.Save();
+            serviceDesk.Save();
+        }
+
+        public void UpdateRequest(EquipmentInstallationRequest request)
+        {
+            serviceDesk.EquipmentInstallationRequestRepository.Update(request);
+            serviceDesk.Save();
+        }
+
+        public void DeleteRequest(EquipmentInstallationRequest request)
+        {
+            serviceDesk.EquipmentInstallationRequestRepository.Update(request);
+            serviceDesk.Save();
         }
     }
 }

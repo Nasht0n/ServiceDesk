@@ -1,5 +1,7 @@
-﻿var counter = 0;
-$("body").on("click", "#btnAdd", function (val) {
+﻿$("body").on("click", "#btnAdd", function (val) {
+
+    var table = document.getElementById("tblIntallations");
+    var counter = table.rows.length - 2;
     var equipmentDropDown = document.getElementById("EquipmentTypes");
     var selectedText = equipmentDropDown.options[equipmentDropDown.selectedIndex].text;
     var selectedValue = equipmentDropDown.options[equipmentDropDown.selectedIndex].value;

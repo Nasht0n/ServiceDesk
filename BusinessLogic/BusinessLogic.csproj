@@ -52,7 +52,9 @@
     <Compile Include="LifeCycles\EquipmentInstallationRequestLifeCycleService.cs" />
     <Compile Include="PriorityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Requests\EquipmentInstallationRequestService.cs" />
+    <Compile Include="Requests\IT\Equipment\EquipmentInstallationRequestService.cs" />
+    <Compile Include="Requests\IT\Equipment\InstallationEquipmentService.cs" />
+    <Compile Include="Requests\RequestService.cs" />
     <Compile Include="ServiceService.cs" />
     <Compile Include="SubdvisionService.cs" />
   </ItemGroup>

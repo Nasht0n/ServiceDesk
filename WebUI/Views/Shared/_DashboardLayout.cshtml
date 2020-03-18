@@ -16,21 +16,19 @@
             <div class="d-flex" id="wrapper">
                 @Html.Partial("_DashboardMenu")
                 <div id="page-content-wrapper" class="bg-light">
-                    @Html.Partial("_DashboardNabBar")
+                    @Html.Partial("_DashboardNavBar")
                     <div class="container-fluid bg-light">
                         @RenderBody()
                     </div>
                 </div>
             </div>
-        </div>
+        </div>     
     </section>
-
     <section id="footer-wrapper">
         <div class="py-3 fixed-bottom bg-dark">
             <h6 class="text-center">&#169; Учреждение образования "Барановичский государственный университет", 2020</h6>
         </div>
     </section>
-
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

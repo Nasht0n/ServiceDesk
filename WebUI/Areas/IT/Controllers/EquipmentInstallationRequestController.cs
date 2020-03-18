@@ -20,13 +20,26 @@ namespace WebUI.Areas.IT.Controllers
 
         private EquipmentInstallationRequestLifeCycleService lifeCycleService = new EquipmentInstallationRequestLifeCycleService();
         private EquipmentInstallationRequestService requestService = new EquipmentInstallationRequestService();
+        private InstallationEquipmentService equipmentService = new InstallationEquipmentService();
 
+        private AccountService accountService = new AccountService();
         private EmployeeService employeeService = new EmployeeService();
         private ServiceService serviceService = new ServiceService();
         private CampusService campusService = new CampusService();
         private PriorityService priorityService = new PriorityService();
         private EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
         private SubdvisionService subdvisionService = new SubdvisionService();
+
+        public Employee PopulateAccountInfo()
+        {
+            int id = int.Parse(User.Identity.Name);
+            var account = accountService.GetAccountById(id);
+            var user = employeeService.GetEmployeeById(account.EmployeeId);
+            ViewBag.CanAddRequest = account.Permissions.Where(p => p.Title == "CanAddRequest").ToList().Count != 0;
+            ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.Title == "AccessToControlPanel").ToList().Count != 0;
+            ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
+            return user;
+        }
 
         private void PopulateDropDownList()
         {
@@ -37,7 +50,7 @@ namespace WebUI.Areas.IT.Controllers
 
         public ActionResult Details(int id)
         {
-            Employee user = employeeService.GetEmployeeById(int.Parse(User.Identity.Name));
+            Employee user = PopulateAccountInfo();
             EquipmentInstallationRequest request = requestService.GetRequest(id);
             List<EquipmentInstallationRequestLifeCycle> lifeCycles = lifeCycleService.GetLifeCycles(request.Id);
             EquipmentInstallationDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
@@ -46,6 +59,7 @@ namespace WebUI.Areas.IT.Controllers
 
         public ActionResult Create()
         {
+            PopulateAccountInfo();
             PopulateDropDownList();
             return View(new EquipmentInstallationRequestViewModel());
         }
@@ -53,20 +67,20 @@ namespace WebUI.Areas.IT.Controllers
         public ActionResult Create(EquipmentInstallationRequestViewModel model)
         {
             PopulateDropDownList();
-            Employee user = employeeService.GetEmployeeById(int.Parse(User.Identity.Name));
+            Employee user = PopulateAccountInfo();
             var request = InitializeRequest(model, user);
             requestService.AddRequest(request);
-            var lifeCycle = InitializeLifeCycle(request.Id, user);
+            var lifeCycle = InitializeLifeCycle(request.Id, user, "Создание заявки");
             lifeCycleService.AddLifeCycle(lifeCycle);
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
         }
 
-        private EquipmentInstallationRequestLifeCycle InitializeLifeCycle(int requestId, Employee user)
+        private EquipmentInstallationRequestLifeCycle InitializeLifeCycle(int requestId, Employee user, string message)
         {
             EquipmentInstallationRequestLifeCycle lifeCycle = new EquipmentInstallationRequestLifeCycle();
             lifeCycle.Date = DateTime.Now;
             lifeCycle.EmployeeId = user.Id;
-            lifeCycle.Message = "Создание заявки";
+            lifeCycle.Message = message;
             lifeCycle.RequestId = requestId;
             return lifeCycle;
         }
@@ -79,6 +93,7 @@ namespace WebUI.Areas.IT.Controllers
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
             request.PriorityId = model.PriorityId;
             request.ClientId = user.Id;
+            request.SubdivisionId = user.SubdivisionId;
             ExecutorGroup executorGroup = RequestHelper.GetExecutorGroup(service);
             request.ExecutorGroupId = executorGroup.Id;
             Employee executor = RequestHelper.GetExecutor(user, executorGroup, subdvisionService, employeeService);
@@ -98,24 +113,120 @@ namespace WebUI.Areas.IT.Controllers
             return request;
         }
 
-        public ActionResult Edit()
+        public ActionResult Edit(int id)
         {
-            return View(new EquipmentInstallationRequestViewModel());
+            Employee user = PopulateAccountInfo();
+            PopulateDropDownList();
+            var request = requestService.GetRequest(id);
+            EquipmentInstallationRequestViewModel model = ModelFromData.GetViewModel(request);
+            return View(model);
         }
         [HttpPost]
         public ActionResult Edit(EquipmentInstallationRequestViewModel model)
         {
-            return View();
+            Employee user = PopulateAccountInfo();
+            PopulateDropDownList();    
+            
+
+
+            var request = DataFromModel.GetData(model);
+            equipmentService.DeleteEntry(request);
+
+            List<InstallationEquipments> equipments = new List<InstallationEquipments>();
+            foreach (var item in model.Installations)
+            {
+                InstallationEquipments installation = DataFromModel.GetData(item);
+                installation.RequestId = request.Id;
+                equipmentService.AddRequest(installation);
+                equipments.Add(installation);                
+            }
+            request.InstallationEquipments = equipments;
+            requestService.UpdateRequest(request);
+
+
+            var lifeCycle = InitializeLifeCycle(request.Id, user, "Редактирование заявки");
+            lifeCycleService.AddLifeCycle(lifeCycle);
+            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
         }
 
-        public ActionResult Delete()
+        public ActionResult Delete(int id)
         {
-            return View(new EquipmentInstallationRequestViewModel());
+            Employee user = PopulateAccountInfo();
+            var request = requestService.GetRequest(id);
+            EquipmentInstallationRequestViewModel model = ModelFromData.GetViewModel(request);
+            return View(model);
         }
         [HttpPost]
-        public ActionResult Delete(EquipmentInstallationRequestViewModel model)
+        public ActionResult Delete(int id, EquipmentInstallationRequestViewModel model)
         {
-            return View();
+            Employee user = PopulateAccountInfo();
+            var request = requestService.GetRequest(id);
+            requestService.DeleteRequest(request);
+            return RedirectToAction("Index", "Dashboard", null);
+        }
+
+        public ActionResult AgreeRequest(int id)
+        {
+            Employee user = PopulateAccountInfo();
+            var request = requestService.GetRequest(id);
+            request.StatusId = (int)RequestStatus.Open;
+            requestService.UpdateRequest(request);
+            var lifeCycle = InitializeLifeCycle(request.Id, user, "Заявка прошла согласование");
+            lifeCycleService.AddLifeCycle(lifeCycle);
+            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+        }
+
+        public ActionResult RejectRequest(int id)
+        {
+            Employee user = PopulateAccountInfo();
+            var request = requestService.GetRequest(id);
+            request.StatusId = (int)RequestStatus.Closed;
+            requestService.UpdateRequest(request);
+            var lifeCycle = InitializeLifeCycle(request.Id, user, "Заявка не прошла согласование");
+            lifeCycleService.AddLifeCycle(lifeCycle);
+            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+        }
+
+        public ActionResult GetInWork(int id)
+        {
+            Employee user = PopulateAccountInfo();
+            var request = requestService.GetRequest(id);
+            request.StatusId = (int)RequestStatus.InWork;
+            requestService.UpdateRequest(request);
+            var lifeCycle = InitializeLifeCycle(request.Id, user, "Начало исполнения заявки");
+            lifeCycleService.AddLifeCycle(lifeCycle);
+            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+        }
+
+        public ActionResult DoneWork(int id)
+        {
+            Employee user = PopulateAccountInfo();
+            var request = requestService.GetRequest(id);
+            request.StatusId = (int)RequestStatus.Done;
+            requestService.UpdateRequest(request);
+            var lifeCycle = InitializeLifeCycle(request.Id, user, "Заявка выполнена");
+            lifeCycleService.AddLifeCycle(lifeCycle);
+            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+        }
+
+        public ActionResult Archive(int id)
+        {
+            Employee user = PopulateAccountInfo();
+            var request = requestService.GetRequest(id);
+            request.StatusId = (int)RequestStatus.Archive;
+            requestService.UpdateRequest(request);
+            var lifeCycle = InitializeLifeCycle(request.Id, user, "Заявка перенесена в архив");
+            lifeCycleService.AddLifeCycle(lifeCycle);
+            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+        }
+
+        public ActionResult AddMessage(int id, EquipmentInstallationDetailsRequestViewModel model)
+        {
+            Employee user = PopulateAccountInfo();
+            var request = requestService.GetRequest(id);
+            var lifeCycle = InitializeLifeCycle(request.Id, user, model.Message);
+            lifeCycleService.AddLifeCycle(lifeCycle);
+            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
         }
     }
 }

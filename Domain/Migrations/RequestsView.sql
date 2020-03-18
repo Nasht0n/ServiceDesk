@@ -15,6 +15,7 @@ request.PriorityId,
 request.ClientId,
 request.ExecutorId,
 request.ExecutorGroupId,
+request.SubdivisionId,
 lifeCycle.Date,
 ''EquipmentInstallationRequest'' AS Source
 FROM										  

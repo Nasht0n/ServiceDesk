@@ -967,6 +967,8 @@
     <Content Include="Areas\ControlPanel\Views\web.config" />
     <Content Include="Areas\ControlPanel\Views\Employee\Index.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Employee\EmployeesCardView.cshtml" />
+    <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Delete.cshtml" />
+    <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1085,6 +1087,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
+    <Compile Include="HtmlHelpers\RequestsHelpers.cs" />
     <Compile Include="Models\DataFromModel.cs" />
     <Compile Include="Models\Enum\RequestStatus.cs" />
     <Compile Include="Models\Helpers\RequestHelper.cs" />
@@ -1092,12 +1095,14 @@
     <Compile Include="Models\ModelFromData.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Account\AccountViewModel.cs" />
     <Compile Include="ViewModels\Branch\BranchesListViewModel.cs" />
     <Compile Include="ViewModels\Branch\BranchViewModel.cs" />
     <Compile Include="ViewModels\Campus\CampusesListViewModel.cs" />
     <Compile Include="ViewModels\Campus\CampusViewModel.cs" />
     <Compile Include="ViewModels\Category\CategoriesListViewModel.cs" />
     <Compile Include="ViewModels\Category\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\Consumable\ConsumablesListViewModel.cs" />
     <Compile Include="ViewModels\Consumable\ConsumableViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
@@ -1112,12 +1117,16 @@
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentInstallationRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\LifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Permission\PermissionsListViewModel.cs" />
+    <Compile Include="ViewModels\Permission\PermissionViewModel.cs" />
     <Compile Include="ViewModels\Priority\PriorityViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentInstallationDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentInstallationRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentRefillRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\InstallationEquipmentViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\RequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\View\RequestListViewModel.cs" />
+    <Compile Include="ViewModels\Requests\View\RequestViewModel.cs" />
     <Compile Include="ViewModels\Service\ServicesListViewModel.cs" />
     <Compile Include="ViewModels\Service\ServiceViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusViewModel.cs" />
@@ -1136,11 +1145,13 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_DashboardMenu.cshtml" />
-    <Content Include="Views\Shared\_DashboardNabBar.cshtml" />
+    <Content Include="Views\Shared\_DashboardNavBar.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\Dashboard\ChooseBranch.cshtml" />
     <Content Include="Views\Dashboard\ChooseCategory.cshtml" />
     <Content Include="Views\Dashboard\ChooseService.cshtml" />
+    <Content Include="Views\ServiceDesk\ChangePassword.cshtml" />
+    <Content Include="Views\Dashboard\Requests.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1157,7 +1168,6 @@
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
     <Folder Include="Areas\IT\Views\Shared\" />
-    <Folder Include="ViewModels\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

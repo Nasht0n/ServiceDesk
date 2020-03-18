@@ -81,6 +81,22 @@
     <Compile Include="Migrations\202003161138124_ChangeContext.designer.cs">
       <DependentUpon>202003161138124_ChangeContext.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003170930437_ChangeAccountModel.cs" />
+    <Compile Include="Migrations\202003170930437_ChangeAccountModel.designer.cs">
+      <DependentUpon>202003170930437_ChangeAccountModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003181416227_AddSubdivisionInRequests.cs" />
+    <Compile Include="Migrations\202003181416227_AddSubdivisionInRequests.designer.cs">
+      <DependentUpon>202003181416227_AddSubdivisionInRequests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003181421073_ViewRequestChange.cs" />
+    <Compile Include="Migrations\202003181421073_ViewRequestChange.designer.cs">
+      <DependentUpon>202003181421073_ViewRequestChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003182135561_RequestView.cs" />
+    <Compile Include="Migrations\202003182135561_RequestView.designer.cs">
+      <DependentUpon>202003182135561_RequestView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -178,6 +194,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003161138124_ChangeContext.resx">
       <DependentUpon>202003161138124_ChangeContext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003170930437_ChangeAccountModel.resx">
+      <DependentUpon>202003170930437_ChangeAccountModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003181416227_AddSubdivisionInRequests.resx">
+      <DependentUpon>202003181416227_AddSubdivisionInRequests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003181421073_ViewRequestChange.resx">
+      <DependentUpon>202003181421073_ViewRequestChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003182135561_RequestView.resx">
+      <DependentUpon>202003182135561_RequestView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

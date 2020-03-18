@@ -20,10 +20,12 @@ namespace Domain.Models
         [MaxLength(150)]
         public string Title { get; set; }
         /// <summary>
-        /// Значения разрешения доступа
+        /// Имя разрешения доступа
         /// </summary>
         [Required]
-        public bool Value { get; set; }
+        [MaxLength(150)]
+        public string Name { get; set; }
+
         /// <summary>
         /// Список учетных записей с данным разрешением доступа
         /// </summary>
@@ -40,11 +42,10 @@ namespace Domain.Models
         /// </summary>
         /// <param name="title">Заголовок разрешения доступа</param>
         /// <param name="value">Значения разрешения доступа</param>
-        public Permission(string title, bool value)
+        public Permission(string title)
         {
             // инициализация переменных
             Title = title;
-            Value = value;
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 
@@ -53,7 +54,7 @@ namespace Domain.Models
         /// <returns>Возвращает строковое представление объекта разрешения доступа.</returns>
         public override string ToString()
         {
-            return $"Permission object:(Id:[{Id}];Title:[{Title}];Value:[{Value}]).";
+            return $"Permission object:(Id:[{Id}];Title:[{Title}]).";
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
@@ -64,8 +65,7 @@ namespace Domain.Models
         {
             return obj is Permission permission &&
                    Id == permission.Id &&
-                   Title == permission.Title &&
-                   Value == permission.Value;
+                   Title == permission.Title;
         }
         /// <summary>
         /// Метод переопределния стандартного метода получения хэш-кода объекта

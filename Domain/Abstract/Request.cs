@@ -84,5 +84,14 @@ namespace Domain.Abstract
         /// Объект группы исполнителей, указанной заявки
         /// </summary>
         public ExecutorGroup ExecutorGroup { get; set; }
+        /// <summary>
+        /// Идентификатор подразделения
+        /// </summary>
+        [Required]
+        public int SubdivisionId { get; set; }
+        /// <summary>
+        /// Объект подразделения, указанной заявки
+        /// </summary>
+        public Subdivision Subdivision { get; set; }
     }
 }

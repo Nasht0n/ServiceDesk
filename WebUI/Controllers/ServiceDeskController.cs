@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using Microsoft.Owin.Security;
+using System;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
@@ -47,8 +48,12 @@ namespace WebUI.Controllers
                 var account = accountService.GetAccountByCredentials(model.Username, model.Password);
                 if (account == null)
                 {
-                    ModelState.AddModelError("", "Пользователь не найден");
-                }                               
+                    ModelState.AddModelError("", "Пользователь не найден.");
+                }       
+                else if (!account.IsEnabled)
+                {
+                    ModelState.AddModelError("","Учетная запись пользователя отключена.");
+                }
                 else
                 {
                     ClaimsIdentity claim = new ClaimsIdentity("ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
@@ -60,23 +65,47 @@ namespace WebUI.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Index", "Dashboard", new { id = account.Id });
+
+                    if (account.ChangePasswordOnNextEnter)
+                    {
+                        return RedirectToAction("ChangePassword", "ServiceDesk", null);
+                    }
+                    else
+                    {
+                        account.LastEnterDateTime = DateTime.Now;
+                        accountService.UpdateAccount(account);
+                        return RedirectToAction("Index", "Dashboard", null);
+                    }
                 }                
             }
             return View();
         }
-
+        [Authorize]
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "ServiceDesk");
         }
-
         [Authorize]
-        public ActionResult Dashboard()
+        public ActionResult ChangePassword(int id)
         {
-            return View();
+            return View(new ChangePasswordViewModel { AccountId = id });
         }
-        
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            var account = accountService.GetAccountById(model.AccountId);
+            if(account != null && model.NewPassword.ToLower().Equals(model.RepeatNewPassword.ToLower()))
+            {
+                account.Password = model.NewPassword;
+                account.DateChangePassword = DateTime.Now;
+                account.ChangePasswordOnNextEnter = false;
+                account.LastEnterDateTime = DateTime.Now;
+                accountService.UpdateAccount(account);                
+                return RedirectToAction("Index", "Dashboard", null);
+            }
+            return View();
+        }        
     }
 }

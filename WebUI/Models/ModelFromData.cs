@@ -1,8 +1,10 @@
 ﻿using Domain.Models;
 using Domain.Models.Requests.Equipment;
+using Domain.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebUI.ViewModels.Account;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
@@ -12,8 +14,10 @@ using WebUI.ViewModels.Equipment;
 using WebUI.ViewModels.EquipmentType;
 using WebUI.ViewModels.ExecutorGroup;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
+using WebUI.ViewModels.Permission;
 using WebUI.ViewModels.Priority;
 using WebUI.ViewModels.Requests.IT.Equipments;
+using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.Service;
 using WebUI.ViewModels.Status;
 using WebUI.ViewModels.Subdivision;
@@ -30,6 +34,85 @@ namespace WebUI.Models
                 Fullname = subdivision.Fullname,
                 Shortname = subdivision.Shortname
             };
+        }
+
+        public static AccountViewModel GetViewModel(Account account)
+        {
+            AccountViewModel model = new AccountViewModel
+            {
+                Id = account.Id,
+                Username = account.Username,
+                Password = account.Password,
+                IsEnabled = account.IsEnabled,
+                RegistrationDate = account.DateRegistration,
+                ChangePasswordDate = account.DateChangePassword,
+                ChangePasswordOnNextEnter = account.ChangePasswordOnNextEnter,
+                LastEnterDateTime = account.LastEnterDateTime,
+                EmployeeModel = GetViewModel(account.Employee)
+            };
+            model.Permissions = new List<PermissionViewModel>();
+            foreach(var permission in account.Permissions)
+            {
+                model.Permissions.Add(new PermissionViewModel {
+                    Id = permission.Id,
+                    Title = permission.Title
+                });
+            }
+            return model;
+        }
+
+        public static RequestListViewModel GetListViewModel(List<Requests> requests, Employee user, int service, int page, int pageSize)
+        {
+            RequestListViewModel model = new RequestListViewModel();
+            List<RequestViewModel> requestsModel = new List<RequestViewModel>();
+            // Получаем список заявок где пользователь клиент или иполнитель
+            requests = requests.Where(r => (r.ClientId == user.Id || r.ExecutorId == user.Id) && r.SubdivisionId == user.SubdivisionId).ToList();
+            
+            foreach(var request in requests)
+            {
+                RequestViewModel item = GetViewModel(request);
+                requestsModel.Add(item);
+            }
+            model.Requests = requestsModel;
+            model.PagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                ItemsPerPage = pageSize,
+                TotalItems = requestsModel.Count()
+            };
+            model.CurrentService = service;
+            return model;
+        }
+
+        public static RequestViewModel GetViewModel(Requests request)
+        {
+            RequestViewModel model = new RequestViewModel
+            {
+                RequestId = request.RequestId,
+                ClientId = request.ClientId,
+                ClientModel = GetViewModel(request.Client),
+                Date = request.Date,
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                Source = request.Source,
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId.Value;
+                model.ExecutorModel = GetViewModel(request.Executor);
+            }
+            return model;
         }
 
         public static SubdivisionsListViewModel GetListViewModel(List<Subdivision> subdivisions, string search, int page, int pageSize)
@@ -114,9 +197,51 @@ namespace WebUI.Models
                     RequestId = record.RequestId
                 });
             }
-            model.IsApprovers = user.ApprovalServices.Count > 0 ? true : false;
-            model.IsExecutor = request.ExecutorId.HasValue ? true : false;
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
             model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static EquipmentInstallationRequestViewModel GetViewModel(EquipmentInstallationRequest request)
+        {
+            EquipmentInstallationRequestViewModel model = new EquipmentInstallationRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title                
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+
+            model.Installations = new List<InstallationEquipmentViewModel>();
+            foreach(var item in request.InstallationEquipments)
+            {
+                model.Installations.Add(new InstallationEquipmentViewModel {
+                    Id = item.Id,
+                    Count = item.Count,
+                    EquipmentTypeId = item.EquipmentTypeId,
+                    RequestId = item.RequestId,
+                    EquipmentTypeModel = GetViewModel(item.EquipmentType)                    
+                });
+            }
             return model;
         }
 

@@ -17,5 +17,11 @@ namespace BusinessLogic
         {
             return serviceDesk.AccountRepository.Get(filter: a=>a.Id == id, includeProperties: "Employee, Employee.Subdivision, Permissions").FirstOrDefault();
         }
+
+        public void UpdateAccount(Account account)
+        {
+            serviceDesk.AccountRepository.Update(account);
+            serviceDesk.Save();
+        }
     }
 }

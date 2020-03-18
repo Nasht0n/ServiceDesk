@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -11,38 +12,49 @@ namespace Domain.Models
         /// <summary>
         /// Идентификатор учетной записи
         /// </summary>
+        [Key]
         public int Id { get; set; }
         /// <summary>
         /// Имя пользователя
         /// </summary>
+        [Required]
+        [MaxLength(25)]
         public string Username { get; set; }
         /// <summary>
         /// Пароль пользователя
         /// </summary>
+        [Required]
+        [MaxLength(25)]
         public string Password { get; set; }
         /// <summary>
         /// Дата регистрации учетной записи
         /// </summary>
+        [Required]
         public DateTime DateRegistration { get; set; }
         /// <summary>
         /// Дата изменения пароля
         /// </summary>
+        [Required]
         public DateTime DateChangePassword { get; set; }
         /// <summary>
         /// Время последнего входа в систему
         /// </summary>
+        [Required]
         public DateTime LastEnterDateTime { get; set; }
         /// <summary>
         /// Признак активности учетной записи
         /// </summary>
+        [Required]
         public bool IsEnabled { get; set; }
         /// <summary>
         /// Признак изменения пароля при следующем входе в систему
         /// </summary>
+        [Required]
         public bool ChangePasswordOnNextEnter { get; set; }
         /// <summary>
         /// Идентификатор сотрудника
         /// </summary>
+        [Required]
         public int EmployeeId { get; set; }
         /// <summary>
         /// Объект сотрудника

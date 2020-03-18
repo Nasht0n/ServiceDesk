@@ -2,6 +2,7 @@
 using Domain;
 using Domain.Models;
 using Domain.Models.Requests.Equipment;
+using Domain.Views;
 using System;
 
 namespace DataAccess.Concrete
@@ -10,8 +11,11 @@ namespace DataAccess.Concrete
     {
         private ServiceDeskContext context = new ServiceDeskContext();
 
-        private GenericRepository<EquipmentInstallationRequest> equipmentInstallationRequest;
-        private GenericRepository<EquipmentInstallationRequestLifeCycle> equipmentInstallationRequestLifeCycle;
+        private GenericRepository<EquipmentInstallationRequest> equipmentInstallationRequestRepository;
+        private GenericRepository<EquipmentInstallationRequestLifeCycle> equipmentInstallationRequestLifeCycleRepository;
+        private GenericRepository<InstallationEquipments> installationEquipmentsRepository;
+
+        private GenericRepository<Requests> requestsRepository;
 
         private GenericRepository<Subdivision> subdivisionRepository;
         private GenericRepository<Status> statusRepository;
@@ -33,15 +37,39 @@ namespace DataAccess.Concrete
 
         private bool disposed = false;
 
+        public GenericRepository<Requests> RequestsRepository
+        {
+            get
+            {
+                if (requestsRepository == null)
+                {
+                    requestsRepository = new GenericRepository<Requests>(context);
+                }
+                return requestsRepository;
+            }
+        }
+
+        public GenericRepository<InstallationEquipments> InstallationEquipmentsRepository
+        {
+            get
+            {
+                if (installationEquipmentsRepository == null)
+                {
+                    installationEquipmentsRepository = new GenericRepository<InstallationEquipments>(context);
+                }
+                return installationEquipmentsRepository;
+            }
+        }
+
         public GenericRepository<EquipmentInstallationRequest> EquipmentInstallationRequestRepository
         {
             get 
             {
-                if (equipmentInstallationRequest == null)
+                if (equipmentInstallationRequestRepository == null)
                 { 
-                    equipmentInstallationRequest = new GenericRepository<EquipmentInstallationRequest>(context);
+                    equipmentInstallationRequestRepository = new GenericRepository<EquipmentInstallationRequest>(context);
                 }
-                return equipmentInstallationRequest;
+                return equipmentInstallationRequestRepository;
             }
         }
 
@@ -49,11 +77,11 @@ namespace DataAccess.Concrete
         {
             get
             {
-                if(equipmentInstallationRequestLifeCycle == null)
+                if(equipmentInstallationRequestLifeCycleRepository == null)
                 {
-                    equipmentInstallationRequestLifeCycle = new GenericRepository<EquipmentInstallationRequestLifeCycle>(context);
+                    equipmentInstallationRequestLifeCycleRepository = new GenericRepository<EquipmentInstallationRequestLifeCycle>(context);
                 }
-                return equipmentInstallationRequestLifeCycle;
+                return equipmentInstallationRequestLifeCycleRepository;
             }
         }
 

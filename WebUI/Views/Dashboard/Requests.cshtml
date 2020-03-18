@@ -1,0 +1,28 @@
+﻿@model WebUI.ViewModels.Requests.View.RequestListViewModel
+@using WebUI.HtmlHelpers
+
+@{
+    ViewBag.Title = "Список заявок";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2 class="display-4 text-center text-dark my-3">@ViewBag.Title</h2>
+
+@*@Html.RequestCard(Model.Requests, x => Url.Action("Index", new { requestId = x }))*@
+
+@foreach (var item in Model.Requests)
+{
+    <div class="card text-white bg-dark mb-3" style="max-width: 40rem;">
+        <div class="card-header">@item.ServiceModel.Name</div>
+        <div class="card-body">
+            <h4 class="card-title">@item.Title</h4>
+            <p class="card-text">@item.Justification</p>
+        </div>
+    </div>
+}
+
+
+
+<div>
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { service = Model.CurrentService, page = x }))
+</div>
