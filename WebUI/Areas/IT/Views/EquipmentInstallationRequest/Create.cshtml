@@ -7,9 +7,15 @@
 
 <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
 <ol class="breadcrumb">
-    <li class="breadcrumb-item">Информационные технологии</li>
-    <li class="breadcrumb-item">Оборудование</li>
-    <li class="breadcrumb-item">Установка оборудования</li>
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("ChooseBranch","Dashboard",new { Area = "" })">Информационные технологии</a>    
+    </li>
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("ChooseCategory","Dashboard", new { Area = "", id = Model.ServiceModel.CategoryId })">Оборудование</a> 
+    </li>
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("ChooseService","Dashboard",new { Area = "", id = Model.ServiceModel.Id })">Установка оборудования</a>
+    </li>
     <li class="breadcrumb-item text-white active">Регистрация заявки</li>
 </ol>
 

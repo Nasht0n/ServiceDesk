@@ -66,7 +66,7 @@ namespace WebUI.Models
             RequestListViewModel model = new RequestListViewModel();
             List<RequestViewModel> requestsModel = new List<RequestViewModel>();
             // Получаем список заявок где пользователь клиент или иполнитель
-            requests = requests.Where(r => (r.ClientId == user.Id || r.ExecutorId == user.Id) && r.SubdivisionId == user.SubdivisionId).ToList();
+            requests = requests.Where(r =>(r.Service.ApprovalRequired && r.Service.Approvers.Contains(user)) || (r.ClientId == user.Id || r.ExecutorId == user.Id) && r.SubdivisionId == user.SubdivisionId).ToList();
             
             foreach(var request in requests)
             {
@@ -111,6 +111,310 @@ namespace WebUI.Models
             {
                 model.ExecutorId = request.ExecutorId.Value;
                 model.ExecutorModel = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static EquipmentReplaceDetailsRequestViewModel GetViewModel(EquipmentReplaceRequest request, Employee user, List<EquipmentReplaceRequestLifeCycle> lifeCycles)
+        {
+            EquipmentReplaceDetailsRequestViewModel model = new EquipmentReplaceDetailsRequestViewModel();
+            model.RequestModel = new EquipmentReplaceRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+            model.RequestModel.Replaces = new List<ReplaceEquipmentViewModel>();
+            foreach (var item in request.ReplaceEquipments)
+            {
+                model.RequestModel.Replaces.Add(new ReplaceEquipmentViewModel
+                {
+                    Id = item.Id,
+                    InventoryNumber = item.InventoryNumber,
+                    EquipmentTypeId = item.EquipmentTypeId,
+                    RequestId = item.RequestId,
+                    EquipmentTypeModel = GetViewModel(item.EquipmentType)
+                });
+            }
+            model.LifeCyclesListModel = new List<EquipmentReplaceRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new EquipmentReplaceRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static EquipmentRefillRequestViewModel GetViewModel(EquipmentRefillRequest request)
+        {
+            EquipmentRefillRequestViewModel model = new EquipmentRefillRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+
+            model.Refills = new List<RefillEquipmentViewModel>();
+            foreach (var item in request.RefillEquipments)
+            {
+                model.Refills.Add(new RefillEquipmentViewModel
+                {
+                    Id = item.Id,
+                    InventoryNumber = item.InventoryNumber,
+                    RequestId = item.RequestId
+                });
+            }
+            return model;
+        }
+
+        public static EquipmentRefillDetailsRequestViewModel GetViewModel(EquipmentRefillRequest request, Employee user, List<EquipmentRefillRequestLifeCycle> lifeCycles)
+        {
+            EquipmentRefillDetailsRequestViewModel model = new EquipmentRefillDetailsRequestViewModel();
+            model.RequestModel = new EquipmentRefillRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+            model.RequestModel.Refills = new List<RefillEquipmentViewModel>();
+            foreach (var item in request.RefillEquipments)
+            {
+                model.RequestModel.Refills.Add(new RefillEquipmentViewModel
+                {
+                    Id = item.Id,
+                    InventoryNumber = item.InventoryNumber,
+                    RequestId = item.RequestId                    
+                });
+            }
+            model.LifeCyclesListModel = new List<EquipmentRefillRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new EquipmentRefillRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static EquipmentRepairRequestViewModel GetViewModel(EquipmentRepairRequest request)
+        {
+            EquipmentRepairRequestViewModel model = new EquipmentRepairRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+
+            model.Repairs = new List<RepairEquipmentViewModel>();
+            foreach (var item in request.RepairEquipments)
+            {
+                model.Repairs.Add(new RepairEquipmentViewModel
+                {
+                    Id = item.Id,
+                    Count = item.Count,
+                    ConsumableId = item.ConsumableId,
+                    RequestId = item.RequestId,
+                    ConsumableModel = GetViewModel(item.Consumable)
+                });
+            }
+            return model;
+        }
+
+        public static EquipmentRepairDetailsRequestViewModel GetViewModel(EquipmentRepairRequest request, Employee user, List<EquipmentRepairRequestLifeCycle> lifeCycles)
+        {
+            EquipmentRepairDetailsRequestViewModel model = new EquipmentRepairDetailsRequestViewModel();
+            model.RequestModel = new EquipmentRepairRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+            model.RequestModel.Repairs = new List<RepairEquipmentViewModel>();
+            foreach (var item in request.RepairEquipments)
+            {
+                model.RequestModel.Repairs.Add(new RepairEquipmentViewModel
+                {
+                    Id = item.Id,
+                    Count = item.Count,
+                    ConsumableId = item.ConsumableId,
+                    RequestId = item.RequestId,
+                    ConsumableModel = GetViewModel(item.Consumable)
+                });
+            }
+            model.LifeCyclesListModel = new List<EquipmentRepairRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new EquipmentRepairRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,                    
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static EquipmentReplaceRequestViewModel GetViewModel(EquipmentReplaceRequest request)
+        {
+            EquipmentReplaceRequestViewModel model = new EquipmentReplaceRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+
+            model.Replaces = new List<ReplaceEquipmentViewModel>();
+            foreach (var item in request.ReplaceEquipments)
+            {
+                model.Replaces.Add(new ReplaceEquipmentViewModel
+                {
+                    Id = item.Id,
+                    InventoryNumber = item.InventoryNumber,
+                    EquipmentTypeId = item.EquipmentTypeId,
+                    RequestId = item.RequestId,
+                    EquipmentTypeModel = GetViewModel(item.EquipmentType)
+                });
             }
             return model;
         }
@@ -567,7 +871,7 @@ namespace WebUI.Models
             };
         }
 
-        public static ServicesListViewModel GetListViewModel(List<Service> services, string search = "", int category = 0, int branch = 0, int page = 0, int pageSize = 0)
+        public static ServicesListViewModel GetListViewModel(List<Service> services, Category categoryModel, string search = "", int category = 0, int branch = 0, int page = 0, int pageSize = 0)
         {
             ServicesListViewModel model = new ServicesListViewModel();
             List<ServiceViewModel> serviceModels = new List<ServiceViewModel>();
@@ -612,6 +916,8 @@ namespace WebUI.Models
             {
                 model.Services = serviceModels;
             }
+            model.BranchId = categoryModel.BranchId;
+            model.CategoryId = categoryModel.Id;
             return model;
         }
 

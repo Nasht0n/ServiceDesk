@@ -73,8 +73,9 @@ namespace WebUI.Controllers
         public ActionResult ChooseService(int id)
         {
             var user = PopulateAccountInfo();
-            var services = serviceService.GetServices();
-            ServicesListViewModel model = ModelFromData.GetListViewModel(services);
+            var services = serviceService.GetServices().Where(s=>s.Visible).ToList();
+            var category = categoryService.GetCategoryById(id);
+            ServicesListViewModel model = ModelFromData.GetListViewModel(services, category);
             return View(model);
         }
     }

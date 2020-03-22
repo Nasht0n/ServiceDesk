@@ -1,26 +1,26 @@
 ﻿using BusinessLogic;
-using BusinessLogic.LifeCycles;
+using BusinessLogic.LifeCycles.IT.Equipment;
 using BusinessLogic.Requests;
+using BusinessLogic.Requests.IT.Equipment;
 using Domain.Models;
 using Domain.Models.Requests.Equipment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using WebUI.Models;
 using WebUI.Models.Enum;
 using WebUI.Models.Helpers;
-using WebUI.ViewModels.Requests.IT.Equipments;
 
 namespace WebUI.Areas.IT.Controllers
 {
-    public class EquipmentInstallationRequestController : Controller
+    public class ComponentReplaceRequestController : Controller
     {
-        private const int SERVICE_ID = 1;
+        private const int SERVICE_ID = 5;
 
-        private EquipmentInstallationRequestLifeCycleService lifeCycleService = new EquipmentInstallationRequestLifeCycleService();
-        private EquipmentInstallationRequestService requestService = new EquipmentInstallationRequestService();
-        private InstallationEquipmentService equipmentService = new InstallationEquipmentService();
+        private ComponentReplaceRequestLifeCycleService lifeCycleService = new ComponentReplaceRequestLifeCycleService();
+        private ComponentReplaceRequestService requestService = new ComponentReplaceRequestService();
+        private ReplaceComponentService componentService = new ReplaceComponentService();
         private AccountService accountService = new AccountService();
         private EmployeeService employeeService = new EmployeeService();
         private ServiceService serviceService = new ServiceService();
@@ -47,9 +47,9 @@ namespace WebUI.Areas.IT.Controllers
             ViewBag.EquipmentTypes = equipmentTypeService.GetEquipmentTypes();
         }
 
-        private EquipmentInstallationRequest InitializeRequest(EquipmentInstallationRequestViewModel model, Employee user)
+        private ComponentReplaceRequest InitializeRequest(ComponentReplaceRequestViewModel model, Employee user)
         {
-            EquipmentInstallationRequest request = new EquipmentInstallationRequest();
+            ComponentReplaceRequest request = new ComponentReplaceRequest();
             Service service = serviceService.GetServiceById(SERVICE_ID);
             request.ServiceId = SERVICE_ID;
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
@@ -88,7 +88,7 @@ namespace WebUI.Areas.IT.Controllers
         public void ChangeRequestStatus(int id, RequestStatus status)
         {
             var request = requestService.GetRequest(id);
-            request.StatusId = (int)status;
+            request.StatusId = (int)RequestStatus.Open;
             requestService.UpdateRequest(request);
         }
 
@@ -113,7 +113,7 @@ namespace WebUI.Areas.IT.Controllers
             PopulateDropDownList();
             EquipmentInstallationRequestViewModel model = new EquipmentInstallationRequestViewModel();
             var service = serviceService.GetServiceById(SERVICE_ID);
-            model.ServiceModel = ModelFromData.GetViewModel(service);            
+            model.ServiceModel = ModelFromData.GetViewModel(service);
             return View(model);
         }
         [HttpPost]
@@ -141,13 +141,13 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = PopulateAccountInfo();
             PopulateDropDownList();
             var request = DataFromModel.GetData(model);
-            equipmentService.DeleteEntry(request);
+            componentService.DeleteEntry(request);
             List<InstallationEquipments> equipments = new List<InstallationEquipments>();
             foreach (var item in model.Installations)
             {
                 InstallationEquipments installation = DataFromModel.GetData(item);
                 installation.RequestId = request.Id;
-                equipmentService.AddRequest(installation);
+                componentService.AddRequest(installation);
                 equipments.Add(installation);
             }
             request.InstallationEquipments = equipments;

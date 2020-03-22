@@ -4,16 +4,17 @@ using WebUI.ViewModels.Campus;
 
 namespace WebUI.ViewModels.Requests.IT.Equipments
 {
-    public class EquipmentRefillRequestViewModel:RequestViewModel
+    public class EquipmentReplaceRequestViewModel : RequestViewModel
     {
         [Required(ErrorMessage = "Укажите место установки оборудования")]
-        [Display(Name = "Место установки оборудования")]
+        [Display(Name = "Номер кабинета/аудитории")]
         public string Location { get; set; }
         [Required]
         [Display(Name = "Идентификатор учебного корпуса")]
         public int CampusId { get; set; }
         [Display(Name = "Учебный компус")]
         public CampusViewModel CampusModel { get; set; }
-        public List<RefillEquipmentViewModel> Refills { get; set; } = new List<RefillEquipmentViewModel>();
+        [Display(Name = "Перечень заменяемого оборудования")]
+        public List<ReplaceEquipmentViewModel> Replaces { get; set; } = new List<ReplaceEquipmentViewModel>();
     }
 }

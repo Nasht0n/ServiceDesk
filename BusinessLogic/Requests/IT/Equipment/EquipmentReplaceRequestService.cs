@@ -2,16 +2,16 @@
 using Domain.Models.Requests.Equipment;
 using System.Linq;
 
-namespace BusinessLogic.Requests
+namespace BusinessLogic.Requests.IT.Equipment
 {
-    public class EquipmentInstallationRequestService
+    public class EquipmentReplaceRequestService
     {
         private ServiceDesk serviceDesk = new ServiceDesk();
-        public EquipmentInstallationRequest GetRequest(int id)
+        public EquipmentReplaceRequest GetRequest(int id)
         {
-            return serviceDesk.EquipmentInstallationRequestRepository.Get(
-                filter: r => r.Id == id, 
-                includeProperties: 
+            return serviceDesk.EquipmentReplaceRequestRepository.Get(
+                filter: r => r.Id == id,
+                includeProperties:
                 "Service," +
                 "Service.Category," +
                 "Service.Category.Branch," +
@@ -24,7 +24,7 @@ namespace BusinessLogic.Requests
                 "Client.Subdivision.SubdivisionExecutors," +
                 "Client.ApprovalServices," +
                 "Client.ExecutorGroups," +
-                "Client.ExecutorSubdivisions," +                
+                "Client.ExecutorSubdivisions," +
                 "Campus," +
                 "Executor," +
                 "Executor.Subdivision," +
@@ -35,26 +35,26 @@ namespace BusinessLogic.Requests
                 "ExecutorGroup," +
                 "ExecutorGroup.Employees," +
                 "ExecutorGroup.Services," +
-                "InstallationEquipments," +
-                "InstallationEquipments.EquipmentType")                
+                "ReplaceEquipments," +
+                "ReplaceEquipments.EquipmentType")
                 .FirstOrDefault();
         }
 
-        public void AddRequest(EquipmentInstallationRequest request)
+        public void AddRequest(EquipmentReplaceRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Insert(request);
+            serviceDesk.EquipmentReplaceRequestRepository.Insert(request);
             serviceDesk.Save();
         }
 
-        public void UpdateRequest(EquipmentInstallationRequest request)
+        public void UpdateRequest(EquipmentReplaceRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Update(request);
+            serviceDesk.EquipmentReplaceRequestRepository.Update(request);
             serviceDesk.Save();
         }
 
-        public void DeleteRequest(EquipmentInstallationRequest request)
+        public void DeleteRequest(EquipmentReplaceRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Delete(request);
+            serviceDesk.EquipmentReplaceRequestRepository.Delete(request);
             serviceDesk.Save();
         }
     }

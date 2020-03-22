@@ -2,16 +2,17 @@
 using Domain.Models.Requests.Equipment;
 using System.Linq;
 
-namespace BusinessLogic.Requests
+namespace BusinessLogic.Requests.IT.Equipment
 {
-    public class EquipmentInstallationRequestService
+    public class ComponentReplaceRequestService
     {
         private ServiceDesk serviceDesk = new ServiceDesk();
-        public EquipmentInstallationRequest GetRequest(int id)
+
+        public ComponentReplaceRequest GetRequest(int id)
         {
-            return serviceDesk.EquipmentInstallationRequestRepository.Get(
-                filter: r => r.Id == id, 
-                includeProperties: 
+            return serviceDesk.ComponentReplaceRequestRepository.Get(
+                filter: r => r.Id == id,
+                includeProperties:
                 "Service," +
                 "Service.Category," +
                 "Service.Category.Branch," +
@@ -24,7 +25,7 @@ namespace BusinessLogic.Requests
                 "Client.Subdivision.SubdivisionExecutors," +
                 "Client.ApprovalServices," +
                 "Client.ExecutorGroups," +
-                "Client.ExecutorSubdivisions," +                
+                "Client.ExecutorSubdivisions," +
                 "Campus," +
                 "Executor," +
                 "Executor.Subdivision," +
@@ -35,26 +36,26 @@ namespace BusinessLogic.Requests
                 "ExecutorGroup," +
                 "ExecutorGroup.Employees," +
                 "ExecutorGroup.Services," +
-                "InstallationEquipments," +
-                "InstallationEquipments.EquipmentType")                
+                "ReplaceComponents," +
+                "ReplaceComponents.Component")
                 .FirstOrDefault();
         }
 
-        public void AddRequest(EquipmentInstallationRequest request)
+        public void AddRequest(ComponentReplaceRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Insert(request);
+            serviceDesk.ComponentReplaceRequestRepository.Insert(request);
             serviceDesk.Save();
         }
 
-        public void UpdateRequest(EquipmentInstallationRequest request)
+        public void UpdateRequest(ComponentReplaceRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Update(request);
+            serviceDesk.ComponentReplaceRequestRepository.Update(request);
             serviceDesk.Save();
         }
 
-        public void DeleteRequest(EquipmentInstallationRequest request)
+        public void DeleteRequest(ComponentReplaceRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Delete(request);
+            serviceDesk.ComponentReplaceRequestRepository.Delete(request);
             serviceDesk.Save();
         }
     }

@@ -2,16 +2,16 @@
 using Domain.Models.Requests.Equipment;
 using System.Linq;
 
-namespace BusinessLogic.Requests
+namespace BusinessLogic.Requests.IT.Equipment
 {
-    public class EquipmentInstallationRequestService
+    public class EquipmentRefillRequestService
     {
         private ServiceDesk serviceDesk = new ServiceDesk();
-        public EquipmentInstallationRequest GetRequest(int id)
+        public EquipmentRefillRequest GetRequest(int id)
         {
-            return serviceDesk.EquipmentInstallationRequestRepository.Get(
-                filter: r => r.Id == id, 
-                includeProperties: 
+            return serviceDesk.EquipmentRefillRequestRepository.Get(
+                filter: r => r.Id == id,
+                includeProperties:
                 "Service," +
                 "Service.Category," +
                 "Service.Category.Branch," +
@@ -24,7 +24,7 @@ namespace BusinessLogic.Requests
                 "Client.Subdivision.SubdivisionExecutors," +
                 "Client.ApprovalServices," +
                 "Client.ExecutorGroups," +
-                "Client.ExecutorSubdivisions," +                
+                "Client.ExecutorSubdivisions," +
                 "Campus," +
                 "Executor," +
                 "Executor.Subdivision," +
@@ -35,26 +35,25 @@ namespace BusinessLogic.Requests
                 "ExecutorGroup," +
                 "ExecutorGroup.Employees," +
                 "ExecutorGroup.Services," +
-                "InstallationEquipments," +
-                "InstallationEquipments.EquipmentType")                
+                "RefillEquipments")
                 .FirstOrDefault();
         }
 
-        public void AddRequest(EquipmentInstallationRequest request)
+        public void AddRequest(EquipmentRefillRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Insert(request);
+            serviceDesk.EquipmentRefillRequestRepository.Insert(request);
             serviceDesk.Save();
         }
 
-        public void UpdateRequest(EquipmentInstallationRequest request)
+        public void UpdateRequest(EquipmentRefillRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Update(request);
+            serviceDesk.EquipmentRefillRequestRepository.Update(request);
             serviceDesk.Save();
         }
 
-        public void DeleteRequest(EquipmentInstallationRequest request)
+        public void DeleteRequest(EquipmentRefillRequest request)
         {
-            serviceDesk.EquipmentInstallationRequestRepository.Delete(request);
+            serviceDesk.EquipmentRefillRequestRepository.Delete(request);
             serviceDesk.Save();
         }
     }

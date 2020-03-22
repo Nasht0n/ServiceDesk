@@ -27,7 +27,7 @@ namespace Domain.Models
         /// Идентификатор подразделения, на которое установлен лимит заправок
         /// </summary>
         [Required]
-        public int SubdvisionId { get; set; }
+        public int SubdivisionId { get; set; }
         /// <summary>
         /// Объект подразделения, на которое установлен лимит заправок
         /// </summary>
@@ -49,7 +49,7 @@ namespace Domain.Models
         {
             Year = year;
             Count = count;
-            SubdvisionId = subdvisionId;
+            SubdivisionId = subdvisionId;
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 
@@ -58,7 +58,7 @@ namespace Domain.Models
         /// <returns>Возвращает строковое представление объекта лимитов заправок.</returns>
         public override string ToString()
         {
-            return $"RefuelingLimits object:(Id:[{Id}];Year:[{Year}];Count:[{Count}];SubdivisionId:[{SubdvisionId}]).";
+            return $"RefuelingLimits object:(Id:[{Id}];Year:[{Year}];Count:[{Count}];SubdivisionId:[{SubdivisionId}]).";
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
@@ -71,7 +71,7 @@ namespace Domain.Models
                    Id == limits.Id &&
                    Year == limits.Year &&
                    Count == limits.Count &&
-                   SubdvisionId == limits.SubdvisionId &&
+                   SubdivisionId == limits.SubdivisionId &&
                    EqualityComparer<Subdivision>.Default.Equals(Subdivision, limits.Subdivision);
         }
 

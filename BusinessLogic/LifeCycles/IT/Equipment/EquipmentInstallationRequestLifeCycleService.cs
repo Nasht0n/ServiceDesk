@@ -1,10 +1,7 @@
 ﻿using DataAccess.Concrete;
 using Domain.Models.Requests.Equipment;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.LifeCycles
 {
@@ -20,10 +17,9 @@ namespace BusinessLogic.LifeCycles
 
         public List<EquipmentInstallationRequestLifeCycle> GetLifeCycles(int id)
         {
-            return serviceDesk.EquipmentInstallationRequestLifeCycleRepository.Get(
-                filter: r=>r.RequestId == id,
-                includeProperties: "Request, Employee, Employee.Subdivision"
-                ).ToList();
+            return serviceDesk.EquipmentInstallationRequestLifeCycleRepository
+                .Get(filter: r=>r.RequestId == id,includeProperties: "Request, Employee, Employee.Subdivision")
+                .ToList();
         }
     }
 }

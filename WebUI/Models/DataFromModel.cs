@@ -1,7 +1,6 @@
-﻿using Domain.Models;
+﻿using System;
+using Domain.Models;
 using Domain.Models.Requests.Equipment;
-using System;
-using System.Collections.Generic;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
@@ -101,7 +100,7 @@ namespace WebUI.Models
                 Visible = model.Visible,
                 ApprovalRequired = model.ApprovalRequired,
                 Controller = model.Controller,
-                CategoryId = model.CategoryId                
+                CategoryId = model.CategoryId
             };
         }
 
@@ -121,15 +120,16 @@ namespace WebUI.Models
                 Id = item.Id,
                 Count = item.Count,
                 EquipmentTypeId = item.EquipmentTypeId,
-                RequestId = item.RequestId               
+                RequestId = item.RequestId
             };
         }
 
         public static EquipmentInstallationRequest GetData(EquipmentInstallationRequestViewModel model)
         {
-            EquipmentInstallationRequest request = new EquipmentInstallationRequest {
+            EquipmentInstallationRequest request = new EquipmentInstallationRequest
+            {
                 Id = model.Id,
-                CampusId =model.CampusId,
+                CampusId = model.CampusId,
                 ClientId = model.ClientId,
                 Description = model.Description,
                 ExecutorGroupId = model.ExecutorGroupId,
@@ -139,9 +139,103 @@ namespace WebUI.Models
                 PriorityId = model.PriorityId,
                 ServiceId = model.ServiceId,
                 StatusId = model.StatusId,
-                Title = model.Title                
-            };            
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
             return request;
+        }
+
+        public static RefillEquipments GetData(RefillEquipmentViewModel item)
+        {
+            return new RefillEquipments
+            {
+                Id = item.Id,
+                InventoryNumber = item.InventoryNumber,
+                RequestId = item.RequestId
+            };
+        }
+
+        public static RepairEquipments GetData(RepairEquipmentViewModel item)
+        {
+            return new RepairEquipments
+            {
+                Id = item.Id,
+                ConsumableId = item.ConsumableId,
+                RequestId = item.RequestId,
+                Count = item.Count
+            };
+        }
+
+        public static ReplaceEquipments GetData(ReplaceEquipmentViewModel item)
+        {
+            return new ReplaceEquipments
+            {
+                Id = item.Id,
+                InventoryNumber = item.InventoryNumber,
+                EquipmentTypeId = item.EquipmentTypeId,
+                RequestId = item.RequestId
+            };
+        }
+
+        public static EquipmentReplaceRequest GetData(EquipmentReplaceRequestViewModel model)
+        {
+            EquipmentReplaceRequest request = new EquipmentReplaceRequest
+            {
+                Id = model.Id,
+                CampusId = model.CampusId,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                Location = model.Location,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+            return request;
+        }
+
+        public static EquipmentRepairRequest GetData(EquipmentRepairRequestViewModel model)
+        {
+            return new EquipmentRepairRequest
+            {
+                Id = model.Id,
+                CampusId = model.CampusId,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                Location = model.Location,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static EquipmentRefillRequest GetData(EquipmentRefillRequestViewModel model)
+        {
+            return new EquipmentRefillRequest
+            {
+                Id = model.Id,
+                CampusId = model.CampusId,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                Location = model.Location,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
         }
     }
 }

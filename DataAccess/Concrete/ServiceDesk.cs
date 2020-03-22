@@ -15,6 +15,24 @@ namespace DataAccess.Concrete
         private GenericRepository<EquipmentInstallationRequestLifeCycle> equipmentInstallationRequestLifeCycleRepository;
         private GenericRepository<InstallationEquipments> installationEquipmentsRepository;
 
+        private GenericRepository<EquipmentReplaceRequest> equipmentReplaceRequestRepository;
+        private GenericRepository<EquipmentReplaceRequestLifeCycle> equipmentReplaceRequestLifeCycleRepository;
+        private GenericRepository<ReplaceEquipments> replaceEquipmentsRepository;
+
+        private GenericRepository<EquipmentRefillRequest> equipmentRefillRequestRepository;
+        private GenericRepository<EquipmentRefillRequestLifeCycle> equipmentRefillRequestLifeCycleRepository;
+        private GenericRepository<RefillEquipments> refillEquipmentsRepository;
+
+        private GenericRepository<EquipmentRepairRequest> equipmentRepairRequestRepository;
+        private GenericRepository<EquipmentRepairRequestLifeCycle> equipmentRepairRequestLifeCycleRepository;
+        private GenericRepository<RepairEquipments> repairEquipmentsRepository;
+
+        private GenericRepository<ComponentReplaceRequest> componentReplaceRequestRepository;
+        private GenericRepository<ComponentReplaceRequestLifeCycle> componentReplaceRequestLifeCycleRepository;
+        private GenericRepository<ReplaceComponents> replaceComponentRepository;
+
+        private GenericRepository<RefuelingLimits> refuelingLimitRepository;
+
         private GenericRepository<Requests> requestsRepository;
 
         private GenericRepository<Subdivision> subdivisionRepository;
@@ -36,6 +54,18 @@ namespace DataAccess.Concrete
         private GenericRepository<Account> accountRepository;
 
         private bool disposed = false;
+        
+        public GenericRepository<RefuelingLimits> RefuelingLimitRepository
+        {
+            get
+            {
+                if(refuelingLimitRepository == null)
+                {
+                    refuelingLimitRepository = new GenericRepository<RefuelingLimits>(context);
+                }
+                return refuelingLimitRepository;
+            }
+        }
 
         public GenericRepository<Requests> RequestsRepository
         {
@@ -46,6 +76,152 @@ namespace DataAccess.Concrete
                     requestsRepository = new GenericRepository<Requests>(context);
                 }
                 return requestsRepository;
+            }
+        }
+
+        public GenericRepository<ComponentReplaceRequest> ComponentReplaceRequestRepository
+        {
+            get
+            {
+                if (componentReplaceRequestRepository == null)
+                {
+                    componentReplaceRequestRepository = new GenericRepository<ComponentReplaceRequest>(context);
+                }
+                return componentReplaceRequestRepository;
+            }
+        }
+
+        public GenericRepository<ComponentReplaceRequestLifeCycle> ComponentReplaceRequestLifeCycleRepository
+        {
+            get
+            {
+                if (componentReplaceRequestLifeCycleRepository == null)
+                {
+                    componentReplaceRequestLifeCycleRepository = new GenericRepository<ComponentReplaceRequestLifeCycle>(context);
+                }
+                return componentReplaceRequestLifeCycleRepository;
+            }
+        }
+
+        public GenericRepository<ReplaceComponents> ReplaceComponentRepository
+        {
+            get
+            {
+                if (replaceComponentRepository == null)
+                {
+                    replaceComponentRepository = new GenericRepository<ReplaceComponents>(context);
+                }
+                return replaceComponentRepository;
+            }
+        }
+
+
+        public GenericRepository<EquipmentRepairRequest> EquipmentRepairRequestRepository
+        {
+            get
+            {
+                if (equipmentRepairRequestRepository == null)
+                {
+                    equipmentRepairRequestRepository = new GenericRepository<EquipmentRepairRequest>(context);
+                }
+                return equipmentRepairRequestRepository;
+            }
+        }
+
+        public GenericRepository<EquipmentRepairRequestLifeCycle> EquipmentRepairRequestLifeCycleRepository
+        {
+            get
+            {
+                if (equipmentRepairRequestLifeCycleRepository == null)
+                {
+                    equipmentRepairRequestLifeCycleRepository = new GenericRepository<EquipmentRepairRequestLifeCycle>(context);
+                }
+                return equipmentRepairRequestLifeCycleRepository;
+            }
+        }
+
+        public GenericRepository<RepairEquipments> RepairEquipmentsRepository
+        {
+            get
+            {
+                if (repairEquipmentsRepository == null)
+                {
+                    repairEquipmentsRepository = new GenericRepository<RepairEquipments>(context);
+                }
+                return repairEquipmentsRepository;
+            }
+        }
+
+
+        public GenericRepository<EquipmentRefillRequest> EquipmentRefillRequestRepository
+        {
+            get
+            {
+                if (equipmentRefillRequestRepository == null)
+                {
+                    equipmentRefillRequestRepository = new GenericRepository<EquipmentRefillRequest>(context);
+                }
+                return equipmentRefillRequestRepository;
+            }
+        }
+
+        public GenericRepository<EquipmentRefillRequestLifeCycle> EquipmentRefillRequestLifeCycleRepository
+        {
+            get
+            {
+                if (equipmentRefillRequestLifeCycleRepository == null)
+                {
+                    equipmentRefillRequestLifeCycleRepository = new GenericRepository<EquipmentRefillRequestLifeCycle>(context);
+                }
+                return equipmentRefillRequestLifeCycleRepository;
+            }
+        }
+
+        public GenericRepository<RefillEquipments> RefillEquipmentsRepository
+        {
+            get
+            {
+                if (refillEquipmentsRepository == null)
+                {
+                    refillEquipmentsRepository = new GenericRepository<RefillEquipments>(context);
+                }
+                return refillEquipmentsRepository;
+            }
+        }
+
+        public GenericRepository<EquipmentReplaceRequest> EquipmentReplaceRequestRepository
+        {
+            get
+            {
+                if(equipmentReplaceRequestRepository == null)
+                {
+                    equipmentReplaceRequestRepository = new GenericRepository<EquipmentReplaceRequest>(context);
+                }
+                return equipmentReplaceRequestRepository;
+            }
+        }
+
+        public GenericRepository<EquipmentReplaceRequestLifeCycle> EquipmentReplaceRequestLifeCycleRepository
+        {
+            get
+            {
+                if (equipmentReplaceRequestLifeCycleRepository == null)
+                {
+                    equipmentReplaceRequestLifeCycleRepository = new GenericRepository<EquipmentReplaceRequestLifeCycle>(context);
+                }
+                return equipmentReplaceRequestLifeCycleRepository;
+            }
+        }
+
+        public GenericRepository<ReplaceEquipments> ReplaceEquipmentsRepository
+        {
+            get
+            {
+                if (replaceEquipmentsRepository == null)
+                {
+                    replaceEquipmentsRepository = new GenericRepository<ReplaceEquipments>(context);
+                }
+                return replaceEquipmentsRepository;
             }
         }
 

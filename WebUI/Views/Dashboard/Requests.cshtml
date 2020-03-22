@@ -8,19 +8,47 @@
 
 <h2 class="display-4 text-center text-dark my-3">@ViewBag.Title</h2>
 
-@*@Html.RequestCard(Model.Requests, x => Url.Action("Index", new { requestId = x }))*@
+<div class="row mb-3">
+    @foreach (var item in Model.Requests)
+    {
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <a href="@Url.Action("Details",item.ServiceModel.Controller, new { Area = item.ServiceModel.BranchModel.AreaName, id = item.RequestId })"
+               class="request-card  text-decoration-none">
+                <div class="card text-white mb-3 h-100" style="max-width: 40rem;">
+                    <div class="card-header">
+                        <div class="d-flex m-1 p-0">
+                            <span class="">@item.ServiceModel.Name</span>
+                            <span class="ml-auto">@item.SubdivisionModel.Shortname</span>
+                        </div>
+                    </div>
+                    <div class="card-body text-dark">
+                        <div class="d-flex justify-content-center ">
+                            <h4 class="card-title text-center">@item.Title</h4>
+                            <span class="badge badge-info badge-pill align-self-start">@item.StatusModel.Shortname</span>
+                        </div>
+                        <hr class="" />
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="card-text text-black-50">
+                                <span>Дата регистрации заявки:</span>
+                                <span>@item.Date.ToShortDateString()</span>
+                            </div>
+                            <div class="card-text ml-auto text-black-50">
+                                <i class="fa fa-user"></i>
+                                <span>@item.ClientModel.Fullname</span>
+                            </div>
+                        </div>
 
-@foreach (var item in Model.Requests)
-{
-    <div class="card text-white bg-dark mb-3" style="max-width: 40rem;">
-        <div class="card-header">@item.ServiceModel.Name</div>
-        <div class="card-body">
-            <h4 class="card-title">@item.Title</h4>
-            <p class="card-text">@item.Justification</p>
+
+                        <p class="card-text">@item.Justification</p>
+
+
+                    </div>
+                </div>
+            </a>
         </div>
-    </div>
-}
 
+    }
+</div>
 
 
 <div>

@@ -4,6 +4,7 @@ using WebUI.ViewModels.ExecutorGroup;
 using WebUI.ViewModels.Priority;
 using WebUI.ViewModels.Service;
 using WebUI.ViewModels.Status;
+using WebUI.ViewModels.Subdivision;
 
 namespace WebUI.ViewModels.Requests.IT
 {
@@ -54,5 +55,10 @@ namespace WebUI.ViewModels.Requests.IT
         public int ExecutorGroupId { get; set; }
         [Display(Name = "Группа исполнителей")]
         public ExecutorGroupViewModel ExecutorGroupModel { get; set; }
+        [Required]
+        [Display(Name = "Идентификатор подразделения")]
+        public int SubdivisionId { get; set; }
+        [Display(Name = "Подразделение")]
+        public SubdivisionViewModel SubdivisionModel { get; set; }
     }
 }

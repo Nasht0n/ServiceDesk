@@ -16,7 +16,7 @@ namespace BusinessLogic.Requests
         {
             return serviceDesk.RequestsRepository
                 .Get(includeProperties:
-                "Service, Service.Category, Service.Category.Branch, " +
+                "Service, Service.Category, Service.Category.Branch, Service.Approvers, " +
                 "Status, " +
                 "Priority, " +
                 "Client, Client.Subdivision," +

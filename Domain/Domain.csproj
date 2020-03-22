@@ -97,6 +97,10 @@
     <Compile Include="Migrations\202003182135561_RequestView.designer.cs">
       <DependentUpon>202003182135561_RequestView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003220942106_FixMistakes.cs" />
+    <Compile Include="Migrations\202003220942106_FixMistakes.designer.cs">
+      <DependentUpon>202003220942106_FixMistakes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -206,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003182135561_RequestView.resx">
       <DependentUpon>202003182135561_RequestView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003220942106_FixMistakes.resx">
+      <DependentUpon>202003220942106_FixMistakes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

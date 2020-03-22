@@ -1,11 +1,12 @@
 ﻿using BusinessLogic;
-using BusinessLogic.LifeCycles;
-using BusinessLogic.Requests;
+using BusinessLogic.LifeCycles.IT.Equipment;
+using BusinessLogic.Requests.IT.Equipment;
 using Domain.Models;
 using Domain.Models.Requests.Equipment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.Models.Enum;
@@ -14,13 +15,13 @@ using WebUI.ViewModels.Requests.IT.Equipments;
 
 namespace WebUI.Areas.IT.Controllers
 {
-    public class EquipmentInstallationRequestController : Controller
+    public class EquipmentReplaceRequestController : Controller
     {
-        private const int SERVICE_ID = 1;
+        private const int SERVICE_ID = 2;
 
-        private EquipmentInstallationRequestLifeCycleService lifeCycleService = new EquipmentInstallationRequestLifeCycleService();
-        private EquipmentInstallationRequestService requestService = new EquipmentInstallationRequestService();
-        private InstallationEquipmentService equipmentService = new InstallationEquipmentService();
+        private EquipmentReplaceRequestLifeCycleService lifeCycleService = new EquipmentReplaceRequestLifeCycleService();
+        private EquipmentReplaceRequestService requestService = new EquipmentReplaceRequestService();
+        private ReplaceEquipmentService equipmentService = new ReplaceEquipmentService();
         private AccountService accountService = new AccountService();
         private EmployeeService employeeService = new EmployeeService();
         private ServiceService serviceService = new ServiceService();
@@ -47,9 +48,9 @@ namespace WebUI.Areas.IT.Controllers
             ViewBag.EquipmentTypes = equipmentTypeService.GetEquipmentTypes();
         }
 
-        private EquipmentInstallationRequest InitializeRequest(EquipmentInstallationRequestViewModel model, Employee user)
+        private EquipmentReplaceRequest InitializeRequest(EquipmentReplaceRequestViewModel model, Employee user)
         {
-            EquipmentInstallationRequest request = new EquipmentInstallationRequest();
+            EquipmentReplaceRequest request = new EquipmentReplaceRequest();
             Service service = serviceService.GetServiceById(SERVICE_ID);
             request.ServiceId = SERVICE_ID;
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
@@ -66,18 +67,18 @@ namespace WebUI.Areas.IT.Controllers
             request.Justification = model.Justification;
             request.Description = model.Description;
             request.Location = model.Location;
-            request.InstallationEquipments = new List<InstallationEquipments>();
-            foreach (var item in model.Installations)
+            request.ReplaceEquipments = new List<ReplaceEquipments>();
+            foreach (var item in model.Replaces)
             {
-                InstallationEquipments installation = DataFromModel.GetData(item);
-                request.InstallationEquipments.Add(installation);
+                ReplaceEquipments replace = DataFromModel.GetData(item);
+                request.ReplaceEquipments.Add(replace);
             }
             return request;
         }
 
-        private EquipmentInstallationRequestLifeCycle InitializeLifeCycle(int requestId, Employee user, string message)
+        private EquipmentReplaceRequestLifeCycle InitializeLifeCycle(int requestId, Employee user, string message)
         {
-            EquipmentInstallationRequestLifeCycle lifeCycle = new EquipmentInstallationRequestLifeCycle();
+            EquipmentReplaceRequestLifeCycle lifeCycle = new EquipmentReplaceRequestLifeCycle();
             lifeCycle.Date = DateTime.Now;
             lifeCycle.EmployeeId = user.Id;
             lifeCycle.Message = message;
@@ -101,9 +102,9 @@ namespace WebUI.Areas.IT.Controllers
         public ActionResult Details(int id)
         {
             Employee user = PopulateAccountInfo();
-            EquipmentInstallationRequest request = requestService.GetRequest(id);
-            List<EquipmentInstallationRequestLifeCycle> lifeCycles = lifeCycleService.GetLifeCycles(request.Id);
-            EquipmentInstallationDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
+            EquipmentReplaceRequest request = requestService.GetRequest(id);
+            List<EquipmentReplaceRequestLifeCycle> lifeCycles = lifeCycleService.GetLifeCycles(request.Id);
+            EquipmentReplaceDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
             return View(model);
         }
 
@@ -111,20 +112,20 @@ namespace WebUI.Areas.IT.Controllers
         {
             Employee user = PopulateAccountInfo();
             PopulateDropDownList();
-            EquipmentInstallationRequestViewModel model = new EquipmentInstallationRequestViewModel();
+            EquipmentReplaceRequestViewModel model = new EquipmentReplaceRequestViewModel();
             var service = serviceService.GetServiceById(SERVICE_ID);
-            model.ServiceModel = ModelFromData.GetViewModel(service);            
+            model.ServiceModel = ModelFromData.GetViewModel(service);
             return View(model);
         }
         [HttpPost]
-        public ActionResult Create(EquipmentInstallationRequestViewModel model)
+        public ActionResult Create(EquipmentReplaceRequestViewModel model)
         {
             PopulateDropDownList();
             Employee user = PopulateAccountInfo();
             var request = InitializeRequest(model, user);
             requestService.AddRequest(request);
             LifeCycleMessage(request.Id, user, "Создание заявки");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id = request.Id });
         }
 
         public ActionResult Edit(int id)
@@ -132,39 +133,39 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = PopulateAccountInfo();
             PopulateDropDownList();
             var request = requestService.GetRequest(id);
-            EquipmentInstallationRequestViewModel model = ModelFromData.GetViewModel(request);
+            EquipmentReplaceRequestViewModel model = ModelFromData.GetViewModel(request);
             return View(model);
         }
         [HttpPost]
-        public ActionResult Edit(EquipmentInstallationRequestViewModel model)
+        public ActionResult Edit(EquipmentReplaceRequestViewModel model)
         {
             Employee user = PopulateAccountInfo();
             PopulateDropDownList();
             var request = DataFromModel.GetData(model);
             equipmentService.DeleteEntry(request);
-            List<InstallationEquipments> equipments = new List<InstallationEquipments>();
-            foreach (var item in model.Installations)
+            List<ReplaceEquipments> equipments = new List<ReplaceEquipments>();
+            foreach (var item in model.Replaces)
             {
-                InstallationEquipments installation = DataFromModel.GetData(item);
-                installation.RequestId = request.Id;
-                equipmentService.AddRequest(installation);
-                equipments.Add(installation);
+                ReplaceEquipments replace = DataFromModel.GetData(item);
+                replace.RequestId = request.Id;
+                equipmentService.AddRequest(replace);
+                equipments.Add(replace);
             }
-            request.InstallationEquipments = equipments;
+            request.ReplaceEquipments = equipments;
             requestService.UpdateRequest(request);
             LifeCycleMessage(request.Id, user, "Редактирование заявки");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id = request.Id });
         }
 
         public ActionResult Delete(int id)
         {
             Employee user = PopulateAccountInfo();
             var request = requestService.GetRequest(id);
-            EquipmentInstallationRequestViewModel model = ModelFromData.GetViewModel(request);
+            EquipmentReplaceRequestViewModel model = ModelFromData.GetViewModel(request);
             return View(model);
         }
         [HttpPost]
-        public ActionResult Delete(int id, EquipmentInstallationRequestViewModel model)
+        public ActionResult Delete(int id, EquipmentReplaceRequestViewModel model)
         {
             Employee user = PopulateAccountInfo();
             var request = requestService.GetRequest(id);
@@ -177,7 +178,7 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = PopulateAccountInfo();
             ChangeRequestStatus(id, RequestStatus.Open);
             LifeCycleMessage(id, user, "Заявка прошла согласование");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
+            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id });
         }
 
         public ActionResult RejectRequest(int id)
@@ -185,7 +186,7 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = PopulateAccountInfo();
             ChangeRequestStatus(id, RequestStatus.Closed);
             LifeCycleMessage(id, user, "Заявка не прошла согласование");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
+            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id });
         }
 
         public ActionResult GetInWork(int id)
@@ -193,7 +194,7 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = PopulateAccountInfo();
             ChangeRequestStatus(id, RequestStatus.InWork);
             LifeCycleMessage(id, user, "Начало исполнения заявки");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
+            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id });
         }
 
         public ActionResult DoneWork(int id)
@@ -201,7 +202,7 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = PopulateAccountInfo();
             ChangeRequestStatus(id, RequestStatus.Done);
             LifeCycleMessage(id, user, "Заявка выполнена");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
+            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id });
         }
 
         public ActionResult Archive(int id)
@@ -209,14 +210,14 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = PopulateAccountInfo();
             ChangeRequestStatus(id, RequestStatus.Archive);
             LifeCycleMessage(id, user, "Заявка перенесена в архив");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
+            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id });
         }
 
         public ActionResult AddMessage(int id, EquipmentInstallationDetailsRequestViewModel model)
         {
             Employee user = PopulateAccountInfo();
             LifeCycleMessage(id, user, model.Message);
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
+            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id });
         }
     }
 }
