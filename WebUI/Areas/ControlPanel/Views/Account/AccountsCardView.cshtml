@@ -1,0 +1,36 @@
+﻿@model WebUI.ViewModels.Account.AccountListViewModel
+
+@using WebUI.HtmlHelpers
+
+@foreach (var item in Model.AccountModel)
+{
+    <div class="card mt-1">
+        <div class="card-body bg-white text-dark">
+            <h4 class="card-title text-shadow-none text-dark">ФИО Сотрудника: @item.EmployeeModel.Fullname</h4>
+            <p class="card-subtitle mb-2 text-shadow-none text-muted text-dark">Подразделение: @item.EmployeeModel.SubdivisionModel.Fullname</p>
+            <p class="card-subtitle mb-2 text-shadow-none text-muted text-dark">Должность сотрудника: @item.EmployeeModel.Post</p>
+            @{
+                if (!string.IsNullOrWhiteSpace(item.EmployeeModel.Email))
+                {
+                    <p class="card-subtitle mb-2 text-muted text-dark">Электронная почта сотрудника: @item.EmployeeModel.Email</p>
+                }
+                if (!string.IsNullOrWhiteSpace(item.EmployeeModel.Phone))
+                {
+                    <p class="card-subtitle mb-2 text-muted text-dark">Телефон сотрудника: @item.EmployeeModel.Phone</p>
+                }
+            }
+            <a href="@Url.Action("Edit","Account",new { Area = "ControlPanel", id = item.Id })" class="card-link text-dark">
+                <i class="fa fa-edit"></i>
+                <span class="ml-1">Редактировать</span>
+            </a>
+            <a href="@Url.Action("Delete","Account",new { Area = "ControlPanel",id = item.Id })" class="card-link text-danger">
+                <i class="fa fa-trash"></i>
+                <span class="ml-1">Удалить</span>
+            </a>
+        </div>
+    </div>
+}
+
+<div class="my-1">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { search = Model.Search, page = x }))
+</div>

@@ -965,8 +965,6 @@
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Create.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Details.cshtml" />
     <Content Include="Areas\ControlPanel\Views\web.config" />
-    <Content Include="Areas\ControlPanel\Views\Employee\Index.cshtml" />
-    <Content Include="Areas\ControlPanel\Views\Employee\EmployeesCardView.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Delete.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Edit.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentReplaceRequest\Details.cshtml" />
@@ -977,6 +975,26 @@
     <Content Include="Areas\IT\Views\EquipmentRepairRequest\Create.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentRepairRequest\Edit.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentRepairRequest\Delete.cshtml" />
+    <Content Include="Areas\IT\Views\ComponentReplaceRequest\Details.cshtml" />
+    <Content Include="Areas\IT\Views\ComponentReplaceRequest\Create.cshtml" />
+    <Content Include="Areas\IT\Views\ComponentReplaceRequest\Edit.cshtml" />
+    <Content Include="Areas\IT\Views\ComponentReplaceRequest\Delete.cshtml" />
+    <Content Include="Areas\IT\Views\EquipmentRefillRequest\Details.cshtml" />
+    <Content Include="Areas\IT\Views\EquipmentRefillRequest\Create.cshtml" />
+    <Content Include="Areas\IT\Views\EquipmentRefillRequest\Edit.cshtml" />
+    <Content Include="Areas\IT\Views\EquipmentRefillRequest\Delete.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Shared\_ControlPanelLayout.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Shared\_ControlPanelMenu.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Desk\Index.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Account\Index.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Account\AccountsCardView.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Account\Create.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Subdivision\Index.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Subdivision\Create.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Subdivision\Edit.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Subdivision\Delete.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Subdivision\SubdivisionsCardView.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Account\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -992,7 +1010,9 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\servicedesk\cPanelItemActive.js" />
-    <Content Include="Scripts\servicedesk\installations-request-table.js" />
+    <Content Include="Scripts\servicedesk\equipments-table.js" />
+    <Content Include="Scripts\servicedesk\equipments\installation-equipments-table.js" />
+    <Content Include="Scripts\servicedesk\equipments\replace-equipments-table.js" />
     <Content Include="Scripts\servicedesk\menu-toggle.js" />
     <Content Include="Scripts\servicedesk\NavItemActive.js" />
     <Content Include="Scripts\src\index.js" />
@@ -1085,7 +1105,9 @@
     <Compile Include="Areas\Admin\Controllers\EquipmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\EquipmentTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubdivisionController.cs" />
-    <Compile Include="Areas\ControlPanel\Controllers\EmployeeController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\AccountController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\DeskController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\SubdivisionController.cs" />
     <Compile Include="Areas\ControlPanel\ControlPanelAreaRegistration.cs" />
     <Compile Include="Areas\IT\Controllers\ComponentReplaceRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\EquipmentInstallationRequestController.cs" />
@@ -1107,6 +1129,7 @@
     <Compile Include="Models\ModelFromData.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Account\AccountListViewModel.cs" />
     <Compile Include="ViewModels\Account\AccountViewModel.cs" />
     <Compile Include="ViewModels\Branch\BranchesListViewModel.cs" />
     <Compile Include="ViewModels\Branch\BranchViewModel.cs" />
@@ -1115,6 +1138,7 @@
     <Compile Include="ViewModels\Category\CategoriesListViewModel.cs" />
     <Compile Include="ViewModels\Category\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\Component\ComponentViewModel.cs" />
     <Compile Include="ViewModels\Consumable\ConsumablesListViewModel.cs" />
     <Compile Include="ViewModels\Consumable\ConsumableViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
@@ -1192,11 +1216,8 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\ControlPanel\" />
     <Folder Include="Areas\ControlPanel\Data\" />
-    <Folder Include="Areas\ControlPanel\Views\Shared\" />
     <Folder Include="Areas\IT\Data\" />
-    <Folder Include="Areas\IT\Views\ComponentReplaceRequest\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
-    <Folder Include="Areas\IT\Views\EquipmentRefillRequest\" />
     <Folder Include="Areas\IT\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

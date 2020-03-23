@@ -74,7 +74,7 @@ namespace WebUI.Controllers
                     {
                         account.LastEnterDateTime = DateTime.Now;
                         accountService.UpdateAccount(account);
-                        return RedirectToAction("Index", "Dashboard", null);
+                        return RedirectToAction("Index", "Dashboard", new { Area = "" });
                     }
                 }                
             }
@@ -103,7 +103,7 @@ namespace WebUI.Controllers
                 account.ChangePasswordOnNextEnter = false;
                 account.LastEnterDateTime = DateTime.Now;
                 accountService.UpdateAccount(account);                
-                return RedirectToAction("Index", "Dashboard", null);
+                return RedirectToAction("Index", "Dashboard", new { Area = "" });
             }
             return View();
         }        

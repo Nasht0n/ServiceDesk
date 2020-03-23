@@ -1,12 +1,11 @@
-﻿$("body").on("click", "#btnAdd", function (val) {
-
-    var table = document.getElementById("tblIntallations");
+﻿$("body").on("click", "#btnAddInstallationEquipments", function (val) {
+    var table = document.getElementById("tblInstallationEquipments");
     var counter = table.rows.length - 2;
     var equipmentDropDown = document.getElementById("EquipmentTypes");
     var selectedText = equipmentDropDown.options[equipmentDropDown.selectedIndex].text;
     var selectedValue = equipmentDropDown.options[equipmentDropDown.selectedIndex].value;
     var count = $("#Count");
-    var tBody = $("#tblIntallations > TBODY")[0];
+    var tBody = $("#tblInstallationEquipments > TBODY")[0];
     var row = tBody.insertRow(-1);
     var cell = $(row.insertCell(-1));
     var innerEquipmentTypeId = '<input type="hidden" class="readonly" name="Model.Installations[' + counter + '].EquipmentTypeId" value="' + selectedValue + '"/>';
@@ -33,9 +32,6 @@
     counter++;
 });
 
-function Remove(button) {
-    var row = $(button).closest("TR");
-    var table = $("#tblIntallations")[0];
-    table.deleteRow(row[0].rowIndex);
-    counter--;
-};
+$(".table tbody").on("click", ".btn", function () {
+    $(this).closest("TR").remove();
+});

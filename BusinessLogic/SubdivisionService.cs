@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BusinessLogic
 {
-    public class SubdvisionService
+    public class SubdivisionService
     {
         private readonly ServiceDesk serviceDesk = new ServiceDesk();
 

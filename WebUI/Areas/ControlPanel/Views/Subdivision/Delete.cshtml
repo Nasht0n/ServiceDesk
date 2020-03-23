@@ -1,0 +1,29 @@
+﻿@model WebUI.ViewModels.Subdivision.SubdivisionViewModel
+
+@{
+    ViewBag.Title = "Подразделения";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_ControlPanelLayout.cshtml";
+}
+
+<h2 class="text-center display-4 my-3 text-dark">@ViewBag.Title</h2>
+
+<h3 class="mt-5 text-dark">Вы уверены, что хотите удалить это подразделение?</h3>
+<div>
+    <div class="card my-3">
+        <div class="card-body bg-white text-dark">
+            <h4 class="card-title">Наименование подразделения: @Model.Fullname</h4>
+            <h6 class="card-subtitle mb-2 text-shadow-none text-muted text-dark">Сокращенное наименование: @Model.Shortname</h6>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить запись" class="btn btn-danger" />
+        </div>
+    }
+</div>
+
+

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Domain.Models;
 using Domain.Models.Requests.Equipment;
+using WebUI.ViewModels.Account;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
@@ -8,6 +10,7 @@ using WebUI.ViewModels.Consumable;
 using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
 using WebUI.ViewModels.EquipmentType;
+using WebUI.ViewModels.Permission;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Service;
 using WebUI.ViewModels.Subdivision;
@@ -38,7 +41,7 @@ namespace WebUI.Models
                 Email = model.Email,
                 Phone = model.Phone,
                 HeadOfUnit = model.HeadOfUnit,
-                SubdivisionId = model.SubdivisionModel.Id
+                SubdivisionId = model.SubdivisionId
             };
         }
 
@@ -104,6 +107,23 @@ namespace WebUI.Models
             };
         }
 
+        public static Account GetData(AccountViewModel model)
+        {
+            Account account = new Account
+            {
+                Id = model.Id,
+                Username = model.Username,
+                Password = model.Password,
+                DateRegistration = model.RegistrationDate,
+                DateChangePassword = model.ChangePasswordDate,
+                LastEnterDateTime = model.LastEnterDateTime,
+                IsEnabled = model.IsEnabled,
+                ChangePasswordOnNextEnter = model.ChangePasswordOnNextEnter
+            };
+            
+            return account;
+        }
+
         public static Consumable GetData(ConsumableViewModel model)
         {
             return new Consumable
@@ -111,6 +131,11 @@ namespace WebUI.Models
                 Id = model.Id,
                 Name = model.Name
             };
+        }
+
+        public static Permission GetData(PermissionViewModel permission)
+        {
+            return new Permission { Id = permission.Id, Name = permission.Name, Title = permission.Title };
         }
 
         public static InstallationEquipments GetData(InstallationEquipmentViewModel item)
@@ -143,6 +168,17 @@ namespace WebUI.Models
                 SubdivisionId = model.SubdivisionId
             };
             return request;
+        }
+
+        public static ReplaceComponents GetData(ReplaceComponentViewModel item)
+        {
+            return new ReplaceComponents
+            {
+                Id = item.Id,
+                ComponentId = item.ComponentId,
+                Count = item.Count,
+                RequestId = item.RequestId
+            };
         }
 
         public static RefillEquipments GetData(RefillEquipmentViewModel item)
@@ -201,6 +237,26 @@ namespace WebUI.Models
         public static EquipmentRepairRequest GetData(EquipmentRepairRequestViewModel model)
         {
             return new EquipmentRepairRequest
+            {
+                Id = model.Id,
+                CampusId = model.CampusId,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                Location = model.Location,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static ComponentReplaceRequest GetData(ComponentReplaceRequestViewModel model)
+        {
+            return new ComponentReplaceRequest
             {
                 Id = model.Id,
                 CampusId = model.CampusId,

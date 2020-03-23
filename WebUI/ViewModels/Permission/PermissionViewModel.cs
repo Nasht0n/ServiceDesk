@@ -10,5 +10,9 @@ namespace WebUI.ViewModels.Permission
         [Required]
         [Display(Name = "Заголовок права доступа")]
         public string Title { get; set; }
+
+        public string Name { get; set; }
+        [Display(Name=" ")]
+        public bool IsChecked { get; set; }
     }
 }

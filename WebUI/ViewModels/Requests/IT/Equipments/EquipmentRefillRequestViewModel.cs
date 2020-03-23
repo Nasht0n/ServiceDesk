@@ -14,6 +14,7 @@ namespace WebUI.ViewModels.Requests.IT.Equipments
         public int CampusId { get; set; }
         [Display(Name = "Учебный компус")]
         public CampusViewModel CampusModel { get; set; }
+        [Display(Name = "Перечень заправляемого оборудования")]
         public List<RefillEquipmentViewModel> Refills { get; set; } = new List<RefillEquipmentViewModel>();
     }
 }

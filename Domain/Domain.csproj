@@ -168,7 +168,7 @@
     <Compile Include="Views\Requests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Views\App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

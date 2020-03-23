@@ -29,7 +29,7 @@ namespace WebUI.Areas.IT.Controllers
         private CampusService campusService = new CampusService();
         private PriorityService priorityService = new PriorityService();
         private EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
-        private SubdvisionService subdvisionService = new SubdvisionService();
+        private SubdivisionService subdvisionService = new SubdivisionService();
 
         public Employee PopulateAccountInfo()
         {
@@ -69,11 +69,11 @@ namespace WebUI.Areas.IT.Controllers
             request.Description = model.Description;
             request.Location = model.Location;
             request.RepairEquipments = new List<RepairEquipments>();
-            foreach (var item in model.Repairs)
-            {
-                RepairEquipments repair = DataFromModel.GetData(item);
-                request.RepairEquipments.Add(repair);
-            }
+            //foreach (var item in model.Repairs)
+            //{
+            //    RepairEquipments repair = DataFromModel.GetData(item);
+            //    request.RepairEquipments.Add(repair);
+            //}
             return request;
         }
 
@@ -143,16 +143,16 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = PopulateAccountInfo();
             PopulateDropDownList();
             var request = DataFromModel.GetData(model);
-            equipmentService.DeleteEntry(request);
-            List<RepairEquipments> repairs = new List<RepairEquipments>();
-            foreach (var item in model.Repairs)
-            {
-                RepairEquipments repair = DataFromModel.GetData(item);
-                repair.RequestId = request.Id;
-                equipmentService.AddRequest(repair);
-                repairs.Add(repair);
-            }
-            request.RepairEquipments = repairs;
+            //equipmentService.DeleteEntry(request);
+            //List<RepairEquipments> repairs = new List<RepairEquipments>();
+            //foreach (var item in model.Repairs)
+            //{
+            //    RepairEquipments repair = DataFromModel.GetData(item);
+            //    repair.RequestId = request.Id;
+            //    equipmentService.AddRequest(repair);
+            //    repairs.Add(repair);
+            //}
+            //request.RepairEquipments = repairs;
             requestService.UpdateRequest(request);
             LifeCycleMessage(request.Id, user, "Редактирование заявки");
             return RedirectToAction("Details", "EquipmentRepairRequest", new { id = request.Id });

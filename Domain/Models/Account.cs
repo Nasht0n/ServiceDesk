@@ -67,7 +67,9 @@ namespace Domain.Models
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public Account() { }
+        public Account() {
+            Permissions = new List<Permission>();
+        }
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>
@@ -89,6 +91,7 @@ namespace Domain.Models
             IsEnabled = isEnabled;
             ChangePasswordOnNextEnter = changePasswordOnNextEnter;
             EmployeeId = employeeId;
+            Permissions = new List<Permission>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.

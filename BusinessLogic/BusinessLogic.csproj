@@ -54,6 +54,7 @@
     <Compile Include="LifeCycles\IT\Equipment\EquipmentRefillRequestLifeCycleService.cs" />
     <Compile Include="LifeCycles\IT\Equipment\EquipmentRepairRequestLifeCycleService.cs" />
     <Compile Include="LifeCycles\IT\Equipment\EquipmentReplaceRequestLifeCycleService.cs" />
+    <Compile Include="PermissionService.cs" />
     <Compile Include="PriorityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefueilingLimitService.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Requests\IT\Equipment\ReplaceEquipmentService.cs" />
     <Compile Include="Requests\RequestService.cs" />
     <Compile Include="ServiceService.cs" />
-    <Compile Include="SubdvisionService.cs" />
+    <Compile Include="SubdivisionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">

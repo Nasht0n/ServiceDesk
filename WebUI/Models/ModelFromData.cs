@@ -8,6 +8,7 @@ using WebUI.ViewModels.Account;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
+using WebUI.ViewModels.Component;
 using WebUI.ViewModels.Consumable;
 using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
@@ -51,24 +52,122 @@ namespace WebUI.Models
                 EmployeeModel = GetViewModel(account.Employee)
             };
             model.Permissions = new List<PermissionViewModel>();
-            foreach(var permission in account.Permissions)
+            foreach (var permission in account.Permissions)
             {
-                model.Permissions.Add(new PermissionViewModel {
+                model.Permissions.Add(new PermissionViewModel
+                {
                     Id = permission.Id,
-                    Title = permission.Title
+                    Title = permission.Title,
+                    Name = permission.Name,
+                    IsChecked = true
                 });
             }
             return model;
         }
+
+        public static AccountViewModel GetViewModel(Account account, List<Permission> permissions)
+        {
+            AccountViewModel model = new AccountViewModel
+            {
+                Id = account.Id,
+                Username = account.Username,
+                Password = account.Password,
+                IsEnabled = account.IsEnabled,
+                RegistrationDate = account.DateRegistration,
+                ChangePasswordDate = account.DateChangePassword,
+                ChangePasswordOnNextEnter = account.ChangePasswordOnNextEnter,
+                LastEnterDateTime = account.LastEnterDateTime,
+                EmployeeModel = GetViewModel(account.Employee)
+            };
+            model.Permissions = new List<PermissionViewModel>();
+            foreach (var permission in permissions)
+            {
+                if (account.Permissions.Contains(permission)){
+                    model.Permissions.Add(new PermissionViewModel
+                    {
+                        Id = permission.Id,
+                        Title = permission.Title,
+                        Name = permission.Name,
+                        IsChecked = true
+                    });
+                }
+                else
+                {
+                    model.Permissions.Add(new PermissionViewModel
+                    {
+                        Id = permission.Id,
+                        Title = permission.Title,
+                        Name = permission.Name,
+                        IsChecked = false
+                    });
+                }               
+            }
+            return model;
+        }
+
+        public static AccountListViewModel GetListViewModel(List<Account> accounts, string search, int subdivision, int page, int pageSize)
+        {
+            AccountListViewModel model = new AccountListViewModel();
+            List<AccountViewModel> accountViewModels = new List<AccountViewModel>();
+            if (subdivision != 0)
+            {
+                accounts = accounts.Where(a => a.Employee.SubdivisionId == subdivision).ToList();
+                model.SubdivisionId = subdivision;
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                accounts = accounts.Where(a => a.Employee.Surname.Contains(search) || a.Employee.Firstname.Contains(search)).ToList();
+                model.Search = search;
+            }
+
+            foreach (var account in accounts)
+            {
+                AccountViewModel item = GetViewModel(account);
+                accountViewModels.Add(item);
+            }
+
+            if (page != 0 && pageSize != 0)
+            {
+                model.AccountModel = accountViewModels
+                .OrderBy(s => s.EmployeeModel.Surname)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+                model.PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = accountViewModels.Count()
+                };
+            }
+            return model;
+        }
+
+        public static List<PermissionViewModel> GetListViewModel(List<Permission> permissions)
+        {
+            List<PermissionViewModel> result = new List<PermissionViewModel>();
+            foreach(var permission in permissions)
+            {
+                result.Add(new PermissionViewModel { 
+                    Id = permission.Id,
+                    Title = permission.Title,
+                    Name = permission.Name
+                });
+            }
+            return result;
+        }
+
+
 
         public static RequestListViewModel GetListViewModel(List<Requests> requests, Employee user, int service, int page, int pageSize)
         {
             RequestListViewModel model = new RequestListViewModel();
             List<RequestViewModel> requestsModel = new List<RequestViewModel>();
             // Получаем список заявок где пользователь клиент или иполнитель
-            requests = requests.Where(r =>(r.Service.ApprovalRequired && r.Service.Approvers.Contains(user)) || (r.ClientId == user.Id || r.ExecutorId == user.Id) && r.SubdivisionId == user.SubdivisionId).ToList();
-            
-            foreach(var request in requests)
+            requests = requests.Where(r => (r.Service.ApprovalRequired && r.Service.Approvers.Contains(user)) || (r.ClientId == user.Id || r.ExecutorId == user.Id) && r.SubdivisionId == user.SubdivisionId).ToList();
+
+            foreach (var request in requests)
             {
                 RequestViewModel item = GetViewModel(request);
                 requestsModel.Add(item);
@@ -136,7 +235,9 @@ namespace WebUI.Models
                 ServiceId = request.ServiceId,
                 ServiceModel = GetViewModel(request.Service),
                 StatusId = request.StatusId,
-                StatusModel = GetViewModel(request.Status)
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
             };
             model.RequestModel.ExecutorId = request.ExecutorId ?? null;
             if (request.ExecutorId.HasValue)
@@ -172,6 +273,119 @@ namespace WebUI.Models
             model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
             model.IsClient = request.ClientId == user.Id ? true : false;
             return model;
+        }
+
+        public static ComponentReplaceRequestViewModel GetViewModel(ComponentReplaceRequest request)
+        {
+            ComponentReplaceRequestViewModel model = new ComponentReplaceRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+
+            model.Replaces = new List<ReplaceComponentViewModel>();
+            foreach (var item in request.ReplaceComponents)
+            {
+                model.Replaces.Add(new ReplaceComponentViewModel
+                {
+                    Id = item.Id,
+                    Count = item.Count,
+                    RequestId = item.RequestId
+                });
+            }
+            return model;
+        }
+
+        public static ComponentReplaceDetailsRequestViewModel GetViewModel(ComponentReplaceRequest request, Employee user, List<ComponentReplaceRequestLifeCycle> lifeCycles)
+        {
+            ComponentReplaceDetailsRequestViewModel model = new ComponentReplaceDetailsRequestViewModel();
+            model.RequestModel = new ComponentReplaceRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+            model.RequestModel.Replaces = new List<ReplaceComponentViewModel>();
+            foreach (var item in request.ReplaceComponents)
+            {
+                model.RequestModel.Replaces.Add(new ReplaceComponentViewModel
+                {
+                    Id = item.Id,
+                    Count = item.Count,
+                    ComponentId = item.ComponentId,
+                    RequestId = item.RequestId,
+                    ComponentModel = GetViewModel(item.Component)
+                });
+            }
+            model.LifeCyclesListModel = new List<ComponentReplaceRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new ComponentReplaceRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static ComponentViewModel GetViewModel(Component component)
+        {
+            return new ComponentViewModel
+            {
+                Id = component.Id,
+                Name = component.Name
+            };
         }
 
         public static EquipmentRefillRequestViewModel GetViewModel(EquipmentRefillRequest request)
@@ -238,7 +452,9 @@ namespace WebUI.Models
                 ServiceId = request.ServiceId,
                 ServiceModel = GetViewModel(request.Service),
                 StatusId = request.StatusId,
-                StatusModel = GetViewModel(request.Status)
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
             };
             model.RequestModel.ExecutorId = request.ExecutorId ?? null;
             if (request.ExecutorId.HasValue)
@@ -252,7 +468,7 @@ namespace WebUI.Models
                 {
                     Id = item.Id,
                     InventoryNumber = item.InventoryNumber,
-                    RequestId = item.RequestId                    
+                    RequestId = item.RequestId
                 });
             }
             model.LifeCyclesListModel = new List<EquipmentRefillRequestLifeCycleViewModel>();
@@ -294,26 +510,16 @@ namespace WebUI.Models
                 ServiceModel = GetViewModel(request.Service),
                 StatusId = request.StatusId,
                 StatusModel = GetViewModel(request.Status),
-                Title = request.Title
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
             };
             if (request.ExecutorId.HasValue)
             {
                 model.ExecutorId = request.ExecutorId;
                 model.Executor = GetViewModel(request.Executor);
             }
-
-            model.Repairs = new List<RepairEquipmentViewModel>();
-            foreach (var item in request.RepairEquipments)
-            {
-                model.Repairs.Add(new RepairEquipmentViewModel
-                {
-                    Id = item.Id,
-                    Count = item.Count,
-                    ConsumableId = item.ConsumableId,
-                    RequestId = item.RequestId,
-                    ConsumableModel = GetViewModel(item.Consumable)
-                });
-            }
+            
             return model;
         }
 
@@ -338,17 +544,19 @@ namespace WebUI.Models
                 ServiceId = request.ServiceId,
                 ServiceModel = GetViewModel(request.Service),
                 StatusId = request.StatusId,
-                StatusModel = GetViewModel(request.Status)
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
             };
             model.RequestModel.ExecutorId = request.ExecutorId ?? null;
             if (request.ExecutorId.HasValue)
             {
                 model.RequestModel.Executor = GetViewModel(request.Executor);
             }
-            model.RequestModel.Repairs = new List<RepairEquipmentViewModel>();
+            model.Repairs = new List<RepairEquipmentViewModel>();
             foreach (var item in request.RepairEquipments)
             {
-                model.RequestModel.Repairs.Add(new RepairEquipmentViewModel
+                model.Repairs.Add(new RepairEquipmentViewModel
                 {
                     Id = item.Id,
                     Count = item.Count,
@@ -366,7 +574,7 @@ namespace WebUI.Models
                     Date = record.Date,
                     EmployeeId = record.EmployeeId,
                     Employee = GetViewModel(record.Employee),
-                    Message = record.Message,                    
+                    Message = record.Message,
                     RequestId = record.RequestId
                 });
             }
@@ -396,7 +604,9 @@ namespace WebUI.Models
                 ServiceModel = GetViewModel(request.Service),
                 StatusId = request.StatusId,
                 StatusModel = GetViewModel(request.Status),
-                Title = request.Title
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
             };
             if (request.ExecutorId.HasValue)
             {
@@ -469,7 +679,9 @@ namespace WebUI.Models
                 ServiceId = request.ServiceId,
                 ServiceModel = GetViewModel(request.Service),
                 StatusId = request.StatusId,
-                StatusModel = GetViewModel(request.Status)
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
             };
             model.RequestModel.ExecutorId = request.ExecutorId ?? null;
             if (request.ExecutorId.HasValue)
@@ -527,7 +739,9 @@ namespace WebUI.Models
                 ServiceModel = GetViewModel(request.Service),
                 StatusId = request.StatusId,
                 StatusModel = GetViewModel(request.Status),
-                Title = request.Title                
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
             };
             if (request.ExecutorId.HasValue)
             {
@@ -536,14 +750,15 @@ namespace WebUI.Models
             }
 
             model.Installations = new List<InstallationEquipmentViewModel>();
-            foreach(var item in request.InstallationEquipments)
+            foreach (var item in request.InstallationEquipments)
             {
-                model.Installations.Add(new InstallationEquipmentViewModel {
+                model.Installations.Add(new InstallationEquipmentViewModel
+                {
                     Id = item.Id,
                     Count = item.Count,
                     EquipmentTypeId = item.EquipmentTypeId,
                     RequestId = item.RequestId,
-                    EquipmentTypeModel = GetViewModel(item.EquipmentType)                    
+                    EquipmentTypeModel = GetViewModel(item.EquipmentType)
                 });
             }
             return model;
@@ -716,7 +931,7 @@ namespace WebUI.Models
             };
         }
 
-        public static EmployeesListViewModel GetListViewModel(List<Employee> employees, string search ="", int subdivision=0, int page=0, int pageSize=0)
+        public static EmployeesListViewModel GetListViewModel(List<Employee> employees, string search = "", int subdivision = 0, int page = 0, int pageSize = 0)
         {
             EmployeesListViewModel model = new EmployeesListViewModel();
             List<EmployeeViewModel> employeeViewModels = new List<EmployeeViewModel>();
@@ -738,7 +953,7 @@ namespace WebUI.Models
                 employeeViewModels.Add(item);
             }
 
-            if(page!=0 && pageSize != 0)
+            if (page != 0 && pageSize != 0)
             {
                 model.Employees = employeeViewModels
                 .OrderBy(s => s.Surname)
@@ -751,7 +966,7 @@ namespace WebUI.Models
                     ItemsPerPage = pageSize,
                     TotalItems = employeeViewModels.Count()
                 };
-            }                     
+            }
             return model;
         }
 

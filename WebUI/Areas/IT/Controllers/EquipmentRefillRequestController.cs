@@ -27,7 +27,7 @@ namespace WebUI.Areas.IT.Controllers
         private CampusService campusService = new CampusService();
         private PriorityService priorityService = new PriorityService();
         private EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
-        private SubdvisionService subdvisionService = new SubdvisionService();
+        private SubdivisionService subdvisionService = new SubdivisionService();
 
         public Employee PopulateAccountInfo()
         {

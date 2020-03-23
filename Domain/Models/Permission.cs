@@ -35,7 +35,7 @@ namespace Domain.Models
         /// </summary>
         public Permission()
         {
-
+            Accounts = new List<Account>();
         }
         /// <summary>
         /// Конструктор с параметрами
@@ -46,6 +46,7 @@ namespace Domain.Models
         {
             // инициализация переменных
             Title = title;
+            Accounts = new List<Account>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 

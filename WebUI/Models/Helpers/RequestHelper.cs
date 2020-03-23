@@ -15,7 +15,7 @@ namespace WebUI.Models.Helpers
             else return null;
         }
 
-        public static Employee GetExecutor(Employee employee, ExecutorGroup group, SubdvisionService subdvisionService, EmployeeService employeeService)
+        public static Employee GetExecutor(Employee employee, ExecutorGroup group, SubdivisionService subdvisionService, EmployeeService employeeService)
         {
             // Получение подразделения сотрудника
             var subdivision = subdvisionService.GetSubdivisionById(employee.SubdivisionId);

@@ -10,7 +10,7 @@ namespace WebUI.Areas.Admin.Controllers
     public class EmployeeController : Controller
     {
         private EmployeeService employeeService = new EmployeeService();
-        private SubdvisionService subdvisionService = new SubdvisionService();
+        private SubdivisionService subdvisionService = new SubdivisionService();
         private readonly int pageSize = 5;
 
         public ActionResult Employees(string search = "", int page = 1, int subdivision = 0)

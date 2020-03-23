@@ -75,13 +75,13 @@
 
             <div class="row m-1">
                 <h6 class="text-center text-dark">Список устанавливаемого оборудования</h6>
-                <table id="tblIntallations" class="table table-hover">
+                <table id="tblInstallationEquipments" class="table table-hover">
                     <thead class="table-primary">
                         <tr>
                             <th class="d-none"></th>
                             <th class="d-none"></th>
-                            <th>Тип оборудования</th>
-                            <th>Количество</th>
+                            <th class="text-nowrap">Тип оборудования</th>
+                            <th class="text-nowrap">Количество</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -102,7 +102,7 @@
                             <td class="w-100">@Html.TextBoxFor(modelItem => item.EquipmentTypeModel.Name, new { @class = "form-control tblItem bg-light border-0", Name = $"Model.Installations[{index}].EquipmentTypeModel.Name", @readonly = "readonly" })</td>
                             <td class="w-100">@Html.TextBoxFor(modelItem => item.Count, new { @class = "form-control tblItem bg-light border-0", Name = $"Model.Installations[{index}].Count", @readonly = "readonly" })</td>
                             <td>
-                                <button type="button" value="Удалить" class="btn btn-danger w-100" onclick="Remove(this)">
+                                <button type="button" value="Удалить" class="btn btn-danger w-100">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </td>
@@ -117,7 +117,7 @@
                             <td>@Html.DropDownList("EquipmentTypes", new SelectList(ViewBag.EquipmentTypes, "Id", "Name"), "Выберите тип оборудования", htmlAttributes: new { @class = "form-control" })</td>
                             <td>@Html.TextBox("Count", "", new { @class = "form-control", id = "Count" })</td>
                             <td>
-                                <input type="button" id="btnAdd" value="Добавить" class="btn btn-info w-100" />
+                                <input type="button" id="btnAddInstallationEquipments" value="Добавить" class="btn btn-info w-100" />
                             </td>
                         </tr>
                     </tfoot>

@@ -1,0 +1,21 @@
+﻿<!-- Sidebar -->
+<div class="bg-primary" id="sidebar-wrapper">
+    <h2 class="text-white text-center mt-2">Service Desk</h2>
+    <div class="list-group list-group-flush mt-4">
+        <a href="@Url.Action("Index","Subdivision",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-building"></i>
+                <span class="ml-3 w-100">Подразделения</span>
+            </div>
+        </a>
+        <a href="@Url.Action("Index","Account",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-users"></i>
+                <span class="ml-3 w-100">Сотрудники</span>
+            </div>
+        </a>
+
+    </div>
+</div>
+
+

@@ -9,7 +9,7 @@ namespace WebUI.Areas.Admin.Controllers
 {
     public class SubdivisionController : Controller
     {
-        private SubdvisionService subdvisionService = new SubdvisionService();
+        private SubdivisionService subdivisionService = new SubdivisionService();
         private readonly int pageSize = 5;
 
         public ActionResult AddSubdivision()
@@ -19,7 +19,7 @@ namespace WebUI.Areas.Admin.Controllers
 
         public ActionResult Subdivisions(string search = "", int page = 1)
         {             
-            List<Subdivision> subdivisions = subdvisionService.GetSubdivisions();
+            List<Subdivision> subdivisions = subdivisionService.GetSubdivisions();
             SubdivisionsListViewModel model = ModelFromData.GetListViewModel(subdivisions, search, page, pageSize);
             return View(model);
         }
@@ -30,7 +30,7 @@ namespace WebUI.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 Subdivision subdivision = DataFromModel.GetData(model);
-                subdvisionService.AddSubdivision(subdivision);
+                subdivisionService.AddSubdivision(subdivision);
                 return RedirectToAction("Subdivisions", "Subdivision");
             }
             return View();
@@ -38,7 +38,7 @@ namespace WebUI.Areas.Admin.Controllers
 
         public ActionResult EditSubdivision(int id)
         {
-            Subdivision subdivision = subdvisionService.GetSubdivisionById(id);
+            Subdivision subdivision = subdivisionService.GetSubdivisionById(id);
             SubdivisionViewModel model = ModelFromData.GetViewModel(subdivision);
             return View(model);
         }
@@ -48,22 +48,22 @@ namespace WebUI.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 Subdivision subdivision = DataFromModel.GetData(model);
-                subdvisionService.UpdateSubdivision(subdivision);
+                subdivisionService.UpdateSubdivision(subdivision);
                 return RedirectToAction("Subdivisions", "Subdivision");
             }
             return View();
         }
         public ActionResult DeleteSubdivision(int id)
         {
-            Subdivision subdivision = subdvisionService.GetSubdivisionById(id);
+            Subdivision subdivision = subdivisionService.GetSubdivisionById(id);
             SubdivisionViewModel model = ModelFromData.GetViewModel(subdivision);
             return View(model);
         }
         [HttpPost]
         public ActionResult DeleteSubdivision(int id, SubdivisionViewModel model)
         {
-            Subdivision subdivision = subdvisionService.GetSubdivisionById(id);
-            subdvisionService.DeleteSubdivision(subdivision);
+            Subdivision subdivision = subdivisionService.GetSubdivisionById(id);
+            subdivisionService.DeleteSubdivision(subdivision);
             return RedirectToAction("Subdivisions", "Subdivision");
         }
     }
