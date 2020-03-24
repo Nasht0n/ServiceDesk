@@ -135,7 +135,7 @@ namespace WebUI.Models
 
         public static Permission GetData(PermissionViewModel permission)
         {
-            return new Permission { Id = permission.Id, Name = permission.Name, Title = permission.Title };
+            return new Permission { Id = permission.Id, Description = permission.Name, Title = permission.Title };
         }
 
         public static InstallationEquipments GetData(InstallationEquipmentViewModel item)

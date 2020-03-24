@@ -11,7 +11,7 @@ namespace WebUI.Models.Helpers
             // Получение списка групп исполнителей вида работы
             var serviceContractor = service.ExecutorGroups.ToList();
             // если группа найдена возвращаем группу исполнителей
-            if (serviceContractor.Count != 0) return serviceContractor[0];
+            if (serviceContractor.Count != 0) return serviceContractor[0].ExecutorGroup;
             else return null;
         }
 
@@ -30,7 +30,7 @@ namespace WebUI.Models.Helpers
             {
                 var current = employeeService.GetEmployeeById(emp.Id);
                 // Если исполнитель относится к группе исполнителей данного вида работ
-                if (current.ExecutorGroups.Any(eg => eg.Id == group.Id))
+                if (current.ExecutorGroups.Any(eg => eg.ExecutorGroupId == group.Id))
                 {
                     // увеличиваем счетчит
                     counter++;

@@ -28,7 +28,6 @@ namespace Domain.Abstract
         /// <summary>
         /// Описание заявки
         /// </summary>
-        [Required]
         [MaxLength(255)]
         public string Description { get; set; }
         /// <summary>

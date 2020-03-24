@@ -1,7 +1,11 @@
 ﻿using BusinessLogic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Owin.Security;
+using Repository.Abstract;
 using System;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
@@ -12,13 +16,20 @@ namespace WebUI.Controllers
     public class ServiceDeskController : Controller
     {
         private AccountService accountService = new AccountService();
+        private IAccountRepository accountRepository;
+
+        public ServiceDeskController(IAccountRepository accountRepository)
+        {
+            this.accountRepository = accountRepository;
+        }
+
         private IAuthenticationManager AuthenticationManager
         {
             get
             {
                 return HttpContext.GetOwinContext().Authentication;
             }
-        }
+        }        
 
         public ActionResult Index()
         {
@@ -40,12 +51,13 @@ namespace WebUI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 // Авторизация
-                var account = accountService.GetAccountByCredentials(model.Username, model.Password);
+                // var account = accountService.GetAccountByCredentials(model.Username, model.Password);
+                var account = (await accountRepository.GetAccounts()).Where(a=>a.Username == model.Username && a.Password == model.Password).FirstOrDefault();
                 if (account == null)
                 {
                     ModelState.AddModelError("", "Пользователь не найден.");
@@ -73,7 +85,8 @@ namespace WebUI.Controllers
                     else
                     {
                         account.LastEnterDateTime = DateTime.Now;
-                        accountService.UpdateAccount(account);
+                        account = await accountRepository.UpdateAccount(account);
+                        // accountService.UpdateAccount(account);
                         return RedirectToAction("Index", "Dashboard", new { Area = "" });
                     }
                 }                
@@ -93,16 +106,18 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            var account = accountService.GetAccountById(model.AccountId);
+            // var account = accountService.GetAccountById(model.AccountId);
+            var account = (await accountRepository.GetAccounts()).Where(a => a.Id == model.AccountId).FirstOrDefault();
             if(account != null && model.NewPassword.ToLower().Equals(model.RepeatNewPassword.ToLower()))
             {
                 account.Password = model.NewPassword;
                 account.DateChangePassword = DateTime.Now;
                 account.ChangePasswordOnNextEnter = false;
                 account.LastEnterDateTime = DateTime.Now;
-                accountService.UpdateAccount(account);                
+                account = await accountRepository.UpdateAccount(account);
+                //accountService.UpdateAccount(account);                
                 return RedirectToAction("Index", "Dashboard", new { Area = "" });
             }
             return View();

@@ -1,4 +1,5 @@
 ﻿using Domain.Abstract;
+using Domain.Models.ManyToMany;
 using System.Collections.Generic;
 
 namespace Domain.Models.Requests.Accounts
@@ -11,13 +12,13 @@ namespace Domain.Models.Requests.Accounts
         /// <summary>
         /// Список прикрепленных файлов
         /// </summary>
-        public IList<Attachment> Attachments { get; set; }
+        public virtual IList<AccountCancellationRequestAttachment> Attachments { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
         public AccountCancellationRequest()
         {
-
+            Attachments = new List<AccountCancellationRequestAttachment>();
         }
         /// <summary>
         /// Конструктор с параметрами
@@ -40,6 +41,7 @@ namespace Domain.Models.Requests.Accounts
             PriorityId = priorityId;
             ClientId = clientId;
             ExecutorGroupId = executorGroupId;
+            Attachments = new List<AccountCancellationRequestAttachment>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 

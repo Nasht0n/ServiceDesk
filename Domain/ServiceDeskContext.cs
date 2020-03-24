@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.ManyToMany;
 using Domain.Models.Requests.Accounts;
 using Domain.Models.Requests.Communication;
 using Domain.Models.Requests.Email;
@@ -7,10 +8,11 @@ using Domain.Models.Requests.Network;
 using Domain.Models.Requests.Software;
 using Domain.Views;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Domain
 {
-    public class ServiceDeskContext:DbContext
+    public class ServiceDeskContext : DbContext
     {
         public ServiceDeskContext() : base() { }
 
@@ -82,63 +84,154 @@ namespace Domain
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<Subdivision> Subdivisions { get; set; }
+        // many to many
+        public virtual DbSet<AccountCancellationRequestAttachment> AccountCancellationRequestAttachments { get; set; }
+        public virtual DbSet<AccountDisconnectRequestAttachment> AccountDisconnectRequestAttachments { get; set; }
+        public virtual DbSet<AccountLossRequestAttachment> AccountLossRequestAttachments { get; set; }
+        public virtual DbSet<AccountRegistrationRequestAttachment> AccountRegistrationRequestAttachments { get; set; }
+        public virtual DbSet<SoftwareDevelopmentRequestAttachment> SoftwareDevelopmentRequestAttachments { get; set; }
+        public virtual DbSet<SoftwareReworkRequestAttachment> SoftwareReworkRequestAttachments { get; set; }
+        public virtual DbSet<AccountPermission> AccountPermissions { get; set; }
+        public virtual DbSet<ExecutorGroupMember> ExecutorGroupMembers { get; set; }
+        public virtual DbSet<ServicesApprover> ServicesApprovers { get; set; }
+        public virtual DbSet<ServicesExecutorGroup> ServicesExecutorGroups { get; set; }
+        public virtual DbSet<SubdivisionExecutor> SubdivisionExecutors { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            
+            modelBuilder.Entity<AccountPermission>().HasKey(c => new { c.AccountId, c.PermissionId });
+
             modelBuilder.Entity<Account>()
                 .HasMany(e => e.Permissions)
-                .WithMany(e => e.Accounts)
-                .Map(m=>m.ToTable("AccountsPermissions").MapLeftKey("AccountId").MapRightKey("PermissionId"));
+                .WithRequired()
+                .HasForeignKey(c => c.AccountId);
+
+            modelBuilder.Entity<Permission>()
+                .HasMany(e => e.Accounts)
+                .WithRequired()
+                .HasForeignKey(c => c.PermissionId);
+
+            modelBuilder.Entity<AccountCancellationRequestAttachment>().HasKey(c => new { c.RequestId, c.AttachmentId });
+
+            modelBuilder.Entity<AccountCancellationRequest>()
+                .HasMany(e => e.Attachments)
+                .WithRequired()
+                .HasForeignKey(c => c.RequestId);
 
             modelBuilder.Entity<Attachment>()
                 .HasMany(e => e.AccountCancellationRequests)
-                .WithMany(e => e.Attachments)
-                .Map(m => m.ToTable("AccountCancellationRequestAttachments").MapLeftKey("AttachmentId").MapRightKey("RequestId"));
+                .WithRequired()
+                .HasForeignKey(c => c.AttachmentId);
+
+            modelBuilder.Entity<AccountDisconnectRequestAttachment>().HasKey(c => new { c.RequestId, c.AttachmentId });
+
+            modelBuilder.Entity<AccountDisconnectRequest>()
+                .HasMany(e => e.Attachments)
+                .WithRequired()
+                .HasForeignKey(c => c.RequestId);
 
             modelBuilder.Entity<Attachment>()
                 .HasMany(e => e.AccountDisconnectRequests)
-                .WithMany(e => e.Attachments)
-                .Map(m => m.ToTable("AccountDisconnectRequestAttachments").MapLeftKey("AttachmentId").MapRightKey("RequestId"));
+                .WithRequired()
+                .HasForeignKey(c => c.AttachmentId);
+
+            modelBuilder.Entity<AccountLossRequestAttachment>().HasKey(c => new { c.RequestId, c.AttachmentId });
+
+            modelBuilder.Entity<AccountLossRequest>()
+                .HasMany(e => e.Attachments)
+                .WithRequired()
+                .HasForeignKey(c => c.RequestId);
 
             modelBuilder.Entity<Attachment>()
                 .HasMany(e => e.AccountLossRequests)
-                .WithMany(e => e.Attachments)
-                .Map(m => m.ToTable("AccountLossRequestAttachments").MapLeftKey("AttachmentId").MapRightKey("RequestId"));
+                .WithRequired()
+                .HasForeignKey(c => c.AttachmentId);
+
+            modelBuilder.Entity<AccountRegistrationRequestAttachment>().HasKey(c => new { c.RequestId, c.AttachmentId });
+
+            modelBuilder.Entity<AccountRegistrationRequest>()
+                .HasMany(e => e.Attachments)
+                .WithRequired()
+                .HasForeignKey(c => c.RequestId);
 
             modelBuilder.Entity<Attachment>()
                 .HasMany(e => e.AccountRegistrationRequests)
-                .WithMany(e => e.Attachments)
-                .Map(m => m.ToTable("AccountRegistrationRequestAttachments").MapLeftKey("AttachmentId").MapRightKey("RequestId"));
+                .WithRequired()
+                .HasForeignKey(c => c.AttachmentId);
+
+            modelBuilder.Entity<SoftwareDevelopmentRequestAttachment>().HasKey(c => new { c.RequestId, c.AttachmentId });
+
+            modelBuilder.Entity<SoftwareDevelopmentRequest>()
+                .HasMany(e => e.Attachments)
+                .WithRequired()
+                .HasForeignKey(c => c.RequestId);
 
             modelBuilder.Entity<Attachment>()
                 .HasMany(e => e.SoftwareDevelopmentRequests)
-                .WithMany(e => e.Attachments)
-                .Map(m => m.ToTable("SoftwareDevelopmentRequestAttachments").MapLeftKey("AttachmentId").MapRightKey("RequestId"));
+                .WithRequired()
+                .HasForeignKey(c => c.AttachmentId);
+
+            modelBuilder.Entity<SoftwareReworkRequestAttachment>().HasKey(c => new { c.RequestId, c.AttachmentId });
+
+            modelBuilder.Entity<SoftwareReworkRequest>()
+                .HasMany(e => e.Attachments)
+                .WithRequired()
+                .HasForeignKey(c => c.RequestId);
 
             modelBuilder.Entity<Attachment>()
                 .HasMany(e => e.SoftwareReworkRequests)
-                .WithMany(e => e.Attachments)
-                .Map(m => m.ToTable("SoftwareReworkRequestAttachments").MapLeftKey("AttachmentId").MapRightKey("RequestId"));
+                .WithRequired()
+                .HasForeignKey(c => c.AttachmentId);
+
+            modelBuilder.Entity<ServicesApprover>().HasKey(c => new { c.ServiceId, c.EmployeeId });
+
+            modelBuilder.Entity<Service>()
+                .HasMany(e => e.Approvers)
+                .WithRequired()
+                .HasForeignKey(c => c.ServiceId);
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ApprovalServices)
-                .WithMany(e => e.Approvers)
-                .Map(m=>m.ToTable("ServicesApprovers").MapLeftKey("EmployeeId").MapRightKey("ServiceId"));
+                .WithRequired()
+                .HasForeignKey(c => c.EmployeeId);
+
+            modelBuilder.Entity<ExecutorGroupMember>().HasKey(c => new { c.ExecutorGroupId, c.EmployeeId });
+
+            modelBuilder.Entity<ExecutorGroup>()
+                .HasMany(e => e.Employees)
+                .WithRequired()
+                .HasForeignKey(c => c.ExecutorGroupId);
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ExecutorGroups)
-                .WithMany(e => e.Employees)
-                .Map(m => m.ToTable("ExecutorGroupMembers").MapLeftKey("EmployeeId").MapRightKey("ExecutorGroupId"));
+                .WithRequired()
+                .HasForeignKey(c => c.EmployeeId);
+
+            modelBuilder.Entity<SubdivisionExecutor>().HasKey(c => new { c.SubdivisionId, c.EmployeeId });
+
+            modelBuilder.Entity<Subdivision>()
+                .HasMany(e => e.SubdivisionExecutors)
+                .WithRequired()
+                .HasForeignKey(c => c.SubdivisionId);
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ExecutorSubdivisions)
-                .WithMany(e => e.SubdivisionExecutors)
-                .Map(m => m.ToTable("SubdivisionExecutors").MapLeftKey("EmployeeId").MapRightKey("SubdivisionId"));
+                .WithRequired()
+                .HasForeignKey(c => c.EmployeeId);
+
+            modelBuilder.Entity<ServicesExecutorGroup>().HasKey(c => new { c.ServiceId, c.ExecutorGroupId });
+
+            modelBuilder.Entity<Service>()
+                .HasMany(e => e.ExecutorGroups)
+                .WithRequired()
+                .HasForeignKey(c => c.ServiceId);
 
             modelBuilder.Entity<ExecutorGroup>()
                 .HasMany(e => e.Services)
-                .WithMany(e => e.ExecutorGroups)
-                .Map(m => m.ToTable("ServicesExecutorGroups").MapLeftKey("ExecutorGroupId").MapRightKey("ServiceId"));
+                .WithRequired()
+                .HasForeignKey(c => c.ExecutorGroupId);
 
             modelBuilder.Entity<Requests>()
                 .Property(r => r.Source)
@@ -344,8 +437,6 @@ namespace Domain
                 .WillCascadeOnDelete(false);
             #endregion
             #endregion
-
-
         }
     }
 }

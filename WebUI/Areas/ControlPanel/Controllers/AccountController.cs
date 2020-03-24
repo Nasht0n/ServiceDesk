@@ -1,12 +1,15 @@
 ﻿using BusinessLogic;
+using Domain;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Data.Entity;
 using WebUI.Models;
 using WebUI.ViewModels.Account;
 using WebUI.ViewModels.Permission;
+using Domain.Models.ManyToMany;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
@@ -23,8 +26,8 @@ namespace WebUI.Areas.ControlPanel.Controllers
             int id = int.Parse(User.Identity.Name);
             var account = accountService.GetAccountById(id);
             var user = employeeService.GetEmployeeById(account.EmployeeId);
-            ViewBag.CanAddRequest = account.Permissions.Where(p => p.Title == "CanAddRequest").ToList().Count != 0;
-            ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.Title == "AccessToControlPanel").ToList().Count != 0;
+            ViewBag.CanAddRequest = account.Permissions.Where(p => p.Permission.Title == "CanAddRequest").ToList().Count != 0;
+            ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.Permission.Title == "AccessToControlPanel").ToList().Count != 0;
             ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
             return user;
         }
@@ -67,30 +70,36 @@ namespace WebUI.Areas.ControlPanel.Controllers
             var user = PopulateAccountInfo();
             PopulateDropDownList();
             Employee employee = DataFromModel.GetData(model.EmployeeModel);
-            var employees = employeeService.GetEmployees();
-            if (employees.FirstOrDefault(e => e.Surname == employee.Surname && e.Firstname == employee.Firstname) == null)
+            
+            using(var context = new ServiceDeskContext())
             {
-                employeeService.AddEmployee(employee);
-            }
-
-            Account account = DataFromModel.GetData(model);
-            account.DateRegistration = DateTime.Now;
-            account.DateChangePassword = DateTime.Now;
-            account.LastEnterDateTime = DateTime.Now;
-            account.EmployeeId = employee.Id;
-            account.Permissions = new List<Permission>();
-            accountService.AddAccount(account);
-
-
-            foreach (var permission in model.Permissions)
-            {                
-                if (permission.IsChecked)
+                var employees = context.Employees.ToList();
+                if (employees.FirstOrDefault(e => e.Surname == employee.Surname && e.Firstname == employee.Firstname) == null)
                 {
-                    Permission temp = permissionService.GetPermissionById(permission.Id);
-                    account.Permissions.Add(temp);
+                    context.Employees.Add(employee);
                 }
+
+                Account account = DataFromModel.GetData(model);
+                account.DateRegistration = DateTime.Now;
+                account.DateChangePassword = DateTime.Now;
+                account.LastEnterDateTime = DateTime.Now;
+                account.EmployeeId = employee.Id;
+                account.Permissions = new List<AccountPermission>();
+
+                //foreach (var permission in model.Permissions)
+                //{
+                //    if (permission.IsChecked)
+                //    {
+                //        Permission ps = context.Permissions.FirstOrDefault(p => p.Id == permission.Id);
+                //        account.Permissions.Add(ps);
+                //    }
+                //}
+
+                context.Accounts.Add(account);
+                context.SaveChanges();
             }
-            accountService.UpdateAccount(account);
+
+            
             
             return RedirectToAction("Index", "Account", new { Area = "ControlPanel" });
         }
@@ -110,13 +119,40 @@ namespace WebUI.Areas.ControlPanel.Controllers
             var user = PopulateAccountInfo();
             PopulateDropDownList();
             Employee employee = DataFromModel.GetData(model.EmployeeModel);
-            if(employee.Id != 0)
+
+            using(var context = new ServiceDeskContext())
             {
-                employeeService.UpdateEmployee(employee);
-            }
-            Account account = DataFromModel.GetData(model);
-            account.EmployeeId = employee.Id;
-            accountService.UpdateAccount(account);
+                if (employee.Id != 0)
+                {
+                    var employeeToUpdate = context.Employees.SingleOrDefault(e => e.Id == model.EmployeeModel.Id);
+                    employeeToUpdate.Surname = model.EmployeeModel.Surname;
+                    employeeToUpdate.Firstname = model.EmployeeModel.Firstname;
+                    employeeToUpdate.Patronymic = model.EmployeeModel.Patronymic;
+                    employeeToUpdate.Post = model.EmployeeModel.Post;
+                    employeeToUpdate.Email = model.EmployeeModel.Email;
+                    employeeToUpdate.Phone = model.EmployeeModel.Phone;
+                    employeeToUpdate.HeadOfUnit = model.EmployeeModel.HeadOfUnit;
+                    employeeToUpdate.SubdivisionId = model.EmployeeModel.SubdivisionId;                    
+                }
+                Account account = context.Accounts.Include(a=>a.Permissions).FirstOrDefault(a => a.Id == model.Id);
+
+                account.Permissions.Clear();
+
+
+                //account.Permissions = new List<Permission>();
+
+                //foreach (var permission in model.Permissions)
+                //{
+                //    if (permission.IsChecked)
+                //    {
+                //        Permission ps = context.Permissions.FirstOrDefault(p => p.Id == permission.Id);
+                //        account.Permissions.Add(ps);
+                //    }
+                //}
+
+                context.SaveChanges();
+
+            }           
 
             return RedirectToAction("Index", "Account", new { Area = "ControlPanel" });
         }

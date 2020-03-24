@@ -1,4 +1,5 @@
 ﻿using Domain.Abstract;
+using Domain.Models.ManyToMany;
 using System.Collections.Generic;
 
 namespace Domain.Models.Requests.Accounts
@@ -11,11 +12,13 @@ namespace Domain.Models.Requests.Accounts
         /// <summary>
         /// Список прикрепленных файлов
         /// </summary>
-        public IList<Attachment> Attachments { get; set; }
+        public virtual IList<AccountDisconnectRequestAttachment> Attachments { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public AccountDisconnectRequest() { }
+        public AccountDisconnectRequest() {
+            Attachments = new List<AccountDisconnectRequestAttachment>();
+        }
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>
@@ -38,6 +41,7 @@ namespace Domain.Models.Requests.Accounts
             PriorityId = priorityId;
             ClientId = clientId;
             ExecutorGroupId = executorGroupId;
+            Attachments = new List<AccountDisconnectRequestAttachment>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 

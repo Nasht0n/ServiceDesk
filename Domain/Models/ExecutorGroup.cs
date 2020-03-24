@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models.ManyToMany;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -22,9 +23,12 @@ namespace Domain.Models
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public IList<Employee> Employees { get; set; }
-        public IList<Service> Services { get; set; }
-        public ExecutorGroup() { }
+        public virtual IList<ExecutorGroupMember> Employees { get; set; }
+        public virtual IList<ServicesExecutorGroup> Services { get; set; }
+        public ExecutorGroup() {
+            Employees = new List<ExecutorGroupMember>();
+            Services = new List<ServicesExecutorGroup>();
+        }
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>
@@ -33,6 +37,8 @@ namespace Domain.Models
         {
             //инициализация переменных
             Name = name;
+            Employees = new List<ExecutorGroupMember>();
+            Services = new List<ServicesExecutorGroup>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.

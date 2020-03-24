@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models.ManyToMany;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -42,19 +43,22 @@ namespace Domain.Models
         /// <summary>
         /// Объект категории работы, текущего вида работы
         /// </summary>
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         /// <summary>
         /// Список пользователей, согласовывающие текущий вид работы
         /// </summary>
-        public IList<Employee> Approvers { get; set; }
+        public virtual IList<ServicesApprover> Approvers { get; set; }
         /// <summary>
         /// Список групп исполнителей, закрепленных за данным видом работы
         /// </summary>
-        public IList<ExecutorGroup> ExecutorGroups { get; set; }
+        public virtual IList<ServicesExecutorGroup> ExecutorGroups { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public Service() { }
+        public Service() {
+            Approvers = new List<ServicesApprover>();
+            ExecutorGroups = new List<ServicesExecutorGroup>();
+        }
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>
@@ -68,6 +72,8 @@ namespace Domain.Models
             ApprovalRequired = approvalRequired;
             Controller = controller;
             CategoryId = categoryId;
+            Approvers = new List<ServicesApprover>();
+            ExecutorGroups = new List<ServicesExecutorGroup>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 

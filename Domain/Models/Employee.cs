@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models.ManyToMany;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -62,9 +63,9 @@ namespace Domain.Models
         /// </summary>
         public Subdivision Subdivision { get; set; }
 
-        public IList<Service> ApprovalServices { get; set; }
-        public IList<ExecutorGroup> ExecutorGroups { get; set; }
-        public IList<Subdivision> ExecutorSubdivisions { get; set; }
+        public virtual IList<ServicesApprover> ApprovalServices { get; set; }
+        public virtual IList<ExecutorGroupMember> ExecutorGroups { get; set; }
+        public virtual IList<SubdivisionExecutor> ExecutorSubdivisions { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>

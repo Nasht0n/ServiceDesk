@@ -53,56 +53,16 @@
   <ItemGroup>
     <Compile Include="Abstract\LifeCycle.cs" />
     <Compile Include="Abstract\Request.cs" />
-    <Compile Include="Migrations\202003150943187_CreateModel.cs" />
-    <Compile Include="Migrations\202003150943187_CreateModel.designer.cs">
-      <DependentUpon>202003150943187_CreateModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003150950297_ViewModelAdd.cs" />
-    <Compile Include="Migrations\202003150950297_ViewModelAdd.designer.cs">
-      <DependentUpon>202003150950297_ViewModelAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003152017060_ChangeBranchModel.cs" />
-    <Compile Include="Migrations\202003152017060_ChangeBranchModel.designer.cs">
-      <DependentUpon>202003152017060_ChangeBranchModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003160905219_ExecutorIdCanBeNull.cs" />
-    <Compile Include="Migrations\202003160905219_ExecutorIdCanBeNull.designer.cs">
-      <DependentUpon>202003160905219_ExecutorIdCanBeNull.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003161133097_SomeModelChange.cs" />
-    <Compile Include="Migrations\202003161133097_SomeModelChange.designer.cs">
-      <DependentUpon>202003161133097_SomeModelChange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003161136205_ChangeServiceApprovers.cs" />
-    <Compile Include="Migrations\202003161136205_ChangeServiceApprovers.designer.cs">
-      <DependentUpon>202003161136205_ChangeServiceApprovers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003161138124_ChangeContext.cs" />
-    <Compile Include="Migrations\202003161138124_ChangeContext.designer.cs">
-      <DependentUpon>202003161138124_ChangeContext.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003170930437_ChangeAccountModel.cs" />
-    <Compile Include="Migrations\202003170930437_ChangeAccountModel.designer.cs">
-      <DependentUpon>202003170930437_ChangeAccountModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003181416227_AddSubdivisionInRequests.cs" />
-    <Compile Include="Migrations\202003181416227_AddSubdivisionInRequests.designer.cs">
-      <DependentUpon>202003181416227_AddSubdivisionInRequests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003181421073_ViewRequestChange.cs" />
-    <Compile Include="Migrations\202003181421073_ViewRequestChange.designer.cs">
-      <DependentUpon>202003181421073_ViewRequestChange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003182135561_RequestView.cs" />
-    <Compile Include="Migrations\202003182135561_RequestView.designer.cs">
-      <DependentUpon>202003182135561_RequestView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003220942106_FixMistakes.cs" />
-    <Compile Include="Migrations\202003220942106_FixMistakes.designer.cs">
-      <DependentUpon>202003220942106_FixMistakes.cs</DependentUpon>
+    <Compile Include="Migrations\202003241208558_CreateModel.cs" />
+    <Compile Include="Migrations\202003241208558_CreateModel.designer.cs">
+      <DependentUpon>202003241208558_CreateModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\ManyToMany\AccountCancellationRequestAttachment.cs" />
+    <Compile Include="Models\ManyToMany\AccountDisconnectRequestAttachment.cs" />
+    <Compile Include="Models\ManyToMany\AccountLossRequestAttachment.cs" />
+    <Compile Include="Models\ManyToMany\AccountPermission.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\Campus.cs" />
     <Compile Include="Models\Category.cs" />
@@ -112,6 +72,13 @@
     <Compile Include="Models\Equipment.cs" />
     <Compile Include="Models\EquipmentType.cs" />
     <Compile Include="Models\ExecutorGroup.cs" />
+    <Compile Include="Models\ManyToMany\AccountRegistrationRequestAttachment.cs" />
+    <Compile Include="Models\ManyToMany\ExecutorGroupMember.cs" />
+    <Compile Include="Models\ManyToMany\ServicesApprover.cs" />
+    <Compile Include="Models\ManyToMany\ServicesExecutorGroup.cs" />
+    <Compile Include="Models\ManyToMany\SoftwareDevelopmentRequestAttachment.cs" />
+    <Compile Include="Models\ManyToMany\SoftwareReworkRequestAttachment.cs" />
+    <Compile Include="Models\ManyToMany\SubdivisionExecutor.cs" />
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\Priority.cs" />
     <Compile Include="Models\RefuelingLimits.cs" />
@@ -176,43 +143,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003150943187_CreateModel.resx">
-      <DependentUpon>202003150943187_CreateModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003150950297_ViewModelAdd.resx">
-      <DependentUpon>202003150950297_ViewModelAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003152017060_ChangeBranchModel.resx">
-      <DependentUpon>202003152017060_ChangeBranchModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003160905219_ExecutorIdCanBeNull.resx">
-      <DependentUpon>202003160905219_ExecutorIdCanBeNull.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003161133097_SomeModelChange.resx">
-      <DependentUpon>202003161133097_SomeModelChange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003161136205_ChangeServiceApprovers.resx">
-      <DependentUpon>202003161136205_ChangeServiceApprovers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003161138124_ChangeContext.resx">
-      <DependentUpon>202003161138124_ChangeContext.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003170930437_ChangeAccountModel.resx">
-      <DependentUpon>202003170930437_ChangeAccountModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003181416227_AddSubdivisionInRequests.resx">
-      <DependentUpon>202003181416227_AddSubdivisionInRequests.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003181421073_ViewRequestChange.resx">
-      <DependentUpon>202003181421073_ViewRequestChange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003182135561_RequestView.resx">
-      <DependentUpon>202003182135561_RequestView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003220942106_FixMistakes.resx">
-      <DependentUpon>202003220942106_FixMistakes.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003241208558_CreateModel.resx">
+      <DependentUpon>202003241208558_CreateModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

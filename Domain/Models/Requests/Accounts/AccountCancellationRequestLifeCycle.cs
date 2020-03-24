@@ -17,7 +17,7 @@ namespace Domain.Models.Requests.Accounts
         /// <summary>
         /// Объект заявки на аннулирование учетной записи
         /// </summary>
-        public AccountCancellationRequest Request { get; set; }
+        public virtual AccountCancellationRequest Request { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models.ManyToMany;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -24,29 +25,30 @@ namespace Domain.Models
         /// </summary>
         [Required]
         [MaxLength(150)]
-        public string Name { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Список учетных записей с данным разрешением доступа
         /// </summary>
-        public IList<Account> Accounts { get; set; }
+        public IList<AccountPermission> Accounts { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
         public Permission()
         {
-            Accounts = new List<Account>();
+            Accounts = new List<AccountPermission>();
         }
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>
         /// <param name="title">Заголовок разрешения доступа</param>
-        /// <param name="value">Значения разрешения доступа</param>
-        public Permission(string title)
+        /// <param name="description">Описание разрешения доступа</param>
+        public Permission(string title, string description)
         {
             // инициализация переменных
             Title = title;
-            Accounts = new List<Account>();
+            Description = description;
+            Accounts = new List<AccountPermission>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 
@@ -55,7 +57,7 @@ namespace Domain.Models
         /// <returns>Возвращает строковое представление объекта разрешения доступа.</returns>
         public override string ToString()
         {
-            return $"Permission object:(Id:[{Id}];Title:[{Title}]).";
+            return $"Permission object:(Id:[{Id}];Title:[{Title}];Description:[{Description}]).";
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
@@ -66,7 +68,7 @@ namespace Domain.Models
         {
             return obj is Permission permission &&
                    Id == permission.Id &&
-                   Title == permission.Title;
+                   Title == permission.Title && Description == permission.Description;
         }
         /// <summary>
         /// Метод переопределния стандартного метода получения хэш-кода объекта

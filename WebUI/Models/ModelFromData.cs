@@ -51,17 +51,17 @@ namespace WebUI.Models
                 LastEnterDateTime = account.LastEnterDateTime,
                 EmployeeModel = GetViewModel(account.Employee)
             };
-            model.Permissions = new List<PermissionViewModel>();
-            foreach (var permission in account.Permissions)
-            {
-                model.Permissions.Add(new PermissionViewModel
-                {
-                    Id = permission.Id,
-                    Title = permission.Title,
-                    Name = permission.Name,
-                    IsChecked = true
-                });
-            }
+            //model.Permissions = new List<PermissionViewModel>();
+            //foreach (var permission in account.Permissions)
+            //{
+            //    model.Permissions.Add(new PermissionViewModel
+            //    {
+            //        Id = permission.Id,
+            //        Title = permission.Title,
+            //        Name = permission.Name,
+            //        IsChecked = true
+            //    });
+            //}
             return model;
         }
 
@@ -82,25 +82,26 @@ namespace WebUI.Models
             model.Permissions = new List<PermissionViewModel>();
             foreach (var permission in permissions)
             {
-                if (account.Permissions.Contains(permission)){
+                //if (account.Permissions.Contains(permission))
+                //{
+                //    model.Permissions.Add(new PermissionViewModel
+                //    {
+                //        Id = permission.Id,
+                //        Title = permission.Title,
+                //        Name = permission.Description,
+                //        IsChecked = true
+                //    });
+                //}
+                //else
+                //{
                     model.Permissions.Add(new PermissionViewModel
                     {
                         Id = permission.Id,
                         Title = permission.Title,
-                        Name = permission.Name,
-                        IsChecked = true
-                    });
-                }
-                else
-                {
-                    model.Permissions.Add(new PermissionViewModel
-                    {
-                        Id = permission.Id,
-                        Title = permission.Title,
-                        Name = permission.Name,
+                        Name = permission.Description,
                         IsChecked = false
                     });
-                }               
+                //}
             }
             return model;
         }
@@ -152,7 +153,7 @@ namespace WebUI.Models
                 result.Add(new PermissionViewModel { 
                     Id = permission.Id,
                     Title = permission.Title,
-                    Name = permission.Name
+                    Name = permission.Description
                 });
             }
             return result;
@@ -165,7 +166,7 @@ namespace WebUI.Models
             RequestListViewModel model = new RequestListViewModel();
             List<RequestViewModel> requestsModel = new List<RequestViewModel>();
             // Получаем список заявок где пользователь клиент или иполнитель
-            requests = requests.Where(r => (r.Service.ApprovalRequired && r.Service.Approvers.Contains(user)) || (r.ClientId == user.Id || r.ExecutorId == user.Id) && r.SubdivisionId == user.SubdivisionId).ToList();
+            //requests = requests.Where(r => (r.Service.ApprovalRequired && r.Service.Approvers.Contains(user)) || (r.ClientId == user.Id || r.ExecutorId == user.Id) && r.SubdivisionId == user.SubdivisionId).ToList();
 
             foreach (var request in requests)
             {

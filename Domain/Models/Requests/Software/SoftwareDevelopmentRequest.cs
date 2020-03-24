@@ -1,4 +1,5 @@
 ﻿using Domain.Abstract;
+using Domain.Models.ManyToMany;
 using System.Collections.Generic;
 
 namespace Domain.Models.Requests.Software
@@ -11,13 +12,13 @@ namespace Domain.Models.Requests.Software
         /// <summary>
         /// Список прикрепленных файлов
         /// </summary>
-        public IList<Attachment> Attachments { get; set; }
+        public virtual IList<SoftwareDevelopmentRequestAttachment> Attachments { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
         public SoftwareDevelopmentRequest()
         {
-
+            Attachments = new List<SoftwareDevelopmentRequestAttachment>();
         }
         /// <summary>
         /// Конструктор с параметрами
@@ -41,6 +42,7 @@ namespace Domain.Models.Requests.Software
             PriorityId = priorityId;
             ClientId = clientId;
             ExecutorGroupId = executorGroupId;
+            Attachments = new List<SoftwareDevelopmentRequestAttachment>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 

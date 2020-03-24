@@ -1,5 +1,4 @@
-﻿using Domain.Models.Requests.Accounts;
-using Domain.Models.Requests.Software;
+﻿using Domain.Models.ManyToMany;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,31 +35,39 @@ namespace Domain.Models
         /// <summary>
         /// Навигационное свойство к заявкам на разработку программного обеспечения
         /// </summary>
-        public IList<SoftwareDevelopmentRequest> SoftwareDevelopmentRequests { get; set; }
+        public virtual IList<SoftwareDevelopmentRequestAttachment> SoftwareDevelopmentRequests { get; set; }
         /// <summary>
         /// Навигационное свойство к заявкам на доработку программного обеспечения
         /// </summary>
-        public IList<SoftwareReworkRequest> SoftwareReworkRequests { get; set; }
+        public virtual IList<SoftwareReworkRequestAttachment> SoftwareReworkRequests { get; set; }
         /// <summary>
         /// Навигационное свойство к заявкам на аннулирование учетных записей
         /// </summary>
-        public IList<AccountCancellationRequest> AccountCancellationRequests { get; set; }
+        public virtual IList<AccountCancellationRequestAttachment> AccountCancellationRequests { get; set; }
         /// <summary>
         /// Навигационное свойство к заявкам на отключение учетных записей
         /// </summary>
-        public IList<AccountDisconnectRequest> AccountDisconnectRequests { get; set; }
+        public virtual IList<AccountDisconnectRequestAttachment> AccountDisconnectRequests { get; set; }
         /// <summary>
         /// Навигационное свойство к заявкам на утрату учетных записей
         /// </summary>
-        public IList<AccountLossRequest> AccountLossRequests { get; set; }
+        public virtual IList<AccountLossRequestAttachment> AccountLossRequests { get; set; }
         /// <summary>
         /// Навигационное свойство к заявкам на регистрацию учетных записей
         /// </summary>
-        public IList<AccountRegistrationRequest> AccountRegistrationRequests { get; set; }
+        public virtual IList<AccountRegistrationRequestAttachment> AccountRegistrationRequests { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public Attachment() { }
+        public Attachment() 
+        {
+            SoftwareDevelopmentRequests = new List<SoftwareDevelopmentRequestAttachment>();
+            SoftwareReworkRequests = new List<SoftwareReworkRequestAttachment>();
+            AccountCancellationRequests = new List<AccountCancellationRequestAttachment>();
+            AccountDisconnectRequests = new List<AccountDisconnectRequestAttachment>();
+            AccountLossRequests = new List<AccountLossRequestAttachment>();
+            AccountRegistrationRequests = new List<AccountRegistrationRequestAttachment>();
+        }
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>

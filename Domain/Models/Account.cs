@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models.ManyToMany;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -63,12 +64,12 @@ namespace Domain.Models
         /// <summary>
         /// Список прав доступа
         /// </summary>
-        public IList<Permission> Permissions { get; set; }
+        public IList<AccountPermission> Permissions { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
         public Account() {
-            Permissions = new List<Permission>();
+            Permissions = new List<AccountPermission>();
         }
         /// <summary>
         /// Конструктор с параметрами
@@ -91,7 +92,7 @@ namespace Domain.Models
             IsEnabled = isEnabled;
             ChangePasswordOnNextEnter = changePasswordOnNextEnter;
             EmployeeId = employeeId;
-            Permissions = new List<Permission>();
+            Permissions = new List<AccountPermission>();
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
