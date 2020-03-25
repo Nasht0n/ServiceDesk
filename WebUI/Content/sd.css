@@ -59,6 +59,19 @@ a.request-card>div.card>div.card-body {
         background-color: InfoBackground;
     }
 
+a.cpanel-card > div.card-header {
+    background-color: #3A3F44;
+}
+
+    a.cpanel-card > div.card-header:hover {
+        background-color: #7A8288;
+    }
+
+    a.cpanel-card > div.card-body:hover {
+        background-color: #7A8288;
+    }
+
+
 @media (min-width: 768px) {
     #sidebar-wrapper {
         margin-left: 0;

@@ -1,4 +1,6 @@
-﻿using Ninject;
+﻿using BusinessLogic.Abstract;
+using BusinessLogic.Concrete;
+using Ninject;
 using Repository.Abstract;
 using Repository.Concrete;
 using System;
@@ -20,8 +22,18 @@ namespace WebUI.Infrastructure
         {
             kernel.Bind<IAccountPermissionRepository>().To<AccountPermissionRepository>();
             kernel.Bind<IAccountRepository>().To<AccountRepository>();
+            kernel.Bind<IBranchRepository>().To<BranchRepository>();
+            kernel.Bind<ICategoryRepository>().To<CategoryRepository>();
             kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
+            kernel.Bind<IExecutorGroupMembersRepository>().To<ExecutorGroupMembersRepository>();
+            kernel.Bind<IExecutorGroupRepository>().To<ExecutorGroupRepository>();
             kernel.Bind<IPermissionRepository>().To<PermissionRepository>();
+            kernel.Bind<IServiceRepository>().To<ServiceRepository>();
+            kernel.Bind<IServicesApproversRepository>().To<ServicesApproversRepository>();
+            kernel.Bind<ISubdivisionExecutorsRepository>().To<SubdivisionExecutorsRepository>();
+
+            kernel.Bind<ISubdivisionRepository>().To<SubdivisionRepository>();
+            kernel.Bind<ISubdivisionLogic>().To<SubdivisionLogic>();
         }
 
         public object GetService(Type serviceType)

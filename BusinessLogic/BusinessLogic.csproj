@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ISubdivisionLogic.cs" />
     <Compile Include="AccountService.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="CampusService.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Requests\IT\Equipment\ReplaceEquipmentService.cs" />
     <Compile Include="Requests\RequestService.cs" />
     <Compile Include="ServiceService.cs" />
+    <Compile Include="Concrete\SubdivisionLogic.cs" />
     <Compile Include="SubdivisionService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +82,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{D5AB7BC3-082B-4FF4-80E0-7C409D737230}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}</Project>
+      <Name>Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,8 +13,12 @@ namespace Repository.Concrete
     public class AccountPermissionRepository : IAccountPermissionRepository
     {
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+        private readonly ServiceDeskContext context;
 
-        public AccountPermissionRepository() { }
+        public AccountPermissionRepository(ServiceDeskContext context)
+        {
+            this.context = context;
+        }
 
         public async Task<AccountPermission> AddAccountPermission(AccountPermission accountPermission)
         {
@@ -22,15 +26,14 @@ namespace Repository.Concrete
             {
                 log.Information($"Добавление прав доступа учетной записи: {accountPermission.Permission.ToString()} {accountPermission.Account.ToString()}");
                 Stopwatch watch = new Stopwatch();
-                using (var context = new ServiceDeskContext())
-                {
-                    watch.Start();
-                    var inserted = context.AccountPermissions.Add(accountPermission);
-                    await context.SaveChangesAsync();
-                    watch.Stop();
-                    log.Debug($"Право доступа учетной записи добавлено. Затрачено времени: {watch.Elapsed}.");
-                    return inserted;
-                }
+
+                watch.Start();
+                var inserted = context.AccountPermissions.Add(accountPermission);
+                await context.SaveChangesAsync();
+                watch.Stop();
+                log.Debug($"Право доступа учетной записи добавлено. Затрачено времени: {watch.Elapsed}.");
+                return inserted;
+
             }
             catch (Exception ex)
             {
@@ -45,15 +48,14 @@ namespace Repository.Concrete
             {
                 log.Information($"Удаление права доступа учетной записи: {accountPermission.ToString()}");
                 Stopwatch watch = new Stopwatch();
-                using (var context = new ServiceDeskContext())
-                {
-                    watch.Start();
-                    var deleted = await context.AccountPermissions.SingleOrDefaultAsync(a => a.PermissionId == accountPermission.PermissionId && a.AccountId == accountPermission.AccountId);
-                    context.AccountPermissions.Remove(deleted);
-                    await context.SaveChangesAsync();
-                    watch.Stop();
-                    log.Debug($"Право доступа учетной записи удалено. Затрачено времени: {watch.Elapsed}.");
-                }
+
+                watch.Start();
+                var deleted = await context.AccountPermissions.SingleOrDefaultAsync(a => a.PermissionId == accountPermission.PermissionId && a.AccountId == accountPermission.AccountId);
+                context.AccountPermissions.Remove(deleted);
+                await context.SaveChangesAsync();
+                watch.Stop();
+                log.Debug($"Право доступа учетной записи удалено. Затрачено времени: {watch.Elapsed}.");
+
             }
             catch (Exception ex)
             {
@@ -67,17 +69,16 @@ namespace Repository.Concrete
             {
                 log.Information($"Получение списка прав учетных записей.");
                 Stopwatch watch = new Stopwatch();
-                using (var context = new ServiceDeskContext())
-                {
-                    watch.Start();
-                    var list = await context.AccountPermissions
-                        .Include(a=>a.Account)
-                        .Include(a=>a.Permission)
-                        .ToListAsync();
-                    watch.Stop();
-                    log.Debug($"Список прав учетных записей получен. Количество записей: {list.Count}. Затрачено времени: {watch.Elapsed}.");
-                    return list;
-                }
+
+                watch.Start();
+                var list = await context.AccountPermissions
+                    .Include(a => a.Account)
+                    .Include(a => a.Permission)
+                    .ToListAsync();
+                watch.Stop();
+                log.Debug($"Список прав учетных записей получен. Количество записей: {list.Count}. Затрачено времени: {watch.Elapsed}.");
+                return list;
+
             }
             catch (Exception ex)
             {

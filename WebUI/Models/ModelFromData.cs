@@ -145,6 +145,29 @@ namespace WebUI.Models
             return model;
         }
 
+        public static ListSubdivisionExecutorsViewModel GetListViewModel(Subdivision subdivision)
+        {
+            ListSubdivisionExecutorsViewModel model = new ListSubdivisionExecutorsViewModel();
+            model.SubdivisionId = subdivision.Id;
+            model.SubdivisionModel = GetViewModel(subdivision);
+
+
+
+            model.ExecutorsModel = new List<SubdivisionExecutorViewModel>();
+            foreach(var employee in subdivision.SubdivisionExecutors)
+            {
+                SubdivisionExecutorViewModel item = new SubdivisionExecutorViewModel 
+                { 
+                    SubdivisionId = subdivision.Id, 
+                    SubdvisionModel = GetViewModel(subdivision),
+                    EmployeeId = employee.Id,
+                    Employee = GetViewModel(employee)
+                };
+                model.ExecutorsModel.Add(item);
+            }
+            return model;
+        }
+
         public static List<PermissionViewModel> GetListViewModel(List<Permission> permissions)
         {
             List<PermissionViewModel> result = new List<PermissionViewModel>();

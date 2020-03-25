@@ -1,39 +1,53 @@
 ﻿<!-- Sidebar -->
 <div class="bg-primary" id="sidebar-wrapper">
-    <h2 class="text-white text-center mt-2">Service Desk</h2>
-    <ul class="list-group list-group-flush mt-4">
-        <a href="@Url.Action("Index","Subdivision",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+    <a href="@Url.Action("Index","Dashboard",new { Area="" })" class="text-white text-center text-decoration-none ">        
+        <h3 class="mt-3"><i class="fa fa-home"></i> Service Desk</h3>
+    </a>
+
+    <div class="list-group list-group-flush mt-4">
+        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
             <div class="d-flex align-items-center">
                 <i class="fa fa-building"></i>
                 <span class="ml-3 w-100">Подразделения</span>
             </div>
         </a>
-        <a href="@Url.Action("Index","Account",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
             <div class="d-flex align-items-center">
-                <i class="fa fa-users"></i>
+                <i class="fa fa-user-tie"></i>
                 <span class="ml-3 w-100">Сотрудники</span>
             </div>
         </a>
-        <li class="list-group-item list-group-item-action bg-primary border-dark m-0 p-0">
-            
-            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-               class="dropdown-toggle list-group-item list-group-item-action bg-primary border-dark text-decoration-none">
+        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-users-cog"></i>
+                <span class="ml-3 w-100">Группы исполнителей</span>
+            </div>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
                 <i class="fa fa-users"></i>
-                <span class="ml-3">Пользователи системы</span>
-            </a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
-                <li>
-                    <a class="list-group-item list-group-item-action bg-primary border-dark" href="#">Home 1</a>
-                </li>
-                <li>
-                    <a class="list-group-item list-group-item-action bg-primary border-dark" href="#">Home 2</a>
-                </li>
-                <li>
-                    <a class="list-group-item list-group-item-action bg-primary border-dark" href="#">Home 3</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+                <span class="ml-3 w-100">Учетные записи</span>
+            </div>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-share-alt"></i>
+                <span class="ml-3 w-100">Отрасль службы поддержки</span>
+            </div>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-sitemap"></i>
+                <span class="ml-3 w-100">Категории заявок</span>
+            </div>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-cogs"></i>
+                <span class="ml-3 w-100">Виды заявок</span>
+            </div>
+        </a>
+    </div>
 </div>
 
 

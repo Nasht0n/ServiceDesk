@@ -1010,6 +1010,7 @@
     <Content Include="Areas\ControlPanel\Views\Subdivision\Delete.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Subdivision\SubdivisionsCardView.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Account\Edit.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Subdivision\SubdivisionExecutors.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1123,6 +1124,7 @@
     <Compile Include="Areas\Admin\Controllers\SubdivisionController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\AccountController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\DeskController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\EmployeeController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\SubdivisionController.cs" />
     <Compile Include="Areas\ControlPanel\ControlPanelAreaRegistration.cs" />
     <Compile Include="Areas\ControlPanel\Data\ControlPanelViewModel.cs" />
@@ -1200,6 +1202,8 @@
     <Compile Include="ViewModels\Service\ServicesListViewModel.cs" />
     <Compile Include="ViewModels\Service\ServiceViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusViewModel.cs" />
+    <Compile Include="ViewModels\Subdivision\ListSubdivisionExecutorsViewModel.cs" />
+    <Compile Include="ViewModels\Subdivision\SubdivisionExecutorViewModel.cs" />
     <Compile Include="ViewModels\Subdivision\SubdivisionViewModel.cs" />
     <Compile Include="ViewModels\Subdivision\SubdivisionsListViewModel.cs" />
   </ItemGroup>
@@ -1233,6 +1237,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\ControlPanel\" />
+    <Folder Include="Areas\ControlPanel\Views\Employee\" />
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
     <Folder Include="Areas\IT\Views\Shared\" />
