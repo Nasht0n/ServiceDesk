@@ -1,0 +1,37 @@
+﻿@model WebUI.ViewModels.Employee.EmployeeViewModel
+
+@{
+    ViewBag.Title = "Удаление записи профиля сотрудника";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_ControlPanelLayout.cshtml";
+}
+
+<h2 class="text-center text-dark display-4 my-3">Сотрудники</h2>
+<h3 class="mt-5 text-dark">Вы уверены, что хотите удалить это подразделение?</h3>
+<div>
+    <div class="card my-3">
+        <div class="card-body bg-white">
+            <h4 class="card-title text-dark text-shadow-none">ФИО Сотрудника: @Model.Fullname</h4>
+            <h6 class="card-subtitle mb-2 text-muted text-shadow-none">Подразделение: @Model.SubdivisionModel.Fullname</h6>
+            <h6 class="card-subtitle mb-2 text-muted text-shadow-none">Должность сотрудника: @Model.Post</h6>
+            @{
+                if (!string.IsNullOrWhiteSpace(Model.Email))
+                {
+                    <h6 class="card-subtitle mb-2 text-muted  text-shadow-none">Электронная почта сотрудника: @Model.Email</h6>
+                }
+                if (!string.IsNullOrWhiteSpace(Model.Phone))
+                {
+                    <h6 class="card-subtitle mb-2 text-muted text-shadow-none">Телефон сотрудника: @Model.Phone</h6>
+                }
+            }
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить запись" class="btn btn-danger" />
+        </div>
+    }
+</div>

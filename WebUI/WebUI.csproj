@@ -1011,6 +1011,16 @@
     <Content Include="Areas\ControlPanel\Views\Subdivision\SubdivisionsCardView.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Account\Edit.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Subdivision\SubdivisionExecutors.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Employee\Index.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Employee\EmployeeCardView.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Employee\Create.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Employee\Edit.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Employee\Delete.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\ExecutorGroup\Create.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\ExecutorGroup\Delete.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\ExecutorGroup\Edit.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\ExecutorGroup\ExecutorGroupCardView.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\ExecutorGroup\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1125,6 +1135,7 @@
     <Compile Include="Areas\ControlPanel\Controllers\AccountController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\DeskController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\EmployeeController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\ExecutorGroupController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\SubdivisionController.cs" />
     <Compile Include="Areas\ControlPanel\ControlPanelAreaRegistration.cs" />
     <Compile Include="Areas\ControlPanel\Data\ControlPanelViewModel.cs" />
@@ -1237,7 +1248,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\ControlPanel\" />
-    <Folder Include="Areas\ControlPanel\Views\Employee\" />
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
     <Folder Include="Areas\IT\Views\Shared\" />

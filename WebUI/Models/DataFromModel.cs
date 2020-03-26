@@ -10,6 +10,7 @@ using WebUI.ViewModels.Consumable;
 using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
 using WebUI.ViewModels.EquipmentType;
+using WebUI.ViewModels.ExecutorGroup;
 using WebUI.ViewModels.Permission;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Service;
@@ -104,6 +105,15 @@ namespace WebUI.Models
                 ApprovalRequired = model.ApprovalRequired,
                 Controller = model.Controller,
                 CategoryId = model.CategoryId
+            };
+        }
+
+        public static ExecutorGroup GetData(ExecutorGroupViewModel model)
+        {
+            return new ExecutorGroup 
+            { 
+                Id = model.Id,
+                Name = model.Name
             };
         }
 

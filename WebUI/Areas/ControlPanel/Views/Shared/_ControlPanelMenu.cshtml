@@ -5,19 +5,19 @@
     </a>
 
     <div class="list-group list-group-flush mt-4">
-        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+        <a href="@Url.Action("Index","Subdivision",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
             <div class="d-flex align-items-center">
                 <i class="fa fa-building"></i>
                 <span class="ml-3 w-100">Подразделения</span>
             </div>
         </a>
-        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+        <a href="@Url.Action("Index","Employee", new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
             <div class="d-flex align-items-center">
                 <i class="fa fa-user-tie"></i>
                 <span class="ml-3 w-100">Сотрудники</span>
             </div>
         </a>
-        <a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+        <a href="@Url.Action("Index","ExecutorGroup", new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
             <div class="d-flex align-items-center">
                 <i class="fa fa-users-cog"></i>
                 <span class="ml-3 w-100">Группы исполнителей</span>

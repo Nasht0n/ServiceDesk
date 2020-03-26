@@ -106,6 +106,40 @@ namespace WebUI.Models
             return model;
         }
 
+        public static ExecutorGroupsListViewModel GetListViewModel(List<ExecutorGroup> executorGroups, string search, int page, int pageSize)
+        {
+            ExecutorGroupsListViewModel model = new ExecutorGroupsListViewModel();
+            List<ExecutorGroupViewModel> list = new List<ExecutorGroupViewModel>();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                executorGroups = executorGroups.Where(eg => eg.Name.Contains(search)).ToList();
+                model.Search = search;
+            }
+
+            foreach(var executorGroup in executorGroups)
+            {
+                ExecutorGroupViewModel item = GetViewModel(executorGroup);
+                list.Add(item);
+            }
+
+            if (page != 0 && pageSize != 0)
+            {
+                model.ExecutorGroups = list
+                .OrderBy(s => s.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+                model.PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = list.Count()
+                };
+            }
+            return model;
+        }
+
         public static AccountListViewModel GetListViewModel(List<Account> accounts, string search, int subdivision, int page, int pageSize)
         {
             AccountListViewModel model = new AccountListViewModel();

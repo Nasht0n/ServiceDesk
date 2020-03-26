@@ -1,0 +1,26 @@
+﻿@model WebUI.ViewModels.ExecutorGroup.ExecutorGroupsListViewModel
+
+@{
+    ViewBag.Title = "Группа исполнителей";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_ControlPanelLayout.cshtml";
+}
+
+<h2 class="text-center display-4 my-3 text-dark">@ViewBag.Title</h2>
+
+<div class="d-flex">
+    <div class="align-self-center">
+        @Html.ActionLink("Новая запись", "Create", null, new { @class = "btn btn-success" })
+    </div>
+    <div class="flex-grow-1 align-self-center ml-1">
+        @using (Html.BeginForm("Index", "ExecutorGroup", new { search = Model.Search }, FormMethod.Get, new { @class = "input-group", role = "form" }))
+        {
+            @Html.TextBox("search", Model.Search as string, new { @class = "form-control", @placeholder = "Поиск группы исполнителей", @autocomplete = "off" })
+            <div class="input-group-append">
+                <input type="submit" value="Поиск" class="btn btn-info" />
+            </div>
+        }
+    </div>
+</div>
+
+@Html.Partial("ExecutorGroupCardView")
+
