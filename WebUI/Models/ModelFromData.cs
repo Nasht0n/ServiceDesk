@@ -51,17 +51,6 @@ namespace WebUI.Models
                 LastEnterDateTime = account.LastEnterDateTime,
                 EmployeeModel = GetViewModel(account.Employee)
             };
-            //model.Permissions = new List<PermissionViewModel>();
-            //foreach (var permission in account.Permissions)
-            //{
-            //    model.Permissions.Add(new PermissionViewModel
-            //    {
-            //        Id = permission.Id,
-            //        Title = permission.Title,
-            //        Name = permission.Name,
-            //        IsChecked = true
-            //    });
-            //}
             return model;
         }
 
@@ -82,27 +71,61 @@ namespace WebUI.Models
             model.Permissions = new List<PermissionViewModel>();
             foreach (var permission in permissions)
             {
-                //if (account.Permissions.Contains(permission))
-                //{
-                //    model.Permissions.Add(new PermissionViewModel
-                //    {
-                //        Id = permission.Id,
-                //        Title = permission.Title,
-                //        Name = permission.Description,
-                //        IsChecked = true
-                //    });
-                //}
-                //else
-                //{
-                    model.Permissions.Add(new PermissionViewModel
-                    {
-                        Id = permission.Id,
-                        Title = permission.Title,
-                        Name = permission.Description,
-                        IsChecked = false
-                    });
-                //}
+                model.Permissions.Add(new PermissionViewModel
+                {
+                    Id = permission.Id,
+                    Title = permission.Title,
+                    Name = permission.Description,
+                    IsChecked = false
+                });
             }
+            return model;
+        }
+
+        public static ServicesListViewModel GetListViewModel(List<Service> services, string search, int page, int branch, int category, int pageSize)
+        {
+            ServicesListViewModel model = new ServicesListViewModel();
+            List<ServiceViewModel> list = new List<ServiceViewModel>();
+
+            if (branch != 0)
+            {
+                services = services.Where(s => s.Category.BranchId == branch).ToList();
+            }
+
+            if (category != 0)
+            {
+                services = services.Where(s => s.CategoryId == category).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                services = services.Where(s => s.Name.Contains(search)).ToList();
+                model.Search = search;
+            }
+
+            foreach (var service in services)
+            {
+                ServiceViewModel item = GetViewModel(service);
+                list.Add(item);
+            }
+
+            if (page != 0 && pageSize != 0)
+            {
+                model.Services = list
+                .OrderBy(s => s.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+                model.PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = list.Count()
+                };
+
+            }
+
+
             return model;
         }
 
@@ -117,7 +140,7 @@ namespace WebUI.Models
                 model.Search = search;
             }
 
-            foreach(var executorGroup in executorGroups)
+            foreach (var executorGroup in executorGroups)
             {
                 ExecutorGroupViewModel item = GetViewModel(executorGroup);
                 list.Add(item);
@@ -188,11 +211,11 @@ namespace WebUI.Models
 
 
             model.ExecutorsModel = new List<SubdivisionExecutorViewModel>();
-            foreach(var employee in subdivision.SubdivisionExecutors)
+            foreach (var employee in subdivision.SubdivisionExecutors)
             {
-                SubdivisionExecutorViewModel item = new SubdivisionExecutorViewModel 
-                { 
-                    SubdivisionId = subdivision.Id, 
+                SubdivisionExecutorViewModel item = new SubdivisionExecutorViewModel
+                {
+                    SubdivisionId = subdivision.Id,
                     SubdvisionModel = GetViewModel(subdivision),
                     EmployeeId = employee.Id,
                     Employee = GetViewModel(employee)
@@ -205,9 +228,10 @@ namespace WebUI.Models
         public static List<PermissionViewModel> GetListViewModel(List<Permission> permissions)
         {
             List<PermissionViewModel> result = new List<PermissionViewModel>();
-            foreach(var permission in permissions)
+            foreach (var permission in permissions)
             {
-                result.Add(new PermissionViewModel { 
+                result.Add(new PermissionViewModel
+                {
                     Id = permission.Id,
                     Title = permission.Title,
                     Name = permission.Description
@@ -577,7 +601,7 @@ namespace WebUI.Models
                 model.ExecutorId = request.ExecutorId;
                 model.Executor = GetViewModel(request.Executor);
             }
-            
+
             return model;
         }
 
@@ -1137,10 +1161,10 @@ namespace WebUI.Models
                 Visible = service.Visible,
                 ApprovalRequired = service.ApprovalRequired,
                 Controller = service.Controller,
-                CategoryId = service.CategoryId,
+                SelectedCategory = service.CategoryId,
                 CategoryModel = GetViewModel(service.Category),
                 BranchModel = GetViewModel(service.Category.Branch),
-                BranchId = service.Category.BranchId
+                SelectedBranch = service.Category.BranchId
             };
         }
 
@@ -1183,14 +1207,14 @@ namespace WebUI.Models
                     TotalItems = serviceModels.Count()
                 };
                 model.Search = search;
-                model.CategoryId = category;
+                model.SelectedCategory = category;
             }
             else
             {
                 model.Services = serviceModels;
             }
-            model.BranchId = categoryModel.BranchId;
-            model.CategoryId = categoryModel.Id;
+            model.SelectedBranch = categoryModel.BranchId;
+            model.SelectedCategory = categoryModel.Id;
             return model;
         }
 

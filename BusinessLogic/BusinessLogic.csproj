@@ -42,16 +42,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAccountLogic.cs" />
+    <Compile Include="Abstract\IBranchLogic.cs" />
+    <Compile Include="Abstract\ICategoryLogic.cs" />
     <Compile Include="Abstract\IEmployeeLogic.cs" />
     <Compile Include="Abstract\IExecutorGroupLogic.cs" />
+    <Compile Include="Abstract\IServiceLogic.cs" />
     <Compile Include="Abstract\ISubdivisionLogic.cs" />
     <Compile Include="AccountService.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="CampusService.cs" />
     <Compile Include="CategoryService.cs" />
     <Compile Include="Concrete\AccountLogic.cs" />
+    <Compile Include="Concrete\BranchLogic.cs" />
+    <Compile Include="Concrete\CategoryLogic.cs" />
     <Compile Include="Concrete\EmployeeLogic.cs" />
     <Compile Include="Concrete\ExecutorGroupLogic.cs" />
+    <Compile Include="Concrete\ServiceLogic.cs" />
     <Compile Include="ConsumableService.cs" />
     <Compile Include="EmployeeService.cs" />
     <Compile Include="EquipmentService.cs" />

@@ -71,6 +71,7 @@ namespace Repository.Concrete
                 watch.Start();
                 var list = await context.Services
                     .Include(e => e.Category)
+                    .Include(e=>e.Category.Branch)
                     .Include(e => e.Approvers)
                     .Include(e => e.ExecutorGroups)
                     .ToListAsync();

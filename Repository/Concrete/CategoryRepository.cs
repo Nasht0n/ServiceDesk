@@ -72,7 +72,9 @@ namespace Repository.Concrete
                 Stopwatch watch = new Stopwatch();
 
                 watch.Start();
-                var list = await context.Categories.ToListAsync();
+                var list = await context.Categories
+                    .Include(c=>c.Branch)
+                    .ToListAsync();
 
                 watch.Stop();
                 log.Debug($"Список категорий заявок получен. Количество записей: {list.Count}. Затрачено времени: {watch.Elapsed}.");

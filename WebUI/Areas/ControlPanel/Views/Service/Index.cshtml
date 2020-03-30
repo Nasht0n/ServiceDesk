@@ -1,0 +1,29 @@
+﻿@model WebUI.ViewModels.Service.ServicesListViewModel
+
+@{
+    ViewBag.Title = "Тип заявки";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_ControlPanelLayout.cshtml";
+}
+
+<h2 class="text-center display-4 my-3 text-dark">@ViewBag.Title</h2>
+
+<div class="d-flex">
+    <div class="align-self-center">
+        @Html.ActionLink("Новая запись", "Create", null, new { @class = "btn btn-success text-nowrap" })
+    </div>
+    <div class="flex-grow-1 align-self-center ml-1">
+        @using (Html.BeginForm("Index", "Service", new { search = Model.Search, branch = Model.SelectedBranch, category = Model.SelectedCategory }, FormMethod.Get, new { @class = "input-group", role = "form" }))
+        {
+            @Html.DropDownListFor(m => m.SelectedBranch, Model.BranchList, "Укажите отрасль заявки", new { @class = "form-control ml-1" })
+            @Html.DropDownListFor(m => m.SelectedCategory, Model.CategoryList, "Укажите категорию заявки", new { @class = "form-control ml-1" })
+            @Html.TextBox("search", Model.Search as string, new { @class = "form-control ml-1", @placeholder = "Поиск категории заявки", @autocomplete = "off" })
+
+            <div class="input-group-append">
+                <input type="submit" value="Поиск" class="btn btn-info" />
+            </div>
+        }
+    </div>
+</div>
+
+@Html.Partial("ServicesCardView")
+

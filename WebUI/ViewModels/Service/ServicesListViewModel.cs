@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using WebUI.Models;
 
 namespace WebUI.ViewModels.Service
@@ -8,7 +10,12 @@ namespace WebUI.ViewModels.Service
         public List<ServiceViewModel> Services { get; set; }
         public PagingInfo PagingInfo { get; set; }
         public string Search { get; set; }
-        public int BranchId { get; set; }
-        public int CategoryId { get; set; }
+
+        [Display(Name = "Отрасль заявки")]
+        public int? SelectedBranch { get; set; }
+        [Display(Name = "Категория заявки")]
+        public int? SelectedCategory { get; set; }
+        public SelectList BranchList { get; set; }
+        public SelectList CategoryList { get; set; }
     }
 }

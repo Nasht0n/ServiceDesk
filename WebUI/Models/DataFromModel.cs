@@ -104,7 +104,7 @@ namespace WebUI.Models
                 Visible = model.Visible,
                 ApprovalRequired = model.ApprovalRequired,
                 Controller = model.Controller,
-                CategoryId = model.CategoryId
+                CategoryId = model.SelectedCategory.Value
             };
         }
 

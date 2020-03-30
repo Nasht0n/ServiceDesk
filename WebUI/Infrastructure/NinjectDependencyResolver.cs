@@ -25,15 +25,22 @@ namespace WebUI.Infrastructure
             kernel.Bind<IAccountLogic>().To<AccountLogic>();
 
             kernel.Bind<IBranchRepository>().To<BranchRepository>();
+            kernel.Bind<IBranchLogic>().To<BranchLogic>();
+
             kernel.Bind<ICategoryRepository>().To<CategoryRepository>();
+            kernel.Bind<ICategoryLogic>().To<CategoryLogic>();
+
             kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
             kernel.Bind<IEmployeeLogic>().To<EmployeeLogic>();
             kernel.Bind<IExecutorGroupMembersRepository>().To<ExecutorGroupMembersRepository>();
             kernel.Bind<IExecutorGroupRepository>().To<ExecutorGroupRepository>();
             kernel.Bind<IExecutorGroupLogic>().To<ExecutorGroupLogic>();
             kernel.Bind<IPermissionRepository>().To<PermissionRepository>();
+
             kernel.Bind<IServiceRepository>().To<ServiceRepository>();
+            kernel.Bind<IServiceLogic>().To<ServiceLogic>();
             kernel.Bind<IServicesApproversRepository>().To<ServicesApproversRepository>();
+
             kernel.Bind<ISubdivisionExecutorsRepository>().To<SubdivisionExecutorsRepository>();
 
             kernel.Bind<ISubdivisionRepository>().To<SubdivisionRepository>();
