@@ -47,6 +47,7 @@
     <Compile Include="Abstract\IEmployeeLogic.cs" />
     <Compile Include="Abstract\IExecutorGroupLogic.cs" />
     <Compile Include="Abstract\IServiceLogic.cs" />
+    <Compile Include="Abstract\ISubdivisionExecutorLogic.cs" />
     <Compile Include="Abstract\ISubdivisionLogic.cs" />
     <Compile Include="AccountService.cs" />
     <Compile Include="BranchService.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Concrete\EmployeeLogic.cs" />
     <Compile Include="Concrete\ExecutorGroupLogic.cs" />
     <Compile Include="Concrete\ServiceLogic.cs" />
+    <Compile Include="Concrete\SubdivisionExecutorLogic.cs" />
     <Compile Include="ConsumableService.cs" />
     <Compile Include="EmployeeService.cs" />
     <Compile Include="EquipmentService.cs" />

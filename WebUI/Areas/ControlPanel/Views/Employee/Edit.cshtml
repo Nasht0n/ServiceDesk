@@ -51,7 +51,7 @@
                 <div class="col-auto">
                     <div class="form-group">
                         @Html.LabelFor(model => model.SubdivisionModel, htmlAttributes: new { @class = "control-label text-dark" })
-                        @Html.DropDownListFor(model => model.SubdivisionId, new SelectList(ViewBag.Subdivisions, "Id", "Fullname", Model.SubdivisionId), htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.SelectedSubdivision, Model.Subdivisions,"Выберите подразделение", htmlAttributes: new { @class = "form-control" })
                     </div>
                 </div>
             </div>

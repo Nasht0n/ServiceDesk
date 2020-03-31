@@ -8,6 +8,7 @@ using WebUI.Areas.ControlPanel.Data;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
+    [Authorize]
     public class DeskController : Controller
     {
         private AccountService accountService = new AccountService();

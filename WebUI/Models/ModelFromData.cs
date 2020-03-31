@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.ManyToMany;
 using Domain.Models.Requests.Equipment;
 using Domain.Views;
 using System;
@@ -22,6 +23,7 @@ using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.Service;
 using WebUI.ViewModels.Status;
 using WebUI.ViewModels.Subdivision;
+using WebUI.ViewModels.SubdivisionExecutors;
 
 namespace WebUI.Models
 {
@@ -163,6 +165,22 @@ namespace WebUI.Models
             return model;
         }
 
+        public static List<SubdivisionExecutorViewModel> GetViewModel(List<SubdivisionExecutor> executors)
+        {
+            List<SubdivisionExecutorViewModel> model = new List<SubdivisionExecutorViewModel>();
+            foreach(var exec in executors)
+            {
+                model.Add(new SubdivisionExecutorViewModel
+                {
+                    ExecutorId = exec.EmployeeId,
+                    ExecutorModel = GetViewModel(exec.Employee),
+                    SubdivisionId = exec.SubdivisionId,
+                    SubdivisionModel = GetViewModel(exec.Subdivision)
+                });
+            }
+            return model;
+        }
+
         public static AccountListViewModel GetListViewModel(List<Account> accounts, string search, int subdivision, int page, int pageSize)
         {
             AccountListViewModel model = new AccountListViewModel();
@@ -200,30 +218,7 @@ namespace WebUI.Models
                 };
             }
             return model;
-        }
-
-        public static ListSubdivisionExecutorsViewModel GetListViewModel(Subdivision subdivision)
-        {
-            ListSubdivisionExecutorsViewModel model = new ListSubdivisionExecutorsViewModel();
-            model.SubdivisionId = subdivision.Id;
-            model.SubdivisionModel = GetViewModel(subdivision);
-
-
-
-            model.ExecutorsModel = new List<SubdivisionExecutorViewModel>();
-            foreach (var employee in subdivision.SubdivisionExecutors)
-            {
-                SubdivisionExecutorViewModel item = new SubdivisionExecutorViewModel
-                {
-                    SubdivisionId = subdivision.Id,
-                    SubdvisionModel = GetViewModel(subdivision),
-                    EmployeeId = employee.Id,
-                    Employee = GetViewModel(employee)
-                };
-                model.ExecutorsModel.Add(item);
-            }
-            return model;
-        }
+        }      
 
         public static List<PermissionViewModel> GetListViewModel(List<Permission> permissions)
         {
@@ -1009,6 +1004,7 @@ namespace WebUI.Models
                 Email = employee.Email,
                 Phone = employee.Phone,
                 HeadOfUnit = employee.HeadOfUnit,
+                SelectedSubdivision = employee.SubdivisionId,
                 SubdivisionModel = GetViewModel(employee.Subdivision),
             };
         }
@@ -1020,7 +1016,7 @@ namespace WebUI.Models
             if (subdivision != 0)
             {
                 employees = employees.Where(e => e.SubdivisionId == subdivision).ToList();
-                model.SubdivisionId = subdivision;
+                model.SelectedSubdivision = subdivision;
             }
 
             if (!string.IsNullOrWhiteSpace(search))
@@ -1105,7 +1101,7 @@ namespace WebUI.Models
             {
                 Id = category.Id,
                 Name = category.Name,
-                BranchId = category.BranchId,
+                SelectedBranch = category.BranchId,
                 BranchModel = GetViewModel(category.Branch)
             };
         }
@@ -1143,7 +1139,7 @@ namespace WebUI.Models
                     TotalItems = categoryModels.Count()
                 };
                 model.Search = search;
-                model.BranchId = branch;
+                model.SelectedBranch = branch;
             }
             else
             {

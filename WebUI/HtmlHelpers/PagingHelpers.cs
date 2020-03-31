@@ -19,8 +19,9 @@ namespace WebUI.HtmlHelpers
                 {
                     tag.AddCssClass("selected");
                     tag.AddCssClass("btn-secondary");
+                    tag.AddCssClass("mx-1");
                 }
-                tag.AddCssClass("btn btn-default");
+                tag.AddCssClass("btn btn-primary mx-1");
                 resut.Append(tag.ToString());
             }
             return MvcHtmlString.Create(resut.ToString());

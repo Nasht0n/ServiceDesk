@@ -11,7 +11,7 @@ namespace WebUI.ViewModels.Category
         public PagingInfo PagingInfo { get; set; }
         public string Search { get; set; }
 
-        public int BranchId { get; set; }
-        public IEnumerable<SelectListItem> Branches { get; set; }
+        public int? SelectedBranch { get; set; }
+        public SelectList Branches { get; set; }
     }
 }

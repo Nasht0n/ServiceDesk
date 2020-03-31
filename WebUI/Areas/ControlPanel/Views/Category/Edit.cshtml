@@ -20,8 +20,8 @@
             <div class="col-auto">
                 <div class="form-group">
                     @Html.LabelFor(model => model.BranchModel, htmlAttributes: new { @class = "control-label text-dark" })
-                    @Html.DropDownListFor(model => model.BranchId, new SelectList(ViewBag.Branches, "Id", "Fullname", Model.BranchId), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.SelectedBranch, Model.Branches,"Выберите отрасль поддержки", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectedBranch, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>

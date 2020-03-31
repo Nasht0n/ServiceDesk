@@ -42,7 +42,7 @@ namespace WebUI.Models
                 Email = model.Email,
                 Phone = model.Phone,
                 HeadOfUnit = model.HeadOfUnit,
-                SubdivisionId = model.SubdivisionId
+                SubdivisionId = model.SelectedSubdivision.Value
             };
         }
 
@@ -91,7 +91,7 @@ namespace WebUI.Models
             {
                 Id = model.Id,
                 Name = model.Name,
-                BranchId = model.BranchId
+                BranchId = model.SelectedBranch.Value
             };
         }
 

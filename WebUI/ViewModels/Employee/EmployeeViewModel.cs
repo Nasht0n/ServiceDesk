@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using WebUI.ViewModels.Subdivision;
 
 namespace WebUI.ViewModels.Employee
@@ -33,9 +34,11 @@ namespace WebUI.ViewModels.Employee
         public string Phone { get; set; }
         [Display(Name = "Сотрудник начальник подразделения?")]
         public bool HeadOfUnit { get; set; }
+
         [Display(Name = "Идентификатор подразделения")]
-        public int SubdivisionId { get; set; }
+        public int? SelectedSubdivision { get; set; }
         [Display(Name = "Подразделение")]
-        public SubdivisionViewModel SubdivisionModel { get; set; }        
+        public SubdivisionViewModel SubdivisionModel { get; set; }
+        public SelectList Subdivisions { get; set; }
     }
 }

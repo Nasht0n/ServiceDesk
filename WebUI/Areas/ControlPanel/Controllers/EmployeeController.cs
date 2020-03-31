@@ -1,30 +1,32 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels.Employee;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IAccountRepository accountRepository;
+        private readonly IAccountLogic accountLogic;
         private readonly IEmployeeRepository employeeRepository;
         private readonly IEmployeeLogic employeeLogic;
         private readonly IAccountPermissionRepository accountPermissionRepository;
         private readonly ISubdivisionRepository subdivisionRepository;
         private readonly int pageSize = 5;
 
-        public EmployeeController(IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic,
+        public EmployeeController(IAccountRepository accountRepository, IAccountLogic accountLogic,
+            IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic,
             IAccountPermissionRepository accountPermissionRepository, ISubdivisionRepository subdivisionRepository)
         {
             this.accountRepository = accountRepository;
+            this.accountLogic = accountLogic;
             this.employeeRepository = employeeRepository;
             this.employeeLogic = employeeLogic;
             this.accountPermissionRepository = accountPermissionRepository;
@@ -35,7 +37,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         {
             int id = int.Parse(User.Identity.Name);
             var account = (await accountRepository.GetAccounts()).Where(a => a.Id == id).FirstOrDefault();
-            var user = await employeeLogic.GetEmployee(account.EmployeeId);
+            var user = await employeeLogic.GetEmployeeById(account.EmployeeId);
             account.Permissions = (await accountPermissionRepository.GetAccountPermissions()).Where(ap => ap.AccountId == account.Id).ToList();
             ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
@@ -43,25 +45,23 @@ namespace WebUI.Areas.ControlPanel.Controllers
             return user;
         }
 
-        public async Task PopulateDropDownList()
-        {
-            ViewBag.Subdivisions = await subdivisionRepository.GetSubdivisions();
-        }
-
         public async Task<ActionResult> Index(string search = "", int page = 1, int subdivision = 0)
         {
-            var user = await PopulateAccountInfo();
-            await PopulateDropDownList();            
+            await PopulateAccountInfo();        
             List<Employee> employees = await employeeRepository.GetEmployees();
             EmployeesListViewModel model = ModelFromData.GetListViewModel(employees, search, subdivision, page, pageSize);
+            var subdivisions = await subdivisionRepository.GetSubdivisions();
+            model.Subdivisions = new SelectList(subdivisions, "Id", "Fullname");
             return View(model);
         }
 
         public async Task<ActionResult> Create()
         {
-            var user = await PopulateAccountInfo();
-            await PopulateDropDownList();
-            return View(new EmployeeViewModel());
+            await PopulateAccountInfo();
+            EmployeeViewModel model = new EmployeeViewModel();
+            var subdivisions = await subdivisionRepository.GetSubdivisions();
+            model.Subdivisions = new SelectList(subdivisions, "Id", "Fullname");
+            return View(model);
         }
 
         [HttpPost]
@@ -78,10 +78,11 @@ namespace WebUI.Areas.ControlPanel.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var user = await PopulateAccountInfo();
-            await PopulateDropDownList();
-            Employee employee = await employeeLogic.GetEmployee(id);
+            await PopulateAccountInfo();            
+            Employee employee = await employeeLogic.GetEmployeeById(id);
             EmployeeViewModel model = ModelFromData.GetViewModel(employee);
+            var subdivisions = await subdivisionRepository.GetSubdivisions();
+            model.Subdivisions = new SelectList(subdivisions, "Id", "Fullname",model.SelectedSubdivision);
             return View(model);
         }
         [HttpPost]
@@ -97,17 +98,29 @@ namespace WebUI.Areas.ControlPanel.Controllers
         }
         public async  Task<ActionResult> Delete(int id)
         {
-            var user = await PopulateAccountInfo();
-            Employee employee = await employeeLogic.GetEmployee(id);
+            await PopulateAccountInfo();
+            Employee employee = await employeeLogic.GetEmployeeById(id);
             EmployeeViewModel model = ModelFromData.GetViewModel(employee);
             return View(model);
         }
         [HttpPost]
         public async Task<ActionResult> Delete(int id, EmployeeViewModel model)
         {
-            Employee employee = await employeeLogic.GetEmployee(id);
+            Employee employee = await employeeLogic.GetEmployeeById(id);
             await employeeRepository.DeleteEmployee(employee);
             return RedirectToAction("Index", "Employee", new { Area = "ControlPanel" });
+        }
+
+        public async Task<ActionResult> Account(int employeeId)
+        {
+            var account = await accountLogic.GetAccountByEmployeeId(employeeId);
+            if(account != null)
+            {
+                return RedirectToAction("Details","Account",new { Area = "ControlPanel", accountId = account.Id });
+            } else
+            {
+                return RedirectToAction("Create","Account", new { Area = "ControlPanel", employeeId = employeeId });
+            }
         }
     }
 }

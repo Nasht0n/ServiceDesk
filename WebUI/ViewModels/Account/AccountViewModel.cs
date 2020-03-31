@@ -32,6 +32,8 @@ namespace WebUI.ViewModels.Account
         [Required]
         [Display(Name = "Сменить пароль при следующем входе в систему")]
         public bool ChangePasswordOnNextEnter { get; set; }               
+
+
         [Display(Name = "Сотрудник")]
         public EmployeeViewModel EmployeeModel { get; set; }
 

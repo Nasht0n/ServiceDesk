@@ -9,6 +9,5 @@ namespace WebUI.ViewModels.Account
         public List<AccountViewModel> AccountModel { get; set; }
         public PagingInfo PagingInfo { get; set; }
         public string Search { get; set; }
-        public int SubdivisionId { get; set; }
     }
 }

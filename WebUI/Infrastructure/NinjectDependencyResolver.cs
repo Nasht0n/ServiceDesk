@@ -42,6 +42,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<IServicesApproversRepository>().To<ServicesApproversRepository>();
 
             kernel.Bind<ISubdivisionExecutorsRepository>().To<SubdivisionExecutorsRepository>();
+            kernel.Bind<ISubdivisionExecutorLogic>().To<SubdivisionExecutorLogic>();
 
             kernel.Bind<ISubdivisionRepository>().To<SubdivisionRepository>();
             kernel.Bind<ISubdivisionLogic>().To<SubdivisionLogic>();

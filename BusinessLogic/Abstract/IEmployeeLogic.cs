@@ -9,6 +9,7 @@ namespace BusinessLogic.Abstract
 {
     public interface IEmployeeLogic
     {
-        Task<Employee> GetEmployee(int id);
+        Task<Employee> GetEmployeeById(int id);
+        Task<List<Employee>> GetEmployees(int subdivisionId);
     }
 }

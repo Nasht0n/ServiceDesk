@@ -26,7 +26,7 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Закрепление исполнителя за подразделением: {subdivisionExecutor.Employee.ToString()} {subdivisionExecutor.Subdivision.ToString()}");
+                //log.Information($"Закрепление исполнителя за подразделением: {subdivisionExecutor.Employee.ToString()} {subdivisionExecutor.Subdivision.ToString()}");
                 Stopwatch watch = new Stopwatch();
                 using (var context = new ServiceDeskContext())
                 {
@@ -49,7 +49,7 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Открепление исполнителя от подразделения: {subdivisionExecutor.Employee.ToString()} {subdivisionExecutor.Subdivision.ToString()}");
+                //log.Information($"Открепление исполнителя от подразделения: {subdivisionExecutor.Employee.ToString()} {subdivisionExecutor.Subdivision.ToString()}");
                 Stopwatch watch = new Stopwatch();
                 using (var context = new ServiceDeskContext())
                 {
@@ -79,6 +79,7 @@ namespace Repository.Concrete
                     var list = await context.SubdivisionExecutors
                         .Include(a => a.Subdivision)
                         .Include(a => a.Employee)
+                        .Include(a => a.Employee.Subdivision)
                         .ToListAsync();
                     watch.Stop();
                     log.Debug($"Список исполниетлей закрепленных за подразделениями получен. Количество записей: {list.Count}. Затрачено времени: {watch.Elapsed}.");

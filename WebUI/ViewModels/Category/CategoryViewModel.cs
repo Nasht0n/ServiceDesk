@@ -15,8 +15,10 @@ namespace WebUI.ViewModels.Category
         public string Name { get; set; }
         [Required]
         [Display(Name = "Идентификатор отрасли службы поддержки")]
-        public int BranchId { get; set; }
-        [Display(Name = "Отрасль службы поддержки")]
+        public int? SelectedBranch { get; set; }
+        [Display(Name = "Отрасль заявки")]
         public BranchViewModel BranchModel { get; set; }
+        [Display(Name = "Отрасль заявки")]
+        public SelectList Branches { get; set; }
     }
 }

@@ -20,8 +20,7 @@ namespace WebUI.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        private int pageSize = 6;
-
+        //private readonly int pageSize = 6;
         private AccountService accountService = new AccountService();
         private BranchService branchService = new BranchService();
         private EmployeeService employeeService = new EmployeeService();

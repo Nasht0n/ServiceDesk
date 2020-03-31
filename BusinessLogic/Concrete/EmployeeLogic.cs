@@ -18,10 +18,16 @@ namespace BusinessLogic.Concrete
             this.employeeRepository = employeeRepository;
         }
 
-        public async Task<Employee> GetEmployee(int id)
+        public async Task<Employee> GetEmployeeById(int id)
         {
             var employees = await employeeRepository.GetEmployees();
             return employees.FirstOrDefault(e => e.Id == id);
+        }
+
+        public async Task<List<Employee>> GetEmployees(int subdivisionId)
+        {
+            var employees = await employeeRepository.GetEmployees();
+            return employees.Where(e => e.SubdivisionId == subdivisionId).ToList();
         }
     }
 }

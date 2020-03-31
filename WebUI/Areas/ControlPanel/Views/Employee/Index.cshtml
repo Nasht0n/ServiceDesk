@@ -9,12 +9,13 @@
 
 <div class="d-flex">
     <div class="align-self-center">
-        @Html.ActionLink("Новая запись", "Create", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Новая запись", "Create", null, new { @class = "btn btn-success text-nowrap" })
     </div>
     <div class="flex-grow-1 align-self-center ml-1">
-        @using (Html.BeginForm("Index", "Employee", new { search = Model.Search }, FormMethod.Get, new { @class = "input-group", role = "form" }))
+        @using (Html.BeginForm("Index", "Employee", new { search = Model.Search, subdivision = Model.SelectedSubdivision }, FormMethod.Get, new { @class = "input-group", role = "form" }))
         {
-            @Html.TextBox("search", Model.Search as string, new { @class = "form-control", @placeholder = "Поиск подразделения", @autocomplete = "off" })
+            @Html.DropDownListFor(model=>model.SelectedSubdivision, Model.Subdivisions, "Выберите подразделение", new { @class = "form-control mr-1" })
+            @Html.TextBox("search", Model.Search as string, new { @class = "form-control mr-1", @placeholder = "Поиск подразделения", @autocomplete = "off" })
             <div class="input-group-append">
                 <input type="submit" value="Поиск" class="btn btn-info" />
             </div>

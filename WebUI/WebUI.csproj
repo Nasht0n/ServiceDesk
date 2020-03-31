@@ -944,39 +944,6 @@
     <Content Include="Content\fonts\fa-solid-900.woff2" />
     <Content Include="Content\Images\capicon\black\.DS_Store" />
     <Content Include="Content\Images\capicon\white\.DS_Store" />
-    <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Shared\_cPanelLayout.cshtml" />
-    <Content Include="Areas\Admin\Views\CPanel\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Subdivision\Subdivisions.cshtml" />
-    <Content Include="Areas\Admin\Views\Subdivision\AddSubdivision.cshtml" />
-    <Content Include="Areas\Admin\Views\Subdivision\EditSubdivision.cshtml" />
-    <Content Include="Areas\Admin\Views\Subdivision\DeleteSubdivision.cshtml" />
-    <Content Include="Areas\Admin\Views\Subdivision\SubdivisionsCardView.cshtml" />
-    <Content Include="Areas\Admin\Views\Employee\Employees.cshtml" />
-    <Content Include="Areas\Admin\Views\Employee\AddEmployee.cshtml" />
-    <Content Include="Areas\Admin\Views\Employee\EditEmployee.cshtml" />
-    <Content Include="Areas\Admin\Views\Employee\DeleteEmployee.cshtml" />
-    <Content Include="Areas\Admin\Views\Employee\EmployeesCardView.cshtml" />
-    <Content Include="Areas\Admin\Views\Campus\Campuses.cshtml" />
-    <Content Include="Areas\Admin\Views\Campus\AddCampus.cshtml" />
-    <Content Include="Areas\Admin\Views\Campus\EditCampus.cshtml" />
-    <Content Include="Areas\Admin\Views\Campus\DeleteCampus.cshtml" />
-    <Content Include="Areas\Admin\Views\Campus\CampusesCardView.cshtml" />
-    <Content Include="Areas\Admin\Views\Equipment\Equipments.cshtml" />
-    <Content Include="Areas\Admin\Views\Equipment\EquipmentsCardView.cshtml" />
-    <Content Include="Areas\Admin\Views\EquipmentType\EquipmentTypes.cshtml" />
-    <Content Include="Areas\Admin\Views\EquipmentType\EquipmentTypesCardView.cshtml" />
-    <Content Include="Areas\Admin\Views\EquipmentType\AddEquipmentType.cshtml" />
-    <Content Include="Areas\Admin\Views\EquipmentType\EditEquipmentType.cshtml" />
-    <Content Include="Areas\Admin\Views\EquipmentType\DeleteEquipmentType.cshtml" />
-    <Content Include="Areas\Admin\Views\Equipment\AddEquipment.cshtml" />
-    <Content Include="Areas\Admin\Views\Equipment\EditEquipment.cshtml" />
-    <Content Include="Areas\Admin\Views\Equipment\DeleteEquipment.cshtml" />
-    <Content Include="Areas\Admin\Views\Consumable\Consumables.cshtml" />
-    <Content Include="Areas\Admin\Views\Consumable\AddConsumable.cshtml" />
-    <Content Include="Areas\Admin\Views\Consumable\EditConsumable.cshtml" />
-    <Content Include="Areas\Admin\Views\Consumable\DeleteConsumable.cshtml" />
-    <Content Include="Areas\Admin\Views\Consumable\ConsumablesCardView.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Create.cshtml" />
     <Content Include="Areas\IT\Views\EquipmentInstallationRequest\Details.cshtml" />
     <Content Include="Areas\ControlPanel\Views\web.config" />
@@ -1057,6 +1024,7 @@
     <Content Include="Scripts\servicedesk\equipments\replace-equipments-table.js" />
     <Content Include="Scripts\servicedesk\menu-toggle.js" />
     <Content Include="Scripts\servicedesk\NavItemActive.js" />
+    <Content Include="Scripts\servicedesk\subdivision-executors.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
@@ -1140,14 +1108,6 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\CampusController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ConsumableController.cs" />
-    <Compile Include="Areas\Admin\Controllers\CPanelController.cs" />
-    <Compile Include="Areas\Admin\Controllers\EmployeeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\EquipmentController.cs" />
-    <Compile Include="Areas\Admin\Controllers\EquipmentTypeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\SubdivisionController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\AccountController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\BranchController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\CategoryController.cs" />
@@ -1232,8 +1192,8 @@
     <Compile Include="ViewModels\Service\ServicesListViewModel.cs" />
     <Compile Include="ViewModels\Service\ServiceViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusViewModel.cs" />
-    <Compile Include="ViewModels\Subdivision\ListSubdivisionExecutorsViewModel.cs" />
-    <Compile Include="ViewModels\Subdivision\SubdivisionExecutorViewModel.cs" />
+    <Compile Include="ViewModels\SubdivisionExecutors\SubdivisionExecutorsListViewModel.cs" />
+    <Compile Include="ViewModels\SubdivisionExecutors\SubdivisionExecutorViewModel.cs" />
     <Compile Include="ViewModels\Subdivision\SubdivisionViewModel.cs" />
     <Compile Include="ViewModels\Subdivision\SubdivisionsListViewModel.cs" />
   </ItemGroup>
@@ -1265,8 +1225,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\ControlPanel\" />
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
     <Folder Include="Areas\IT\Views\Shared\" />

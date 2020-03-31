@@ -24,11 +24,11 @@
             </div>
         </div>
     </section>
-    <section id="footer-wrapper">
+    @*<section id="footer-wrapper">
         <div class="py-3 fixed-bottom bg-dark">
             <h6 class="text-center">&#169; Учреждение образования "Барановичский государственный университет", 2020</h6>
         </div>
-    </section>
+    </section>*@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -43,10 +43,8 @@
     var categoriesUrl = '@Url.Action("PopulateCategories", "Service")';
     var branches = $('#SelectedBranch');
     var categories = $('#SelectedCategory');
-
     $('#SelectedBranch').change(function () {
         categories.empty();
-
         $.getJSON(categoriesUrl, { branchId: $(this).val() }, function (data) {
             if (!data) {
                 return;
@@ -59,6 +57,23 @@
 
         });
     })
+
+        var subdivisionsUrl = '@Url.Action("PopulateExecutors", "Subdivision")';
+        var subdivisions = $('#SelectedSubdivision');
+        var executors = $('#SelectedExecutor');
+        var currentSubdivision = $('#currentSubdivision');
+        console.log(currentSubdivision.val());
+        $('#SelectedSubdivision').change(function () {
+            executors.empty();
+            $.getJSON(subdivisionsUrl, { subdivisionId: $(this).val(), currentId: currentSubdivision.val() }, function (data) {
+                if (!data) { return; }
+                executors.append($('<option></option>').val('').text('Выберите сотрудника'));
+                $.each(data, function (index, item) {
+                    executors.append($('<option></option>').val(item.Value).text(item.Text));
+                });
+            });
+        })
+
     </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ using WebUI.ViewModels.ExecutorGroup;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
+    [Authorize]
     public class ExecutorGroupController : Controller
     {
         private readonly IAccountRepository accountRepository;
@@ -39,7 +40,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         {
             int id = int.Parse(User.Identity.Name);
             var account = (await accountRepository.GetAccounts()).Where(a => a.Id == id).FirstOrDefault();
-            var user = await employeeLogic.GetEmployee(account.EmployeeId);
+            var user = await employeeLogic.GetEmployeeById(account.EmployeeId);
             account.Permissions = (await accountPermissionRepository.GetAccountPermissions()).Where(ap => ap.AccountId == account.Id).ToList();
             ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;

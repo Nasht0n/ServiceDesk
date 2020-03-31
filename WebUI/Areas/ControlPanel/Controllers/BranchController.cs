@@ -1,17 +1,15 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Repository.Abstract;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels.Branch;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
+    [Authorize]
     public class BranchController : Controller
     {
         private readonly IAccountRepository accountRepository;
@@ -41,7 +39,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         {
             int id = int.Parse(User.Identity.Name);
             var account = await accountLogic.GetAccountById(id);
-            var user = await employeeLogic.GetEmployee(account.EmployeeId);
+            var user = await employeeLogic.GetEmployeeById(account.EmployeeId);
             account.Permissions = (await accountPermissionRepository.GetAccountPermissions()).Where(ap => ap.AccountId == account.Id).ToList();
             ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
@@ -51,7 +49,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
 
         public async Task<ActionResult> Index(string search = "", int page = 1)
         {
-            var user = await PopulateAccountInfo();
+            await PopulateAccountInfo();
             var branches = await branchRepository.GetBranches();
             BranchesListViewModel model = ModelFromData.GetListViewModel(branches, search, page, pageSize);
             return View(model);
@@ -59,7 +57,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
 
         public async Task<ActionResult> Create()
         {
-            var user = await PopulateAccountInfo();
+            await PopulateAccountInfo();
             return View(new BranchViewModel());
         }
 
@@ -77,7 +75,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var user = await PopulateAccountInfo();
+            await PopulateAccountInfo();
             var branch = await branchLogic.GetBranchById(id);
             BranchViewModel model = ModelFromData.GetViewModel(branch);
             return View(model);
@@ -95,7 +93,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         }
         public async Task<ActionResult> Delete(int id)
         {
-            var user = await PopulateAccountInfo();
+            await PopulateAccountInfo();
             var branch = await branchLogic.GetBranchById(id);
             BranchViewModel model = ModelFromData.GetViewModel(branch);
             return View(model);

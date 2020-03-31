@@ -1,14 +1,9 @@
-﻿@model WebUI.ViewModels.Subdivision.ListSubdivisionExecutorsViewModel
-
+﻿@model WebUI.ViewModels.SubdivisionExecutors.SubdivisionExecutorsListViewModel
 @{
     ViewBag.Title = "Подразделения";
     Layout = "~/Areas/ControlPanel/Views/Shared/_ControlPanelLayout.cshtml";
 }
-
 <h2 class="text-center display-4 my-3 text-dark">@Model.SubdivisionModel.Fullname</h2>
-
-
-
 <div class="row m-1">
     <h4 class="mt-5 text-dark">Список исполнителей, закрепленных за подразделением</h4>
     <hr />
@@ -17,51 +12,42 @@
             <tr>
                 <th class="d-none"></th>
                 <th class="d-none"></th>
-                <th>Подразделение</th>
-                <th>Должность</th>
-                <th>ФИО Сотрудника</th>
+                <th class="w-50">Должность</th>
+                <th class="w-50">ФИО Сотрудника</th>
                 <th></th>
             </tr>
         </thead>
-
-        <tbody class="bg-white">
+        <tbody class="bg-light">
             @foreach (var item in Model.ExecutorsModel)
             {
-            <tr>
-                <td class="w-25">@Html.TextBoxFor(modelItem => item.SubdvisionModel.Shortname, new { @class = "form-control tblItem bg-white border-0", @readonly = "readonly" })</td>
-                <td class="w-25">@Html.TextBoxFor(modelItem => item.Employee.Post, new { @class = "form-control tblItem bg-white border-0", @readonly = "readonly" })</td>
-                <td class="w-50">@Html.TextBoxFor(modelItem => item.Employee.Fullname, new { @class = "form-control tblItem bg-white border-0", @readonly = "readonly" })</td>
-                <td>
-                    <a class="btn btn-danger" href="@Url.Action("DeleteExecutor","Subdivision",new { Area = "", employeeId = item.EmployeeId, subdivisionId = item.SubdivisionId })">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>@Html.TextBoxFor(modelItem => item.ExecutorModel.Post, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(modelItem => item.ExecutorModel.Fullname, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
+                    <td>
+                        <a class="btn btn-danger w-100" href="@Url.Action("DeleteExecutor","Subdivision",new { Area = "ControlPanel", employeeId = item.ExecutorId, subdivisionId = Model.SubdivisionModel.Id })">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
             }
         </tbody>
-        @*<tfoot>
-            <tr>
-                <td>@Html.DropDownList("EquipmentTypes", new SelectList(ViewBag.EquipmentTypes, "Id", "Name"), "Выберите тип оборудования", htmlAttributes: new { @class = "form-control" })</td>
-                <td>@Html.DropDownList("Employees", new SelectList(ViewBag.EquipmentTypes, "Id", "Name"), "Выберите тип оборудования", htmlAttributes: new { @class = "form-control" })</td>
-                <td>
-                    <input type="button" id="btnAddInstallationEquipments" value="Добавить" class="btn btn-info w-100" />
-                </td>
-            </tr>
-        </tfoot>*@
-
+        <tfoot>
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(model=>model.SubdivisionModel.Id, new { id = "currentSubdivision" })
+                <tr>                    
+                    <td>
+                        @Html.DropDownListFor(model => model.SelectedSubdivision, Model.Subdivisions, "Выберите подразделение", new { @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.SelectedExecutor, Model.Executors, "Выберите сотрудника", new { @class = "form-control" })
+                    </td>
+                    <td>
+                        <input type="submit" value="Добавить" class="btn btn-info w-100" />
+                    </td>
+                </tr>
+            }
+        </tfoot>
     </table>
-
 </div>
 
-<div class="d-flex">
-    <div class="flex-grow-1 align-self-center ">
-        @using (Html.BeginForm("SubdivisionExecutors", "Subdivision", new { search = Model.Employees.Search, subdivisionId = Model.Employees.SubdivisionId }, FormMethod.Get, new { @class = "input-group", role = "form" }))
-        {
-            @Html.DropDownList("subdivision", new SelectList(ViewBag.Subdivisions, "Id", "Fullname"), htmlAttributes: new { @class = "form-control w-75  ml-1" })
-            @Html.TextBox("search", Model.Employees.Search as string, new { @class = "form-control ml-1 w-75", @placeholder = "Поиск сотрудника", @autocomplete = "off" })
-            <div class="input-group-append">
-                <input type="submit" value="Поиск" class="btn btn-info" />
-            </div>
-        }
-    </div>
-</div>

@@ -1,38 +1,48 @@
 ﻿using BusinessLogic;
 using BusinessLogic.Abstract;
 using Domain.Models;
+using Domain.Models.ManyToMany;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels.Subdivision;
+using WebUI.ViewModels.SubdivisionExecutors;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
+    [Authorize]
     public class SubdivisionController : Controller
     {
         private AccountService accountService = new AccountService();
         private EmployeeService employeeService = new EmployeeService();
         private SubdivisionService subdivisionService = new SubdivisionService();
-        private readonly int pageSize = 5;
+        private readonly int pageSize = 4;
         private readonly IAccountRepository accountRepository;
         private readonly IEmployeeRepository employeeRepository;
+        private readonly IEmployeeLogic employeeLogic;
         private readonly IAccountPermissionRepository accountPermissionRepository;
         private readonly ISubdivisionRepository subdivisionRepository;
         private readonly ISubdivisionLogic subdivisionLogic;
+        private readonly ISubdivisionExecutorsRepository subdivisionExecutorsRepository;
+        private readonly ISubdivisionExecutorLogic subdivisionExecutorLogic;
 
-        public SubdivisionController(IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IAccountPermissionRepository accountPermissionRepository, 
-            ISubdivisionRepository subdivisionRepository, ISubdivisionLogic subdivisionLogic)
+        public SubdivisionController(IAccountRepository accountRepository, 
+            IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic,
+            IAccountPermissionRepository accountPermissionRepository, 
+            ISubdivisionRepository subdivisionRepository, ISubdivisionLogic subdivisionLogic, 
+            ISubdivisionExecutorsRepository subdivisionExecutorsRepository, ISubdivisionExecutorLogic subdivisionExecutorLogic)
         {
             this.accountRepository = accountRepository;
             this.employeeRepository = employeeRepository;
+            this.employeeLogic = employeeLogic;
             this.accountPermissionRepository = accountPermissionRepository;
             this.subdivisionRepository = subdivisionRepository;
             this.subdivisionLogic = subdivisionLogic;
+            this.subdivisionExecutorsRepository = subdivisionExecutorsRepository;
+            this.subdivisionExecutorLogic = subdivisionExecutorLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
@@ -45,17 +55,6 @@ namespace WebUI.Areas.ControlPanel.Controllers
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
             ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
             return user;
-        }
-
-        public async Task PopulateDropDownList(bool filter = false)
-        {
-            List<Subdivision> subdivisions = new List<Subdivision>();
-            if (filter)
-            {
-                subdivisions.Add(new Subdivision { Id = 0, Fullname = "Все подразделения", Shortname = "Все" });
-            }
-            subdivisions.AddRange(await subdivisionRepository.GetSubdivisions());
-            ViewBag.Subdivisions = subdivisions;
         }
 
         public async Task<ActionResult> Index(string search = "", int page = 1)
@@ -112,26 +111,59 @@ namespace WebUI.Areas.ControlPanel.Controllers
             return RedirectToAction("Index", "Subdivision", new { Area = "ControlPanel" });
         }
 
-        public async Task<ActionResult> SubdivisionExecutors(int id, string search = "", int subdivisionId = 0)
+        [HttpGet]
+        public async Task<JsonResult> PopulateExecutors(int subdivisionId, int currentId)
         {
-            var user = await PopulateAccountInfo();
-            PopulateDropDownList(true);
-            var subdivision = await subdivisionLogic.GetSubdivision(id);
-            ListSubdivisionExecutorsViewModel model = ModelFromData.GetListViewModel(subdivision);
-
-            var employees = await employeeRepository.GetEmployees();
-            
-            model.Employees = ModelFromData.GetListViewModel(employees);
-
-            return View(model);
+            var employees = await employeeLogic.GetEmployees(subdivisionId);
+            var subdivisionExecutors = await subdivisionExecutorLogic.GetExecutors(currentId);
+            List<Employee> temp = new List<Employee>();
+            foreach(var employee in employees)
+            {
+                var exec = subdivisionExecutors.SingleOrDefault(se => se.EmployeeId == employee.Id);
+                if (exec == null) temp.Add(employee);
+            }
+            var result = temp.Select(c => new { Value = c.Id, Text = $"{c.Surname} {c.Firstname}"});
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
-        [HttpPost]
-        public async Task<ActionResult> AddExecutor(int subdivisionId, int employeeId)
+        public async Task<ActionResult> DeleteExecutor(int employeeId, int subdivisionId)
         {
+            SubdivisionExecutor record = new SubdivisionExecutor { EmployeeId = employeeId, SubdivisionId = subdivisionId };
+            await subdivisionExecutorsRepository.DeleteSubdivisionExecutor(record);
+            return RedirectToAction("SubdivisionExecutors", "Subdivision", new { Area = "ControlPanel", id = subdivisionId });
+        }
 
-            return View();
+        public async Task<ActionResult> SubdivisionExecutors(int id)
+        {
+            await PopulateAccountInfo();
+            SubdivisionExecutorsListViewModel model = new SubdivisionExecutorsListViewModel();
+            var subdivision = await subdivisionLogic.GetSubdivision(id);
+            model.SubdivisionModel = ModelFromData.GetViewModel(subdivision);
+            var executors = await subdivisionExecutorLogic.GetExecutors(id);
+            model.ExecutorsModel = ModelFromData.GetViewModel(executors);
+            var subdivisions = await subdivisionRepository.GetSubdivisions();
+            model.Subdivisions = new SelectList(subdivisions, "Id", "Fullname");
+            if (model.SelectedSubdivision.HasValue)
+            {
+                var employees = await employeeLogic.GetEmployees(model.SelectedSubdivision.Value);
+                model.Executors = new SelectList(employees, "Id", "Surname");
+            }
+            else
+            {
+                model.Executors = new SelectList(Enumerable.Empty<SelectListItem>());
+            }         
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> SubdivisionExecutors(SubdivisionExecutorsListViewModel model)
+        {
+            if (model.SelectedSubdivision.HasValue && model.SelectedExecutor.HasValue)
+            {
+                SubdivisionExecutor record = new SubdivisionExecutor { EmployeeId = model.SelectedExecutor.Value, SubdivisionId = model.SubdivisionModel.Id };
+                await subdivisionExecutorsRepository.AddSubdivisionExecutor(record);
+                return RedirectToAction("SubdivisionExecutors", "Subdivision", new { Area = "ControlPanel", id = model.SubdivisionModel.Id });
+            }
+            return View(model);
         }
     }
 }
