@@ -24,7 +24,7 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Добавление прав доступа учетной записи: {accountPermission.Permission.ToString()} {accountPermission.Account.ToString()}");
+                //log.Information($"Добавление прав доступа учетной записи: {accountPermission.Permission.ToString()} {accountPermission.Account.ToString()}");
                 Stopwatch watch = new Stopwatch();
 
                 watch.Start();

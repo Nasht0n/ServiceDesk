@@ -24,13 +24,13 @@ namespace BusinessLogic.Concrete
         public async Task<Account> GetAccountByEmployeeId(int id)
         {
             var accounts = await accountRepository.GetAccounts();
-            return accounts.FirstOrDefault(a => a.Id == id);
+            return accounts.FirstOrDefault(a => a.EmployeeId == id);
         }
 
         public async Task<Account> GetAccountById(int id)
         {
             var accounts = await accountRepository.GetAccounts();
-            return accounts.FirstOrDefault(e=>e.EmployeeId ==id);
+            return accounts.FirstOrDefault(e=>e.Id ==id);
         }
         
     }

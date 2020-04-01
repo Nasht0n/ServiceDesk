@@ -1,11 +1,13 @@
-﻿@model WebUI.ViewModels.SubdivisionExecutors.SubdivisionExecutorsListViewModel
+﻿@model WebUI.ViewModels.ExecutorGroupMembers.ExecutorGroupMembersListViewModel
+
 @{
-    ViewBag.Title = "Подразделения";
+    ViewBag.Title = "Группа исполнителей";
     Layout = "~/Areas/ControlPanel/Views/Shared/_ControlPanelLayout.cshtml";
 }
-<h2 class="text-center display-4 my-3 text-dark">@Model.SubdivisionModel.Fullname</h2>
+
+<h2 class="text-center display-4 my-3 text-dark">@Model.ExecutorGroupModel.Name</h2>
 <div class="row m-1">
-    <h4 class="mt-5 text-dark">Список исполнителей, закрепленных за подразделением</h4>
+    <h4 class="mt-5 text-dark">Состав группы исполнителей</h4>
     <hr />
     <table id="tblSubdivisionExecutors" class="table table-hover">
         <thead class="table-primary">
@@ -18,13 +20,13 @@
             </tr>
         </thead>
         <tbody class="bg-light">
-            @foreach (var item in Model.ExecutorsModel)
+            @foreach (var item in Model.ExecutorGroupMemberModel)
             {
                 <tr>
-                    <td>@Html.TextBoxFor(modelItem => item.ExecutorModel.Post, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
-                    <td>@Html.TextBoxFor(modelItem => item.ExecutorModel.Fullname, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(modelItem => item.EmployeeModel.Post, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(modelItem => item.EmployeeModel.Fullname, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
                     <td>
-                        <a class="btn btn-danger w-100" href="@Url.Action("DeleteExecutor","Subdivision",new { Area = "ControlPanel", employeeId = item.ExecutorId, subdivisionId = Model.SubdivisionModel.Id })">
+                        <a class="btn btn-danger w-100" href="@Url.Action("DeleteExecutor","ExecutorGroup",new { Area = "ControlPanel", employeeId = item.EmployeeId, executorGroupId = Model.ExecutorGroupModel.Id })">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
@@ -34,7 +36,7 @@
         <tfoot>
             @using (Html.BeginForm())
             {
-                @Html.HiddenFor(model => model.SubdivisionModel.Id, new { id = "currentSubdivision" })
+                @Html.HiddenFor(model => model.ExecutorGroupModel.Id, new { id = "currentExecutorGroup" })
                 <tr>
                     <td>
                         @Html.DropDownListFor(model => model.SelectedSubdivision, Model.Subdivisions, "Выберите подразделение", new { @class = "form-control" })
@@ -54,10 +56,10 @@
 @section scripts
     {
     <script>
-        var subdivisionsUrl = '@Url.Action("PopulateExecutors", "Subdivision")';
+        var subdivisionsUrl = '@Url.Action("PopulateExecutors", "ExecutorGroup")';
         var subdivisions = $('#SelectedSubdivision');
         var executors = $('#SelectedExecutor');
-        var currentSubdivision = $('#currentSubdivision');
+        var currentSubdivision = $('#currentExecutorGroup');
         console.log(currentSubdivision.val());
         $('#SelectedSubdivision').change(function () {
             executors.empty();

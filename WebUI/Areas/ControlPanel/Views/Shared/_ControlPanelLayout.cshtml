@@ -39,42 +39,7 @@
     <script src="~/Scripts/servicedesk/equipments/replace-equipments-table.js"></script>
     <script src="~/Scripts/servicedesk/cpanel-service-search.js"></script>
 
-    <script>
-    var categoriesUrl = '@Url.Action("PopulateCategories", "Service")';
-    var branches = $('#SelectedBranch');
-    var categories = $('#SelectedCategory');
-    $('#SelectedBranch').change(function () {
-        categories.empty();
-        $.getJSON(categoriesUrl, { branchId: $(this).val() }, function (data) {
-            if (!data) {
-                return;
-            }
-            categories.append($('<option></option>').val('').text('Укажите категорию заявки'));
-            $.each(data, function (index, item) {
-                categories.append($('<option></option>').val(item.Value).text(item.Text));
-                console.log(item);
-            });
-
-        });
-    })
-
-        var subdivisionsUrl = '@Url.Action("PopulateExecutors", "Subdivision")';
-        var subdivisions = $('#SelectedSubdivision');
-        var executors = $('#SelectedExecutor');
-        var currentSubdivision = $('#currentSubdivision');
-        console.log(currentSubdivision.val());
-        $('#SelectedSubdivision').change(function () {
-            executors.empty();
-            $.getJSON(subdivisionsUrl, { subdivisionId: $(this).val(), currentId: currentSubdivision.val() }, function (data) {
-                if (!data) { return; }
-                executors.append($('<option></option>').val('').text('Выберите сотрудника'));
-                $.each(data, function (index, item) {
-                    executors.append($('<option></option>').val(item.Value).text(item.Text));
-                });
-            });
-        })
-
-    </script>
+    @RenderSection("scripts",required:false)
 </body>
 </html>
 

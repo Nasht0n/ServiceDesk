@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels.ExecutorGroup;
+using WebUI.ViewModels.ExecutorGroupMembers;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
@@ -21,11 +22,17 @@ namespace WebUI.Areas.ControlPanel.Controllers
         private readonly IExecutorGroupLogic executorGroupLogic;
         private readonly IEmployeeRepository employeeRepository;
         private readonly IEmployeeLogic employeeLogic;
+        private readonly ISubdivisionRepository subdivisionRepository;
+        private readonly ISubdivisionLogic subdivisionLogic;
+        private readonly IExecutorGroupMembersRepository executorGroupMembersRepository;
+        private readonly IExecutorGroupMemberLogic executorGroupMemberLogic;
         private readonly int pageSize = 5;
 
         public ExecutorGroupController(IAccountRepository accountRepository, IAccountPermissionRepository accountPermissionRepository, 
             IExecutorGroupRepository executorGroupRepository, IExecutorGroupLogic executorGroupLogic,
-            IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic)
+            IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic,
+            ISubdivisionRepository subdivisionRepository, ISubdivisionLogic subdivisionLogic,
+            IExecutorGroupMembersRepository executorGroupMembersRepository, IExecutorGroupMemberLogic executorGroupMemberLogic)
         {
             this.accountRepository = accountRepository;
             this.accountPermissionRepository = accountPermissionRepository;
@@ -33,6 +40,10 @@ namespace WebUI.Areas.ControlPanel.Controllers
             this.executorGroupLogic = executorGroupLogic;
             this.employeeRepository = employeeRepository;
             this.employeeLogic = employeeLogic;
+            this.subdivisionRepository = subdivisionRepository;
+            this.subdivisionLogic = subdivisionLogic;
+            this.executorGroupMembersRepository = executorGroupMembersRepository;
+            this.executorGroupMemberLogic = executorGroupMemberLogic;
         }
 
 
@@ -103,6 +114,43 @@ namespace WebUI.Areas.ControlPanel.Controllers
             var executorGroup = await executorGroupLogic.GetExecutorGroup(id);
             await executorGroupRepository.DeleteExecutorGroup(executorGroup);
             return RedirectToAction("Index", "ExecutorGroup", new { Area = "ControlPanel" });
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> PopulateExecutors(int subdivisionId, int currentId)
+        {
+            var employees = await employeeLogic.GetEmployees(subdivisionId);
+            var executorGroupMembers = await executorGroupMemberLogic.GetExecutorGroupMembers(currentId);
+            List<Employee> temp = new List<Employee>();
+            foreach (var employee in employees)
+            {
+                var exec = executorGroupMembers.SingleOrDefault(se => se.EmployeeId == employee.Id);
+                if (exec == null) temp.Add(employee);
+            }
+            var result = temp.Select(c => new { Value = c.Id, Text = $"{c.Surname} {c.Firstname}" });
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> GroupMembers(int id)
+        {
+            await PopulateAccountInfo();
+            ExecutorGroupMembersListViewModel model = new ExecutorGroupMembersListViewModel();
+            var executorGroup = await executorGroupLogic.GetExecutorGroup(id);
+            model.ExecutorGroupModel = ModelFromData.GetViewModel(executorGroup);
+            var subdivisions = await subdivisionRepository.GetSubdivisions();
+            model.Subdivisions = new SelectList(subdivisions, "Id", "Fullname");
+            if (model.SelectedSubdivision.HasValue)
+            {
+                var employees = await employeeLogic.GetEmployees(model.SelectedSubdivision.Value);
+                model.Executors = new SelectList(employees, "Id", "Surname");
+            }
+            else
+            {
+                model.Executors = new SelectList(Enumerable.Empty<SelectListItem>());
+            }
+            var executorGroupMembers = await executorGroupMemberLogic.GetExecutorGroupMembers(id);
+            model.ExecutorGroupMemberModel = ModelFromData.GetViewModel(executorGroupMembers);
+            return View(model);
         }
     }
 }

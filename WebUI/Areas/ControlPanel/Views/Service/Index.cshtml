@@ -17,13 +17,32 @@
             @Html.DropDownListFor(m => m.SelectedBranch, Model.BranchList, "Укажите отрасль заявки", new { @class = "form-control ml-1" })
             @Html.DropDownListFor(m => m.SelectedCategory, Model.CategoryList, "Укажите категорию заявки", new { @class = "form-control ml-1" })
             @Html.TextBox("search", Model.Search as string, new { @class = "form-control ml-1", @placeholder = "Поиск категории заявки", @autocomplete = "off" })
-
             <div class="input-group-append">
                 <input type="submit" value="Поиск" class="btn btn-info" />
             </div>
         }
     </div>
 </div>
-
 @Html.Partial("ServicesCardView")
 
+@section scripts
+    {
+    <script>
+        var categoriesUrl = '@Url.Action("PopulateCategories", "Service")';
+        var branches = $('#SelectedBranch');
+        var categories = $('#SelectedCategory');
+        $('#SelectedBranch').change(function () {
+            categories.empty();
+            $.getJSON(categoriesUrl, { branchId: $(this).val() }, function (data) {
+            if (!data) {
+                return;
+            }
+            categories.append($('<option></option>').val('').text('Укажите категорию заявки'));
+            $.each(data, function (index, item) {
+                categories.append($('<option></option>').val(item.Value).text(item.Text));
+                console.log(item);
+            });
+        });
+    })
+    </script>
+}

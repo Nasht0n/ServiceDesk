@@ -116,7 +116,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
             var account = await accountLogic.GetAccountByEmployeeId(employeeId);
             if(account != null)
             {
-                return RedirectToAction("Details","Account",new { Area = "ControlPanel", accountId = account.Id });
+                return RedirectToAction("Edit","Account",new { Area = "ControlPanel", accountId = account.Id });
             } else
             {
                 return RedirectToAction("Create","Account", new { Area = "ControlPanel", employeeId = employeeId });

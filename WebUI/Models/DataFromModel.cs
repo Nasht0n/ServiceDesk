@@ -128,7 +128,8 @@ namespace WebUI.Models
                 DateChangePassword = model.ChangePasswordDate,
                 LastEnterDateTime = model.LastEnterDateTime,
                 IsEnabled = model.IsEnabled,
-                ChangePasswordOnNextEnter = model.ChangePasswordOnNextEnter
+                ChangePasswordOnNextEnter = model.ChangePasswordOnNextEnter,
+                EmployeeId = model.EmployeeModel.Id
             };
             
             return account;
@@ -145,7 +146,7 @@ namespace WebUI.Models
 
         public static Permission GetData(PermissionViewModel permission)
         {
-            return new Permission { Id = permission.Id, Description = permission.Name, Title = permission.Title };
+            return new Permission { Id = permission.Id, Description = permission.Description, Title = permission.Title };
         }
 
         public static InstallationEquipments GetData(InstallationEquipmentViewModel item)

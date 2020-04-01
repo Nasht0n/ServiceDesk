@@ -18,6 +18,7 @@ namespace WebUI.ViewModels.Employee
         [Required(ErrorMessage = "Введите отчество сотрудника")]
         [Display(Name = "Отчество")]
         public string Patronymic { get; set; }
+        [Display(Name = "ФИО Сотрудника")]
         public string Fullname
         {
             get

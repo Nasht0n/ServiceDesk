@@ -31,12 +31,10 @@ namespace WebUI.ViewModels.Account
         public bool IsEnabled { get; set; }
         [Required]
         [Display(Name = "Сменить пароль при следующем входе в систему")]
-        public bool ChangePasswordOnNextEnter { get; set; }               
-
-
+        public bool ChangePasswordOnNextEnter { get; set; }  
         [Display(Name = "Сотрудник")]
         public EmployeeViewModel EmployeeModel { get; set; }
-
+        [Display(Name = "Список прав доступа")]
         public List<PermissionViewModel> Permissions { get; set; }
     }
 }

@@ -72,6 +72,7 @@ namespace Repository.Concrete
                 watch.Start();
                 var list = await context.Accounts
                     .Include(a=>a.Employee)
+                    .Include(a=>a.Employee.Subdivision)
                     .Include(a=>a.Permissions)
                     .ToListAsync();
 

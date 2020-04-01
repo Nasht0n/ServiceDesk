@@ -12,9 +12,9 @@ namespace WebUI.ViewModels.Service
         public string Search { get; set; }
 
         [Display(Name = "Отрасль заявки")]
-        public int? SelectedBranch { get; set; }
+        public int SelectedBranch { get; set; }
         [Display(Name = "Категория заявки")]
-        public int? SelectedCategory { get; set; }
+        public int SelectedCategory { get; set; }
         public SelectList BranchList { get; set; }
         public SelectList CategoryList { get; set; }
     }

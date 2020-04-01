@@ -80,7 +80,7 @@ namespace WebUI.Controllers
 
                     if (account.ChangePasswordOnNextEnter)
                     {
-                        return RedirectToAction("ChangePassword", "ServiceDesk", null);
+                        return RedirectToAction("ChangePassword", "ServiceDesk", new { Area = "", id = account.Id });
                     }
                     else
                     {
@@ -117,7 +117,6 @@ namespace WebUI.Controllers
                 account.ChangePasswordOnNextEnter = false;
                 account.LastEnterDateTime = DateTime.Now;
                 account = await accountRepository.UpdateAccount(account);
-                //accountService.UpdateAccount(account);                
                 return RedirectToAction("Index", "Dashboard", new { Area = "" });
             }
             return View();

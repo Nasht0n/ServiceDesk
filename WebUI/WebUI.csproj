@@ -1003,6 +1003,8 @@
     <Content Include="Areas\ControlPanel\Views\Service\Create.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Service\Edit.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Service\Delete.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Account\Details.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\ExecutorGroup\GroupMembers.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1158,6 +1160,8 @@
     <Compile Include="ViewModels\EquipmentType\EquipmentTypeViewModel.cs" />
     <Compile Include="ViewModels\Equipment\EquipmentsListViewModel.cs" />
     <Compile Include="ViewModels\Equipment\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\ExecutorGroupMembers\ExecutorGroupMembersListViewModel.cs" />
+    <Compile Include="ViewModels\ExecutorGroupMembers\ExecutorGroupMemberViewModel.cs" />
     <Compile Include="ViewModels\ExecutorGroup\ExecutorGroupsListViewModel.cs" />
     <Compile Include="ViewModels\ExecutorGroup\ExecutorGroupViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\ComponentReplaceRequestLifeCycleViewModel.cs" />

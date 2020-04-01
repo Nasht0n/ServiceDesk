@@ -15,6 +15,7 @@ using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
 using WebUI.ViewModels.EquipmentType;
 using WebUI.ViewModels.ExecutorGroup;
+using WebUI.ViewModels.ExecutorGroupMembers;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
 using WebUI.ViewModels.Permission;
 using WebUI.ViewModels.Priority;
@@ -77,7 +78,7 @@ namespace WebUI.Models
                 {
                     Id = permission.Id,
                     Title = permission.Title,
-                    Name = permission.Description,
+                    Description = permission.Description,
                     IsChecked = false
                 });
             }
@@ -168,7 +169,7 @@ namespace WebUI.Models
         public static List<SubdivisionExecutorViewModel> GetViewModel(List<SubdivisionExecutor> executors)
         {
             List<SubdivisionExecutorViewModel> model = new List<SubdivisionExecutorViewModel>();
-            foreach(var exec in executors)
+            foreach (var exec in executors)
             {
                 model.Add(new SubdivisionExecutorViewModel
                 {
@@ -181,56 +182,53 @@ namespace WebUI.Models
             return model;
         }
 
-        public static AccountListViewModel GetListViewModel(List<Account> accounts, string search, int subdivision, int page, int pageSize)
-        {
-            AccountListViewModel model = new AccountListViewModel();
-            List<AccountViewModel> accountViewModels = new List<AccountViewModel>();
-            if (subdivision != 0)
-            {
-                accounts = accounts.Where(a => a.Employee.SubdivisionId == subdivision).ToList();
-                model.SubdivisionId = subdivision;
-            }
-
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                accounts = accounts.Where(a => a.Employee.Surname.Contains(search) || a.Employee.Firstname.Contains(search)).ToList();
-                model.Search = search;
-            }
-
-            foreach (var account in accounts)
-            {
-                AccountViewModel item = GetViewModel(account);
-                accountViewModels.Add(item);
-            }
-
-            if (page != 0 && pageSize != 0)
-            {
-                model.AccountModel = accountViewModels
-                .OrderBy(s => s.EmployeeModel.Surname)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize).ToList();
-
-                model.PagingInfo = new PagingInfo
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = pageSize,
-                    TotalItems = accountViewModels.Count()
-                };
-            }
-            return model;
-        }      
-
         public static List<PermissionViewModel> GetListViewModel(List<Permission> permissions)
         {
             List<PermissionViewModel> result = new List<PermissionViewModel>();
             foreach (var permission in permissions)
             {
-                result.Add(new PermissionViewModel
+                PermissionViewModel item = new PermissionViewModel
                 {
                     Id = permission.Id,
                     Title = permission.Title,
-                    Name = permission.Description
+                    Description = permission.Description,
+                    IsChecked = false
+                };
+                result.Add(item);
+            }
+            return result;
+        }
+
+        public static List<ExecutorGroupMemberViewModel> GetViewModel(List<ExecutorGroupMember> executorGroupMembers)
+        {
+            List<ExecutorGroupMemberViewModel> model = new List<ExecutorGroupMemberViewModel>();
+            foreach (var group in executorGroupMembers)
+            {
+                model.Add(new ExecutorGroupMemberViewModel
+                {
+                    EmployeeId = group.EmployeeId,
+                    EmployeeModel = GetViewModel(group.Employee),
+                    ExecutorGroupId = group.ExecutorGroupId,
+                    ExecutorGroupModel = GetViewModel(group.ExecutorGroup)
                 });
+            }
+            return model;
+        }
+
+        public static List<PermissionViewModel> GetListViewModel(List<Permission> permissions, List<AccountPermission> accountPermissions)
+        {
+            List<PermissionViewModel> result = new List<PermissionViewModel>();
+            foreach (var permission in permissions)
+            {
+                PermissionViewModel item = new PermissionViewModel
+                {
+                    Id = permission.Id,
+                    Title = permission.Title,
+                    Description = permission.Description
+                };
+                var temp = accountPermissions.SingleOrDefault(ap => ap.PermissionId == permission.Id);
+                item.IsChecked = temp != null ? true : false;
+                result.Add(item);
             }
             return result;
         }

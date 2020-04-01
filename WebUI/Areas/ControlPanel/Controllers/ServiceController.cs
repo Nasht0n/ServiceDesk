@@ -72,9 +72,9 @@ namespace WebUI.Areas.ControlPanel.Controllers
             ServicesListViewModel model = ModelFromData.GetListViewModel(services, search, page, branch, category, pageSize);
             var branches = await branchRepository.GetBranches();
             model.BranchList = new SelectList(branches, "Id","Fullname");            
-            if (model.SelectedBranch.HasValue)
+            if (model.SelectedBranch!=0)
             {
-                var categories = await categoryLogic.GetCategoriesByBranchId(model.SelectedBranch.Value);
+                var categories = await categoryLogic.GetCategoriesByBranchId(model.SelectedBranch);
                 model.CategoryList = new SelectList(categories, "Id", "Name");
             } else
             {

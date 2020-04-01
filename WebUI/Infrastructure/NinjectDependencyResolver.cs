@@ -21,6 +21,8 @@ namespace WebUI.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<IAccountPermissionRepository>().To<AccountPermissionRepository>();
+            kernel.Bind<IAccountPermissionLogic>().To<AccountPermissionLogic>();
+
             kernel.Bind<IAccountRepository>().To<AccountRepository>();
             kernel.Bind<IAccountLogic>().To<AccountLogic>();
 
@@ -32,7 +34,10 @@ namespace WebUI.Infrastructure
 
             kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
             kernel.Bind<IEmployeeLogic>().To<EmployeeLogic>();
+            
             kernel.Bind<IExecutorGroupMembersRepository>().To<ExecutorGroupMembersRepository>();
+            kernel.Bind<IExecutorGroupMemberLogic>().To<ExecutorGroupMemberLogic>();
+
             kernel.Bind<IExecutorGroupRepository>().To<ExecutorGroupRepository>();
             kernel.Bind<IExecutorGroupLogic>().To<ExecutorGroupLogic>();
             kernel.Bind<IPermissionRepository>().To<PermissionRepository>();
