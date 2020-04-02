@@ -39,8 +39,7 @@ namespace Domain.Models
         public DateTime DateChangePassword { get; set; }
         /// <summary>
         /// Время последнего входа в систему
-        /// </summary>
-        [Required]
+        /// </summary>        
         public DateTime LastEnterDateTime { get; set; }
         /// <summary>
         /// Признак активности учетной записи

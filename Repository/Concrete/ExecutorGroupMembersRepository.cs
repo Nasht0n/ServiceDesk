@@ -26,7 +26,7 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Добавление пользователя в группу исполнителей: {member.Employee.ToString()} {member.ExecutorGroup.ToString()}");
+               // log.Information($"Добавление пользователя в группу исполнителей: {member.Employee.ToString()} {member.ExecutorGroup.ToString()}");
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
                 var inserted = context.ExecutorGroupMembers.Add(member);
@@ -46,7 +46,7 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Удаление пользователя из группы исполнителей: {member.Employee.ToString()} {member.ExecutorGroup.ToString()}");
+                //log.Information($"Удаление пользователя из группы исполнителей: {member.Employee.ToString()} {member.ExecutorGroup.ToString()}");
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
                 var deleted = await context.ExecutorGroupMembers.SingleOrDefaultAsync(e => e.EmployeeId == member.EmployeeId && e.ExecutorGroupId == member.ExecutorGroupId);
@@ -72,6 +72,7 @@ namespace Repository.Concrete
                 watch.Start();
                 var list = await context.ExecutorGroupMembers
                     .Include(a => a.Employee)
+                    .Include(a=>a.Employee.Subdivision)
                     .Include(a => a.ExecutorGroup)
                     .ToListAsync();
                 watch.Stop();

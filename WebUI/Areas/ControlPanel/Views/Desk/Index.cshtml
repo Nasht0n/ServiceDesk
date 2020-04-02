@@ -7,92 +7,132 @@
 
 <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
 
-<div class="row footer">
-    <div class="col-sm-12 col-md-6 col-lg-4 my-3 ">
-        <a href="@Url.Action("Index","Subdivision",new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
-            <div class="card-header">
-                <h5 class="my-0 font-weight-normal">Подразделения</h5>
-            </div>
-            <div class="card-body bg-white text-dark">
-                <i class="fa fa-building fa-3x my-3"></i>
-                <p>Информация о подразделениях организации. Закрепление сотрудников в статусе исполнителей заявок подразделений</p>
-            </div>
-        </a>
+<div class="container">
+    <div class="row footer">
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3 ">
+            <a href="@Url.Action("Index","Subdivision",new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Подразделения</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-building fa-3x my-3"></i>
+                    <p>Информация о подразделениях организации. Закрепление сотрудников в статусе исполнителей заявок подразделений</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="@Url.Action("Index","Employee", new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal text-nowrap">Сотрудники</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-user-tie fa-3x my-3"></i>
+                    <p>Справочник, содержащий данные о сотрудниках организации и учетных записях для входа в систему</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="@Url.Action("Index","ExecutorGroup", new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Группы исполнителей</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-users-cog fa-3x my-3"></i>
+                    <p>Создание и управление составом групп исполнителей</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="@Url.Action("Index","Branch", new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Отрасль заявки</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-share-alt fa-3x my-3"></i>
+                    <p>Управление отраслями службы поддержки, разделяющих движение заявок между структурными подразделениями</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="@Url.Action("Index","Category",new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Категории заявок</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-sitemap fa-3x my-3"></i>
+                    <p>Управление и классификация категорий заявок в отраслях службы поддержки</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="@Url.Action("Index","Service", new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Виды заявок</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-cogs fa-3x my-3"></i>
+                    <p>Справочник управления видами заявок в информационной системе</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Учебные корпуса</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-university fa-3x my-3"></i>
+                    <p>Управление учебными корпусами организации</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Комплектующие</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-hdd fa-3x my-3"></i>
+                    <p>Управление учебными корпусами организации</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Расходные материалы</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-wrench fa-3x my-3"></i>
+                    <p>Управление учебными корпусами организации</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+            <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Оборудование</h5>
+                </div>
+                <div class="card-body bg-white text-dark">
+                    <i class="fa fa-desktop fa-3x my-3"></i>
+                    <p>Управление учебными корпусами организации</p>
+                </div>
+            </a>
+        </div>
+
     </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-4 my-3">
-        <a href="@Url.Action("Index","Employee", new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
-            <div class="card-header">
-                <h5 class="my-0 font-weight-normal text-nowrap">Сотрудники</h5>
-            </div>
-            <div class="card-body bg-white text-dark">
-                <i class="fa fa-user-tie fa-3x my-3"></i>
-                <p>Справочник, содержащий данные о сотрудниках организации и учетных записях для входа в систему</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-4 my-3">
-        <a href="@Url.Action("Index","ExecutorGroup", new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
-            <div class="card-header">
-                <h5 class="my-0 font-weight-normal">Группы исполнителей</h5>
-            </div>
-            <div class="card-body bg-white text-dark">
-                <i class="fa fa-users-cog fa-3x my-3"></i>
-                <p>Создание и управление составом групп исполнителей</p>
-            </div>
-        </a>
-    </div>
-
-    @*<div class="col-sm-12 col-md-6 col-lg-4 my-3">
-        <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
-            <div class="card-header">
-                <h5 class="my-0 font-weight-normal">Учетные записи</h5>
-            </div>
-            <div class="card-body bg-white text-dark">
-                <i class="fa fa-users fa-3x my-3"></i>
-                <p>Управление учетными записями пользователей. Настройка прав доступа к информационной системе</p>
-            </div>
-        </a>
-    </div>*@
-
-    <div class="col-sm-12 col-md-6 col-lg-4 my-3">
-        <a href="@Url.Action("Index","Branch", new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
-            <div class="card-header">
-                <h5 class="my-0 font-weight-normal">Отрасль заявки</h5>
-            </div>
-            <div class="card-body bg-white text-dark">
-                <i class="fa fa-share-alt fa-3x my-3"></i>
-                <p>Управление отраслями службы поддержки, разделяющих движение заявок между структурными подразделениями</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-4 my-3">
-        <a href="@Url.Action("Index","Category",new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
-            <div class="card-header">
-                <h5 class="my-0 font-weight-normal">Категории заявок</h5>
-            </div>
-            <div class="card-body bg-white text-dark">
-                <i class="fa fa-sitemap fa-3x my-3"></i>
-                <p>Управление и классификация категорий заявок в отраслях службы поддержки</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-4 my-3">
-        <a href="@Url.Action("Index","Service", new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
-            <div class="card-header">
-                <h5 class="my-0 font-weight-normal">Виды заявок</h5>
-            </div>
-            <div class="card-body bg-white text-dark">
-                <i class="fa fa-cogs fa-3x my-3"></i>
-                <p>Справочник управления видами заявок в информационной системе</p>
-            </div>
-        </a>
-    </div>
-
 </div>
+
+
 
 
 

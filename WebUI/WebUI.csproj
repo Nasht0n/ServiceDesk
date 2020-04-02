@@ -1005,6 +1005,8 @@
     <Content Include="Areas\ControlPanel\Views\Service\Delete.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Account\Details.cshtml" />
     <Content Include="Areas\ControlPanel\Views\ExecutorGroup\GroupMembers.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Service\ServicesExecutorGroups.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Service\ServiceApprovers.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1112,6 +1114,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\AccountController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\BranchController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\CampusController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\CategoryController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\DeskController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\EmployeeController.cs" />
@@ -1193,6 +1196,10 @@
     <Compile Include="ViewModels\Requests\IT\RequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\View\RequestListViewModel.cs" />
     <Compile Include="ViewModels\Requests\View\RequestViewModel.cs" />
+    <Compile Include="ViewModels\ServicesApprovers\ServicesApproversListViewModel.cs" />
+    <Compile Include="ViewModels\ServicesApprovers\ServicesApproversViewModel.cs" />
+    <Compile Include="ViewModels\ServicesExecutorGroups\ServicesExecutorGroupsListViewModel.cs" />
+    <Compile Include="ViewModels\ServicesExecutorGroups\ServicesExecutorGroupsViewModel.cs" />
     <Compile Include="ViewModels\Service\ServicesListViewModel.cs" />
     <Compile Include="ViewModels\Service\ServiceViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusViewModel.cs" />
@@ -1229,6 +1236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\ControlPanel\Views\Campus\" />
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
     <Folder Include="Areas\IT\Views\Shared\" />

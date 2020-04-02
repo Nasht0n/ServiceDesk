@@ -1,0 +1,49 @@
+﻿@model WebUI.ViewModels.ServicesExecutorGroups.ServicesExecutorGroupsListViewModel
+
+@{
+    ViewBag.Title = "Группы исполнителей";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_ControlPanelLayout.cshtml";
+}
+
+<h2 class="text-center display-4 my-3 text-dark">@Model.ServiceModel.Name</h2>
+<div class="row m-1">
+    <h4 class="mt-5 text-dark">Список исполнителей, закрепленных за подразделением</h4>
+    <hr />
+    <table id="tblSubdivisionExecutors" class="table table-hover">
+        <thead class="table-primary">
+            <tr>
+                <th class="d-none"></th>
+                <th class="d-none"></th>
+                <th class="w-100">Группа исполнителей</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="bg-light">
+            @foreach (var item in Model.ExecutorGroupsListModel)
+            {
+                <tr>
+                    <td>@Html.TextBoxFor(modelItem => item.ExecutorGroupModel.Name, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
+                    <td>
+                        <a class="btn btn-danger w-100" href="@Url.Action("DeleteExecutorGroup","Service",new { Area = "ControlPanel", executorGroupId = item.ExecutorGroupId, serviceId = Model.ServiceModel.Id })">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(model => model.ServiceModel.Id, new { id = "currentService" })
+                <tr>
+                    <td>
+                        @Html.DropDownListFor(model => model.SelectedExecutorGroup, Model.ExecutorGroups, "Выберите группу исполнителей", new { @class = "form-control" })
+                    </td>
+                    <td>
+                        <input type="submit" value="Добавить" class="btn btn-info w-100" />
+                    </td>
+                </tr>
+            }
+        </tfoot>
+    </table>
+</div>

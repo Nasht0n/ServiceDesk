@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
+using Domain.Models.ManyToMany;
 using Repository.Abstract;
 using System;
 using System.Collections.Generic;
@@ -151,6 +152,26 @@ namespace WebUI.Areas.ControlPanel.Controllers
             var executorGroupMembers = await executorGroupMemberLogic.GetExecutorGroupMembers(id);
             model.ExecutorGroupMemberModel = ModelFromData.GetViewModel(executorGroupMembers);
             return View(model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> GroupMembers(ExecutorGroupMembersListViewModel model)
+        {
+            if(model.SelectedSubdivision.HasValue && model.SelectedExecutor.HasValue)
+            {
+                ExecutorGroupMember member = new ExecutorGroupMember { 
+                    EmployeeId = model.SelectedExecutor.Value,
+                    ExecutorGroupId = model.ExecutorGroupModel.Id
+                };
+                await executorGroupMembersRepository.AddExecutorGroupMember(member);
+            }
+            return RedirectToAction("GroupMembers", "ExecutorGroup",new { Area = "ControlPanel" });
+        }
+
+        public async Task<ActionResult> DeleteExecutor(int employeeId, int executorGroupId)
+        {
+            ExecutorGroupMember record = new ExecutorGroupMember { EmployeeId = employeeId, ExecutorGroupId = executorGroupId };
+            await executorGroupMembersRepository.DeleteExecutorGroupMember(record);
+            return RedirectToAction("GroupMembers", "ExecutorGroup", new { Area = "ControlPanel", id = executorGroupId });
         }
     }
 }

@@ -22,6 +22,8 @@ using WebUI.ViewModels.Priority;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.Service;
+using WebUI.ViewModels.ServicesApprovers;
+using WebUI.ViewModels.ServicesExecutorGroups;
 using WebUI.ViewModels.Status;
 using WebUI.ViewModels.Subdivision;
 using WebUI.ViewModels.SubdivisionExecutors;
@@ -258,6 +260,23 @@ namespace WebUI.Models
             return model;
         }
 
+        public static List<ServicesExecutorGroupsViewModel> GetViewModel(List<ServicesExecutorGroup> serviceExecutorGroups)
+        {
+            List<ServicesExecutorGroupsViewModel> model = new List<ServicesExecutorGroupsViewModel>();
+
+            foreach(var service in serviceExecutorGroups)
+            {
+                model.Add(new ServicesExecutorGroupsViewModel { 
+                    ServiceId = service.ServiceId,
+                    ExecutorGroupId = service.ExecutorGroupId,
+                    ExecutorGroupModel = GetViewModel(service.ExecutorGroup),
+                    ServiceModel = GetViewModel(service.Service)
+                });
+            }
+
+            return model;
+        }
+
         public static RequestViewModel GetViewModel(Requests request)
         {
             RequestViewModel model = new RequestViewModel
@@ -286,6 +305,23 @@ namespace WebUI.Models
                 model.ExecutorId = request.ExecutorId.Value;
                 model.ExecutorModel = GetViewModel(request.Executor);
             }
+            return model;
+        }
+
+        public static List<ServicesApproversViewModel> GetViewModel(List<ServicesApprover> serviceApprovers)
+        {
+            List<ServicesApproversViewModel> model = new List<ServicesApproversViewModel>();
+
+            foreach(var service in serviceApprovers)
+            {
+                model.Add(new ServicesApproversViewModel { 
+                    EmployeeId = service.EmployeeId,
+                    ServiceId = service.ServiceId,
+                    EmployeeModel = GetViewModel(service.Employee),
+                    ServiceModel = GetViewModel (service.Service)
+                });
+            }
+
             return model;
         }
 

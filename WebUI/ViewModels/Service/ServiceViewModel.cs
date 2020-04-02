@@ -16,6 +16,8 @@ namespace WebUI.ViewModels.Service
         public bool Visible { get; set; }
         [Display(Name = "Требуется согласование")]
         public bool ApprovalRequired { get; set; }
+        [Display(Name = "Требуется множественное согласование")]
+        public bool ManyApprovalRequired { get; set; }
         [Required(ErrorMessage = "Введите наименование контроллера типа заявки")]
         [Display(Name = "Контроллер типа заявки")]
         public string Controller { get; set; }

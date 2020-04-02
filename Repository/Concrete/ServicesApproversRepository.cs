@@ -26,7 +26,7 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Добавление лица, проводящего согласование заявки: {approver.Employee.ToString()} {approver.Service.ToString()}");
+               // log.Information($"Добавление лица, проводящего согласование заявки: {approver.Employee.ToString()} {approver.Service.ToString()}");
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
                 var inserted = context.ServicesApprovers.Add(approver);
@@ -47,7 +47,7 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Удаление лица, проводящего согласование заявки: {approver.Employee.ToString()} {approver.Service.ToString()}");
+               // log.Information($"Удаление лица, проводящего согласование заявки: {approver.Employee.ToString()} {approver.Service.ToString()}");
                 Stopwatch watch = new Stopwatch();
 
                 watch.Start();
@@ -74,7 +74,10 @@ namespace Repository.Concrete
                 watch.Start();
                 var list = await context.ServicesApprovers
                     .Include(a => a.Employee)
+                    .Include(a=>a.Employee.Subdivision)
                     .Include(a => a.Service)
+                    .Include(a=>a.Service.Category)
+                    .Include(a=>a.Service.Category.Branch)
                     .ToListAsync();
                 watch.Stop();
                 log.Debug($"Список лиц проводящих согласование получен. Количество записей: {list.Count}. Затрачено времени: {watch.Elapsed}.");

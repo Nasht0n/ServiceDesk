@@ -57,6 +57,10 @@
     <Compile Include="Migrations\202003241208558_CreateModel.designer.cs">
       <DependentUpon>202003241208558_CreateModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004020648457_ChangeFieldsAccountAndService.cs" />
+    <Compile Include="Migrations\202004020648457_ChangeFieldsAccountAndService.designer.cs">
+      <DependentUpon>202004020648457_ChangeFieldsAccountAndService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ManyToMany\AccountCancellationRequestAttachment.cs" />
@@ -146,6 +150,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202003241208558_CreateModel.resx">
       <DependentUpon>202003241208558_CreateModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004020648457_ChangeFieldsAccountAndService.resx">
+      <DependentUpon>202004020648457_ChangeFieldsAccountAndService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

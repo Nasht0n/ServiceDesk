@@ -30,6 +30,11 @@ namespace Domain.Models
         [Required]
         public bool ApprovalRequired { get; set; }
         /// <summary>
+        /// Требуется множественное согласование
+        /// </summary>
+        [Required]
+        public bool ManyApprovalRequired { get; set; }
+        /// <summary>
         /// Наименование контроллера веб приложения, выполняющего обработку текущего вида работы
         /// </summary>
         [Required]
