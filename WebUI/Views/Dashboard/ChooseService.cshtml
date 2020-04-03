@@ -7,7 +7,7 @@
 <h2 class="display-4 text-center text-dark mt-3 mb-5">Создание заявки</h2>
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@Url.Action("ChooseBranch","Dashboard",null)">@Model.Services.First().BranchModel.Fullname</a></li>
-    <li class="breadcrumb-item"><a href="@Url.Action("ChooseCategory","Dashboard",new { id = Model.BranchId })">@Model.Services.First().CategoryModel.Name</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("ChooseCategory","Dashboard",new { id = Model.SelectedBranch })">@Model.Services.First().CategoryModel.Name</a></li>
     <li class="breadcrumb-item active">Выберите категорию заявки</li>
 </ol>
 

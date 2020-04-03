@@ -44,8 +44,13 @@
     <Compile Include="Abstract\IAccountLogic.cs" />
     <Compile Include="Abstract\IAccountPermissionLogic.cs" />
     <Compile Include="Abstract\IBranchLogic.cs" />
+    <Compile Include="Abstract\ICampusLogic.cs" />
     <Compile Include="Abstract\ICategoryLogic.cs" />
+    <Compile Include="Abstract\IComponentLogic.cs" />
+    <Compile Include="Abstract\IConsumableLogic.cs" />
     <Compile Include="Abstract\IEmployeeLogic.cs" />
+    <Compile Include="Abstract\IEquipmentLogic.cs" />
+    <Compile Include="Abstract\IEquipmentTypeLogic.cs" />
     <Compile Include="Abstract\IExecutorGroupLogic.cs" />
     <Compile Include="Abstract\IExecutorGroupMemberLogic.cs" />
     <Compile Include="Abstract\IServiceLogic.cs" />
@@ -60,8 +65,13 @@
     <Compile Include="Concrete\AccountLogic.cs" />
     <Compile Include="Concrete\AccountPermissionLogic.cs" />
     <Compile Include="Concrete\BranchLogic.cs" />
+    <Compile Include="Concrete\CampusLogic.cs" />
     <Compile Include="Concrete\CategoryLogic.cs" />
+    <Compile Include="Concrete\ComponentLogic.cs" />
+    <Compile Include="Concrete\ConsumableLogic.cs" />
     <Compile Include="Concrete\EmployeeLogic.cs" />
+    <Compile Include="Concrete\EquipmentLogic.cs" />
+    <Compile Include="Concrete\EquipmentTypeLogic.cs" />
     <Compile Include="Concrete\ExecutorGroupLogic.cs" />
     <Compile Include="Concrete\ExecutorGroupMemberLogic.cs" />
     <Compile Include="Concrete\ServiceLogic.cs" />

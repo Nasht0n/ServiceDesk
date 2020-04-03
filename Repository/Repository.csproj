@@ -62,7 +62,11 @@
     <Compile Include="Abstract\IBranchRepository.cs" />
     <Compile Include="Abstract\ICampusRepository.cs" />
     <Compile Include="Abstract\ICategoryRepository.cs" />
+    <Compile Include="Abstract\IComponentRepository.cs" />
+    <Compile Include="Abstract\IConsumableRepository.cs" />
     <Compile Include="Abstract\IEmployeeRepository.cs" />
+    <Compile Include="Abstract\IEquipmentRepository.cs" />
+    <Compile Include="Abstract\IEquipmentTypeRepository.cs" />
     <Compile Include="Abstract\IExecutorGroupMembersRepository.cs" />
     <Compile Include="Abstract\IExecutorGroupRepository.cs" />
     <Compile Include="Abstract\IPermissionRepository.cs" />
@@ -76,7 +80,11 @@
     <Compile Include="Concrete\BranchRepository.cs" />
     <Compile Include="Concrete\CampusRepository.cs" />
     <Compile Include="Concrete\CategoryRepository.cs" />
+    <Compile Include="Concrete\ComponentRepository.cs" />
+    <Compile Include="Concrete\ConsumableRepository.cs" />
     <Compile Include="Concrete\EmployeeRepository.cs" />
+    <Compile Include="Concrete\EquipmentRepository.cs" />
+    <Compile Include="Concrete\EquipmentTypeRepository.cs" />
     <Compile Include="Concrete\ExecutorGroupMembersRepository.cs" />
     <Compile Include="Concrete\ExecutorGroupRepository.cs" />
     <Compile Include="Concrete\PermissionRepository.cs" />

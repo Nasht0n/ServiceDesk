@@ -1007,6 +1007,21 @@
     <Content Include="Areas\ControlPanel\Views\ExecutorGroup\GroupMembers.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Service\ServicesExecutorGroups.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Service\ServiceApprovers.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Campus\Index.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Campus\Create.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Campus\Edit.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Campus\Delete.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Campus\CampusesCardView.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Component\ComponentsCardView.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Component\Create.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Component\Delete.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Component\Edit.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Component\Index.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Consumable\ConsumablesCardView.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Consumable\Create.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Consumable\Delete.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Consumable\Edit.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Consumable\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1116,8 +1131,11 @@
     <Compile Include="Areas\ControlPanel\Controllers\BranchController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\CampusController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\ComponentController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\ConsumableController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\DeskController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\EmployeeController.cs" />
+    <Compile Include="Areas\ControlPanel\Controllers\EquipmentController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\ExecutorGroupController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\ServiceController.cs" />
     <Compile Include="Areas\ControlPanel\Controllers\SubdivisionController.cs" />
@@ -1153,6 +1171,7 @@
     <Compile Include="ViewModels\Category\CategoriesListViewModel.cs" />
     <Compile Include="ViewModels\Category\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\Component\ComponentsListViewModel.cs" />
     <Compile Include="ViewModels\Component\ComponentViewModel.cs" />
     <Compile Include="ViewModels\Consumable\ConsumablesListViewModel.cs" />
     <Compile Include="ViewModels\Consumable\ConsumableViewModel.cs" />
@@ -1236,7 +1255,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\ControlPanel\Views\Campus\" />
+    <Folder Include="Areas\ControlPanel\Views\Equipment\" />
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
     <Folder Include="Areas\IT\Views\Shared\" />

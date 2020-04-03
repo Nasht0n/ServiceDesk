@@ -72,6 +72,7 @@ namespace Domain
         public virtual DbSet<Branch> Branches { get; set; }
         public virtual DbSet<Campus> Campuses { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Consumable> Consumables { get; set; }
         public virtual DbSet<Component> Components { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }

@@ -82,7 +82,7 @@
         </div>
 
         <div class="col-sm-12 col-md-6 col-lg-4 my-3">
-            <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+            <a href="@Url.Action("Index","Campus",new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
                 <div class="card-header">
                     <h5 class="my-0 font-weight-normal">Учебные корпуса</h5>
                 </div>
@@ -94,40 +94,40 @@
         </div>
 
         <div class="col-sm-12 col-md-6 col-lg-4 my-3">
-            <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+            <a href="@Url.Action("Index","Component",new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
                 <div class="card-header">
                     <h5 class="my-0 font-weight-normal">Комплектующие</h5>
                 </div>
                 <div class="card-body bg-white text-dark">
                     <i class="fa fa-hdd fa-3x my-3"></i>
-                    <p>Управление учебными корпусами организации</p>
+                    <p>Управление комплектующим для оборудования</p>
                 </div>
             </a>
         </div>
 
         <div class="col-sm-12 col-md-6 col-lg-4 my-3">
-            <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
+            <a href="@Url.Action("Index","Consumable",new { Area = "ControlPanel" })" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
                 <div class="card-header">
                     <h5 class="my-0 font-weight-normal">Расходные материалы</h5>
                 </div>
                 <div class="card-body bg-white text-dark">
                     <i class="fa fa-wrench fa-3x my-3"></i>
-                    <p>Управление учебными корпусами организации</p>
+                    <p>Управление расходными материалами для ремонта оборудования</p>
                 </div>
             </a>
         </div>
 
-        <div class="col-sm-12 col-md-6 col-lg-4 my-3">
+        @*<div class="col-sm-12 col-md-6 col-lg-4 my-3">
             <a href="#" class="card mb-4 box-shadow text-center text-decoration-none h-100 cpanel-card">
                 <div class="card-header">
                     <h5 class="my-0 font-weight-normal">Оборудование</h5>
                 </div>
                 <div class="card-body bg-white text-dark">
                     <i class="fa fa-desktop fa-3x my-3"></i>
-                    <p>Управление учебными корпусами организации</p>
+                    <p>Управление оборудованием установленным в организации.Информация о типах оборудования</p>
                 </div>
             </a>
-        </div>
+        </div>*@
 
     </div>
 </div>

@@ -29,8 +29,23 @@ namespace WebUI.Infrastructure
             kernel.Bind<IBranchRepository>().To<BranchRepository>();
             kernel.Bind<IBranchLogic>().To<BranchLogic>();
 
+            kernel.Bind<ICampusRepository>().To<CampusRepository>();
+            kernel.Bind<ICampusLogic>().To<CampusLogic>();
+
             kernel.Bind<ICategoryRepository>().To<CategoryRepository>();
             kernel.Bind<ICategoryLogic>().To<CategoryLogic>();
+
+            kernel.Bind<IComponentRepository>().To<ComponentRepository>();
+            kernel.Bind<IComponentLogic>().To<ComponentLogic>();
+
+            kernel.Bind<IConsumableRepository>().To<ConsumableRepository>();
+            kernel.Bind<IConsumableLogic>().To<ConsumableLogic>();
+
+            kernel.Bind<IEquipmentRepository>().To<EquipmentRepository>();
+            kernel.Bind<IEquipmentLogic>().To<EquipmentLogic>();
+
+            kernel.Bind<IEquipmentTypeRepository>().To<EquipmentTypeRepository>();
+            kernel.Bind<IEquipmentTypeLogic>().To<EquipmentTypeLogic>();
 
             kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
             kernel.Bind<IEmployeeLogic>().To<EmployeeLogic>();

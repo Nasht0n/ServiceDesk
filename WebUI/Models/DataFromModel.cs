@@ -6,6 +6,7 @@ using WebUI.ViewModels.Account;
 using WebUI.ViewModels.Branch;
 using WebUI.ViewModels.Campus;
 using WebUI.ViewModels.Category;
+using WebUI.ViewModels.Component;
 using WebUI.ViewModels.Consumable;
 using WebUI.ViewModels.Employee;
 using WebUI.ViewModels.Equipment;
@@ -62,7 +63,7 @@ namespace WebUI.Models
                 Id = model.Id,
                 Name = model.Name,
                 InventoryNumber = model.InventoryNumber,
-                EquipmentTypeId = model.EquipmentTypeId
+                EquipmentTypeId = model.EquipmentTypeModel.Id
             };
         }
 
@@ -105,6 +106,14 @@ namespace WebUI.Models
                 ApprovalRequired = model.ApprovalRequired,
                 Controller = model.Controller,
                 CategoryId = model.SelectedCategory.Value
+            };
+        }
+
+        public static Component GetData(ComponentViewModel model)
+        {
+            return new Component { 
+                Id = model.Id,
+                Name = model.Name
             };
         }
 

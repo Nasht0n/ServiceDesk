@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using WebUI.ViewModels.EquipmentType;
 
 namespace WebUI.ViewModels.Equipment
@@ -14,10 +15,10 @@ namespace WebUI.ViewModels.Equipment
         [Required(ErrorMessage = "Укажите инвентарный номер оборудования")]
         [Display(Name = "Инвентарный номер оборудования")]
         public string InventoryNumber { get; set; }
-        [Required(ErrorMessage = "Укажите идентификатор типа оборудования")]
-        [Display(Name = "Идентификатор типа оборудования")]
-        public int EquipmentTypeId { get; set; }
+
         [Display(Name = "Тип оборудования")]
         public EquipmentTypeViewModel EquipmentTypeModel { get; set; }
+        public int? SelectedEquipmentType { get; set; }
+        public SelectList EquipmentTypes { get; set; }
     }
 }

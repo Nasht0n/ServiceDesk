@@ -5,29 +5,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels.Campus;
+using WebUI.ViewModels.Consumable;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
-    public class CampusController : Controller
+    public class ConsumableController : Controller
     {
         private readonly IAccountRepository accountRepository;
         private readonly IAccountLogic accountLogic;
         private readonly IAccountPermissionRepository accountPermissionRepository;
         private readonly IEmployeeLogic employeeLogic;
-        private readonly ICampusRepository campusRepository;
-        private readonly ICampusLogic campusLogic;
+        private readonly IConsumableRepository consumableRepository;
+        private readonly IConsumableLogic consumableLogic;
         private readonly int pageSize = 5;
 
-        public CampusController(IAccountRepository accountRepository, IAccountLogic accountLogic, IAccountPermissionRepository accountPermissionRepository,
-            IEmployeeLogic employeeLogic, ICampusRepository campusRepository, ICampusLogic campusLogic)
+        public ConsumableController(IAccountRepository accountRepository, IAccountLogic accountLogic, IAccountPermissionRepository accountPermissionRepository,
+            IEmployeeLogic employeeLogic, IConsumableRepository consumableRepository, IConsumableLogic consumableLogic)
         {
             this.accountRepository = accountRepository;
             this.accountLogic = accountLogic;
             this.accountPermissionRepository = accountPermissionRepository;
             this.employeeLogic = employeeLogic;
-            this.campusRepository = campusRepository;
-            this.campusLogic = campusLogic;
+            this.consumableRepository = consumableRepository;
+            this.consumableLogic = consumableLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
@@ -45,25 +45,25 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Index(string search = "", int page = 1)
         {
             await PopulateAccountInfo();
-            var campuses = await campusRepository.GetCampuses();
-            CampusesListViewModel model = ModelFromData.GetListViewModel(campuses, search, page, pageSize);
+            var consumables = await consumableRepository.GetConsumables();
+            ConsumablesListViewModel model = ModelFromData.GetListViewModel(consumables, search, page, pageSize);
             return View(model);
         }
 
         public async Task<ActionResult> Create()
         {
             await PopulateAccountInfo();
-            return View(new CampusViewModel());
+            return View(new ConsumableViewModel());
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(CampusViewModel model)
+        public async Task<ActionResult> Create(ConsumableViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var campus = DataFromModel.GetData(model);
-                await campusRepository.Add(campus);
-                return RedirectToAction("Index", "Campus", new { Area = "ControlPanel" });
+                var consumable = DataFromModel.GetData(model);
+                await consumableRepository.Add(consumable);
+                return RedirectToAction("Index", "Consumable", new { Area = "ControlPanel" });
             }
             return View();
         }
@@ -71,34 +71,34 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             await PopulateAccountInfo();
-            var campus = await campusLogic.GetCampusById(id);
-            CampusViewModel model = ModelFromData.GetViewModel(campus);
+            var consumable = await consumableLogic.GetConsumableById(id);
+            ConsumableViewModel model = ModelFromData.GetViewModel(consumable);
             return View(model);
         }
         [HttpPost]
-        public async Task<ActionResult> Edit(CampusViewModel model)
+        public async Task<ActionResult> Edit(ConsumableViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var campus = DataFromModel.GetData(model);
-                await campusRepository.Update(campus);
-                return RedirectToAction("Index", "Campus", new { Area = "ControlPanel" });
+                var consumable = DataFromModel.GetData(model);
+                await consumableRepository.Update(consumable);
+                return RedirectToAction("Index", "Consumable", new { Area = "ControlPanel" });
             }
             return View();
         }
         public async Task<ActionResult> Delete(int id)
         {
             await PopulateAccountInfo();
-            var campus = await campusLogic.GetCampusById(id);
-            CampusViewModel model = ModelFromData.GetViewModel(campus);
+            var consumable = await consumableLogic.GetConsumableById(id);
+            ConsumableViewModel model = ModelFromData.GetViewModel(consumable);
             return View(model);
         }
         [HttpPost]
-        public async Task<ActionResult> Delete(int id, CampusViewModel model)
+        public async Task<ActionResult> Delete(int id, ConsumableViewModel model)
         {
-            var campus = await campusLogic.GetCampusById(id);
-            await campusRepository.Delete(campus);
-            return RedirectToAction("Index", "Campus", new { Area = "ControlPanel" });
+            var consumable = await consumableLogic.GetConsumableById(id);
+            await consumableRepository.Delete(consumable);
+            return RedirectToAction("Index", "Consumable", new { Area = "ControlPanel" });
         }
     }
 }

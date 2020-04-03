@@ -1,4 +1,5 @@
 ﻿using BusinessLogic;
+using BusinessLogic.Abstract;
 using BusinessLogic.Requests;
 using Domain.Models;
 using Domain.Views;
@@ -28,13 +29,21 @@ namespace WebUI.Controllers
         private ServiceService serviceService = new ServiceService();
         private RequestService requestService = new RequestService();
         private readonly IAccountRepository accountRepository;
+        private readonly IAccountLogic accountLogic;
+        private readonly IAccountPermissionLogic accountPermissionLogic;
         private readonly IEmployeeRepository employeeRepository;
+        private readonly IEmployeeLogic employeeLogic;
         private readonly IAccountPermissionRepository accountPermissionRepository;
 
-        public DashboardController(IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IAccountPermissionRepository accountPermissionRepository)
+        public DashboardController(IAccountRepository accountRepository, IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
+            IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic,
+            IAccountPermissionRepository accountPermissionRepository)
         {
             this.accountRepository = accountRepository;
+            this.accountLogic = accountLogic;
+            this.accountPermissionLogic = accountPermissionLogic;
             this.employeeRepository = employeeRepository;
+            this.employeeLogic = employeeLogic;
             this.accountPermissionRepository = accountPermissionRepository;
         }
 
@@ -42,8 +51,8 @@ namespace WebUI.Controllers
         {
             int id = int.Parse(User.Identity.Name);
             var account = (await accountRepository.GetAccounts()).Where(a => a.Id == id).FirstOrDefault();
-            var user = (await employeeRepository.GetEmployees()).Where(e => e.Id == account.EmployeeId).FirstOrDefault();
-            account.Permissions = (await accountPermissionRepository.GetAccountPermissions()).Where(ap => ap.AccountId == account.Id).ToList();
+            var user = await employeeLogic.GetEmployeeById(account.EmployeeId);
+            account.Permissions = await accountPermissionLogic.GetPermissions(account.Id);
             ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
             ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
@@ -52,7 +61,7 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Index()
         {                   
-            var user = await PopulateAccountInfo();          
+            await PopulateAccountInfo();          
             return View();
         }
 
@@ -66,25 +75,25 @@ namespace WebUI.Controllers
         }
 
 
-        public ActionResult ChooseBranch()
+        public async Task<ActionResult> ChooseBranch()
         {
-            var user = PopulateAccountInfo();
+             var user = await PopulateAccountInfo();
             var branches = branchService.GetBranches();
             BranchesListViewModel model = ModelFromData.GetListViewModel(branches);
             return View(model);
         }
 
-        public ActionResult ChooseCategory(int id)
+        public async Task<ActionResult> ChooseCategory(int id)
         {
-            var user = PopulateAccountInfo();
+            var user = await PopulateAccountInfo();
             var categories = categoryService.GetCategories(id);
             CategoriesListViewModel model = ModelFromData.GetListViewModel(categories);
             return View(model);
         }
 
-        public ActionResult ChooseService(int id)
+        public async Task<ActionResult> ChooseService(int id)
         {
-            var user = PopulateAccountInfo();
+            var user = await PopulateAccountInfo();
             var services = serviceService.GetServices().Where(s=>s.Visible).ToList();
             var category = categoryService.GetCategoryById(id);
             ServicesListViewModel model = ModelFromData.GetListViewModel(services, category);

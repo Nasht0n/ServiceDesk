@@ -87,6 +87,42 @@ namespace WebUI.Models
             return model;
         }
 
+        public static ComponentsListViewModel GetListViewModel(List<Component> components, string search, int page, int pageSize)
+        {
+            ComponentsListViewModel model = new ComponentsListViewModel();
+            List<ComponentViewModel> list = new List<ComponentViewModel>();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                list = list.Where(c => c.Name.Contains(search)).ToList();
+                model.Search = search;
+            }
+
+            foreach (var component in components)
+            {
+                ComponentViewModel item = GetViewModel(component);
+                list.Add(item);
+            }
+
+            if (page != 0 && pageSize != 0)
+            {
+                model.Components = list
+                .OrderBy(s => s.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+                model.PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = list.Count()
+                };
+
+            }
+
+            return model;
+        }
+
         public static ServicesListViewModel GetListViewModel(List<Service> services, string search, int page, int branch, int category, int pageSize)
         {
             ServicesListViewModel model = new ServicesListViewModel();
@@ -264,9 +300,10 @@ namespace WebUI.Models
         {
             List<ServicesExecutorGroupsViewModel> model = new List<ServicesExecutorGroupsViewModel>();
 
-            foreach(var service in serviceExecutorGroups)
+            foreach (var service in serviceExecutorGroups)
             {
-                model.Add(new ServicesExecutorGroupsViewModel { 
+                model.Add(new ServicesExecutorGroupsViewModel
+                {
                     ServiceId = service.ServiceId,
                     ExecutorGroupId = service.ExecutorGroupId,
                     ExecutorGroupModel = GetViewModel(service.ExecutorGroup),
@@ -312,13 +349,14 @@ namespace WebUI.Models
         {
             List<ServicesApproversViewModel> model = new List<ServicesApproversViewModel>();
 
-            foreach(var service in serviceApprovers)
+            foreach (var service in serviceApprovers)
             {
-                model.Add(new ServicesApproversViewModel { 
+                model.Add(new ServicesApproversViewModel
+                {
                     EmployeeId = service.EmployeeId,
                     ServiceId = service.ServiceId,
                     EmployeeModel = GetViewModel(service.Employee),
-                    ServiceModel = GetViewModel (service.Service)
+                    ServiceModel = GetViewModel(service.Service)
                 });
             }
 
@@ -911,7 +949,6 @@ namespace WebUI.Models
                 Id = equipment.Id,
                 Name = equipment.Name,
                 InventoryNumber = equipment.InventoryNumber,
-                EquipmentTypeId = equipment.EquipmentTypeId,
                 EquipmentTypeModel = GetViewModel(equipment.EquipmentType)
             };
         }
@@ -947,7 +984,7 @@ namespace WebUI.Models
                 TotalItems = equipmentModels.Count()
             };
             model.Search = search;
-            model.EquipmentTypeId = equipmentType;
+            model.SelectedEquipmentType = equipmentType;
             return model;
         }
 
