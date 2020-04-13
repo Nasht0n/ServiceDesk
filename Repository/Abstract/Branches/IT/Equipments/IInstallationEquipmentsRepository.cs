@@ -9,6 +9,6 @@ namespace Repository.Abstract.Branches.IT.Equipments
         Task<InstallationEquipments> Add(InstallationEquipments installation);
         Task<InstallationEquipments> Update(InstallationEquipments installation);
         Task Delete(InstallationEquipments installation);
-        Task<List<InstallationEquipments>> GetInstallations();
+        Task<List<InstallationEquipments>> GetEquipments();
     }
 }

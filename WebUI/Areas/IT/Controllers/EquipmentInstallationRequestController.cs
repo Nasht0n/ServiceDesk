@@ -1,11 +1,13 @@
-﻿using BusinessLogic;
-using BusinessLogic.LifeCycles;
-using BusinessLogic.Requests;
+﻿using BusinessLogic.Abstract;
+using BusinessLogic.Abstract.Branches.IT.Equipments;
+using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
+using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using Domain.Models;
 using Domain.Models.Requests.Equipment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.Models.Enum;
@@ -17,48 +19,82 @@ namespace WebUI.Areas.IT.Controllers
     public class EquipmentInstallationRequestController : Controller
     {
         private const int SERVICE_ID = 1;
+        private readonly IAccountLogic accountLogic;
+        private readonly IEmployeeLogic employeeLogic;
+        private readonly IAccountPermissionLogic accountPermissionLogic;
+        private readonly ICampusLogic campusLogic;
+        private readonly IPriorityLogic priorityLogic;
+        private readonly IEquipmentTypeLogic equipmentTypeLogic;
+        private readonly IServiceLogic serviceLogic;
+        private readonly ISubdivisionLogic subdivisionLogic;
+        private readonly IEquipmentInstallationRequestLogic requestLogic;
+        private readonly IEquipmentInstallationRequestLifeCycleLogic lifeCycleLogic;
+        private readonly IInstallationEquipmentsLogic equipmentsLogic;
 
-        private EquipmentInstallationRequestLifeCycleService lifeCycleService = new EquipmentInstallationRequestLifeCycleService();
-        private EquipmentInstallationRequestService requestService = new EquipmentInstallationRequestService();
-        private InstallationEquipmentService equipmentService = new InstallationEquipmentService();
-        private AccountService accountService = new AccountService();
-        private EmployeeService employeeService = new EmployeeService();
-        private ServiceService serviceService = new ServiceService();
-        private CampusService campusService = new CampusService();
-        private PriorityService priorityService = new PriorityService();
-        private EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
-        private SubdivisionService subdvisionService = new SubdivisionService();
+        public EquipmentInstallationRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic,
+           ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
+           IEquipmentInstallationRequestLogic requestLogic, IEquipmentInstallationRequestLifeCycleLogic lifeCycleLogic, IInstallationEquipmentsLogic equipmentsLogic)
+        {
+            this.accountLogic = accountLogic;
+            this.employeeLogic = employeeLogic;
+            this.accountPermissionLogic = accountPermissionLogic;
+            this.campusLogic = campusLogic;
+            this.priorityLogic = priorityLogic;
+            this.equipmentTypeLogic = equipmentTypeLogic;
+            this.serviceLogic = serviceLogic;
+            this.subdivisionLogic = subdivisionLogic;
+            this.requestLogic = requestLogic;
+            this.lifeCycleLogic = lifeCycleLogic;
+            this.equipmentsLogic = equipmentsLogic;
+        }
 
-        public Employee PopulateAccountInfo()
+
+        public async Task<Employee> PopulateAccountInfo()
         {
             int id = int.Parse(User.Identity.Name);
-            var account = accountService.GetAccountById(id);
-            var user = employeeService.GetEmployeeById(account.EmployeeId);
-            ViewBag.CanAddRequest = account.Permissions.Where(p => p.Permission.Title == "CanAddRequest").ToList().Count != 0;
-            ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.Permission.Title == "AccessToControlPanel").ToList().Count != 0;
+            var account = await accountLogic.GetAccountById(id);
+            var user = await employeeLogic.GetEmployeeById(account.EmployeeId);
+            account.Permissions = await accountPermissionLogic.GetPermissions(account.Id);
+            ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
+            ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
             ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
             return user;
         }
 
-        private void PopulateDropDownList()
+        private async Task PopulateDropDownList(EquipmentInstallationRequestViewModel model)
         {
-            ViewBag.Campuses = campusService.GetCampuses();
-            ViewBag.Priorities = priorityService.GetPriorities();
-            ViewBag.EquipmentTypes = equipmentTypeService.GetEquipmentTypes();
+            var campuses = await campusLogic.GetCampuses();
+            var priorities = await priorityLogic.GetPriorities();
+            var equipmentTypes = await equipmentTypeLogic.GetEquipmentTypes();
+
+            if (model.SelectedPriority.HasValue)
+                model.Priorities = new SelectList(priorities, "Id", "Fullname", model.SelectedPriority.Value);
+            else
+                model.Priorities = new SelectList(priorities, "Id", "Fullname");
+
+            if (model.SelectedCampus.HasValue)
+                model.Campuses = new SelectList(campuses, "Id", "Name", model.SelectedPriority.Value);
+            else
+                model.Campuses = new SelectList(campuses, "Id", "Name");
+
+            if (model.SelectedEquipmentType.HasValue)
+                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name", model.SelectedEquipmentType.Value);
+            else
+                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name");
         }
 
-        private EquipmentInstallationRequest InitializeRequest(EquipmentInstallationRequestViewModel model, Employee user)
+        private async Task<EquipmentInstallationRequest> InitializeRequest(EquipmentInstallationRequestViewModel model, Employee user)
         {
             EquipmentInstallationRequest request = new EquipmentInstallationRequest();
-            Service service = serviceService.GetServiceById(SERVICE_ID);
-            request.ServiceId = SERVICE_ID;
+            Service service = await serviceLogic.GetServiceById(SERVICE_ID);
+            request.ServiceId = service.Id;
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
             request.PriorityId = model.PriorityId;
             request.ClientId = user.Id;
             request.SubdivisionId = user.SubdivisionId;
             ExecutorGroup executorGroup = RequestHelper.GetExecutorGroup(service);
             request.ExecutorGroupId = executorGroup.Id;
-            Employee executor = RequestHelper.GetExecutor(user, executorGroup, subdvisionService, employeeService);
+            Employee executor = await RequestHelper.GetExecutor(user, executorGroup, subdivisionLogic, employeeLogic);
             request.ExecutorId = executor?.Id;
             request.CampusId = model.CampusId;
             request.PriorityId = model.PriorityId;
@@ -85,137 +121,138 @@ namespace WebUI.Areas.IT.Controllers
             return lifeCycle;
         }
 
-        public void ChangeRequestStatus(int id, RequestStatus status)
+        private async Task ChangeRequestStatus(int id, RequestStatus status)
         {
-            var request = requestService.GetRequest(id);
+            var request = await requestLogic.GetRequestById(id);
             request.StatusId = (int)status;
-            requestService.UpdateRequest(request);
+            await requestLogic.Save(request);
         }
 
-        public void LifeCycleMessage(int id, Employee user, string msg)
+        private async Task LifeCycleMessage(int id, Employee user, string msg)
         {
             var lifeCycle = InitializeLifeCycle(id, user, msg);
-            lifeCycleService.AddLifeCycle(lifeCycle);
+            await lifeCycleLogic.Add(lifeCycle);
         }
 
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            Employee user = PopulateAccountInfo();
-            EquipmentInstallationRequest request = requestService.GetRequest(id);
-            List<EquipmentInstallationRequestLifeCycle> lifeCycles = lifeCycleService.GetLifeCycles(request.Id);
+            Employee user = await PopulateAccountInfo();
+            EquipmentInstallationRequest request = await requestLogic.GetRequestById(id);
+            List<EquipmentInstallationRequestLifeCycle> lifeCycles = await lifeCycleLogic.GetLifeCycles(request.Id);
             EquipmentInstallationDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
             return View(model);
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            Employee user = PopulateAccountInfo();
-            PopulateDropDownList();
+            await PopulateAccountInfo();
             EquipmentInstallationRequestViewModel model = new EquipmentInstallationRequestViewModel();
-            var service = serviceService.GetServiceById(SERVICE_ID);
+            await PopulateDropDownList(model);
+            var service = await serviceLogic.GetServiceById(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);            
             return View(model);
         }
         [HttpPost]
-        public ActionResult Create(EquipmentInstallationRequestViewModel model)
+        public async Task<ActionResult> Create(EquipmentInstallationRequestViewModel model)
         {
-            PopulateDropDownList();
-            Employee user = PopulateAccountInfo();
-            var request = InitializeRequest(model, user);
-            requestService.AddRequest(request);
-            LifeCycleMessage(request.Id, user, "Создание заявки");
+            await PopulateDropDownList(model);
+            Employee user = await PopulateAccountInfo();
+            var request = await InitializeRequest(model, user);
+            await requestLogic.Save(request);
+            await LifeCycleMessage(request.Id, user, "Создание заявки");
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            Employee user = PopulateAccountInfo();
-            PopulateDropDownList();
-            var request = requestService.GetRequest(id);
+            await PopulateAccountInfo();           
+            var request = await requestLogic.GetRequestById(id);
             EquipmentInstallationRequestViewModel model = ModelFromData.GetViewModel(request);
+            await PopulateDropDownList(model);
             return View(model);
         }
         [HttpPost]
-        public ActionResult Edit(EquipmentInstallationRequestViewModel model)
+        public async Task<ActionResult> Edit(EquipmentInstallationRequestViewModel model)
         {
-            Employee user = PopulateAccountInfo();
-            PopulateDropDownList();
+            Employee user = await PopulateAccountInfo();
+            await PopulateDropDownList(model);
             var request = DataFromModel.GetData(model);
-            equipmentService.DeleteEntry(request);
+
+            await equipmentsLogic.DeleteEntry(request);
             List<InstallationEquipments> equipments = new List<InstallationEquipments>();
             foreach (var item in model.Installations)
             {
                 InstallationEquipments installation = DataFromModel.GetData(item);
                 installation.RequestId = request.Id;
-                equipmentService.AddRequest(installation);
+                await equipmentsLogic.Add(installation);
                 equipments.Add(installation);
             }
             request.InstallationEquipments = equipments;
-            requestService.UpdateRequest(request);
-            LifeCycleMessage(request.Id, user, "Редактирование заявки");
+            await requestLogic.Save(request);
+            await LifeCycleMessage(request.Id, user, "Редактирование заявки");
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
         }
 
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            Employee user = PopulateAccountInfo();
-            var request = requestService.GetRequest(id);
+            await PopulateAccountInfo();
+            var request = await requestLogic.GetRequestById(id);
             EquipmentInstallationRequestViewModel model = ModelFromData.GetViewModel(request);
             return View(model);
         }
         [HttpPost]
-        public ActionResult Delete(int id, EquipmentInstallationRequestViewModel model)
+        public async Task<ActionResult> Delete(int id, EquipmentInstallationRequestViewModel model)
         {
-            Employee user = PopulateAccountInfo();
-            var request = requestService.GetRequest(id);
-            requestService.DeleteRequest(request);
+            await PopulateAccountInfo();
+            var request = await requestLogic.GetRequestById(id);
+            await requestLogic.Delete(request);
             return RedirectToAction("Requests", "Dashboard", new { Area = "" });
         }
 
-        public ActionResult AgreeRequest(int id)
+        public async Task<ActionResult> AgreeRequest(int id)
         {
-            Employee user = PopulateAccountInfo();
-            ChangeRequestStatus(id, RequestStatus.Open);
-            LifeCycleMessage(id, user, "Заявка прошла согласование");
+            Employee user = await PopulateAccountInfo();
+            await ChangeRequestStatus(id, RequestStatus.Open);
+            await LifeCycleMessage(id, user, "Заявка прошла согласование");
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
         }
 
-        public ActionResult RejectRequest(int id)
+        public async Task<ActionResult> RejectRequest(int id)
         {
-            Employee user = PopulateAccountInfo();
-            ChangeRequestStatus(id, RequestStatus.Closed);
-            LifeCycleMessage(id, user, "Заявка не прошла согласование");
+            Employee user = await PopulateAccountInfo();
+            await ChangeRequestStatus(id, RequestStatus.Closed);
+            await LifeCycleMessage(id, user, "Заявка не прошла согласование");
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
         }
 
-        public ActionResult GetInWork(int id)
+        public async Task<ActionResult> GetInWork(int id)
         {
-            Employee user = PopulateAccountInfo();
-            ChangeRequestStatus(id, RequestStatus.InWork);
-            LifeCycleMessage(id, user, "Начало исполнения заявки");
+            Employee user = await PopulateAccountInfo();
+            await ChangeRequestStatus(id, RequestStatus.InWork);
+            await LifeCycleMessage(id, user, "Начало исполнения заявки");
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
         }
 
-        public ActionResult DoneWork(int id)
+        public async Task<ActionResult> DoneWork(int id)
         {
-            Employee user = PopulateAccountInfo();
-            ChangeRequestStatus(id, RequestStatus.Done);
-            LifeCycleMessage(id, user, "Заявка выполнена");
+            Employee user = await PopulateAccountInfo();
+            await ChangeRequestStatus(id, RequestStatus.Done);
+            await LifeCycleMessage(id, user, "Заявка выполнена");
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
         }
 
-        public ActionResult Archive(int id)
+        public async Task<ActionResult> Archive(int id)
         {
-            Employee user = PopulateAccountInfo();
-            ChangeRequestStatus(id, RequestStatus.Archive);
-            LifeCycleMessage(id, user, "Заявка перенесена в архив");
+            Employee user = await PopulateAccountInfo();
+            await ChangeRequestStatus(id, RequestStatus.Archive);
+            await LifeCycleMessage(id, user, "Заявка перенесена в архив");
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
         }
 
-        public ActionResult AddMessage(int id, EquipmentInstallationDetailsRequestViewModel model)
+        public async Task<ActionResult> AddMessage(int id, EquipmentInstallationDetailsRequestViewModel model)
         {
-            Employee user = PopulateAccountInfo();
-            LifeCycleMessage(id, user, model.Message);
+            Employee user = await PopulateAccountInfo();
+            await LifeCycleMessage(id, user, model.Message);
             return RedirectToAction("Details", "EquipmentInstallationRequest", new { id });
         }
     }

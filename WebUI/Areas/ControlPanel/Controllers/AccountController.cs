@@ -3,13 +3,11 @@ using Domain.Models;
 using Domain.Models.ManyToMany;
 using Repository.Abstract;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels.Account;
+using WebUI.ViewModels.AccountModel;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {

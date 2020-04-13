@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WebUI.ViewModels.Campus;
+using System.Web.Mvc;
+using WebUI.ViewModels.CampusModel;
 
 namespace WebUI.ViewModels.Requests.IT.Equipments
 {
@@ -16,5 +17,14 @@ namespace WebUI.ViewModels.Requests.IT.Equipments
         public CampusViewModel CampusModel { get; set; }
         [Display(Name = "Перечень заменяемого оборудования")]
         public List<ReplaceEquipmentViewModel> Replaces { get; set; } = new List<ReplaceEquipmentViewModel>();
+
+        public int? SelectedPriority { get; set; }
+        public SelectList Priorities { get; set; }
+
+        public int? SelectedCampus { get; set; }
+        public SelectList Campuses { get; set; }
+
+        public int? SelectedEquipmentType { get; set; }
+        public SelectList EquipmentTypes { get; set; }
     }
 }

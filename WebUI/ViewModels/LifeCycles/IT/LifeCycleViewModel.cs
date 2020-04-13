@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using WebUI.ViewModels.Employee;
+using WebUI.ViewModels.EmployeeModel;
 
 namespace WebUI.ViewModels.LifeCycles.IT
 {

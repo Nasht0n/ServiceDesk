@@ -18,7 +18,7 @@ namespace BusinessLogic.Concrete
             this.subdivisionRepository = subdivisionRepository;
         }
 
-        public async Task<Subdivision> GetSubdivision(int id)
+        public async Task<Subdivision> GetSubdivisionById(int id)
         {
             var subdivisions = await subdivisionRepository.GetSubdivisions();
             return subdivisions.FirstOrDefault(s => s.Id == id);

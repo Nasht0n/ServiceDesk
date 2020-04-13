@@ -2,31 +2,30 @@
 using Domain.Models.ManyToMany;
 using Domain.Models.Requests.Equipment;
 using Domain.Views;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebUI.ViewModels.Account;
-using WebUI.ViewModels.Branch;
-using WebUI.ViewModels.Campus;
-using WebUI.ViewModels.Category;
-using WebUI.ViewModels.Component;
-using WebUI.ViewModels.Consumable;
-using WebUI.ViewModels.Employee;
-using WebUI.ViewModels.Equipment;
-using WebUI.ViewModels.EquipmentType;
-using WebUI.ViewModels.ExecutorGroup;
+using WebUI.ViewModels.AccountModel;
+using WebUI.ViewModels.BranchModel;
+using WebUI.ViewModels.CampusModel;
+using WebUI.ViewModels.CategoryModel;
+using WebUI.ViewModels.ComponentModel;
+using WebUI.ViewModels.ConsumableModel;
+using WebUI.ViewModels.EmployeeModel;
+using WebUI.ViewModels.EquipmentModel;
+using WebUI.ViewModels.EquipmentTypeModel;
 using WebUI.ViewModels.ExecutorGroupMembers;
+using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
-using WebUI.ViewModels.Permission;
-using WebUI.ViewModels.Priority;
+using WebUI.ViewModels.PermissionModel;
+using WebUI.ViewModels.PriorityModel;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.View;
-using WebUI.ViewModels.Service;
-using WebUI.ViewModels.ServicesApprovers;
-using WebUI.ViewModels.ServicesExecutorGroups;
-using WebUI.ViewModels.Status;
-using WebUI.ViewModels.Subdivision;
-using WebUI.ViewModels.SubdivisionExecutors;
+using WebUI.ViewModels.ServiceModel;
+using WebUI.ViewModels.ServicesApproversModel;
+using WebUI.ViewModels.ServicesExecutorGroupsModel;
+using WebUI.ViewModels.StatusModel;
+using WebUI.ViewModels.SubdivisionExecutorsModel;
+using WebUI.ViewModels.SubdivisionModel;
 
 namespace WebUI.Models
 {
@@ -1239,6 +1238,9 @@ namespace WebUI.Models
         {
             ServicesListViewModel model = new ServicesListViewModel();
             List<ServiceViewModel> serviceModels = new List<ServiceViewModel>();
+
+            services = services.Where(c => c.CategoryId == categoryModel.Id).ToList();
+
             if (branch != 0)
             {
                 services = services.Where(e => e.Category.BranchId == branch).ToList();

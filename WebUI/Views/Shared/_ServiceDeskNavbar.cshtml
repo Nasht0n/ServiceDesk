@@ -1,0 +1,23 @@
+﻿<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">ServiceDesk</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#"><i class="fa fa-home"> </i><span> Главная</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#features"><i class="fa fa-clipboard-list"></i><span>  Возможности</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#contact"><i class="fa fa-location-arrow"></i><span> Контакты</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa fa-file-pdf"></i><span> Руководство пользователя</span></a>
+            </li>
+        </ul>
+        @Html.ActionLink("Вход в систему", "Login", "ServiceDesk", null, new { @class = "btn btn-secondary my-2 my-sm-0" })
+    </div>
+</nav>

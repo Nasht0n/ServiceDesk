@@ -7,9 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels.Service;
-using WebUI.ViewModels.ServicesApprovers;
-using WebUI.ViewModels.ServicesExecutorGroups;
+using WebUI.ViewModels.ServiceModel;
+using WebUI.ViewModels.ServicesApproversModel;
+using WebUI.ViewModels.ServicesExecutorGroupsModel;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {

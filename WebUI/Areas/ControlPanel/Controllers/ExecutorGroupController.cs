@@ -2,15 +2,13 @@
 using Domain.Models;
 using Domain.Models.ManyToMany;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels.ExecutorGroup;
 using WebUI.ViewModels.ExecutorGroupMembers;
+using WebUI.ViewModels.ExecutorGroupModel;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {

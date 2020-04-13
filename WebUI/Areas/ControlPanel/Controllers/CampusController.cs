@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels.Campus;
+using WebUI.ViewModels.CampusModel;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {

@@ -11,8 +11,6 @@ namespace WebUI.Areas.ControlPanel.Controllers
     [Authorize]
     public class DeskController : Controller
     {
-        private AccountService accountService = new AccountService();
-        private EmployeeService employeeService = new EmployeeService();
         private readonly IAccountRepository accountRepository;
         private readonly IEmployeeRepository employeeRepository;
         private readonly IAccountPermissionRepository accountPermissionRepository;

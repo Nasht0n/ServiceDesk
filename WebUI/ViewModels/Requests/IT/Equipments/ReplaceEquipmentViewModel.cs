@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebUI.ViewModels.EquipmentType;
+using WebUI.ViewModels.EquipmentTypeModel;
 
 namespace WebUI.ViewModels.Requests.IT.Equipments
 {

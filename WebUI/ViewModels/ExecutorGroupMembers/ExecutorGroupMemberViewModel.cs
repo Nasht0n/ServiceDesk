@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebUI.ViewModels.Employee;
-using WebUI.ViewModels.ExecutorGroup;
+using WebUI.ViewModels.EmployeeModel;
+using WebUI.ViewModels.ExecutorGroupModel;
 
 namespace WebUI.ViewModels.ExecutorGroupMembers
 {

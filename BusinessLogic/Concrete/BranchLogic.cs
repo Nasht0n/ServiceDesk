@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BranchModel = Domain.Models.Branch;
 
 namespace BusinessLogic.Concrete
 {
@@ -18,10 +19,16 @@ namespace BusinessLogic.Concrete
             this.branchRepository = branchRepository;
         }
 
-        public async Task<Branch> GetBranchById(int id)
+        public async Task<BranchModel> GetBranchById(int id)
         {
             var branches = await branchRepository.GetBranches();
             return branches.FirstOrDefault(b=>b.Id == id);
+        }
+
+        public async Task<List<BranchModel>> GetBranches()
+        {
+            var branches = await branchRepository.GetBranches();
+            return branches.OrderBy(b => b.Id).ToList();
         }
     }
 }

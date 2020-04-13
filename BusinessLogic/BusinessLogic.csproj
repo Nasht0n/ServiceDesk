@@ -41,6 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Branches\IT\Equipments\IInstallationEquipmentsLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\IRefillEquipmentsLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\IRepairEquipmentsLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\IReplaceComponentsLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\IReplaceEquipmentsLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\LifeCycles\IComponentReplaceRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\LifeCycles\IEquipmentInstallationRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\LifeCycles\IEquipmentRefillRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\LifeCycles\IEquipmentRepairRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\LifeCycles\IEquipmentReplaceRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Requests\IComponentReplaceRequestLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Requests\IEquipmentInstallationRequestLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Requests\IEquipmentRefillRequestLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Requests\IEquipmentRepairRequestLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Requests\IEquipmentReplaceRequestLogic.cs" />
     <Compile Include="Abstract\IAccountLogic.cs" />
     <Compile Include="Abstract\IAccountPermissionLogic.cs" />
     <Compile Include="Abstract\IBranchLogic.cs" />
@@ -53,6 +68,7 @@
     <Compile Include="Abstract\IEquipmentTypeLogic.cs" />
     <Compile Include="Abstract\IExecutorGroupLogic.cs" />
     <Compile Include="Abstract\IExecutorGroupMemberLogic.cs" />
+    <Compile Include="Abstract\IPriorityLogic.cs" />
     <Compile Include="Abstract\IServiceLogic.cs" />
     <Compile Include="Abstract\IServicesApproversLogic.cs" />
     <Compile Include="Abstract\IServicesExecutorGroupsLogic.cs" />
@@ -61,6 +77,21 @@
     <Compile Include="Concrete\AccountLogic.cs" />
     <Compile Include="Concrete\AccountPermissionLogic.cs" />
     <Compile Include="Concrete\BranchLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\InstallationEquipmentsLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\RefillEquipmentsLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\RepairEquipmentsLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\ReplaceComponentsLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\ReplaceEquipmentsLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\LifeCycles\ComponentReplaceRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\LifeCycles\EquipmentInstallationRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\LifeCycles\EquipmentRefillRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\LifeCycles\EquipmentRepairRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\LifeCycles\EquipmentReplaceRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Requests\ComponentReplaceRequestLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Requests\EquipmentInstallationRequestLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Requests\EquipmentRefillRequestLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Requests\EquipmentRepairRequestLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Requests\EquipmentReplaceRequestLogic.cs" />
     <Compile Include="Concrete\CampusLogic.cs" />
     <Compile Include="Concrete\CategoryLogic.cs" />
     <Compile Include="Concrete\ComponentLogic.cs" />
@@ -70,6 +101,7 @@
     <Compile Include="Concrete\EquipmentTypeLogic.cs" />
     <Compile Include="Concrete\ExecutorGroupLogic.cs" />
     <Compile Include="Concrete\ExecutorGroupMemberLogic.cs" />
+    <Compile Include="Concrete\PriorityLogic.cs" />
     <Compile Include="Concrete\ServiceLogic.cs" />
     <Compile Include="Concrete\ServicesApproversLogic.cs" />
     <Compile Include="Concrete\ServicesExecutorGroupsLogic.cs" />
@@ -78,10 +110,6 @@
     <Compile Include="Concrete\SubdivisionLogic.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{5E201C53-A4E4-4511-9B94-BC37377FA08C}</Project>
-      <Name>DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{D5AB7BC3-082B-4FF4-80E0-7C409D737230}</Project>
       <Name>Domain</Name>

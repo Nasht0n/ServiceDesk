@@ -23,5 +23,17 @@ namespace BusinessLogic.Concrete
             var campuses = await campusRepository.GetCampuses();
             return campuses.FirstOrDefault(c => c.Id == id);
         }
+
+        public async Task<List<Campus>> GetCampuses()
+        {
+            var campuses = await campusRepository.GetCampuses();
+            return campuses.OrderBy(c=>c.Id).ToList();
+        }
+
+        public async Task<List<Campus>> GetCampusesDescending()
+        {
+            var campuses = await campusRepository.GetCampuses();
+            return campuses.OrderByDescending(c => c.Id).ToList();
+        }
     }
 }

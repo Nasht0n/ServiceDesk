@@ -10,17 +10,17 @@ using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels;
+using BusinessLogic.Abstract;
 
 namespace WebUI.Controllers
 {
     public class ServiceDeskController : Controller
     {
-        private AccountService accountService = new AccountService();
-        private IAccountRepository accountRepository;
+        private readonly IAccountLogic accountLogic;
 
-        public ServiceDeskController(IAccountRepository accountRepository)
+        public ServiceDeskController(IAccountLogic accountLogic)
         {
-            this.accountRepository = accountRepository;
+            this.accountLogic = accountLogic;
         }
 
         private IAuthenticationManager AuthenticationManager
@@ -29,7 +29,7 @@ namespace WebUI.Controllers
             {
                 return HttpContext.GetOwinContext().Authentication;
             }
-        }        
+        }
 
         public ActionResult Index()
         {
@@ -40,7 +40,7 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                MailSender.SendMessage(model.Email, model.Fullname, model.Message);                                
+                MailSender.SendMessage(model.Email, model.Fullname, model.Message);
             }
             ModelState.Clear();
             return View();
@@ -57,14 +57,14 @@ namespace WebUI.Controllers
             {
                 // Авторизация
                 // var account = accountService.GetAccountByCredentials(model.Username, model.Password);
-                var account = (await accountRepository.GetAccounts()).Where(a=>a.Username == model.Username && a.Password == model.Password).FirstOrDefault();
+                var account = await accountLogic.GetAccountByCredential(model.Username, model.Password);
                 if (account == null)
                 {
                     ModelState.AddModelError("", "Пользователь не найден.");
-                }       
+                }
                 else if (!account.IsEnabled)
                 {
-                    ModelState.AddModelError("","Учетная запись пользователя отключена.");
+                    ModelState.AddModelError("", "Учетная запись пользователя отключена.");
                 }
                 else
                 {
@@ -85,11 +85,11 @@ namespace WebUI.Controllers
                     else
                     {
                         account.LastEnterDateTime = DateTime.Now;
-                        account = await accountRepository.UpdateAccount(account);
+                        await accountLogic.Save(account);
                         // accountService.UpdateAccount(account);
                         return RedirectToAction("Index", "Dashboard", new { Area = "" });
                     }
-                }                
+                }
             }
             return View();
         }
@@ -108,18 +108,17 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            // var account = accountService.GetAccountById(model.AccountId);
-            var account = (await accountRepository.GetAccounts()).Where(a => a.Id == model.AccountId).FirstOrDefault();
-            if(account != null && model.NewPassword.ToLower().Equals(model.RepeatNewPassword.ToLower()))
+            var account = await accountLogic.GetAccountById(model.AccountId);
+            if (account != null && model.NewPassword.ToLower().Equals(model.RepeatNewPassword.ToLower()))
             {
                 account.Password = model.NewPassword;
                 account.DateChangePassword = DateTime.Now;
                 account.ChangePasswordOnNextEnter = false;
                 account.LastEnterDateTime = DateTime.Now;
-                account = await accountRepository.UpdateAccount(account);
+                account = await accountLogic.Save(account);
                 return RedirectToAction("Index", "Dashboard", new { Area = "" });
             }
             return View();
-        }        
+        }
     }
 }

@@ -9,6 +9,6 @@ namespace BusinessLogic.Abstract
 {
     public interface ISubdivisionLogic
     {
-        Task<Subdivision> GetSubdivision(int id);
+        Task<Subdivision> GetSubdivisionById(int id);
     }
 }

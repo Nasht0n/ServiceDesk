@@ -1,5 +1,4 @@
-﻿using BusinessLogic;
-using BusinessLogic.Abstract;
+﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Domain.Models.ManyToMany;
 using Repository.Abstract;
@@ -8,17 +7,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels.Subdivision;
-using WebUI.ViewModels.SubdivisionExecutors;
+using WebUI.ViewModels.SubdivisionExecutorsModel;
+using WebUI.ViewModels.SubdivisionModel;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {
     [Authorize]
     public class SubdivisionController : Controller
     {
-        private AccountService accountService = new AccountService();
-        private EmployeeService employeeService = new EmployeeService();
-        private SubdivisionService subdivisionService = new SubdivisionService();
         private readonly int pageSize = 4;
         private readonly IAccountRepository accountRepository;
         private readonly IEmployeeRepository employeeRepository;
@@ -83,7 +79,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             var user = await PopulateAccountInfo();            
-            var subdivision = await subdivisionLogic.GetSubdivision(id);
+            var subdivision = await subdivisionLogic.GetSubdivisionById(id);
             SubdivisionViewModel model = ModelFromData.GetViewModel(subdivision);
             return View(model);
         }
@@ -98,7 +94,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var user = await PopulateAccountInfo();
-            var subdivision = await subdivisionLogic.GetSubdivision(id);
+            var subdivision = await subdivisionLogic.GetSubdivisionById(id);
             SubdivisionViewModel model = ModelFromData.GetViewModel(subdivision);
             return View(model);
         }
@@ -106,7 +102,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Delete(int id, SubdivisionViewModel model)
         {
             var user = await PopulateAccountInfo();
-            var subdivision = await subdivisionLogic.GetSubdivision(id);
+            var subdivision = await subdivisionLogic.GetSubdivisionById(id);
             await subdivisionRepository.DeleteSubdivision(subdivision);
             return RedirectToAction("Index", "Subdivision", new { Area = "ControlPanel" });
         }
@@ -137,7 +133,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         {
             await PopulateAccountInfo();
             SubdivisionExecutorsListViewModel model = new SubdivisionExecutorsListViewModel();
-            var subdivision = await subdivisionLogic.GetSubdivision(id);
+            var subdivision = await subdivisionLogic.GetSubdivisionById(id);
             model.SubdivisionModel = ModelFromData.GetViewModel(subdivision);
             var executors = await subdivisionExecutorLogic.GetExecutors(id);
             model.ExecutorsModel = ModelFromData.GetViewModel(executors);

@@ -54,7 +54,7 @@ namespace Repository.Concrete.Branches.IT.Equipments
             }
         }
 
-        public async Task<List<InstallationEquipments>> GetInstallations()
+        public async Task<List<InstallationEquipments>> GetEquipments()
         {
             try
             {

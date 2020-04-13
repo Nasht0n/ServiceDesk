@@ -1,4 +1,4 @@
-﻿using WebUI.ViewModels.Consumable;
+﻿using WebUI.ViewModels.ConsumableModel;
 
 namespace WebUI.ViewModels.Requests.IT.Equipments
 {

@@ -1,4 +1,4 @@
-﻿using WebUI.ViewModels.Component;
+﻿using WebUI.ViewModels.ComponentModel;
 
 namespace WebUI.ViewModels.Requests.IT.Equipments
 {

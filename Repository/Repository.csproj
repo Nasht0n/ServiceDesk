@@ -120,6 +120,7 @@
     <Compile Include="Abstract\IExecutorGroupMembersRepository.cs" />
     <Compile Include="Abstract\IExecutorGroupRepository.cs" />
     <Compile Include="Abstract\IPermissionRepository.cs" />
+    <Compile Include="Abstract\IPriorityRepository.cs" />
     <Compile Include="Abstract\IServiceRepository.cs" />
     <Compile Include="Abstract\IServicesApproversRepository.cs" />
     <Compile Include="Abstract\IServicesExecutorGroupsRepository.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Concrete\ExecutorGroupMembersRepository.cs" />
     <Compile Include="Concrete\ExecutorGroupRepository.cs" />
     <Compile Include="Concrete\PermissionRepository.cs" />
+    <Compile Include="Concrete\PriorityRepository.cs" />
     <Compile Include="Concrete\ServiceRepository.cs" />
     <Compile Include="Concrete\ServicesApproversRepository.cs" />
     <Compile Include="Concrete\ServicesExecutorGroupsRepository.cs" />

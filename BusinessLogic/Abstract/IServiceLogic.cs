@@ -10,5 +10,6 @@ namespace BusinessLogic.Abstract
     public interface IServiceLogic
     {
         Task<Service> GetServiceById(int id);
+        Task<List<Service>> GetActiveServices();
     }
 }

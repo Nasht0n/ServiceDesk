@@ -1,14 +1,11 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Repository.Abstract;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels.Category;
+using WebUI.ViewModels.CategoryModel;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {

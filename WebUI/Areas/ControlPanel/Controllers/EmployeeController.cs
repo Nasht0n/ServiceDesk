@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.ViewModels.Employee;
+using WebUI.ViewModels.EmployeeModel;
 
 namespace WebUI.Areas.ControlPanel.Controllers
 {

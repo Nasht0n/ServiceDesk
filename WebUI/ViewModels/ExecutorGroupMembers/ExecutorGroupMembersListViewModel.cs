@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using WebUI.ViewModels.ExecutorGroup;
-using WebUI.ViewModels.Subdivision;
+using WebUI.ViewModels.ExecutorGroupModel;
 
 namespace WebUI.ViewModels.ExecutorGroupMembers
 {

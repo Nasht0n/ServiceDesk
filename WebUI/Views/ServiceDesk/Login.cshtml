@@ -2,27 +2,25 @@
 
 @{
     ViewBag.Title = "Вход в систему";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_ServiceDeskLayout.cshtml";
 }
-<section id="header-wrapper">
-    <nav class="navbar navbar-dark fixed-top bg-dark">
-        @Html.ActionLink("ServiceDesk", "Index", "ServiceDesk", null, new { @class = "navbar-brand" })
-    </nav>
-</section>
 
-<section id="loginForm" class="d-flex align-items-center min-vh-100 text-center h-auto">
+<section id="loginForm" class="d-flex align-items-start my-5 min-vh-100 text-center">
     <div class="container">
-        <h1 class="display-2 text-center text-white">Service Desk</h1>
-        <hr class="my-3 bg-light">
-        <h6 class="text-center my-3">Пожалуйста, заполните поля для ввода в систему</h6>
-        @using (Html.BeginForm())
+        <img src="~/Content/Images/gerb.png" id="gerb-icon" />
+        <h1 class="display-2 text-center">Service Desk</h1>
+        <hr class="my-3">
+        <p class="text-center my-3">Пожалуйста, заполните поля для ввода в систему</p>
+        @using (Html.BeginForm("Login","ServiceDesk", FormMethod.Post,new { @class ="form-horizontal" }))
         {
             @Html.AntiForgeryToken()
             <div class="container text-left">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                 <div class="row justify-content-center align-items-center">
-                    <div class="col-8 my-1">
-                        <div class="form-group">
+
+                    <div class="col-4 my-1">                        
+                        <div class="form-group">                            
                             @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите логин пользователя", autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
                         </div>
@@ -30,16 +28,19 @@
                 </div>
 
                 <div class="row justify-content-center align-items-center">
-                    <div class="col-8 my-1">
+                    <div class="col-4 my-1">
                         <div class="form-group">
                             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите пароль пользователя", autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-12 text-center">
-                    <input type="submit" value="Вход в систему" class="btn btn-info" />
-                </div>
+
+                <div class="row justify-content-center align-items-center">
+                    <div class="form-group  col-4 text-center">
+                        <input type="submit" value="Вход в систему" class="btn btn-primary btn-block" />
+                    </div>
+                </div>                
             </div>
         }
     </div>

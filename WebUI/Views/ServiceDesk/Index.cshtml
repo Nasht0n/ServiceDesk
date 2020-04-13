@@ -2,130 +2,22 @@
 
 @{
     ViewBag.Title = "CRM ServiceDesk";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_ServiceDeskLayout.cshtml";
 }
-<section id="header-wrapper">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">ServiceDesk</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"><i class="fa fa-home"> </i><span> Главная</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#features"><i class="fa fa-clipboard-list"></i><span>  Возможности</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact"><i class="fa fa-location-arrow"></i><span> Контакты</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-file-pdf"></i><span> Руководство пользователя</span></a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                @Html.ActionLink("Вход в систему", "Login", "ServiceDesk", null, new { @class = "btn btn-secondary my-2 my-sm-0" })
-            </form>
-        </div>
-    </nav>
-</section>
 
-<section id="jumbotron">
-    <div class="jumbotron d-flex align-items-center min-vh-100 text-center">
-        <div class="container">
-            <h1 class="display-2 text-center text-white">Service Desk</h1>
-            <h2 class="display-5 text-white-50">Универсальная Service Desk система</h2>
-            <hr class="my-3 bg-light">
-            <p class="text-wrap">
-                Автоматизированная информационная система учета заявок с веб-интерфейсом.
-                <br /> Используется для обработки заявок клиентов, простой постановки задач, организации полноценной службы поддержки
-            </p>
-            <p class="lead">
-                @Html.ActionLink("Начать работу", "Login", "ServiceDesk", null, new { @class = "btn btn-secondary btn-lg mt-5" })
-                @*<a class="btn btn-primary btn-lg mt-5" href="#" role="button">Начать работу</a>*@
-            </p>
-        </div>
-    </div>
-</section>
-
-<section id="features" class="header min-vh-100">
+<div class="d-flex align-items-start vh-100 text-center my-5">
     <div class="container">
-        <h2 class="text-center display-5 my-3 text-white">Возможности системы Service Desk</h2>
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-4 p-3">
-                <a href="#" class="d-block text-center text-decoration-none">
-                    <img src="~/Content/Images/capicon/white/083.png" class="my-3" />
-                    <h5>Различные способы приёма заявок</h5>
-                    <p class="text-justify">Клиенты обращаются удобным для них способом, а Вы — отвечаете в одном интерфейсе</p>
-                </a>
-            </div>
+        <img src="~/Content/Images/gerb.png" id="gerb-icon" />
+        <h1 class="display-2 text-center">Service Desk</h1>
+        <h2 class="display-5">Универсальная система службы поддержки пользователей</h2>
+        <hr class="my-3">
+        <p class="text-wrap">
+            Автоматизированная информационная система учета заявок с веб-интерфейсом.
+            <br /> Используется для обработки заявок клиентов, простой постановки задач, организации полноценной службы поддержки
+        </p>
 
-            <div class="col-sm-12 col-md-6 col-lg-4 p-3">
-                <a href="#" class="d-block text-center text-decoration-none">
-                    <img src="~/Content/Images/capicon/white/083.png" class="my-3" />
-                    <h5>Гибкое управление заявками</h5>
-                    <p class="text-justify">Множество инструментов для контроля и обработки обращений.</p>
-                </a>
-            </div>
-
-            <div class="col-sm-12 col-md-6 col-lg-4 p-3">
-                <a href="#" class="d-block text-center text-decoration-none">
-                    <img src="~/Content/Images/capicon/white/083.png" class="my-3" />
-                    <h5>База знаний и шаблоны</h5>
-                    <p class="text-justify">Храните всю документацию и информацию по клиентам в одном месте, сохраняйте и используйте типовые ответы.</p>
-                </a>
-            </div>
-
-            <div class="col-sm-12 col-md-6 col-lg-4 p-3">
-                <a href="#" class="d-block text-center text-decoration-none">
-                    <img src="~/Content/Images/capicon/white/047.png" class="my-3" />
-                    <h5>Отчётность и анализ</h5>
-                    <p class="text-justify">Отчет по заявкам в разных разрезах, время реакции, уровень удовлетворенности и прочие необходимые отчеты всегда под рукой</p>
-                </a>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 p-3">
-                <a href="#" class="d-block text-center text-decoration-none">
-                    <img src="~/Content/Images/capicon/white/022.png" class="my-3" />
-                    <h5>Оценка уровня сервиса</h5>
-                    <p class="text-justify">
-                        При работе службы поддержки, все стремятся к повышению качества обслуживания. Один из важнейших вопросов, конечно же, как это качество измерять? Предположим, что главным параметром является удовлетворённость клиентов.
-                    </p>
-                </a>
-            </div>
-        </div>
+        <p class="lead">
+            @Html.ActionLink("Начать работу", "Login", "ServiceDesk", null, new { @class = "btn btn-primary btn-lg mt-5 py-3 px-5" })
+        </p>
     </div>
-</section>
-
-<section id="contact" class="header min-vh-100">
-    <div class="container text-center">
-        <h2 class="text-center display-5 my-3 text-white">Контакты</h2>
-        <div class="row mt-5">
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <i class="fa fa-phone fa-2x"></i>
-                <p class="my-3">8 (0163) 66-53-59</p>
-            </div>
-
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <i class="fa fa-map-marker-alt fa-2x"></i>
-                <p class="my-3">
-                    ул. Войкова 21, 225404 <br />
-                    г.Барановичи, Брестская область
-                </p>
-            </div>
-
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <i class="fa fa-envelope fa-2x"></i>
-                <p class="my-3">
-                    oit@barsu.by
-                </p>
-            </div>
-        </div>
-        <hr class="bg-light" />
-        @Html.Partial("ContactUs", Model)
-
-    </div>
-</section>
-
-
+</div>

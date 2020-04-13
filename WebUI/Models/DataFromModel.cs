@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Models.Requests.Equipment;
-using WebUI.ViewModels.Account;
-using WebUI.ViewModels.Branch;
-using WebUI.ViewModels.Campus;
-using WebUI.ViewModels.Category;
-using WebUI.ViewModels.Component;
-using WebUI.ViewModels.Consumable;
-using WebUI.ViewModels.Employee;
-using WebUI.ViewModels.Equipment;
-using WebUI.ViewModels.EquipmentType;
-using WebUI.ViewModels.ExecutorGroup;
-using WebUI.ViewModels.Permission;
+using WebUI.ViewModels.AccountModel;
+using WebUI.ViewModels.BranchModel;
+using WebUI.ViewModels.CampusModel;
+using WebUI.ViewModels.CategoryModel;
+using WebUI.ViewModels.ComponentModel;
+using WebUI.ViewModels.ConsumableModel;
+using WebUI.ViewModels.EmployeeModel;
+using WebUI.ViewModels.EquipmentModel;
+using WebUI.ViewModels.EquipmentTypeModel;
+using WebUI.ViewModels.ExecutorGroupModel;
+using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.Requests.IT.Equipments;
-using WebUI.ViewModels.Service;
-using WebUI.ViewModels.Subdivision;
+using WebUI.ViewModels.ServiceModel;
+using WebUI.ViewModels.SubdivisionModel;
 
 namespace WebUI.Models
 {

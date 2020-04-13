@@ -9,6 +9,6 @@ namespace Repository.Abstract.Branches.IT.Equipments
         Task<ReplaceComponents> Add(ReplaceComponents components);
         Task<ReplaceComponents> Update(ReplaceComponents components);
         Task Delete(ReplaceComponents components);
-        Task<List<ReplaceComponents>> GetReplaces();
+        Task<List<ReplaceComponents>> GetComponents();
     }
 }

@@ -40,8 +40,8 @@ namespace BusinessLogic.Concrete
 
         public async Task<Account> Save(Account account)
         {
-            Account result = null;
-            if(account.Id == 0)
+            Account result;
+            if (account.Id == 0)
             {
                 result = await accountRepository.AddAccount(account);
             } else

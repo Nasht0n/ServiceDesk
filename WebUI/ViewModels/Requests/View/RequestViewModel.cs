@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using WebUI.ViewModels.Employee;
-using WebUI.ViewModels.ExecutorGroup;
-using WebUI.ViewModels.Priority;
-using WebUI.ViewModels.Service;
-using WebUI.ViewModels.Status;
-using WebUI.ViewModels.Subdivision;
+using WebUI.ViewModels.EmployeeModel;
+using WebUI.ViewModels.ExecutorGroupModel;
+using WebUI.ViewModels.PriorityModel;
+using WebUI.ViewModels.ServiceModel;
+using WebUI.ViewModels.StatusModel;
+using WebUI.ViewModels.SubdivisionModel;
 
 namespace WebUI.ViewModels.Requests.View
 {

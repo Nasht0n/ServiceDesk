@@ -1,6 +1,8 @@
 ﻿using BusinessLogic;
+using BusinessLogic.Abstract;
 using Domain.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebUI.Models.Helpers
 {
@@ -15,10 +17,10 @@ namespace WebUI.Models.Helpers
             else return null;
         }
 
-        public static Employee GetExecutor(Employee employee, ExecutorGroup group, SubdivisionService subdvisionService, EmployeeService employeeService)
+        public static async Task<Employee> GetExecutor(Employee employee, ExecutorGroup group, ISubdivisionLogic subdvisionService, IEmployeeLogic employeeService)
         {
             // Получение подразделения сотрудника
-            var subdivision = subdvisionService.GetSubdivisionById(employee.SubdivisionId);
+            var subdivision = await subdvisionService.GetSubdivisionById(employee.SubdivisionId);
             // Получение списка исполнителей закрепленных за подразделением            
             var subdivisionContractor = subdivision.SubdivisionExecutors.ToList();
             // исполнитель
@@ -28,7 +30,7 @@ namespace WebUI.Models.Helpers
             // проход по всем исполнителям закрепленным за подразделением
             foreach (var emp in subdivisionContractor)
             {
-                var current = employeeService.GetEmployeeById(emp.Id);
+                var current = await employeeService.GetEmployeeById(emp.Id);
                 // Если исполнитель относится к группе исполнителей данного вида работ
                 if (current.ExecutorGroups.Any(eg => eg.ExecutorGroupId == group.Id))
                 {

@@ -54,7 +54,7 @@ namespace Repository.Concrete.Branches.IT.Equipments
             }
         }
 
-        public async Task<List<ReplaceEquipments>> GetReplaces()
+        public async Task<List<ReplaceEquipments>> GetEquipments()
         {
             try
             {

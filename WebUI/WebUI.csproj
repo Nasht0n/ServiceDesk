@@ -146,6 +146,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Cerulean\bootstrap.min.css" />
     <Content Include="Content\cpanel.css" />
     <Content Include="Content\fonts\all.css" />
     <Content Include="Content\fonts\fa-brands-400.svg" />
@@ -902,6 +903,8 @@
     <Content Include="Content\Images\capicon\white\373.png" />
     <Content Include="Content\Images\capicon\white\374.png" />
     <Content Include="Content\Images\capicon\white\375.png" />
+    <Content Include="Content\Images\gerb.png" />
+    <Content Include="Content\Materia\bootstrap.min.css" />
     <Content Include="Content\sd.css" />
     <Content Include="Content\Slate\bootstrap.min.css" />
     <Content Include="Content\Superhero\bootstrap.min.css" />
@@ -1162,30 +1165,30 @@
     <Compile Include="Models\ModelFromData.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\Account\AccountListViewModel.cs" />
-    <Compile Include="ViewModels\Account\AccountViewModel.cs" />
-    <Compile Include="ViewModels\Branch\BranchesListViewModel.cs" />
-    <Compile Include="ViewModels\Branch\BranchViewModel.cs" />
-    <Compile Include="ViewModels\Campus\CampusesListViewModel.cs" />
-    <Compile Include="ViewModels\Campus\CampusViewModel.cs" />
-    <Compile Include="ViewModels\Category\CategoriesListViewModel.cs" />
-    <Compile Include="ViewModels\Category\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\AccountModel\AccountListViewModel.cs" />
+    <Compile Include="ViewModels\AccountModel\AccountViewModel.cs" />
+    <Compile Include="ViewModels\BranchModel\BranchesListViewModel.cs" />
+    <Compile Include="ViewModels\BranchModel\BranchViewModel.cs" />
+    <Compile Include="ViewModels\CampusModel\CampusesListViewModel.cs" />
+    <Compile Include="ViewModels\CampusModel\CampusViewModel.cs" />
+    <Compile Include="ViewModels\CategoryModel\CategoriesListViewModel.cs" />
+    <Compile Include="ViewModels\CategoryModel\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
-    <Compile Include="ViewModels\Component\ComponentsListViewModel.cs" />
-    <Compile Include="ViewModels\Component\ComponentViewModel.cs" />
-    <Compile Include="ViewModels\Consumable\ConsumablesListViewModel.cs" />
-    <Compile Include="ViewModels\Consumable\ConsumableViewModel.cs" />
+    <Compile Include="ViewModels\ComponentModel\ComponentsListViewModel.cs" />
+    <Compile Include="ViewModels\ComponentModel\ComponentViewModel.cs" />
+    <Compile Include="ViewModels\ConsumableModel\ConsumablesListViewModel.cs" />
+    <Compile Include="ViewModels\ConsumableModel\ConsumableViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
-    <Compile Include="ViewModels\Employee\EmployeesListViewModel.cs" />
-    <Compile Include="ViewModels\Employee\EmployeeViewModel.cs" />
-    <Compile Include="ViewModels\EquipmentType\EquipmentTypesListViewModel.cs" />
-    <Compile Include="ViewModels\EquipmentType\EquipmentTypeViewModel.cs" />
-    <Compile Include="ViewModels\Equipment\EquipmentsListViewModel.cs" />
-    <Compile Include="ViewModels\Equipment\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeModel\EmployeesListViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeModel\EmployeeViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentTypeModel\EquipmentTypesListViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentTypeModel\EquipmentTypeViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentModel\EquipmentsListViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentModel\EquipmentViewModel.cs" />
     <Compile Include="ViewModels\ExecutorGroupMembers\ExecutorGroupMembersListViewModel.cs" />
     <Compile Include="ViewModels\ExecutorGroupMembers\ExecutorGroupMemberViewModel.cs" />
-    <Compile Include="ViewModels\ExecutorGroup\ExecutorGroupsListViewModel.cs" />
-    <Compile Include="ViewModels\ExecutorGroup\ExecutorGroupViewModel.cs" />
+    <Compile Include="ViewModels\ExecutorGroupModel\ExecutorGroupsListViewModel.cs" />
+    <Compile Include="ViewModels\ExecutorGroupModel\ExecutorGroupViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\ComponentReplaceRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentInstallationRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentRefillRequestLifeCycleViewModel.cs" />
@@ -1193,9 +1196,9 @@
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentReplaceRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\LifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\Permission\PermissionsListViewModel.cs" />
-    <Compile Include="ViewModels\Permission\PermissionViewModel.cs" />
-    <Compile Include="ViewModels\Priority\PriorityViewModel.cs" />
+    <Compile Include="ViewModels\PermissionModel\PermissionsListViewModel.cs" />
+    <Compile Include="ViewModels\PermissionModel\PermissionViewModel.cs" />
+    <Compile Include="ViewModels\PriorityModel\PriorityViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\DetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\ComponentReplaceDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\ComponentReplaceRequestViewModel.cs" />
@@ -1215,17 +1218,17 @@
     <Compile Include="ViewModels\Requests\IT\RequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\View\RequestListViewModel.cs" />
     <Compile Include="ViewModels\Requests\View\RequestViewModel.cs" />
-    <Compile Include="ViewModels\ServicesApprovers\ServicesApproversListViewModel.cs" />
-    <Compile Include="ViewModels\ServicesApprovers\ServicesApproversViewModel.cs" />
-    <Compile Include="ViewModels\ServicesExecutorGroups\ServicesExecutorGroupsListViewModel.cs" />
-    <Compile Include="ViewModels\ServicesExecutorGroups\ServicesExecutorGroupsViewModel.cs" />
-    <Compile Include="ViewModels\Service\ServicesListViewModel.cs" />
-    <Compile Include="ViewModels\Service\ServiceViewModel.cs" />
-    <Compile Include="ViewModels\Status\StatusViewModel.cs" />
-    <Compile Include="ViewModels\SubdivisionExecutors\SubdivisionExecutorsListViewModel.cs" />
-    <Compile Include="ViewModels\SubdivisionExecutors\SubdivisionExecutorViewModel.cs" />
-    <Compile Include="ViewModels\Subdivision\SubdivisionViewModel.cs" />
-    <Compile Include="ViewModels\Subdivision\SubdivisionsListViewModel.cs" />
+    <Compile Include="ViewModels\ServicesApproversModel\ServicesApproversListViewModel.cs" />
+    <Compile Include="ViewModels\ServicesApproversModel\ServicesApproversViewModel.cs" />
+    <Compile Include="ViewModels\ServicesExecutorGroupsModel\ServicesExecutorGroupsListViewModel.cs" />
+    <Compile Include="ViewModels\ServicesExecutorGroupsModel\ServicesExecutorGroupsViewModel.cs" />
+    <Compile Include="ViewModels\ServiceModel\ServicesListViewModel.cs" />
+    <Compile Include="ViewModels\ServiceModel\ServiceViewModel.cs" />
+    <Compile Include="ViewModels\StatusModel\StatusViewModel.cs" />
+    <Compile Include="ViewModels\SubdivisionExecutorsModel\SubdivisionExecutorsListViewModel.cs" />
+    <Compile Include="ViewModels\SubdivisionExecutorsModel\SubdivisionExecutorViewModel.cs" />
+    <Compile Include="ViewModels\SubdivisionModel\SubdivisionViewModel.cs" />
+    <Compile Include="ViewModels\SubdivisionModel\SubdivisionsListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1246,6 +1249,8 @@
     <Content Include="Views\Dashboard\ChooseService.cshtml" />
     <Content Include="Views\ServiceDesk\ChangePassword.cshtml" />
     <Content Include="Views\Dashboard\Requests.cshtml" />
+    <Content Include="Views\Shared\_ServiceDeskLayout.cshtml" />
+    <Content Include="Views\Shared\_ServiceDeskNavbar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1270,10 +1275,6 @@
     <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
       <Project>{3230A783-1315-4606-A968-026137070B83}</Project>
       <Name>BusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{5E201C53-A4E4-4511-9B94-BC37377FA08C}</Project>
-      <Name>DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{d5ab7bc3-082b-4ff4-80e0-7c409d737230}</Project>
