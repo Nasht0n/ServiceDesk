@@ -27,6 +27,12 @@ namespace Domain.Models.Requests.Network
         /// </summary>
         public EquipmentType EquipmentType { get; set; }
         /// <summary>
+        /// Идентификатор заявки
+        /// </summary>
+        [Required]
+        public int RequestId { get; set; }
+        public NetworkConnectionRequest Request { get; set; }
+        /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
         public ConnectionEquipments() { }
