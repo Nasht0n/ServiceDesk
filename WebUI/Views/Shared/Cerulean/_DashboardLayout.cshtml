@@ -5,24 +5,25 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link href="~/Content/Slate/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Cerulean/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/fonts/fontawesome-all.min.css" rel="stylesheet" />
     <link href="~/Content/sd.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
+
 </head>
-<body class="bg-primary">
+<body>
     <section id="content-wrapper">
         <div class="wrapper">
-            <div class="d-flex" id="wrapper">
-                @Html.Partial("_DashboardMenu")
-                <div id="page-content-wrapper" class="bg-light">
-                    @Html.Partial("_DashboardNavBar")
-                    <div class="container-fluid bg-light">
+            <div class="d-flex toggled" id="wrapper">
+                @Html.Partial("Cerulean/_DashboardMenu")
+                <div id="page-content-wrapper">
+                    @Html.Partial("Cerulean/_DashboardNavBar")
+                    <div class="container-fluid">
                         @RenderBody()
                     </div>
                 </div>
             </div>
-        </div>     
+        </div>
     </section>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -30,8 +31,7 @@
     <script src="~/Scripts/umd/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/servicedesk/menu-toggle.js"></script>
-    <script src="~/Scripts/servicedesk/equipments/installation-equipments-table.js"></script>
-    <script src="~/Scripts/servicedesk/equipments/replace-equipments-table.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
 

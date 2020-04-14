@@ -27,11 +27,13 @@ namespace Domain.Models.Requests.Equipment
         /// <summary>
         /// Список устанавливаемого оборудования
         /// </summary>
-        public IList<InstallationEquipments> InstallationEquipments { get; set; }
+        public virtual List<InstallationEquipments> InstallationEquipments { get; set; }
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public EquipmentInstallationRequest() { }
+        public EquipmentInstallationRequest() {
+            InstallationEquipments = new List<InstallationEquipments>();
+        }
         /// <summary>
         /// Конструктор с параметрами
         /// </summary>

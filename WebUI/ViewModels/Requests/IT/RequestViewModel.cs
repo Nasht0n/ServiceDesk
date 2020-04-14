@@ -21,7 +21,6 @@ namespace WebUI.ViewModels.Requests.IT
         [Display(Name = "Обоснование заявки")]
         [DataType(DataType.MultilineText)]
         public string Justification { get; set; }
-        [Required(ErrorMessage = "Укажите описание заявки")]
         [Display(Name = "Описание заявки")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }

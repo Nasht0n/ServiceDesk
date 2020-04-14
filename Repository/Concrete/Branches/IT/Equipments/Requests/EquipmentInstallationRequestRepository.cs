@@ -75,6 +75,8 @@ namespace Repository.Concrete.Branches.IT.Equipments.Requests
                     .Include(a => a.Executor.Subdivision)
                     .Include(a => a.ExecutorGroup)
                     .Include(a => a.Subdivision)
+                    .Include(a => a.InstallationEquipments.Select(it=>it.EquipmentType))
+                    
                     .ToListAsync();
                 watch.Stop();
                 return list;

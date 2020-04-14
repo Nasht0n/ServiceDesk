@@ -6,11 +6,14 @@ namespace WebUI.ViewModels.Requests.IT
     {
         [Display(Name = "Сообщение жизненного цикла")]
         public string Message { get; set; }
+
         // Пользователь имеет права на согласование заявок
         public bool IsApprovers { get; set; }
         // Пользователь имеет права на исполнитель
         public bool IsExecutor { get; set; }
         // Пользователь создатель заявки
         public bool IsClient { get; set; }
+        // 
+        public bool AllApproval { get; set; }
     }
 }

@@ -2,11 +2,11 @@
 {
     public enum RequestStatus
     {
-        Open = 1,
-        Approval = 2,
-        InWork = 3,
-        Done = 4,
-        Closed = 5,
-        Archive = 6
+        Open = 3,
+        Approval = 4,
+        InWork = 5,
+        Done = 6,
+        Closed = 7,
+        Archive = 8
     }
 }

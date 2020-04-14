@@ -65,6 +65,10 @@
     <Compile Include="Migrations\202004130941373_SomeContextChange.designer.cs">
       <DependentUpon>202004130941373_SomeContextChange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004140917116_AddCascade.cs" />
+    <Compile Include="Migrations\202004140917116_AddCascade.designer.cs">
+      <DependentUpon>202004140917116_AddCascade.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ManyToMany\AccountCancellationRequestAttachment.cs" />
@@ -160,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004130941373_SomeContextChange.resx">
       <DependentUpon>202004130941373_SomeContextChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004140917116_AddCascade.resx">
+      <DependentUpon>202004140917116_AddCascade.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

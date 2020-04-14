@@ -61,8 +61,8 @@ namespace Repository.Concrete.Branches.IT.Equipments
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
                 var list = await context.InstallationEquipments
-                    .Include(a => a.Request)
                     .Include(a => a.EquipmentType)
+                    .Include(a => a.Request)                    
                     .ToListAsync();
                 watch.Stop();
                 return list;

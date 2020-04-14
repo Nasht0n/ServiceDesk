@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Repository.Concrete.Branches.IT.Equipments.Requests
@@ -73,6 +74,7 @@ namespace Repository.Concrete.Branches.IT.Equipments.Requests
                     .Include(a => a.Executor.Subdivision)
                     .Include(a => a.ExecutorGroup)
                     .Include(a => a.Subdivision)
+                    .Include(a => a.ReplaceEquipments.Select(re=>re.EquipmentType))
                     .ToListAsync();
                 watch.Stop();
                 return list;

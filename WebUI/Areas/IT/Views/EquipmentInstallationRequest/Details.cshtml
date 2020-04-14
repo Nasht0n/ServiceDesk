@@ -1,16 +1,16 @@
 ﻿@model WebUI.ViewModels.Requests.IT.Equipments.EquipmentInstallationDetailsRequestViewModel
-
+@using WebUI.Models.Enum
 @{
     ViewBag.Title = "Заявка на установку оборудования";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
 <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
 <ol class="breadcrumb">
-    <li class="breadcrumb-item">Информационные технологии</li>
-    <li class="breadcrumb-item">Оборудование</li>
-    <li class="breadcrumb-item">Установка оборудования</li>
-    <li class="breadcrumb-item text-white active">Просмотр заявки</li>
+    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.BranchModel.Fullname</li>
+    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.CategoryModel.Name</li>
+    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.Name</li>
+    <li class="breadcrumb-item active">Просмотр заявки</li>
 </ol>
 
 <div class="container-fluid footer">
@@ -24,7 +24,12 @@
                 </div>
                 <div class="card-body bg-white text-dark">
                     <p class="card-text">@Model.RequestModel.Justification</p>
-                    <p class="card-text">@Model.RequestModel.Description</p>
+
+                    @{ if (!string.IsNullOrWhiteSpace(Model.RequestModel.Description))
+                        {
+                            <p class="card-text">@Model.RequestModel.Description</p>
+                        }
+                    }
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item bg-white text-dark">
@@ -45,7 +50,7 @@
                     </li>
                     <li class="list-group-item bg-white text-dark">
                         <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.Installations):</span>
-                        <hr class="bg-dark" />
+
                         @foreach (var item in Model.RequestModel.Installations)
                         {
 
@@ -55,23 +60,22 @@
                                 <span class="ml-auto font-weight-bold">Количество: </span>
                                 <span class="ml-1">@item.Count</span>
                             </div>
-                            <hr class="bg-dark" />
                         }
 
                     </li>
                 </ul>
                 <div class="card-body">
                     <div class="d-flex align-content-start flex-wrap">
-                        @if (Model.IsApprovers && Model.RequestModel.StatusId == 2 && Model.RequestModel.ServiceModel.ApprovalRequired)
+                        @if (Model.IsApprovers && Model.RequestModel.StatusId == (int)RequestStatus.Open && Model.RequestModel.ServiceModel.ApprovalRequired)
                         {
                             <a href="@Url.Action("AgreeRequest","EquipmentInstallationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Согласовать</a>
                             <a href="@Url.Action("RejectRequest","EquipmentInstallationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-warning flex-grow-1 mr-1 mb-1">Отклонить</a>
                         }
-                        else if (Model.IsExecutor && Model.RequestModel.StatusId == 1)
+                        else if (Model.IsExecutor && Model.AllApproval && Model.RequestModel.StatusId == (int)RequestStatus.Open)
                         {
                             <a href="@Url.Action("GetInWork","EquipmentInstallationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Принять к исполнению</a>
                         }
-                        else if (Model.IsClient && Model.RequestModel.StatusId == 1 || Model.RequestModel.StatusId == 2)
+                        else if (Model.IsClient && Model.RequestModel.StatusId == (int)RequestStatus.Open || Model.RequestModel.StatusId == (int)RequestStatus.Approval)
                         {
                             <a href="@Url.Action("Edit","EquipmentInstallationRequest",new { Area = "IT", id = Model.RequestModel.Id })" class="btn btn-primary mr-1 mb-1">
                                 <i class="fa fa-edit"></i>
@@ -82,13 +86,12 @@
                             </a>
                         }
 
-
-                        else if (Model.IsExecutor && Model.RequestModel.StatusId == 3)
+                        else if (Model.IsExecutor && Model.RequestModel.StatusId == (int)RequestStatus.Done)
                         {
                             <a href="@Url.Action("DoneWork","EquipmentInstallationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Выполнена</a>
                         }
 
-                        else if ((Model.IsExecutor || Model.IsClient) && (Model.RequestModel.StatusId == 4 || Model.RequestModel.StatusId == 5))
+                        else if ((Model.IsExecutor || Model.IsClient) && (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Archive))
                         {
                             <a href="@Url.Action("Archive","EquipmentInstallationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">В архив</a>
                         }

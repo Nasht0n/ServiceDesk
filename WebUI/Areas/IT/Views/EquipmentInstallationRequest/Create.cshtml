@@ -1,22 +1,24 @@
 ﻿@model WebUI.ViewModels.Requests.IT.Equipments.EquipmentInstallationRequestViewModel
-
+@section Scripts{
+    <script src="~/Scripts/servicedesk/equipments/installation-equipments-table.js" type="text/javascript"></script>
+}
 @{
     ViewBag.Title = "Заявка на установку оборудования";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
 <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a href="@Url.Action("ChooseBranch","Dashboard",new { Area = "" })">Информационные технологии</a>    
+        <a href="@Url.Action("ChooseBranch","Dashboard",new { Area = "" })">Информационные технологии</a>
     </li>
     <li class="breadcrumb-item">
-        <a href="@Url.Action("ChooseCategory","Dashboard", new { Area = "", id = Model.ServiceModel.CategoryModel.Id })">@Model.ServiceModel.CategoryModel.Name</a> 
+        <a href="@Url.Action("ChooseCategory","Dashboard", new { Area = "", id = Model.ServiceModel.CategoryModel.Id })">@Model.ServiceModel.CategoryModel.Name</a>
     </li>
     <li class="breadcrumb-item">
         <a href="@Url.Action("ChooseService","Dashboard",new { Area = "", id = Model.ServiceModel.Id })">@Model.ServiceModel.Name</a>
     </li>
-    <li class="breadcrumb-item text-white active">Регистрация заявки</li>
+    <li class="breadcrumb-item active">Регистрация заявки</li>
 </ol>
 
 <div class="container-fluid footer">
@@ -24,12 +26,8 @@
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
-            <h6 class="text-dark">Пожалуйста, заполните поля для регистрации новой заявки</h6>
-            <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
             @Html.HiddenFor(model => model.Id)
-
             <div class="row">
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
@@ -52,7 +50,7 @@
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Name = "Model.Description", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                   
 
                 </div>
             </div>
@@ -76,14 +74,14 @@
 
             <div class="row m-1">
                 <h6 class="text-center text-dark">Список устанавливаемого оборудования</h6>
-                <table id="tblInstallationEquipments" class="table table-hover">
+                <table id="tblInstallationEquipments" class="table">
                     <thead class="table-primary">
                         <tr>
                             <th class="d-none"></th>
                             <th class="d-none"></th>
-                            <th>Тип оборудования</th>
-                            <th>Количество</th>
-                            <th></th>
+                            <th class="w-50">Тип оборудования</th>
+                            <th class="w-25">Количество</th>
+                            <th class="w-25"></th>
                         </tr>
                     </thead>
 
@@ -91,10 +89,10 @@
                         @foreach (var item in Model.Installations)
                         {
                             <tr>
-                                <td class="w-100">@Html.TextBoxFor(modelItem => item.EquipmentTypeModel.Name, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
-                                <td class="w-100">@Html.TextBoxFor(modelItem => item.Count, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(modelItem => item.EquipmentTypeModel.Name, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(modelItem => item.Count, new { @class = "form-control tblItem bg-light border-0", @readonly = "readonly" })</td>
                                 <td>
-                                    <button type="button" value="Удалить" class="btn btn-danger w-100">
+                                    <button type="button" value="Удалить" class="btn btn-danger">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </td>
@@ -103,10 +101,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td>@Html.DropDownList("EquipmentTypes", Model.EquipmentTypes, "Выберите тип оборудования", htmlAttributes: new { @class = "form-control" })</td>
-                            <td>@Html.TextBox("Count", "", new { @class = "form-control", id = "Count" })</td>
-                            <td>
-                                <input type="button" id="btnAddInstallationEquipments" value="Добавить" class="btn btn-info w-100" />
+                            <td class="w-50">@Html.DropDownList("EquipmentTypes", Model.EquipmentTypes, "Выберите тип оборудования", htmlAttributes: new { @class = "form-control" })</td>
+                            <td class="w-25">@Html.TextBox("Count", "", new { @class = "form-control", id = "Count" })</td>
+                            <td class="w-25">
+                                <input type="button" id="btnAddInstallationEquipments" value="Добавить" class="btn btn-success w-100" />
                             </td>
                         </tr>
                     </tfoot>
@@ -117,14 +115,15 @@
 
             <div class="row">
                 <div class="form-group">
-                    <div class="col-auto">
-                        <input type="submit" value="Сохранить" class="btn btn-success" />
-                    </div>
+                        <div class="col-auto">
+                            <input type="submit" value="Создать заявку" class="btn btn-primary" />
+                        </div>
                 </div>
                 <div class="text-dark">
-                    @Html.ActionLink("Вернуться к созданию заявки", "ChooseBranch", "Dashboard", new { Area = "" }, new { @class = "btn btn-secondary" })
+                    @Html.ActionLink("Вернуться к созданию заявки", "ChooseBranch", "Dashboard", new { Area = "" }, new { @class = "btn btn-outline-primary" })
                 </div>
             </div>
         </div>
     }
 </div>
+

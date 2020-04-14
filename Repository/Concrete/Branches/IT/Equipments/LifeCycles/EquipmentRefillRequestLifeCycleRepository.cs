@@ -65,6 +65,7 @@ namespace Repository.Concrete.Branches.IT.Equipments.LifeCycles
                 var list = await context.EquipmentRefillRequestsLifeCycles
                     .Include(a => a.Request)
                     .Include(a => a.Employee)
+                    .Include(a => a.Employee.Subdivision)
                     .ToListAsync();
                 watch.Stop();
                 return list;

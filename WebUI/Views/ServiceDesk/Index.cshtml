@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_ServiceDeskLayout.cshtml";
 }
 
-<div class="d-flex align-items-start vh-100 text-center my-5">
+<div class="d-flex align-items-start min-vh-100 text-center">
     <div class="container">
         <img src="~/Content/Images/gerb.png" id="gerb-icon" />
         <h1 class="display-2 text-center">Service Desk</h1>
@@ -17,7 +17,7 @@
         </p>
 
         <p class="lead">
-            @Html.ActionLink("Начать работу", "Login", "ServiceDesk", null, new { @class = "btn btn-primary btn-lg mt-5 py-3 px-5" })
+            @Html.ActionLink("Вход в систему", "Login", "ServiceDesk", null, new { @class = "btn btn-primary btn-lg mt-5 py-3 px-5" })
         </p>
     </div>
 </div>

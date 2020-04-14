@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Заявка на установку оборудования";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
 <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
@@ -10,7 +10,7 @@
     <li class="breadcrumb-item">Информационные технологии</li>
     <li class="breadcrumb-item">Оборудование</li>
     <li class="breadcrumb-item">Установка оборудования</li>
-    <li class="breadcrumb-item text-white active">Удаление заявки</li>
+    <li class="breadcrumb-item active">Удаление заявки</li>
 </ol>
 
 
@@ -60,7 +60,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Удалить запись" class="btn btn-danger" /> 
-            @Html.ActionLink("Вернуться к списку заявок", "Requests", "Dashboard", new { Area = "" }, new { @class = "btn btn-secondary" })
+            @Html.ActionLink("Вернуться к списку заявок", "Requests", "Dashboard", new { Area = "" }, new { @class = "btn  btn-outline-primary" })
         </div>
     }
 </div>

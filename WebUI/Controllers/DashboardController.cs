@@ -24,10 +24,11 @@ namespace WebUI.Controllers
         private readonly ICategoryLogic categoryLogic;
         private readonly IServiceLogic serviceLogic;
         private readonly IAccountPermissionRepository accountPermissionRepository;
+        private readonly IRequestsLogic requestsLogic;
 
         public DashboardController(IAccountRepository accountRepository, IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
-            IAccountPermissionRepository accountPermissionRepository)
+            IAccountPermissionRepository accountPermissionRepository, IRequestsLogic requestsLogic)
         {
             this.accountRepository = accountRepository;
             this.accountLogic = accountLogic;
@@ -38,6 +39,7 @@ namespace WebUI.Controllers
             this.categoryLogic = categoryLogic;
             this.serviceLogic = serviceLogic;
             this.accountPermissionRepository = accountPermissionRepository;
+            this.requestsLogic = requestsLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
@@ -60,7 +62,12 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Requests(int service = 0, int page = 1)
         {
-            await PopulateAccountInfo();
+            var user = await PopulateAccountInfo();
+            var executorGroups = user.ExecutorGroups;
+            if(executorGroups!=null)
+            {
+                var requests = await requestsLogic.GetRequests(user, descending: false);
+            }            
             // var requests = requestService.GetRequests();
             // RequestListViewModel model = ModelFromData.GetListViewModel(requests, user, service, page, pageSize);            
             // return View(model);
@@ -87,8 +94,10 @@ namespace WebUI.Controllers
         public async Task<ActionResult> ChooseService(int id)
         {
             await PopulateAccountInfo();
+
             var services = await serviceLogic.GetActiveServices();
             var category = await categoryLogic.GetCategoryById(id);
+
             ServicesListViewModel model = ModelFromData.GetListViewModel(services, category);
             return View(model);
         }

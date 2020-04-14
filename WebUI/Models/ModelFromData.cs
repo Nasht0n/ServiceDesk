@@ -460,7 +460,9 @@ namespace WebUI.Models
                 {
                     Id = item.Id,
                     Count = item.Count,
+                    ComponentModel = GetViewModel(item.Component),
                     RequestId = item.RequestId
+                    
                 });
             }
             return model;
@@ -860,7 +862,8 @@ namespace WebUI.Models
                     Message = record.Message,
                     RequestId = record.RequestId
                 });
-            }
+            }           
+
             model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
             model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
             model.IsClient = request.ClientId == user.Id ? true : false;
@@ -1284,6 +1287,9 @@ namespace WebUI.Models
             }
             model.SelectedBranch = categoryModel.BranchId;
             model.SelectedCategory = categoryModel.Id;
+
+            model.CategoryModel = GetViewModel(categoryModel);
+
             return model;
         }
 

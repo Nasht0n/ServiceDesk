@@ -1043,6 +1043,7 @@
     <Content Include="Scripts\servicedesk\cPanelItemActive.js" />
     <Content Include="Scripts\servicedesk\equipments-table.js" />
     <Content Include="Scripts\servicedesk\equipments\installation-equipments-table.js" />
+    <Content Include="Scripts\servicedesk\equipments\replace-component-table.js" />
     <Content Include="Scripts\servicedesk\equipments\replace-equipments-table.js" />
     <Content Include="Scripts\servicedesk\menu-toggle.js" />
     <Content Include="Scripts\servicedesk\NavItemActive.js" />
@@ -1251,6 +1252,9 @@
     <Content Include="Views\Dashboard\Requests.cshtml" />
     <Content Include="Views\Shared\_ServiceDeskLayout.cshtml" />
     <Content Include="Views\Shared\_ServiceDeskNavbar.cshtml" />
+    <Content Include="Views\Shared\Cerulean\_DashboardLayout.cshtml" />
+    <Content Include="Views\Shared\Cerulean\_DashboardMenu.cshtml" />
+    <Content Include="Views\Shared\Cerulean\_DashboardNavBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

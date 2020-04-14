@@ -18,12 +18,13 @@ namespace WebUI.Areas.IT.Controllers
 {
     public class ComponentReplaceRequestController : Controller
     {
-        private const int SERVICE_ID = 5;
+        private const int SERVICE_ID = 2;
         private readonly IAccountLogic accountLogic;
         private readonly IEmployeeLogic employeeLogic;
         private readonly IAccountPermissionLogic accountPermissionLogic;
         private readonly ICampusLogic campusLogic;
         private readonly IPriorityLogic priorityLogic;
+        private readonly IComponentLogic componentLogic;
         private readonly IEquipmentTypeLogic equipmentTypeLogic;
         private readonly IServiceLogic serviceLogic;
         private readonly ISubdivisionLogic subdivisionLogic;
@@ -31,8 +32,8 @@ namespace WebUI.Areas.IT.Controllers
         private readonly IComponentReplaceRequestLifeCycleLogic lifeCycleLogic;
         private readonly IReplaceComponentsLogic componentsLogic;
 
-        public ComponentReplaceRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic, 
-            ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
+        public ComponentReplaceRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic,
+            ICampusLogic campusLogic, IPriorityLogic priorityLogic, IComponentLogic componentLogic, IEquipmentTypeLogic equipmentTypeLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
             IComponentReplaceRequestLogic requestLogic, IComponentReplaceRequestLifeCycleLogic lifeCycleLogic, IReplaceComponentsLogic componentsLogic)
         {
             this.accountLogic = accountLogic;
@@ -40,6 +41,7 @@ namespace WebUI.Areas.IT.Controllers
             this.accountPermissionLogic = accountPermissionLogic;
             this.campusLogic = campusLogic;
             this.priorityLogic = priorityLogic;
+            this.componentLogic = componentLogic;
             this.equipmentTypeLogic = equipmentTypeLogic;
             this.serviceLogic = serviceLogic;
             this.subdivisionLogic = subdivisionLogic;
@@ -64,22 +66,10 @@ namespace WebUI.Areas.IT.Controllers
         {
             var campuses = await campusLogic.GetCampuses();
             var priorities = await priorityLogic.GetPriorities();
-            var equipmentTypes = await equipmentTypeLogic.GetEquipmentTypes();
-
-            if(model.SelectedPriority.HasValue) 
-                model.Priorities = new SelectList(priorities, "Id", "Fullname", model.SelectedPriority.Value);
-            else 
-                model.Priorities = new SelectList(priorities, "Id", "Fullname");
-
-            if(model.SelectedCampus.HasValue)
-                model.Campuses = new SelectList(campuses, "Id", "Name",model.SelectedPriority.Value);
-            else 
-                model.Campuses = new SelectList(campuses, "Id", "Name");
-
-            if(model.SelectedEquipmentType.HasValue) 
-                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name", model.SelectedEquipmentType.Value);
-            else 
-                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name");
+            var components = await componentLogic.GetComponents();
+            model.Priorities = new SelectList(priorities, "Id", "Fullname");
+            model.Campuses = new SelectList(campuses, "Id", "Name");
+            model.Components = new SelectList(components, "Id", "Name");
         }
 
         private async Task<ComponentReplaceRequest> InitializeRequest(ComponentReplaceRequestViewModel model, Employee user)
@@ -88,7 +78,6 @@ namespace WebUI.Areas.IT.Controllers
             Service service = await serviceLogic.GetServiceById(SERVICE_ID);
             request.ServiceId = service.Id;
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
-            request.PriorityId = model.PriorityId;
             request.ClientId = user.Id;
             request.SubdivisionId = user.SubdivisionId;
             ExecutorGroup executorGroup = RequestHelper.GetExecutorGroup(service);
@@ -137,9 +126,26 @@ namespace WebUI.Areas.IT.Controllers
         {
             Employee user = await PopulateAccountInfo();
             ComponentReplaceRequest request = await requestLogic.GetRequestById(id);
+            var service = await serviceLogic.GetServiceById(request.ServiceId);
             List<ComponentReplaceRequestLifeCycle> lifeCycles = await lifeCycleLogic.GetLifeCycles(request.Id);
             ComponentReplaceDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
+            model.AllApproval = IsApproval(service, lifeCycles);
             return View(model);
+        }
+
+        private bool IsApproval(Service service, List<ComponentReplaceRequestLifeCycle> lifeCycles)
+        {
+            bool allApproval = true;
+            if (service.ManyApprovalRequired)
+            {
+                foreach (var approver in service.Approvers)
+                {
+                    if (!allApproval) break;
+                    var lifeCycle = lifeCycles.FirstOrDefault(l => l.EmployeeId == approver.EmployeeId && l.Message == "Заявка прошла согласование");
+                    allApproval = lifeCycle != null ? true : false;
+                }
+            }
+            return allApproval;
         }
 
         public async Task<ActionResult> Create()

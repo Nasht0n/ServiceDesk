@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Models.Requests.Equipment;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -19,11 +21,15 @@ namespace Domain.Models
         [MaxLength(150)]
         public string Name { get; set; }
         /// <summary>
+        /// Список устанавливаемого оборудования
+        /// </summary>
+        public virtual List<InstallationEquipments> InstallationEquipments { get; set; }
+        /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
         public EquipmentType()
         {
-
+            InstallationEquipments = new List<InstallationEquipments>();
         }
         /// <summary>
         /// Конструктор с параметрами

@@ -100,7 +100,7 @@ namespace Domain
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             
             modelBuilder.Entity<AccountPermission>().HasKey(c => new { c.AccountId, c.PermissionId });
 

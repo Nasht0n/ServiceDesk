@@ -89,6 +89,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<IReplaceComponentsRepository>().To<ReplaceComponentsRepository>();
             kernel.Bind<IReplaceEquipmentsRepository>().To<ReplaceEquipmentsRepository>();
             kernel.Bind<IConnectionEquipmentsRepository>().To<ConnectionEquipmentsRepository>();
+            kernel.Bind<IRequestRepository>().To<RequestRepository>();
 
             AddLifeCyclesRepositoriesBindings();
             AddRequestsRepositoriesBindings();
@@ -182,6 +183,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<ISubdivisionExecutorLogic>().To<SubdivisionExecutorLogic>();
             kernel.Bind<ISubdivisionLogic>().To<SubdivisionLogic>();
             kernel.Bind<IPriorityLogic>().To<PriorityLogic>();
+            kernel.Bind<IRequestsLogic>().To<RequestsLogic>();
 
             kernel.Bind<IInstallationEquipmentsLogic>().To<InstallationEquipmentsLogic>();
             kernel.Bind<IRefillEquipmentsLogic>().To<RefillEquipmentsLogic>();

@@ -1,8 +1,4 @@
-﻿using BusinessLogic;
-using System.Data.Entity;
-using System.Linq;
-using Microsoft.Owin.Security;
-using Repository.Abstract;
+﻿using Microsoft.Owin.Security;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;

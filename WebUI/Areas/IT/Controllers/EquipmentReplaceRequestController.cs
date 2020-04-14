@@ -18,7 +18,7 @@ namespace WebUI.Areas.IT.Controllers
 {
     public class EquipmentReplaceRequestController : Controller
     {
-        private const int SERVICE_ID = 2;
+        private const int SERVICE_ID = 3;
         private readonly IAccountLogic accountLogic;
         private readonly IEmployeeLogic employeeLogic;
         private readonly IAccountPermissionLogic accountPermissionLogic;
@@ -66,20 +66,9 @@ namespace WebUI.Areas.IT.Controllers
             var priorities = await priorityLogic.GetPriorities();
             var equipmentTypes = await equipmentTypeLogic.GetEquipmentTypes();
 
-            if (model.SelectedPriority.HasValue)
-                model.Priorities = new SelectList(priorities, "Id", "Fullname", model.SelectedPriority.Value);
-            else
-                model.Priorities = new SelectList(priorities, "Id", "Fullname");
-
-            if (model.SelectedCampus.HasValue)
-                model.Campuses = new SelectList(campuses, "Id", "Name", model.SelectedPriority.Value);
-            else
-                model.Campuses = new SelectList(campuses, "Id", "Name");
-
-            if (model.SelectedEquipmentType.HasValue)
-                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name", model.SelectedEquipmentType.Value);
-            else
-                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name");
+            model.Priorities = new SelectList(priorities, "Id", "Fullname");
+            model.Campuses = new SelectList(campuses, "Id", "Name");
+            model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name");
         }
 
         private async Task<EquipmentReplaceRequest> InitializeRequest(EquipmentReplaceRequestViewModel model, Employee user)
@@ -88,7 +77,6 @@ namespace WebUI.Areas.IT.Controllers
             Service service = await serviceLogic.GetServiceById(SERVICE_ID);
             request.ServiceId = service.Id;
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
-            request.PriorityId = model.PriorityId;
             request.ClientId = user.Id;
             request.SubdivisionId = user.SubdivisionId;
             ExecutorGroup executorGroup = RequestHelper.GetExecutorGroup(service);
@@ -144,7 +132,7 @@ namespace WebUI.Areas.IT.Controllers
 
         public async Task<ActionResult> Create()
         {
-            await PopulateAccountInfo();            
+            await PopulateAccountInfo();
             EquipmentReplaceRequestViewModel model = new EquipmentReplaceRequestViewModel();
             await PopulateDropDownList(model);
             var service = await serviceLogic.GetServiceById(SERVICE_ID);
@@ -164,7 +152,7 @@ namespace WebUI.Areas.IT.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            await PopulateAccountInfo();            
+            await PopulateAccountInfo();
             var request = await requestLogic.GetRequestById(id);
             EquipmentReplaceRequestViewModel model = ModelFromData.GetViewModel(request);
             await PopulateDropDownList(model);

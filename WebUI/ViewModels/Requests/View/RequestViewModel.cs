@@ -18,8 +18,7 @@ namespace WebUI.ViewModels.Requests.View
         public string Title { get; set; }
         [Required(ErrorMessage = "Введите обоснование заявки")]
         [Display(Name = "Обоснование заявки")]
-        public string Justification { get; set; }
-        [Required(ErrorMessage = "Введите описание заявки")]
+        public string Justification { get; set; }        
         [Display(Name = "Описание заявки")]
         public string Description { get; set; }
         [Required]
