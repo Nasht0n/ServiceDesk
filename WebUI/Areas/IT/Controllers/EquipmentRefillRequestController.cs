@@ -26,15 +26,17 @@ namespace WebUI.Areas.IT.Controllers
         private readonly ICampusLogic campusLogic;
         private readonly IPriorityLogic priorityLogic;
         private readonly IEquipmentTypeLogic equipmentTypeLogic;
+        private readonly IEquipmentLogic equipmentLogic;
         private readonly IServiceLogic serviceLogic;
         private readonly ISubdivisionLogic subdivisionLogic;
         private readonly IEquipmentRefillRequestLogic requestLogic;
         private readonly IEquipmentRefillRequestLifeCycleLogic lifeCycleLogic;
         private readonly IRefillEquipmentsLogic equipmentsLogic;
+        private readonly IRefuelingLimitsLogic limitsLogic;
 
         public EquipmentRefillRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic,
-           ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
-           IEquipmentRefillRequestLogic requestLogic, IEquipmentRefillRequestLifeCycleLogic lifeCycleLogic, IRefillEquipmentsLogic equipmentsLogic)
+           ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IEquipmentLogic equipmentLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
+           IEquipmentRefillRequestLogic requestLogic, IEquipmentRefillRequestLifeCycleLogic lifeCycleLogic, IRefillEquipmentsLogic refillEquipmentsLogic, IRefuelingLimitsLogic limitsLogic)
         {
             this.accountLogic = accountLogic;
             this.employeeLogic = employeeLogic;
@@ -42,11 +44,13 @@ namespace WebUI.Areas.IT.Controllers
             this.campusLogic = campusLogic;
             this.priorityLogic = priorityLogic;
             this.equipmentTypeLogic = equipmentTypeLogic;
+            this.equipmentLogic = equipmentLogic;
             this.serviceLogic = serviceLogic;
             this.subdivisionLogic = subdivisionLogic;
             this.requestLogic = requestLogic;
             this.lifeCycleLogic = lifeCycleLogic;
-            this.equipmentsLogic = equipmentsLogic;
+            this.equipmentsLogic = refillEquipmentsLogic;
+            this.limitsLogic = limitsLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
@@ -65,22 +69,8 @@ namespace WebUI.Areas.IT.Controllers
         {
             var campuses = await campusLogic.GetCampuses();
             var priorities = await priorityLogic.GetPriorities();
-            var equipmentTypes = await equipmentTypeLogic.GetEquipmentTypes();
-
-            if (model.SelectedPriority.HasValue)
-                model.Priorities = new SelectList(priorities, "Id", "Fullname", model.SelectedPriority.Value);
-            else
-                model.Priorities = new SelectList(priorities, "Id", "Fullname");
-
-            if (model.SelectedCampus.HasValue)
-                model.Campuses = new SelectList(campuses, "Id", "Name", model.SelectedPriority.Value);
-            else
-                model.Campuses = new SelectList(campuses, "Id", "Name");
-
-            if (model.SelectedEquipmentType.HasValue)
-                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name", model.SelectedEquipmentType.Value);
-            else
-                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name");
+            model.Priorities = new SelectList(priorities, "Id", "Fullname");
+            model.Campuses = new SelectList(campuses, "Id", "Name");
         }
 
         private async Task<EquipmentRefillRequest> InitializeRequest(EquipmentRefillRequestViewModel model, Employee user)
@@ -89,7 +79,6 @@ namespace WebUI.Areas.IT.Controllers
             Service service = await serviceLogic.GetServiceById(SERVICE_ID);
             request.ServiceId = service.Id;
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
-            request.PriorityId = model.PriorityId;
             request.ClientId = user.Id;
             request.SubdivisionId = user.SubdivisionId;
             ExecutorGroup executorGroup = RequestHelper.GetExecutorGroup(service);
@@ -102,12 +91,6 @@ namespace WebUI.Areas.IT.Controllers
             request.Justification = model.Justification;
             request.Description = model.Description;
             request.Location = model.Location;
-            request.RefillEquipments = new List<RefillEquipments>();
-            foreach (var item in model.Refills)
-            {
-                RefillEquipments refill = DataFromModel.GetData(item);
-                request.RefillEquipments.Add(refill);
-            }
             return request;
         }
 
@@ -140,32 +123,80 @@ namespace WebUI.Areas.IT.Controllers
             EquipmentRefillRequest request = await requestLogic.GetRequestById(id);
             List<EquipmentRefillRequestLifeCycle> lifeCycles = await lifeCycleLogic.GetLifeCycles(request.Id);
             EquipmentRefillDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
+
+            foreach (var refill in model.RequestModel.Refills)
+            {
+                var equipment = await equipmentLogic.GetEquipmentByInventory(refill.InventoryNumber);
+                refill.EquipmentTypeModel = ModelFromData.GetViewModel(equipment.EquipmentType);
+                refill.Model = equipment.Name;
+            }
+
             return View(model);
         }
 
         public async Task<ActionResult> Create()
         {
-            await PopulateAccountInfo();            
+            Employee user = await PopulateAccountInfo();
+            await PopulateLimitsInfo(user);
             EquipmentRefillRequestViewModel model = new EquipmentRefillRequestViewModel();
             await PopulateDropDownList(model);
             var service = await serviceLogic.GetServiceById(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);
             return View(model);
         }
+
+        private async Task PopulateLimitsInfo(Employee user)
+        {
+            var refills = await requestLogic.GetRequests(user.Subdivision);
+            var limits = await limitsLogic.GetLimit(user.Subdivision);
+            ViewBag.RefillsCount = refills.Count + 1;
+            ViewBag.LimitsCount = limits.Count;
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(EquipmentRefillRequestViewModel model)
         {
             await PopulateDropDownList(model);
             Employee user = await PopulateAccountInfo();
+            await PopulateLimitsInfo(user);
+
             var request = await InitializeRequest(model, user);
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Создание заявки");
-            return RedirectToAction("Details", "EquipmentRefillRequest", new { id = request.Id });
+
+            if (model.Refills.Count == 0)
+            {
+                ModelState.AddModelError("", "Список оборудования требующего заправку пуст.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
+            }
+            else
+            {
+                request.RefillEquipments = new List<RefillEquipments>();
+                foreach (var item in model.Refills)
+                {
+                    var equipment = await equipmentLogic.GetEquipmentByInventory(item.InventoryNumber);
+                    if (equipment == null)
+                    {
+                        ModelState.AddModelError("", $"Оборудование с данным инвентарным номером не найдено: '{item.InventoryNumber}'.");
+                        var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                        model.ServiceModel = ModelFromData.GetViewModel(service);
+                        model.Refills = new List<RefillEquipmentViewModel>();
+                        return View(model);
+                    }
+                    RefillEquipments refill = DataFromModel.GetData(item);
+
+                    request.RefillEquipments.Add(refill);
+                }
+                await requestLogic.Save(request);
+                await LifeCycleMessage(request.Id, user, "Создание заявки");
+                return RedirectToAction("Details", "EquipmentRefillRequest", new { id = request.Id });
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            await PopulateAccountInfo();            
+            await PopulateAccountInfo();
             var request = await requestLogic.GetRequestById(id);
             EquipmentRefillRequestViewModel model = ModelFromData.GetViewModel(request);
             await PopulateDropDownList(model);
@@ -178,18 +209,28 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateDropDownList(model);
             var request = DataFromModel.GetData(model);
             await equipmentsLogic.DeleteEntry(request);
-            List<RefillEquipments> equipments = new List<RefillEquipments>();
-            foreach (var item in model.Refills)
+            if (model.Refills.Count == 0)
             {
-                RefillEquipments refill = DataFromModel.GetData(item);
-                refill.RequestId = request.Id;
-                await equipmentsLogic.Add(refill);
-                equipments.Add(refill);
+                ModelState.AddModelError("", "Список оборудования требующего заправку пуст.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
             }
-            request.RefillEquipments = equipments;
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Редактирование заявки");
-            return RedirectToAction("Details", "EquipmentRefillRequest", new { id = request.Id });
+            else
+            {
+                List<RefillEquipments> equipments = new List<RefillEquipments>();
+                foreach (var item in model.Refills)
+                {
+                    RefillEquipments refill = DataFromModel.GetData(item);
+                    refill.RequestId = request.Id;
+                    await equipmentsLogic.Add(refill);
+                    equipments.Add(refill);
+                }
+                request.RefillEquipments = equipments;
+                await requestLogic.Save(request);
+                await LifeCycleMessage(request.Id, user, "Редактирование заявки");
+                return RedirectToAction("Details", "EquipmentRefillRequest", new { id = request.Id });
+            }
         }
 
         public async Task<ActionResult> Delete(int id)

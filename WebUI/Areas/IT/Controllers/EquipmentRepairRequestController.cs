@@ -18,7 +18,7 @@ namespace WebUI.Areas.IT.Controllers
 {
     public class EquipmentRepairRequestController : Controller
     {
-        private const int SERVICE_ID = 3;
+        private const int SERVICE_ID = 5;
         private readonly IAccountLogic accountLogic;
         private readonly IEmployeeLogic employeeLogic;
         private readonly IAccountPermissionLogic accountPermissionLogic;
@@ -30,10 +30,11 @@ namespace WebUI.Areas.IT.Controllers
         private readonly IEquipmentRepairRequestLogic requestLogic;
         private readonly IEquipmentRepairRequestLifeCycleLogic lifeCycleLogic;
         private readonly IRepairEquipmentsLogic equipmentsLogic;
+        private readonly IConsumableLogic consumableLogic;
 
         public EquipmentRepairRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic,
            ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
-           IEquipmentRepairRequestLogic requestLogic, IEquipmentRepairRequestLifeCycleLogic lifeCycleLogic, IRepairEquipmentsLogic equipmentsLogic)
+           IEquipmentRepairRequestLogic requestLogic, IEquipmentRepairRequestLifeCycleLogic lifeCycleLogic, IRepairEquipmentsLogic equipmentsLogic, IConsumableLogic consumableLogic)
         {
             this.accountLogic = accountLogic;
             this.employeeLogic = employeeLogic;
@@ -46,6 +47,7 @@ namespace WebUI.Areas.IT.Controllers
             this.requestLogic = requestLogic;
             this.lifeCycleLogic = lifeCycleLogic;
             this.equipmentsLogic = equipmentsLogic;
+            this.consumableLogic = consumableLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
@@ -64,22 +66,8 @@ namespace WebUI.Areas.IT.Controllers
         {
             var campuses = await campusLogic.GetCampuses();
             var priorities = await priorityLogic.GetPriorities();
-            var equipmentTypes = await equipmentTypeLogic.GetEquipmentTypes();
-
-            if (model.SelectedPriority.HasValue)
-                model.Priorities = new SelectList(priorities, "Id", "Fullname", model.SelectedPriority.Value);
-            else
-                model.Priorities = new SelectList(priorities, "Id", "Fullname");
-
-            if (model.SelectedCampus.HasValue)
-                model.Campuses = new SelectList(campuses, "Id", "Name", model.SelectedPriority.Value);
-            else
-                model.Campuses = new SelectList(campuses, "Id", "Name");
-
-            if (model.SelectedEquipmentType.HasValue)
-                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name", model.SelectedEquipmentType.Value);
-            else
-                model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name");
+            model.Priorities = new SelectList(priorities, "Id", "Fullname");
+            model.Campuses = new SelectList(campuses, "Id", "Name");
         }
 
         private async Task<EquipmentRepairRequest> InitializeRequest(EquipmentRepairRequestViewModel model, Employee user)
@@ -102,11 +90,6 @@ namespace WebUI.Areas.IT.Controllers
             request.Description = model.Description;
             request.Location = model.Location;
             request.RepairEquipments = new List<RepairEquipments>();
-            //foreach (var item in model.Repairs)
-            //{
-            //    RepairEquipments repair = DataFromModel.GetData(item);
-            //    request.RepairEquipments.Add(repair);
-            //}
             return request;
         }
 
@@ -144,7 +127,7 @@ namespace WebUI.Areas.IT.Controllers
 
         public async Task<ActionResult> Create()
         {
-            Employee user = await PopulateAccountInfo();            
+            Employee user = await PopulateAccountInfo();
             EquipmentRepairRequestViewModel model = new EquipmentRepairRequestViewModel();
             await PopulateDropDownList(model);
             var service = await serviceLogic.GetServiceById(SERVICE_ID);
@@ -164,7 +147,7 @@ namespace WebUI.Areas.IT.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            await PopulateAccountInfo();            
+            await PopulateAccountInfo();
             var request = await requestLogic.GetRequestById(id);
             EquipmentRepairRequestViewModel model = ModelFromData.GetViewModel(request);
             await PopulateDropDownList(model);

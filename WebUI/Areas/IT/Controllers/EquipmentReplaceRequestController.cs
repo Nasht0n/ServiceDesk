@@ -30,10 +30,11 @@ namespace WebUI.Areas.IT.Controllers
         private readonly IEquipmentReplaceRequestLogic requestLogic;
         private readonly IEquipmentReplaceRequestLifeCycleLogic lifeCycleLogic;
         private readonly IReplaceEquipmentsLogic equipmentsLogic;
+        private readonly IEquipmentLogic equipmentLogic;
 
         public EquipmentReplaceRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic,
            ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
-           IEquipmentReplaceRequestLogic requestLogic, IEquipmentReplaceRequestLifeCycleLogic lifeCycleLogic, IReplaceEquipmentsLogic equipmentsLogic)
+           IEquipmentReplaceRequestLogic requestLogic, IEquipmentReplaceRequestLifeCycleLogic lifeCycleLogic, IReplaceEquipmentsLogic replaceEquipmentsLogic, IEquipmentLogic equipmentLogic)
         {
             this.accountLogic = accountLogic;
             this.employeeLogic = employeeLogic;
@@ -45,7 +46,8 @@ namespace WebUI.Areas.IT.Controllers
             this.subdivisionLogic = subdivisionLogic;
             this.requestLogic = requestLogic;
             this.lifeCycleLogic = lifeCycleLogic;
-            this.equipmentsLogic = equipmentsLogic;
+            this.equipmentsLogic = replaceEquipmentsLogic;
+            this.equipmentLogic = equipmentLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
@@ -89,12 +91,6 @@ namespace WebUI.Areas.IT.Controllers
             request.Justification = model.Justification;
             request.Description = model.Description;
             request.Location = model.Location;
-            request.ReplaceEquipments = new List<ReplaceEquipments>();
-            foreach (var item in model.Replaces)
-            {
-                ReplaceEquipments replace = DataFromModel.GetData(item);
-                request.ReplaceEquipments.Add(replace);
-            }
             return request;
         }
 
@@ -145,9 +141,34 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateDropDownList(model);
             Employee user = await PopulateAccountInfo();
             var request = await InitializeRequest(model, user);
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Создание заявки");
-            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id = request.Id });
+            if (model.Replaces.Count == 0)
+            {
+                ModelState.AddModelError("", "Список оборудования требующего замену пуст.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
+            }
+            else
+            {
+                request.ReplaceEquipments = new List<ReplaceEquipments>();
+                foreach (var replace in model.Replaces)
+                {
+                    var equipment = await equipmentLogic.GetEquipmentByInventory(replace.InventoryNumber);
+                    if (equipment == null)
+                    {
+                        ModelState.AddModelError("", "Оборудование с данным инвентарным номером не найдено.");
+                        var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                        model.ServiceModel = ModelFromData.GetViewModel(service);
+                        model.Replaces = new List<ReplaceEquipmentViewModel>();
+                        return View(model);
+                    }
+                    ReplaceEquipments equipments = DataFromModel.GetData(replace);
+                    request.ReplaceEquipments.Add(equipments);
+                }
+                await requestLogic.Save(request);
+                await LifeCycleMessage(request.Id, user, "Создание заявки");
+                return RedirectToAction("Details", "EquipmentReplaceRequest", new { id = request.Id });
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
@@ -164,20 +185,29 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = await PopulateAccountInfo();
             await PopulateDropDownList(model);
             var request = DataFromModel.GetData(model);
-
             await equipmentsLogic.DeleteEntry(request);
-            List<ReplaceEquipments> equipments = new List<ReplaceEquipments>();
-            foreach (var item in model.Replaces)
+            if (model.Replaces.Count == 0)
             {
-                ReplaceEquipments replace = DataFromModel.GetData(item);
-                replace.RequestId = request.Id;
-                await equipmentsLogic.Add(replace);
-                equipments.Add(replace);
+                ModelState.AddModelError("", "Список оборудования требующего замену пуст.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
             }
-            request.ReplaceEquipments = equipments;
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Редактирование заявки");
-            return RedirectToAction("Details", "EquipmentReplaceRequest", new { id = request.Id });
+            else
+            {
+                List<ReplaceEquipments> equipments = new List<ReplaceEquipments>();
+                foreach (var item in model.Replaces)
+                {
+                    ReplaceEquipments replace = DataFromModel.GetData(item);
+                    replace.RequestId = request.Id;
+                    await equipmentsLogic.Add(replace);
+                    equipments.Add(replace);
+                }
+                request.ReplaceEquipments = equipments;
+                await requestLogic.Save(request);
+                await LifeCycleMessage(request.Id, user, "Редактирование заявки");
+                return RedirectToAction("Details", "EquipmentReplaceRequest", new { id = request.Id });
+            }
         }
 
         public async Task<ActionResult> Delete(int id)

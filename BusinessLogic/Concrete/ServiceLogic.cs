@@ -21,7 +21,7 @@ namespace BusinessLogic.Concrete
         public async Task<List<Service>> GetActiveServices()
         {
             var services = await serviceRepository.GetServices();
-            return services.Where(s => s.Visible).ToList();
+            return services.Where(s => s.Visible).OrderBy(s=>s.Name).ToList();
         }
 
         public async Task<Service> GetServiceById(int id)

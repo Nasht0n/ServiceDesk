@@ -18,13 +18,7 @@ namespace WebUI.ViewModels.Requests.IT.Equipments
         [Display(Name = "Аудитория/Кабинет")]
         public string Location { get; set; }
 
-        public int? SelectedPriority { get; set; }
         public SelectList Priorities { get; set; }
-
-        public int? SelectedCampus { get; set; }
         public SelectList Campuses { get; set; }
-
-        public int? SelectedEquipmentType { get; set; }
-        public SelectList EquipmentTypes { get; set; }
     }
 }

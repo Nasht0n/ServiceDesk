@@ -51,17 +51,23 @@
                     <li class="list-group-item bg-white text-dark">
                         <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.Installations):</span>
 
-                        @foreach (var item in Model.RequestModel.Installations)
-                        {
-
-                            <div class="d-flex">
-                                <span class="font-weight-bold">Наименование:</span>
-                                <span class="ml-1">@item.EquipmentTypeModel.Name</span>
-                                <span class="ml-auto font-weight-bold">Количество: </span>
-                                <span class="ml-1">@item.Count</span>
-                            </div>
-                        }
-
+                        <table class="table">
+                            <thead class="table-primary">
+                                <tr>
+                                    <td class="font-weight-bolder">Наименование</td>
+                                    <td class="font-weight-bolder">Количество</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.RequestModel.Installations)
+                                {
+                                    <tr>
+                                        <td>@item.EquipmentTypeModel.Name</td>
+                                        <td>@item.Count</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </li>
                 </ul>
                 <div class="card-body">

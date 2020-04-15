@@ -1,5 +1,7 @@
 ﻿@model WebUI.ViewModels.Requests.IT.Equipments.EquipmentInstallationRequestViewModel
-
+@section Scripts{
+    <script src="~/Scripts/servicedesk/equipments/installation-equipments-table.js" type="text/javascript"></script>
+}
 @{
     ViewBag.Title = "Заявка на установку оборудования";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
@@ -18,112 +20,112 @@
     {
         @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id, htmlAttributes: new { @class = "form-control", Name = "Model.Id" })
-        @Html.HiddenFor(model => model.ServiceId, htmlAttributes: new { @class = "form-control", Name = "Model.ServiceId" })
-        @Html.HiddenFor(model => model.StatusId, htmlAttributes: new { @class = "form-control", Name = "Model.StatusId" })
-        @Html.HiddenFor(model => model.ClientId, htmlAttributes: new { @class = "form-control", Name = "Model.ClientId" })
-        @Html.HiddenFor(model => model.ExecutorGroupId, htmlAttributes: new { @class = "form-control", Name = "Model.ExecutorGroupId" })
-        @Html.HiddenFor(model => model.ExecutorId, htmlAttributes: new { @class = "form-control", Name = "Model.ExecutorId" })
-        @Html.HiddenFor(model => model.SubdivisionId, htmlAttributes: new { @class = "form-control", Name = "Model.SubdivisionId" })
-        <div class="row">
-            <div class="form-group col-12">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Установка принтера)", autocomplete = "off" } })
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id, htmlAttributes: new { @class = "form-control", Name = "Model.Id" })
+            @Html.HiddenFor(model => model.ServiceId, htmlAttributes: new { @class = "form-control", Name = "Model.ServiceId" })
+            @Html.HiddenFor(model => model.StatusId, htmlAttributes: new { @class = "form-control", Name = "Model.StatusId" })
+            @Html.HiddenFor(model => model.ClientId, htmlAttributes: new { @class = "form-control", Name = "Model.ClientId" })
+            @Html.HiddenFor(model => model.ExecutorGroupId, htmlAttributes: new { @class = "form-control", Name = "Model.ExecutorGroupId" })
+            @Html.HiddenFor(model => model.ExecutorId, htmlAttributes: new { @class = "form-control", Name = "Model.ExecutorId" })
+            @Html.HiddenFor(model => model.SubdivisionId, htmlAttributes: new { @class = "form-control", Name = "Model.SubdivisionId" })
+            <div class="row">
+                <div class="form-group col-12">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Установка принтера)", autocomplete = "off" } })
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col-12">
-                @Html.LabelFor(model => model.Justification, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+            <div class="row">
+                <div class="form-group col-12">
+                    @Html.LabelFor(model => model.Justification, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
 
-                @Html.EditorFor(model => model.Justification, new { htmlAttributes = new { @class = "form-control", Name = "Model.Justification", placeholder = "Опишите необходимость заявки", @rows = 4 } })
-                @Html.ValidationMessageFor(model => model.Justification, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Justification, new { htmlAttributes = new { @class = "form-control", Name = "Model.Justification", placeholder = "Опишите необходимость заявки", @rows = 4 } })
+                    @Html.ValidationMessageFor(model => model.Justification, "", new { @class = "text-danger" })
 
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col-12">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Name = "Model.Description", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group col-12">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Name = "Model.Description", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
 
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-4 form-group">
-                @Html.LabelFor(model => model.PriorityModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                @Html.DropDownListFor(model => model.PriorityId, Model.Priorities, htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    @Html.LabelFor(model => model.PriorityModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.DropDownListFor(model => model.PriorityId, Model.Priorities, htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
+                </div>
+                <div class="col-md-4 form-group">
+                    @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.DropDownListFor(model => model.CampusId, Model.Campuses, htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
+
+                </div>
+                <div class="col-md-4 form-group">
+                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории/кабинета", autocomplete = "off" } })
+                </div>
             </div>
-            <div class="col-md-4 form-group">
-                @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                @Html.DropDownListFor(model => model.CampusId, Model.Campuses, htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
 
-            </div>
-            <div class="col-md-4 form-group">
-                @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории/кабинета", autocomplete = "off" } })
-            </div>
-        </div>
+            <div class="row m-1">
+                <h6 class="text-center text-dark">Список устанавливаемого оборудования</h6>
+                <table id="tblInstallationEquipments" class="table">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="d-none"></th>
+                            <th class="d-none"></th>
+                            <th class="text-nowrap">Тип оборудования</th>
+                            <th class="text-nowrap">Количество</th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-        <div class="row m-1">
-            <h6 class="text-center text-dark">Список устанавливаемого оборудования</h6>
-            <table id="tblInstallationEquipments" class="table table-hover">
-                <thead class="table-primary">
-                    <tr>
-                        <th class="d-none"></th>
-                        <th class="d-none"></th>
-                        <th class="text-nowrap">Тип оборудования</th>
-                        <th class="text-nowrap">Количество</th>
-                        <th></th>
-                    </tr>
-                </thead>
+                    <tbody>
+                        @{
+                            int index = 0;
+                            foreach (var item in Model.Installations)
+                            {
+                                <tr>
+                                    <td class="d-none">
+                                        @Html.HiddenFor(modelItem => item.EquipmentTypeModel.Id, new { Name = $"Model.Installations[{index}].EquipmentTypeId" })
+                                    </td>
+                                    <td class="d-none">
+                                        @Html.HiddenFor(modelItem => item.EquipmentTypeModel.Id, new { Name = $"Model.Installations[{index}].EquipmentTypeModel.Id" })
+                                    </td>
 
-                <tbody>
-                    @{
-                        int index = 0;
-                        foreach (var item in Model.Installations)
-                        {
-                            <tr>
-                                <td class="d-none">
-                                    @Html.HiddenFor(modelItem => item.EquipmentTypeModel.Id, new { Name = $"Model.Installations[{index}].EquipmentTypeId" })
-                                </td>
-                                <td class="d-none">
-                                    @Html.HiddenFor(modelItem => item.EquipmentTypeModel.Id, new { Name = $"Model.Installations[{index}].EquipmentTypeModel.Id" })
-                                </td>
-
-                                <td class="w-100">@Html.TextBoxFor(modelItem => item.EquipmentTypeModel.Name, new { @class = "form-control tblItem bg-light border-0", Name = $"Model.Installations[{index}].EquipmentTypeModel.Name", @readonly = "readonly" })</td>
-                                <td class="w-100">@Html.TextBoxFor(modelItem => item.Count, new { @class = "form-control tblItem bg-light border-0", Name = $"Model.Installations[{index}].Count", @readonly = "readonly" })</td>
-                                <td>
-                                    <button type="button" value="Удалить" class="btn btn-danger w-100">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            index++;
+                                    <td class="w-100">@Html.TextBoxFor(modelItem => item.EquipmentTypeModel.Name, new { @class = "form-control tblItem bg-white border-0", Name = $"Model.Installations[{index}].EquipmentTypeModel.Name", @readonly = "readonly" })</td>
+                                    <td class="w-100">@Html.TextBoxFor(modelItem => item.Count, new { @class = "form-control tblItem bg-white border-0", Name = $"Model.Installations[{index}].Count", @readonly = "readonly" })</td>
+                                    <td>
+                                        <button type="button" value="Удалить" class="btn btn-danger w-100">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
                         }
-                    }
 
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>@Html.DropDownList("EquipmentTypes", Model.EquipmentTypes, "Выберите тип оборудования", htmlAttributes: new { @class = "form-control" })</td>
-                        <td>@Html.TextBox("Count", "", new { @class = "form-control", id = "Count" })</td>
-                        <td>
-                            <input type="button" id="btnAddInstallationEquipments" value="Добавить" class="btn btn-info w-100" />
-                        </td>
-                    </tr>
-                </tfoot>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>@Html.DropDownList("EquipmentTypes", Model.EquipmentTypes, "Выберите тип оборудования", htmlAttributes: new { @class = "form-control" })</td>
+                            <td>@Html.TextBox("Count", "", new { @class = "form-control", id = "Count" })</td>
+                            <td>
+                                <input type="button" id="btnAddInstallationEquipments" value="Добавить" class="btn btn-info w-100" />
+                            </td>
+                        </tr>
+                    </tfoot>
 
-            </table>
+                </table>
 
+            </div>
         </div>
-    </div>
 
         <div class="row">
             <div class="form-group">

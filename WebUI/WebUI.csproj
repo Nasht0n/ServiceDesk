@@ -1030,6 +1030,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -1043,6 +1045,7 @@
     <Content Include="Scripts\servicedesk\cPanelItemActive.js" />
     <Content Include="Scripts\servicedesk\equipments-table.js" />
     <Content Include="Scripts\servicedesk\equipments\installation-equipments-table.js" />
+    <Content Include="Scripts\servicedesk\equipments\refill-equipments-table.js" />
     <Content Include="Scripts\servicedesk\equipments\replace-component-table.js" />
     <Content Include="Scripts\servicedesk\equipments\replace-equipments-table.js" />
     <Content Include="Scripts\servicedesk\menu-toggle.js" />
@@ -1200,6 +1203,7 @@
     <Compile Include="ViewModels\PermissionModel\PermissionsListViewModel.cs" />
     <Compile Include="ViewModels\PermissionModel\PermissionViewModel.cs" />
     <Compile Include="ViewModels\PriorityModel\PriorityViewModel.cs" />
+    <Compile Include="ViewModels\RefuelingLimitsModel\RefuelingLimitViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\DetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\ComponentReplaceDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\ComponentReplaceRequestViewModel.cs" />
@@ -1234,8 +1238,6 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Views\ServiceDesk\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\ContactUs.cshtml" />

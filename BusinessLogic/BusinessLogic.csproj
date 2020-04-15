@@ -69,6 +69,7 @@
     <Compile Include="Abstract\IExecutorGroupLogic.cs" />
     <Compile Include="Abstract\IExecutorGroupMemberLogic.cs" />
     <Compile Include="Abstract\IPriorityLogic.cs" />
+    <Compile Include="Abstract\IRefuelingLimitsLogic.cs" />
     <Compile Include="Abstract\IRequestsLogic.cs" />
     <Compile Include="Abstract\IServiceLogic.cs" />
     <Compile Include="Abstract\IServicesApproversLogic.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Concrete\ExecutorGroupLogic.cs" />
     <Compile Include="Concrete\ExecutorGroupMemberLogic.cs" />
     <Compile Include="Concrete\PriorityLogic.cs" />
+    <Compile Include="Concrete\RefuelingLimitsLogic.cs" />
     <Compile Include="Concrete\RequestsLogic.cs" />
     <Compile Include="Concrete\ServiceLogic.cs" />
     <Compile Include="Concrete\ServicesApproversLogic.cs" />

@@ -1,4 +1,6 @@
-﻿using Domain.Models.Requests.Equipment;
+﻿using Domain.Models;
+using Domain.Models.Requests.Equipment;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Abstract.Branches.IT.Equipments.Requests
@@ -8,5 +10,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Equipments.Requests
         Task<EquipmentRefillRequest> Save(EquipmentRefillRequest request);
         Task Delete(EquipmentRefillRequest request);
         Task<EquipmentRefillRequest> GetRequestById(int id);
+        Task<List<EquipmentRefillRequest>> GetRequests(Subdivision subdivision);
     }
 }

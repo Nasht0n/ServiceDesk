@@ -90,12 +90,6 @@ namespace WebUI.Areas.IT.Controllers
             request.Justification = model.Justification;
             request.Description = model.Description;
             request.Location = model.Location;
-            request.ReplaceComponents = new List<ReplaceComponents>();
-            foreach (var item in model.Replaces)
-            {
-                ReplaceComponents replace = DataFromModel.GetData(item);
-                request.ReplaceComponents.Add(replace);
-            }
             return request;
         }
 
@@ -163,9 +157,25 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateDropDownList(model);
             Employee user = await PopulateAccountInfo();
             var request = await InitializeRequest(model, user);
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Создание заявки");
-            return RedirectToAction("Details", "ComponentReplaceRequest", new { id = request.Id });
+            if (model.Replaces.Count == 0)
+            {
+                ModelState.AddModelError("", "Список компонентов оборудования на замену пуст.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
+            }
+            else
+            {
+                request.ReplaceComponents = new List<ReplaceComponents>();
+                foreach (var item in model.Replaces)
+                {
+                    ReplaceComponents replace = DataFromModel.GetData(item);
+                    request.ReplaceComponents.Add(replace);
+                }
+                await requestLogic.Save(request);
+                await LifeCycleMessage(request.Id, user, "Создание заявки");
+                return RedirectToAction("Details", "ComponentReplaceRequest", new { id = request.Id });
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
@@ -182,21 +192,29 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = await PopulateAccountInfo();
             await PopulateDropDownList(model);
             var request = DataFromModel.GetData(model);
-
             await componentsLogic.DeleteEntry(request);
-            List<ReplaceComponents> components = new List<ReplaceComponents>();
-            foreach (var item in model.Replaces)
+            if (model.Replaces.Count == 0)
             {
-                ReplaceComponents replace = DataFromModel.GetData(item);
-                replace.RequestId = request.Id;
-                await componentsLogic.Add(replace);
-                components.Add(replace);
+                ModelState.AddModelError("", "Список компонентов оборудования на замену пуст.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
             }
-            request.ReplaceComponents = components;
-
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Редактирование заявки");
-            return RedirectToAction("Details", "ComponentReplaceRequest", new { id = request.Id });
+            else
+            {
+                List<ReplaceComponents> components = new List<ReplaceComponents>();
+                foreach (var item in model.Replaces)
+                {
+                    ReplaceComponents replace = DataFromModel.GetData(item);
+                    replace.RequestId = request.Id;
+                    await componentsLogic.Add(replace);
+                    components.Add(replace);
+                }
+                request.ReplaceComponents = components;
+                await requestLogic.Save(request);
+                await LifeCycleMessage(request.Id, user, "Редактирование заявки");
+                return RedirectToAction("Details", "ComponentReplaceRequest", new { id = request.Id });
+            }
         }
 
         public async Task<ActionResult> Delete(int id)

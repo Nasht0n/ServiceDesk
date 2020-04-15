@@ -29,7 +29,7 @@
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
             @Html.HiddenFor(model => model.Id)
 
@@ -79,7 +79,7 @@
 
             <div class="row m-1">
                 <h6 class="text-center text-dark">Список заменяемого оборудования</h6>
-                <table id="tblReplaceEquipments" class="table table-hover">
+                <table id="tblReplaceEquipments" class="table">
                     <thead class="table-primary">
                         <tr>
                             <th class="d-none"></th>

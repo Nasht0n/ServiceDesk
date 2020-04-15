@@ -1,6 +1,8 @@
 ﻿using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
+using Domain.Models;
 using Domain.Models.Requests.Equipment;
 using Repository.Concrete.Branches.IT.Equipments.Requests;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +26,12 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
         {
             var requests = await requestRepository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);
+        }
+
+        public async Task<List<EquipmentRefillRequest>> GetRequests(Subdivision subdivision)
+        {
+            var requests = await requestRepository.GetRequests();
+            return requests.Where(r => r.SubdivisionId == subdivision.Id).OrderBy(r => r.Id).ToList();
         }
 
         public async Task<EquipmentRefillRequest> Save(EquipmentRefillRequest request)

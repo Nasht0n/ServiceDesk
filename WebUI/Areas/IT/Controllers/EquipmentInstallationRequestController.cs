@@ -2,7 +2,6 @@
 using BusinessLogic.Abstract.Branches.IT.Equipments;
 using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
-using Domain.Abstract;
 using Domain.Models;
 using Domain.Models.Requests.Equipment;
 using System;
@@ -90,12 +89,6 @@ namespace WebUI.Areas.IT.Controllers
             request.Justification = model.Justification;
             request.Description = model.Description;
             request.Location = model.Location;
-            request.InstallationEquipments = new List<InstallationEquipments>();
-            foreach (var item in model.Installations)
-            {
-                InstallationEquipments installation = DataFromModel.GetData(item);
-                request.InstallationEquipments.Add(installation);
-            }
             return request;
         }
 
@@ -137,7 +130,7 @@ namespace WebUI.Areas.IT.Controllers
         {
             bool allApproval = true;
             if (service.ManyApprovalRequired)
-            {                
+            {
                 foreach (var approver in service.Approvers)
                 {
                     if (!allApproval) break;
@@ -163,9 +156,25 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateDropDownList(model);
             Employee user = await PopulateAccountInfo();
             var request = await InitializeRequest(model, user);
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Создание заявки");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+            if (model.Installations.Count == 0)
+            {
+                ModelState.AddModelError("", "Список оборудования на установку пуст.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
+            }
+            else
+            {
+                request.InstallationEquipments = new List<InstallationEquipments>();
+                foreach (var item in model.Installations)
+                {
+                    InstallationEquipments installation = DataFromModel.GetData(item);
+                    request.InstallationEquipments.Add(installation);
+                }
+                await requestLogic.Save(request);
+                await LifeCycleMessage(request.Id, user, "Создание заявки");
+                return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
@@ -182,20 +191,29 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = await PopulateAccountInfo();
             await PopulateDropDownList(model);
             var request = DataFromModel.GetData(model);
-
             await equipmentsLogic.DeleteEntry(request);
-            List<InstallationEquipments> equipments = new List<InstallationEquipments>();
-            foreach (var item in model.Installations)
+            if (model.Installations.Count == 0)
             {
-                InstallationEquipments installation = DataFromModel.GetData(item);
-                installation.RequestId = request.Id;
-                await equipmentsLogic.Add(installation);
-                equipments.Add(installation);
+                ModelState.AddModelError("", "Список оборудования на установку пуст.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
             }
-            request.InstallationEquipments = equipments;
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Редактирование заявки");
-            return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+            else
+            {
+                List<InstallationEquipments> equipments = new List<InstallationEquipments>();
+                foreach (var item in model.Installations)
+                {
+                    InstallationEquipments installation = DataFromModel.GetData(item);
+                    installation.RequestId = request.Id;
+                    await equipmentsLogic.Add(installation);
+                    equipments.Add(installation);
+                }
+                request.InstallationEquipments = equipments;
+                await requestLogic.Save(request);
+                await LifeCycleMessage(request.Id, user, "Редактирование заявки");
+                return RedirectToAction("Details", "EquipmentInstallationRequest", new { id = request.Id });
+            }
         }
 
         public async Task<ActionResult> Delete(int id)
