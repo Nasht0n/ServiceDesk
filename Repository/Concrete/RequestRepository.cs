@@ -27,10 +27,14 @@ namespace Repository.Concrete
                 watch.Start();
                 var list = await context.Requests
                     .Include(r => r.Service)
+                    .Include(r => r.Service.Category)
+                    .Include(r => r.Service.Category.Branch)
                     .Include(r => r.Status)
                     .Include(r => r.Priority)
                     .Include(r => r.Client)
+                    .Include(r => r.Client.Subdivision)
                     .Include(r => r.Executor)
+                    .Include(r => r.Executor.Subdivision)
                     .Include(r => r.ExecutorGroup)
                     .Include(r => r.Subdivision)
                     .ToListAsync();

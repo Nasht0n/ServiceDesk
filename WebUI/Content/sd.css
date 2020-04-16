@@ -59,6 +59,9 @@ body {
     margin-top:100px;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
 
 @media (min-width: 768px) {
     #sidebar-wrapper {

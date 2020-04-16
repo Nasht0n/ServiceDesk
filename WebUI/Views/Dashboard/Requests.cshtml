@@ -1,56 +1,68 @@
 ﻿@model WebUI.ViewModels.Requests.View.RequestListViewModel
+@using WebUI.Models.Enum
 @using WebUI.HtmlHelpers
-
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#table-request').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Russian.json"
+                }
+            });
+        });
+    </script>
+}
 @{
     ViewBag.Title = "Список заявок";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
 <h2 class="display-4 text-center text-dark my-3">@ViewBag.Title</h2>
 
-<div class="row mb-3">
-    @foreach (var item in Model.Requests)
-    {
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <a href="@Url.Action("Details",item.ServiceModel.Controller, new { Area = item.ServiceModel.BranchModel.AreaName, id = item.RequestId })"
-               class="request-card text-decoration-none">
-                <div class="card text-white mb-3 h-100" style="max-width: 40rem;">
-                    <div class="card-header">
-                        <div class="d-flex m-1 p-0">
-                            <span class="">@item.ServiceModel.Name</span>
-                            <span class="ml-auto">@item.SubdivisionModel.Shortname</span>
-                        </div>
-                    </div>
-                    <div class="card-body text-dark">
-                        <div class="d-flex justify-content-center ">
-                            <h4 class="card-title text-center">@item.Title</h4>
-                            <span class="badge badge-info badge-pill align-self-start">@item.StatusModel.Shortname</span>
-                        </div>
-                        <hr class="" />
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="card-text text-black-50">
-                                <span>Дата регистрации заявки:</span>
-                                <span>@item.Date.ToShortDateString()</span>
-                            </div>
-                            <div class="card-text ml-auto text-black-50">
-                                <i class="fa fa-user"></i>
-                                <span>@item.ClientModel.Fullname</span>
-                            </div>
-                        </div>
+<div class="container-fluid">
+
+    <table id="table-request" class="table table-primary table-hover">
+        <thead>
+            <tr>
+                <td>Статус</td>
+                <td>Категория заявки</td>
+                <td>Подразделение</td>
+                <td>Автор</td>
+                <td>Тема заявки</td>
+                <td>Дата регистрации</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Requests)
+            {
+                <tr class="table-secondary cursor-pointer" onclick="location.href = '@Url.Action("Details", item.Source, new { Area=item.ServiceModel.BranchModel.AreaName, id=item.RequestId })'">
+                    <td class="text-left">
+
+                        @if (@item.StatusId == (int)RequestStatus.Done)
+                        {
+                            <span class="badge badge-success badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
+                        }
+                        else if (@item.StatusId == (int)RequestStatus.Open || @item.StatusId == (int)RequestStatus.Approval)
+                        {
+                            <span class="badge badge-warning badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-primary badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
+                        }
 
 
-                        <p class="card-text">@item.Justification</p>
-
-
-                    </div>
-                </div>
-            </a>
-        </div>
-
-    }
-</div>
-
-
-<div>
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { service = Model.CurrentService, page = x }))
+                    </td>
+                    <td>@item.ServiceModel.CategoryModel.Name</td>
+                    <td>@item.SubdivisionModel.Shortname</td>
+                    <td>@item.ClientModel.Fullname </td>
+                    <td class="d-flex">
+                        <span class="">@item.Title</span>                       
+                    </td>
+                    <td>@item.Date</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

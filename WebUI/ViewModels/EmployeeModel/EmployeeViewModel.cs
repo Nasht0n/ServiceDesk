@@ -23,7 +23,7 @@ namespace WebUI.ViewModels.EmployeeModel
         {
             get
             {
-                return $"{Surname} {Firstname} {Patronymic}";
+                return $"{Surname} {Firstname[0]}. {Patronymic[0]}.";
             }
         }
         [Required(ErrorMessage = "Введите должность сотрудника")]

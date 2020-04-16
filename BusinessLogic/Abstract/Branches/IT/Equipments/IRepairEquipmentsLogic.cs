@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models.Requests.Equipment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Equipments
 {
     public interface IRepairEquipmentsLogic
     {
+        Task<RepairEquipments> Add(RepairEquipments repair);
     }
 }

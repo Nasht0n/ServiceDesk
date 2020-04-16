@@ -119,6 +119,7 @@ namespace WebUI.Models
 
             }
 
+
             return model;
         }
 
@@ -272,25 +273,16 @@ namespace WebUI.Models
 
 
 
-        public static RequestListViewModel GetListViewModel(List<Requests> requests, Employee user, int service, int page, int pageSize)
+        public static RequestListViewModel GetListViewModel(List<Requests> requests, Employee user, int service)
         {
             RequestListViewModel model = new RequestListViewModel();
             List<RequestViewModel> requestsModel = new List<RequestViewModel>();
-            // Получаем список заявок где пользователь клиент или иполнитель
-            //requests = requests.Where(r => (r.Service.ApprovalRequired && r.Service.Approvers.Contains(user)) || (r.ClientId == user.Id || r.ExecutorId == user.Id) && r.SubdivisionId == user.SubdivisionId).ToList();
-
             foreach (var request in requests)
             {
                 RequestViewModel item = GetViewModel(request);
                 requestsModel.Add(item);
             }
             model.Requests = requestsModel;
-            model.PagingInfo = new PagingInfo
-            {
-                CurrentPage = page,
-                ItemsPerPage = pageSize,
-                TotalItems = requestsModel.Count()
-            };
             model.CurrentService = service;
             return model;
         }
@@ -662,14 +654,14 @@ namespace WebUI.Models
                 StatusModel = GetViewModel(request.Status),
                 Title = request.Title,
                 SubdivisionId = request.SubdivisionId,
-                SubdivisionModel = GetViewModel(request.Subdivision)
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                InventoryNumber = request.InventoryNumber                
             };
             if (request.ExecutorId.HasValue)
             {
                 model.ExecutorId = request.ExecutorId;
                 model.Executor = GetViewModel(request.Executor);
             }
-
             return model;
         }
 

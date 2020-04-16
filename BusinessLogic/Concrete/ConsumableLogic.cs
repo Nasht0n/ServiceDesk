@@ -23,5 +23,11 @@ namespace BusinessLogic.Concrete
             var consumables = await consumableRepository.GetConsumables();
             return consumables.FirstOrDefault(c => c.Id == id);
         }
+
+        public async Task<List<Consumable>> GetConsumables()
+        {
+            var consumables = await consumableRepository.GetConsumables();
+            return consumables.OrderBy(c => c.Name).ToList();
+        }
     }
 }

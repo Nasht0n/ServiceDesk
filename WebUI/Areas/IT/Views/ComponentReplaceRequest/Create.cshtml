@@ -27,8 +27,6 @@
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
-            <h6 class="text-dark">Пожалуйста, заполните поля для регистрации новой заявки</h6>
-            <hr />
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
             @Html.HiddenFor(model => model.Id)

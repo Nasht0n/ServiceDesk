@@ -23,22 +23,17 @@ namespace BusinessLogic.Concrete
             return requests.OrderBy(r => r.Date).ToList();
         }
 
-        public async Task<List<Requests>> GetRequests(Employee employee, bool descending = true)
+        public async Task<List<Requests>> GetRequests(Employee employee,int service, bool descending = true)
         {
             List<Requests> result = new List<Requests>();
             var requests = await requestRepository.GetRequests();
-            if (employee != null)
-            {
-                requests = requests.Where(r => r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null).ToList();
-            }
-            result = result.Concat(requests).ToList();
-
+            if(service != 0)  requests = requests.Where(r => r.ServiceId == service).ToList();
             var executorGroups = employee.ExecutorGroups;
             if (executorGroups != null)
             {
                 foreach (var group in executorGroups)
                 {
-                    var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
+                    var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId && (r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null)).ToList();
                     if (temp.Count != 0) result = result.Concat(requests).ToList();
                 }
             }

@@ -18,7 +18,7 @@ namespace WebUI.HtmlHelpers
                 if (i == pagingInfo.CurrentPage)
                 {
                     tag.AddCssClass("selected");
-                    tag.AddCssClass("btn-secondary");
+                    tag.AddCssClass("btn-success");
                     tag.AddCssClass("mx-1");
                 }
                 tag.AddCssClass("btn btn-primary mx-1");

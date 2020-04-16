@@ -29,12 +29,14 @@ namespace WebUI.Areas.IT.Controllers
         private readonly ISubdivisionLogic subdivisionLogic;
         private readonly IEquipmentRepairRequestLogic requestLogic;
         private readonly IEquipmentRepairRequestLifeCycleLogic lifeCycleLogic;
-        private readonly IRepairEquipmentsLogic equipmentsLogic;
+        private readonly IRepairEquipmentsLogic repairEquipmentsLogic;
         private readonly IConsumableLogic consumableLogic;
+        private readonly IEquipmentLogic equipmentLogic;
 
         public EquipmentRepairRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic,
            ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
-           IEquipmentRepairRequestLogic requestLogic, IEquipmentRepairRequestLifeCycleLogic lifeCycleLogic, IRepairEquipmentsLogic equipmentsLogic, IConsumableLogic consumableLogic)
+           IEquipmentRepairRequestLogic requestLogic, IEquipmentRepairRequestLifeCycleLogic lifeCycleLogic, IRepairEquipmentsLogic repairEquipmentsLogic, IConsumableLogic consumableLogic,
+           IEquipmentLogic equipmentLogic)
         {
             this.accountLogic = accountLogic;
             this.employeeLogic = employeeLogic;
@@ -46,8 +48,9 @@ namespace WebUI.Areas.IT.Controllers
             this.subdivisionLogic = subdivisionLogic;
             this.requestLogic = requestLogic;
             this.lifeCycleLogic = lifeCycleLogic;
-            this.equipmentsLogic = equipmentsLogic;
+            this.repairEquipmentsLogic = repairEquipmentsLogic;
             this.consumableLogic = consumableLogic;
+            this.equipmentLogic = equipmentLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
@@ -65,9 +68,15 @@ namespace WebUI.Areas.IT.Controllers
         private async Task PopulateDropDownList(EquipmentRepairRequestViewModel model)
         {
             var campuses = await campusLogic.GetCampuses();
-            var priorities = await priorityLogic.GetPriorities();
+            var priorities = await priorityLogic.GetPriorities();            
             model.Priorities = new SelectList(priorities, "Id", "Fullname");
             model.Campuses = new SelectList(campuses, "Id", "Name");
+        }
+
+        private async Task PopulateDropDownList(EquipmentRepairDetailsRequestViewModel model)
+        {
+            var consumables = await consumableLogic.GetConsumables();
+            model.Consumables = new SelectList(consumables, "Id", "Name");
         }
 
         private async Task<EquipmentRepairRequest> InitializeRequest(EquipmentRepairRequestViewModel model, Employee user)
@@ -76,7 +85,6 @@ namespace WebUI.Areas.IT.Controllers
             Service service = await serviceLogic.GetServiceById(SERVICE_ID);
             request.ServiceId = service.Id;
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
-            request.PriorityId = model.PriorityId;
             request.ClientId = user.Id;
             request.SubdivisionId = user.SubdivisionId;
             ExecutorGroup executorGroup = RequestHelper.GetExecutorGroup(service);
@@ -89,6 +97,7 @@ namespace WebUI.Areas.IT.Controllers
             request.Justification = model.Justification;
             request.Description = model.Description;
             request.Location = model.Location;
+            request.InventoryNumber = model.InventoryNumber;
             request.RepairEquipments = new List<RepairEquipments>();
             return request;
         }
@@ -117,12 +126,32 @@ namespace WebUI.Areas.IT.Controllers
         }
 
         public async Task<ActionResult> Details(int id)
-        {
+        {            
             Employee user = await PopulateAccountInfo();
             var request = await requestLogic.GetRequestById(id);
+            var service = await serviceLogic.GetServiceById(request.ServiceId);
             var lifeCycles = await lifeCycleLogic.GetLifeCycles(request.Id);
             EquipmentRepairDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
+            await PopulateDropDownList(model);
+            model.AllApproval = IsApproval(service, lifeCycles);
             return View(model);
+        }
+
+        
+
+        private bool IsApproval(Service service, List<EquipmentRepairRequestLifeCycle> lifeCycles)
+        {
+            bool allApproval = true;
+            if (service.ManyApprovalRequired)
+            {
+                foreach (var approver in service.Approvers)
+                {
+                    if (!allApproval) break;
+                    var lifeCycle = lifeCycles.FirstOrDefault(l => l.EmployeeId == approver.EmployeeId && l.Message == "Заявка прошла согласование");
+                    allApproval = lifeCycle != null ? true : false;
+                }
+            }
+            return allApproval;
         }
 
         public async Task<ActionResult> Create()
@@ -140,6 +169,14 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateDropDownList(model);
             Employee user = await PopulateAccountInfo();
             var request = await InitializeRequest(model, user);
+            var equipment = await equipmentLogic.GetEquipmentByInventory(request.InventoryNumber);
+            if (equipment == null)
+            {
+                ModelState.AddModelError("", "Оборудование с данным инвентарным номером не найдено.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
+            }
             await requestLogic.Save(request);
             await LifeCycleMessage(request.Id, user, "Создание заявки");
             return RedirectToAction("Details", "EquipmentRepairRequest", new { id = request.Id });
@@ -159,6 +196,14 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = await PopulateAccountInfo();
             await PopulateDropDownList(model);
             var request = DataFromModel.GetData(model);
+            var equipment = await equipmentLogic.GetEquipmentByInventory(request.InventoryNumber);
+            if (equipment == null)
+            {
+                ModelState.AddModelError("", "Оборудование с данным инвентарным номером не найдено.");
+                var service = await serviceLogic.GetServiceById(SERVICE_ID);
+                model.ServiceModel = ModelFromData.GetViewModel(service);
+                return View(model);
+            }
             await requestLogic.Save(request);
             await LifeCycleMessage(request.Id, user, "Редактирование заявки");
             return RedirectToAction("Details", "EquipmentRepairRequest", new { id = request.Id });
@@ -224,6 +269,13 @@ namespace WebUI.Areas.IT.Controllers
         {
             Employee user = await PopulateAccountInfo();
             await LifeCycleMessage(id, user, model.Message);
+            return RedirectToAction("Details", "EquipmentRepairRequest", new { id });
+        }
+
+        public async Task<ActionResult> AddConsumable(int id, EquipmentRepairDetailsRequestViewModel model)
+        {
+            RepairEquipments repair = new RepairEquipments { RequestId = id, ConsumableId = model.SelectedConsumable, Count = model.RepairModel.Count };
+            await repairEquipmentsLogic.Add(repair);
             return RedirectToAction("Details", "EquipmentRepairRequest", new { id });
         }
     }

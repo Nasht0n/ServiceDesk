@@ -268,7 +268,8 @@ namespace WebUI.Models
                 ServiceId = model.ServiceId,
                 StatusId = model.StatusId,
                 Title = model.Title,
-                SubdivisionId = model.SubdivisionId
+                SubdivisionId = model.SubdivisionId,
+                InventoryNumber = model.InventoryNumber
             };
         }
 

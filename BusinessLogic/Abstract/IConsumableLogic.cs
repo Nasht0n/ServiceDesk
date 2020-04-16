@@ -10,5 +10,6 @@ namespace BusinessLogic.Abstract
     public interface IConsumableLogic
     {
         Task<Consumable> GetConsumableById(int id);
+        Task<List<Consumable>> GetConsumables();
     }
 }

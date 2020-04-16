@@ -1,12 +1,15 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
+using Domain.Views;
 using Repository.Abstract;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CategoryModel;
+using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.ServiceModel;
 
 namespace WebUI.Controllers
@@ -25,6 +28,7 @@ namespace WebUI.Controllers
         private readonly IServiceLogic serviceLogic;
         private readonly IAccountPermissionRepository accountPermissionRepository;
         private readonly IRequestsLogic requestsLogic;
+        private int pageSize = 3;
 
         public DashboardController(IAccountRepository accountRepository, IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
@@ -55,23 +59,25 @@ namespace WebUI.Controllers
         }
 
         public async Task<ActionResult> Index()
-        {                   
-            await PopulateAccountInfo();          
+        {
+            var user = await PopulateAccountInfo();
+            var requests = await requestsLogic.GetRequests(user, 0, descending: false);
+
+            ViewBag.CreateByUser = requests.Where(r=>r.ClientId == user.Id).Count();
             return View();
         }
 
-        public async Task<ActionResult> Requests(int service = 0, int page = 1)
+        public async Task<ActionResult> Requests(int service = 0)
         {
             var user = await PopulateAccountInfo();
             var executorGroups = user.ExecutorGroups;
+            List<Requests> requests = new List<Requests>();
             if(executorGroups!=null)
             {
-                var requests = await requestsLogic.GetRequests(user, descending: false);
-            }            
-            // var requests = requestService.GetRequests();
-            // RequestListViewModel model = ModelFromData.GetListViewModel(requests, user, service, page, pageSize);            
-            // return View(model);
-            return View();                
+                requests = await requestsLogic.GetRequests(user, service, descending: false);
+            }
+            RequestListViewModel model = ModelFromData.GetListViewModel(requests, user, service);
+            return View(model);
         }
 
 
