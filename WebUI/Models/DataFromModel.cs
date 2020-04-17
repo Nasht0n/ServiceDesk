@@ -1,5 +1,7 @@
 ﻿using Domain.Models;
+using Domain.Models.Requests.Accounts;
 using Domain.Models.Requests.Equipment;
+using System;
 using WebUI.ViewModels.AccountModel;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CampusModel;
@@ -11,6 +13,7 @@ using WebUI.ViewModels.EquipmentModel;
 using WebUI.ViewModels.EquipmentTypeModel;
 using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.PermissionModel;
+using WebUI.ViewModels.Requests.IT.Accounts;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.ServiceModel;
 using WebUI.ViewModels.SubdivisionModel;
@@ -285,6 +288,23 @@ namespace WebUI.Models
                 ExecutorId = model.ExecutorId,
                 Justification = model.Justification,
                 Location = model.Location,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static AccountCancellationRequest GetData(AccountCancellationRequestViewModel model)
+        {
+            return new AccountCancellationRequest {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
                 PriorityId = model.PriorityId,
                 ServiceId = model.ServiceId,
                 StatusId = model.StatusId,

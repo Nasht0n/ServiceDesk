@@ -109,6 +109,7 @@
     <Compile Include="Abstract\Branches\IT\Software\Requests\ISoftwareReworkRequestRepository.cs" />
     <Compile Include="Abstract\IAccountPermissionRepository.cs" />
     <Compile Include="Abstract\IAccountRepository.cs" />
+    <Compile Include="Abstract\IAttachmentRepository.cs" />
     <Compile Include="Abstract\IBranchRepository.cs" />
     <Compile Include="Abstract\ICampusRepository.cs" />
     <Compile Include="Abstract\ICategoryRepository.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Abstract\ISubdivisionRepository.cs" />
     <Compile Include="Concrete\AccountPermissionRepository.cs" />
     <Compile Include="Concrete\AccountRepository.cs" />
+    <Compile Include="Concrete\AttachmentRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Accounts\Attachments\AccountCancellationRequestAttachmentsRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Accounts\Attachments\AccountDisconnectRequestAttachmentsRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Accounts\Attachments\AccountLossRequestAttachmentsRepository.cs" />

@@ -63,6 +63,11 @@ body {
     cursor: pointer;
 }
 
+.custom-file-input:lang(ru) ~ .custom-file-label::after {
+    content: "Обзор";
+}
+
+
 @media (min-width: 768px) {
     #sidebar-wrapper {
         margin-left: 0;

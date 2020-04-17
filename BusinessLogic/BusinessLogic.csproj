@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Branches\IT\Accounts\Attachments\IAccountCancellationRequestAttachmentLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\LifeCycles\IAccountCancellationRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\Requests\IAccountCancellationRequestLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\IInstallationEquipmentsLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\IRefillEquipmentsLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\IRepairEquipmentsLogic.cs" />
@@ -58,6 +61,7 @@
     <Compile Include="Abstract\Branches\IT\Equipments\Requests\IEquipmentReplaceRequestLogic.cs" />
     <Compile Include="Abstract\IAccountLogic.cs" />
     <Compile Include="Abstract\IAccountPermissionLogic.cs" />
+    <Compile Include="Abstract\IAttachmentLogic.cs" />
     <Compile Include="Abstract\IBranchLogic.cs" />
     <Compile Include="Abstract\ICampusLogic.cs" />
     <Compile Include="Abstract\ICategoryLogic.cs" />
@@ -78,6 +82,10 @@
     <Compile Include="Abstract\ISubdivisionLogic.cs" />
     <Compile Include="Concrete\AccountLogic.cs" />
     <Compile Include="Concrete\AccountPermissionLogic.cs" />
+    <Compile Include="Concrete\AttachmentLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\Attachments\AccountCancellationRequestAttachmentLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\LifeCycles\AccountCancellationRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\Requests\AccountCancellationRequestLogic.cs" />
     <Compile Include="Concrete\BranchLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Equipments\InstallationEquipmentsLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Equipments\RefillEquipmentsLogic.cs" />
@@ -123,5 +131,6 @@
       <Name>Repository</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

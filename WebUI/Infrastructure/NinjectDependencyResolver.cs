@@ -1,8 +1,14 @@
 ﻿using BusinessLogic.Abstract;
+using BusinessLogic.Abstract.Branches.IT.Accounts.Attachments;
+using BusinessLogic.Abstract.Branches.IT.Accounts.LifeCycles;
+using BusinessLogic.Abstract.Branches.IT.Accounts.Requests;
 using BusinessLogic.Abstract.Branches.IT.Equipments;
 using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using BusinessLogic.Concrete;
+using BusinessLogic.Concrete.Branches.IT.Accounts.Attachments;
+using BusinessLogic.Concrete.Branches.IT.Accounts.LifeCycles;
+using BusinessLogic.Concrete.Branches.IT.Accounts.Requests;
 using BusinessLogic.Concrete.Branches.IT.Equipments;
 using BusinessLogic.Concrete.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Equipments.Requests;
@@ -91,6 +97,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<IConnectionEquipmentsRepository>().To<ConnectionEquipmentsRepository>();
             kernel.Bind<IRequestRepository>().To<RequestRepository>();
             kernel.Bind<IRefuelingLimitRepository>().To<RefuelingLimitRepository>();
+            kernel.Bind<IAttachmentRepository>().To<AttachmentRepository>();
 
             AddLifeCyclesRepositoriesBindings();
             AddRequestsRepositoriesBindings();
@@ -186,6 +193,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<IPriorityLogic>().To<PriorityLogic>();
             kernel.Bind<IRequestsLogic>().To<RequestsLogic>();
             kernel.Bind<IRefuelingLimitsLogic>().To<RefuelingLimitsLogic>();
+            kernel.Bind<IAttachmentLogic>().To<AttachmentLogic>();
 
             kernel.Bind<IInstallationEquipmentsLogic>().To<InstallationEquipmentsLogic>();
             kernel.Bind<IRefillEquipmentsLogic>().To<RefillEquipmentsLogic>();
@@ -193,8 +201,16 @@ namespace WebUI.Infrastructure
             kernel.Bind<IReplaceComponentsLogic>().To<ReplaceComponentsLogic>();
             kernel.Bind<IReplaceEquipmentsLogic>().To<ReplaceEquipmentsLogic>();
 
+            
+
             AddLifeCyclesLogicBindings();
             AddRequestsLogicBindings();
+            AddRequestAttachmentsLogicBindings();
+        }
+
+        private void AddRequestAttachmentsLogicBindings()
+        {
+            kernel.Bind<IAccountCancellationRequestAttachmentLogic>().To<AccountCancellationRequestAttachmentLogic>();
         }
 
         private void AddRequestsLogicBindings()
@@ -204,6 +220,8 @@ namespace WebUI.Infrastructure
             kernel.Bind<IEquipmentRefillRequestLogic>().To<EquipmentRefillRequestLogic>();
             kernel.Bind<IEquipmentRepairRequestLogic>().To<EquipmentRepairRequestLogic>();
             kernel.Bind<IEquipmentReplaceRequestLogic>().To<EquipmentReplaceRequestLogic>();
+
+            kernel.Bind<IAccountCancellationRequestLogic>().To<AccountCancellationRequestLogic>();
         }
 
         private void AddLifeCyclesLogicBindings()
@@ -213,6 +231,8 @@ namespace WebUI.Infrastructure
             kernel.Bind<IEquipmentRefillRequestLifeCycleLogic>().To<EquipmentRefillRequestLifeCycleLogic>();
             kernel.Bind<IEquipmentRepairRequestLifeCycleLogic>().To<EquipmentRepairRequestLifeCycleLogic>();
             kernel.Bind<IEquipmentReplaceRequestLifeCycleLogic>().To<EquipmentReplaceRequestLifeCycleLogic>();
+
+            kernel.Bind<IAccountCancellationRequestLifeCycleLogic>().To<AccountCancellationRequestLifeCycleLogic>();
         }
 
         public object GetService(Type serviceType)

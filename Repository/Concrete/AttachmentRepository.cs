@@ -1,36 +1,35 @@
 ﻿using Domain;
-using Domain.Models.Requests.Accounts;
-using Repository.Abstract.Branches.IT.Accounts.LifeCycles;
+using Domain.Models;
+using Repository.Abstract;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Concrete.Branches.IT.Accounts.LifeCycles
+namespace Repository.Concrete
 {
-    public class AccountCancellationRequestLifeCycleRepository : IAccountCancellationRequestLifeCycleRepository
+    public class AttachmentRepository : IAttachmentRepository
     {
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
         private readonly ServiceDeskContext context;
-        public AccountCancellationRequestLifeCycleRepository(ServiceDeskContext context)
+
+        public AttachmentRepository(ServiceDeskContext context)
         {
             this.context = context;
         }
-
-        public async Task<AccountCancellationRequestLifeCycle> Add(AccountCancellationRequestLifeCycle lifeCycle)
+        public async Task<Attachment> Add(Attachment attachment)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var inserted = context.AccountCancellationRequestLifeCycles.Add(lifeCycle);
+                var inserted = context.Attachments.Add(attachment);
                 await context.SaveChangesAsync();
                 watch.Stop();
                 return inserted;
+
             }
             catch (Exception ex)
             {
@@ -38,57 +37,61 @@ namespace Repository.Concrete.Branches.IT.Accounts.LifeCycles
             }
         }
 
-        public async Task Delete(AccountCancellationRequestLifeCycle lifeCycle)
+        public async Task Delete(Attachment attachment)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
+
                 watch.Start();
-                var deleted = await context.AccountCancellationRequestLifeCycles.SingleOrDefaultAsync(e => e.Id == lifeCycle.Id);
-                context.AccountCancellationRequestLifeCycles.Remove(deleted);
+                var deleted = await context.Attachments.SingleOrDefaultAsync(a => a.Id == attachment.Id);
+                context.Attachments.Remove(deleted);
                 await context.SaveChangesAsync();
                 watch.Stop();
+
             }
             catch (Exception ex)
             {
-
             }
         }
 
-        public async Task<List<AccountCancellationRequestLifeCycle>> GetLifeCycles()
+        public async Task<List<Attachment>> GetAttachments()
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
+
                 watch.Start();
-                var list = await context.AccountCancellationRequestLifeCycles
-                    .Include(a => a.Request)
-                    .Include(a => a.Employee)
-                    .Include(a => a.Employee.Subdivision)
-                    .ToListAsync();
+                var list = await context.Attachments.ToListAsync();
+
                 watch.Stop();
                 return list;
+
             }
             catch (Exception ex)
             {
+                log.Error($"Ошибка получения списка отраслей заявок. Сообщение: {ex.Message}.");
                 return null;
             }
         }
 
-        public async Task<AccountCancellationRequestLifeCycle> Update(AccountCancellationRequestLifeCycle lifeCycle)
+
+        public async Task<Attachment> Update(Attachment attachment)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
+
                 watch.Start();
-                var updated = await context.AccountCancellationRequestLifeCycles.SingleOrDefaultAsync(lc => lc.Id == lifeCycle.Id);
+                var updated = await context.Attachments.SingleOrDefaultAsync(b => b.Id == attachment.Id);
+
                 if (updated != null)
                 {
-                    updated.Date = lifeCycle.Date;
-                    updated.EmployeeId = lifeCycle.EmployeeId;
-                    updated.Message = lifeCycle.Message;
-                    updated.RequestId = lifeCycle.RequestId;
+                    updated.Filename = attachment.Filename;
+                    updated.DateUploaded = attachment.DateUploaded;
+                    updated.Path = attachment.Path;
                 }
+
                 await context.SaveChangesAsync();
                 watch.Stop();
                 return updated;
@@ -100,4 +103,5 @@ namespace Repository.Concrete.Branches.IT.Accounts.LifeCycles
             }
         }
     }
+
 }

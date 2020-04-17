@@ -74,6 +74,7 @@ namespace Repository.Concrete.Branches.IT.Accounts.Requests
                     .Include(a => a.Executor.Subdivision)
                     .Include(a => a.ExecutorGroup)
                     .Include(a => a.Subdivision)
+                    .Include(a => a.Attachments.Select(i => i.Attachment))
                     .ToListAsync();
                 watch.Stop();
                 return list;

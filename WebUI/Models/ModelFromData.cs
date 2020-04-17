@@ -1,10 +1,14 @@
 ﻿using Domain.Models;
 using Domain.Models.ManyToMany;
+using Domain.Models.Requests.Accounts;
 using Domain.Models.Requests.Equipment;
 using Domain.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebUI.ViewModels.AccountModel;
+using WebUI.ViewModels.AttachmentsModel;
+using WebUI.ViewModels.AttachmentsModel.IT.Accounts;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CampusModel;
 using WebUI.ViewModels.CategoryModel;
@@ -15,9 +19,11 @@ using WebUI.ViewModels.EquipmentModel;
 using WebUI.ViewModels.EquipmentTypeModel;
 using WebUI.ViewModels.ExecutorGroupMembers;
 using WebUI.ViewModels.ExecutorGroupModel;
+using WebUI.ViewModels.LifeCycles.IT.Accounts;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
 using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.PriorityModel;
+using WebUI.ViewModels.Requests.IT.Accounts;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.ServiceModel;
@@ -168,6 +174,97 @@ namespace WebUI.Models
 
 
             return model;
+        }
+
+        public static AccountCancellationDetailsRequestViewModel GetViewModel(AccountCancellationRequest request, Employee user, List<AccountCancellationRequestLifeCycle> lifeCycles)
+        {
+            AccountCancellationDetailsRequestViewModel model = new AccountCancellationDetailsRequestViewModel();
+            model.RequestModel = new AccountCancellationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.AttachmentsListModel = new List<AccountCancellationRequestAttachmentViewModel>();
+
+            foreach(var attachment in request.Attachments)
+            {
+                AccountCancellationRequestAttachmentViewModel item = new AccountCancellationRequestAttachmentViewModel { 
+                    AttachmentModel = GetViewModel(attachment.Attachment)                    
+                };
+                model.AttachmentsListModel.Add(item);
+            }
+
+            model.LifeCyclesListModel = new List<AccountCancellationRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new AccountCancellationRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static AccountCancellationRequestViewModel GetViewModel(AccountCancellationRequest request)
+        {
+            AccountCancellationRequestViewModel model = new AccountCancellationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,                
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId.Value;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        private static AttachmentViewModel GetViewModel(Attachment attachment)
+        {
+            return new AttachmentViewModel { Id = attachment.Id, DateUploaded = attachment.DateUploaded, Filename = attachment.Filename, Path = attachment.Path };
         }
 
         public static ExecutorGroupsListViewModel GetListViewModel(List<ExecutorGroup> executorGroups, string search, int page, int pageSize)
@@ -454,7 +551,7 @@ namespace WebUI.Models
                     Count = item.Count,
                     ComponentModel = GetViewModel(item.Component),
                     RequestId = item.RequestId
-                    
+
                 });
             }
             return model;
@@ -655,7 +752,7 @@ namespace WebUI.Models
                 Title = request.Title,
                 SubdivisionId = request.SubdivisionId,
                 SubdivisionModel = GetViewModel(request.Subdivision),
-                InventoryNumber = request.InventoryNumber                
+                InventoryNumber = request.InventoryNumber
             };
             if (request.ExecutorId.HasValue)
             {
@@ -854,7 +951,7 @@ namespace WebUI.Models
                     Message = record.Message,
                     RequestId = record.RequestId
                 });
-            }           
+            }
 
             model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
             model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;

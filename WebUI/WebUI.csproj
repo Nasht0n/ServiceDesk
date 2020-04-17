@@ -1350,6 +1350,8 @@
     <Content Include="Content\DataTables\media\images\Sorting icons.psd" />
     <Content Include="Content\DataTables\extensions\Buttons\css\mixins.scss" />
     <Content Include="Content\DataTables\extensions\Buttons\css\common.scss" />
+    <Content Include="Areas\IT\Views\AccountCancellationRequest\Details.cshtml" />
+    <Content Include="Areas\IT\Views\AccountCancellationRequest\Create.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -1475,6 +1477,7 @@
     <Compile Include="Areas\ControlPanel\Controllers\SubdivisionController.cs" />
     <Compile Include="Areas\ControlPanel\ControlPanelAreaRegistration.cs" />
     <Compile Include="Areas\ControlPanel\Data\ControlPanelViewModel.cs" />
+    <Compile Include="Areas\IT\Controllers\AccountCancellationRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\ComponentReplaceRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\EquipmentInstallationRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\EquipmentRefillRequestController.cs" />
@@ -1498,6 +1501,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AccountModel\AccountListViewModel.cs" />
     <Compile Include="ViewModels\AccountModel\AccountViewModel.cs" />
+    <Compile Include="ViewModels\AttachmentsModel\AttachmentViewModel.cs" />
+    <Compile Include="ViewModels\AttachmentsModel\IT\Accounts\AccountCancellationRequestAttachmentViewModel.cs" />
     <Compile Include="ViewModels\BranchModel\BranchesListViewModel.cs" />
     <Compile Include="ViewModels\BranchModel\BranchViewModel.cs" />
     <Compile Include="ViewModels\CampusModel\CampusesListViewModel.cs" />
@@ -1520,6 +1525,7 @@
     <Compile Include="ViewModels\ExecutorGroupMembers\ExecutorGroupMemberViewModel.cs" />
     <Compile Include="ViewModels\ExecutorGroupModel\ExecutorGroupsListViewModel.cs" />
     <Compile Include="ViewModels\ExecutorGroupModel\ExecutorGroupViewModel.cs" />
+    <Compile Include="ViewModels\LifeCycles\IT\Accounts\AccountCancellationRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\ComponentReplaceRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentInstallationRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentRefillRequestLifeCycleViewModel.cs" />
@@ -1531,6 +1537,11 @@
     <Compile Include="ViewModels\PermissionModel\PermissionViewModel.cs" />
     <Compile Include="ViewModels\PriorityModel\PriorityViewModel.cs" />
     <Compile Include="ViewModels\RefuelingLimitsModel\RefuelingLimitViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\AccountCancellationDetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\AccountCancellationRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\AccountDisconnectRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\AccountLossRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\AccountRegistrationRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\DetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\ComponentReplaceDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\ComponentReplaceRequestViewModel.cs" />
@@ -1597,6 +1608,7 @@
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Dashboard\" />
     <Folder Include="Areas\IT\Views\Shared\" />
+    <Folder Include="Files\UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
