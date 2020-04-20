@@ -9,7 +9,6 @@ namespace WebUI.ViewModels.LifeCycles.IT.Accounts
         [Display(Name = "Идентификатор заявки")]
         public int RequestId { get; set; }
         [Required]
-        [Display(Name = "Заявка на замену комплектующего")]
         public AccountCancellationRequestViewModel RequestModel { get; set; }
     }
 }

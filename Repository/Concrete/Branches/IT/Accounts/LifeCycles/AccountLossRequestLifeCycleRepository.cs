@@ -64,6 +64,7 @@ namespace Repository.Concrete.Branches.IT.Accounts.LifeCycles
                 var list = await context.AccountLossRequestLifeCycles
                     .Include(a => a.Request)
                     .Include(a => a.Employee)
+                    .Include(a => a.Employee.Subdivision)
                     .ToListAsync();
                 watch.Stop();
                 return list;

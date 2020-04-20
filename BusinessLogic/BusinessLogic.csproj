@@ -41,8 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Branches\IT\Accounts\Attachments\IAccountRegistrationRequestAttachmentLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\Attachments\IAccountLossRequestAttachmentLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\Attachments\IAccountDisconnectRequestAttachmentLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Accounts\Attachments\IAccountCancellationRequestAttachmentLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\LifeCycles\IAccountDisconnectRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\LifeCycles\IAccountRegistrationRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\LifeCycles\IAccountLossRequestLifeCycleLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Accounts\LifeCycles\IAccountCancellationRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\Requests\IAccountDisconnectRequestLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\Requests\IAccountLossRequestLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Accounts\Requests\IAccountRegistrationRequestLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Accounts\Requests\IAccountCancellationRequestLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\IInstallationEquipmentsLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\IRefillEquipmentsLogic.cs" />
@@ -59,6 +68,9 @@
     <Compile Include="Abstract\Branches\IT\Equipments\Requests\IEquipmentRefillRequestLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\Requests\IEquipmentRepairRequestLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\Requests\IEquipmentReplaceRequestLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Networks\IConnectionEquipmentsLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Networks\LifeCycles\INetworkConnectionRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Networks\Requests\INetworkConnectionRequestLogic.cs" />
     <Compile Include="Abstract\IAccountLogic.cs" />
     <Compile Include="Abstract\IAccountPermissionLogic.cs" />
     <Compile Include="Abstract\IAttachmentLogic.cs" />
@@ -84,8 +96,20 @@
     <Compile Include="Concrete\AccountPermissionLogic.cs" />
     <Compile Include="Concrete\AttachmentLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Accounts\Attachments\AccountCancellationRequestAttachmentLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\Attachments\AccountDisconnectRequestAttachmentLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\Attachments\AccountLossRequestAttachmentLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\Attachments\AccountRegistrationRequestAttachmentLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Accounts\LifeCycles\AccountCancellationRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\LifeCycles\AccountDisconnectRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\LifeCycles\AccountLossRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\LifeCycles\AccountRegistrationRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Accounts\Requests\AccountCancellationRequestLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\Requests\AccountDisconnectRequestLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\Requests\AccountLossRequestLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Accounts\Requests\AccountRegistrationRequestLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Networks\ConnectionEquipmentsLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Networks\LifeCycles\NetworkConnectionRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Networks\Requests\NetworkConnectionRequestLogic.cs" />
     <Compile Include="Concrete\BranchLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Equipments\InstallationEquipmentsLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Equipments\RefillEquipmentsLogic.cs" />

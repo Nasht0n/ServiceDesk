@@ -5,6 +5,9 @@ using BusinessLogic.Abstract.Branches.IT.Accounts.Requests;
 using BusinessLogic.Abstract.Branches.IT.Equipments;
 using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
+using BusinessLogic.Abstract.Branches.IT.Networks;
+using BusinessLogic.Abstract.Branches.IT.Networks.LifeCycles;
+using BusinessLogic.Abstract.Branches.IT.Networks.Requests;
 using BusinessLogic.Concrete;
 using BusinessLogic.Concrete.Branches.IT.Accounts.Attachments;
 using BusinessLogic.Concrete.Branches.IT.Accounts.LifeCycles;
@@ -12,6 +15,9 @@ using BusinessLogic.Concrete.Branches.IT.Accounts.Requests;
 using BusinessLogic.Concrete.Branches.IT.Equipments;
 using BusinessLogic.Concrete.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Equipments.Requests;
+using BusinessLogic.Concrete.Branches.IT.Networks;
+using BusinessLogic.Concrete.Branches.IT.Networks.LifeCycles;
+using BusinessLogic.Concrete.Branches.IT.Networks.Requests;
 using Ninject;
 using Repository.Abstract;
 using Repository.Abstract.Branches.IT.Accounts.Attachments;
@@ -201,7 +207,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<IReplaceComponentsLogic>().To<ReplaceComponentsLogic>();
             kernel.Bind<IReplaceEquipmentsLogic>().To<ReplaceEquipmentsLogic>();
 
-            
+            kernel.Bind<IConnectionEquipmentsLogic>().To<ConnectionEquipmentsLogic>();
 
             AddLifeCyclesLogicBindings();
             AddRequestsLogicBindings();
@@ -211,6 +217,9 @@ namespace WebUI.Infrastructure
         private void AddRequestAttachmentsLogicBindings()
         {
             kernel.Bind<IAccountCancellationRequestAttachmentLogic>().To<AccountCancellationRequestAttachmentLogic>();
+            kernel.Bind<IAccountRegistrationRequestAttachmentLogic>().To<AccountRegistrationRequestAttachmentLogic>();
+            kernel.Bind<IAccountLossRequestAttachmentLogic>().To<AccountLossRequestAttachmentLogic>();
+            kernel.Bind<IAccountDisconnectRequestAttachmentLogic>().To<AccountDisconnectRequestAttachmentLogic>();
         }
 
         private void AddRequestsLogicBindings()
@@ -222,6 +231,11 @@ namespace WebUI.Infrastructure
             kernel.Bind<IEquipmentReplaceRequestLogic>().To<EquipmentReplaceRequestLogic>();
 
             kernel.Bind<IAccountCancellationRequestLogic>().To<AccountCancellationRequestLogic>();
+            kernel.Bind<IAccountRegistrationRequestLogic>().To<AccountRegistrationRequestLogic>();
+            kernel.Bind<IAccountLossRequestLogic>().To<AccountLossRequestLogic>();
+            kernel.Bind<IAccountDisconnectRequestLogic>().To<AccountDisconnectRequestLogic>();
+
+            kernel.Bind<INetworkConnectionRequestLogic>().To<NetworkConnectionRequestLogic>();
         }
 
         private void AddLifeCyclesLogicBindings()
@@ -233,6 +247,11 @@ namespace WebUI.Infrastructure
             kernel.Bind<IEquipmentReplaceRequestLifeCycleLogic>().To<EquipmentReplaceRequestLifeCycleLogic>();
 
             kernel.Bind<IAccountCancellationRequestLifeCycleLogic>().To<AccountCancellationRequestLifeCycleLogic>();
+            kernel.Bind<IAccountRegistrationRequestLifeCycleLogic>().To<AccountRegistrationRequestLifeCycleLogic>();
+            kernel.Bind<IAccountLossRequestLifeCycleLogic>().To<AccountLossRequestLifeCycleLogic>();
+            kernel.Bind<IAccountDisconnectRequestLifeCycleLogic>().To<AccountDisconnectRequestLifeCycleLogic>();
+
+            kernel.Bind<INetworkConnectionRequestLifeCycleLogic>().To<NetworkConnectionRequestLifeCycleLogic>();
         }
 
         public object GetService(Type serviceType)

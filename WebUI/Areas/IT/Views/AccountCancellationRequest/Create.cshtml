@@ -2,16 +2,11 @@
 @section Scripts{
     <script>
             $(".custom-file-input").on("change", function () {
-                //var fileName = $(this).val().split("\\").pop();
-                //$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-
                 var files = [];
                 for (var i = 0; i < $(this)[0].files.length; i++) {
                     files.push($(this)[0].files[i].name);
                 }
                 $(this).next('.custom-file-label').html(files.join(', '));
-
-
             });
     </script>
 }
@@ -23,10 +18,10 @@
 <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a href="@Url.Action("ChooseBranch","Dashboard",new { Area = "" })">Информационные технологии</a>
+        <a href="@Url.Action("ChooseCategory","Dashboard",new { Area = "", id = Model.ServiceModel.BranchModel.Id })">@Model.ServiceModel.BranchModel.Fullname</a>
     </li>
     <li class="breadcrumb-item">
-        <a href="@Url.Action("ChooseCategory","Dashboard", new { Area = "", id = Model.ServiceModel.CategoryModel.Id })">@Model.ServiceModel.CategoryModel.Name</a>
+        <a href="@Url.Action("ChooseService","Dashboard", new { Area = "", id = Model.ServiceModel.CategoryModel.Id })">@Model.ServiceModel.CategoryModel.Name</a>
     </li>
     <li class="breadcrumb-item">
         <span class="text-primary">@Model.ServiceModel.Name</span>
@@ -80,7 +75,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.FilePath, htmlAttributes: new { @class = "control-label" })
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="inputFile" name="Model.File" lang="ru" required multiple accept=".xls, .xlsx, .doc, .docx, .txt">
+                            <input type="file" class="custom-file-input" id="inputFile" name="Model.Files" lang="ru" required multiple accept=".xls, .xlsx, .doc, .docx, .txt">
                             <label class="custom-file-label" for="inputFile">Выберите файл</label>
                         </div>
                         <div class="row" id="fileList">

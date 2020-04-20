@@ -2,6 +2,7 @@
 using Domain.Models.ManyToMany;
 using Domain.Models.Requests.Accounts;
 using Domain.Models.Requests.Equipment;
+using Domain.Models.Requests.Network;
 using Domain.Views;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,12 @@ using WebUI.ViewModels.ExecutorGroupMembers;
 using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.LifeCycles.IT.Accounts;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
+using WebUI.ViewModels.LifeCycles.IT.Networks;
 using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.PriorityModel;
 using WebUI.ViewModels.Requests.IT.Accounts;
 using WebUI.ViewModels.Requests.IT.Equipments;
+using WebUI.ViewModels.Requests.IT.Networks;
 using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.ServiceModel;
 using WebUI.ViewModels.ServicesApproversModel;
@@ -176,6 +179,371 @@ namespace WebUI.Models
             return model;
         }
 
+        public static AccountDisconnectDetailsRequestViewModel GetViewModel(AccountDisconnectRequest request, Employee user, List<AccountDisconnectRequestLifeCycle> lifeCycles)
+        {
+            AccountDisconnectDetailsRequestViewModel model = new AccountDisconnectDetailsRequestViewModel();
+            model.RequestModel = new AccountDisconnectRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.AttachmentsListModel = new List<AccountDisconnectRequestAttachmentViewModel>();
+
+            foreach (var attachment in request.Attachments)
+            {
+                AccountDisconnectRequestAttachmentViewModel item = new AccountDisconnectRequestAttachmentViewModel
+                {
+                    AttachmentModel = GetViewModel(attachment.Attachment)
+                };
+                model.AttachmentsListModel.Add(item);
+            }
+
+            model.LifeCyclesListModel = new List<AccountDisconnectRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new AccountDisconnectRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static NetworkConnectionRequestViewModel GetViewModel(NetworkConnectionRequest request)
+        {
+            NetworkConnectionRequestViewModel model = new NetworkConnectionRequestViewModel
+            {
+                Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+
+            model.Connections = new List<ConnectionEquipmentViewModel>();
+            foreach (var item in request.ConnectionEquipments)
+            {
+                model.Connections.Add(new ConnectionEquipmentViewModel
+                {
+                    Id = item.Id,
+                    Count = item.Count,
+                    EquipmentTypeId = item.EquipmentTypeId,
+                    EquipmentTypeModel = GetViewModel(item.EquipmentType),
+                    RequestId = item.RequestId
+                });
+            }
+            return model;
+        }
+
+        public static NetworkConnectionDetailsRequestViewModel GetViewModel(NetworkConnectionRequest request, Employee user, List<NetworkConnectionRequestLifeCycle> lifeCycles)
+        {
+            NetworkConnectionDetailsRequestViewModel model = new NetworkConnectionDetailsRequestViewModel();
+            model.RequestModel = new NetworkConnectionRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+           
+            model.RequestModel.Connections = new List<ConnectionEquipmentViewModel>();
+            foreach (var item in request.ConnectionEquipments)
+            {
+                model.RequestModel.Connections.Add(new ConnectionEquipmentViewModel
+                {
+                    Id = item.Id,
+                    Count = item.Count,
+                    EquipmentTypeId = item.EquipmentTypeId,
+                    EquipmentTypeModel = GetViewModel(item.EquipmentType),
+                    RequestId = item.RequestId
+                });
+            }
+            model.LifeCyclesListModel = new List<NetworkConnectionRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new NetworkConnectionRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static AccountDisconnectRequestViewModel GetViewModel(AccountDisconnectRequest request)
+        {
+            AccountDisconnectRequestViewModel model = new AccountDisconnectRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId.Value;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static AccountLossDetailsRequestViewModel GetViewModel(AccountLossRequest request, Employee user, List<AccountLossRequestLifeCycle> lifeCycles)
+        {
+            AccountLossDetailsRequestViewModel model = new AccountLossDetailsRequestViewModel();
+            model.RequestModel = new AccountLossRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.AttachmentsListModel = new List<AccountLossRequestAttachmentViewModel>();
+
+            foreach (var attachment in request.Attachments)
+            {
+                AccountLossRequestAttachmentViewModel item = new AccountLossRequestAttachmentViewModel
+                {
+                    AttachmentModel = GetViewModel(attachment.Attachment)
+                };
+                model.AttachmentsListModel.Add(item);
+            }
+
+            model.LifeCyclesListModel = new List<AccountLossRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new AccountLossRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static AccountLossRequestViewModel GetViewModel(AccountLossRequest request)
+        {
+            AccountLossRequestViewModel model = new AccountLossRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId.Value;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static AccountRegistrationDetailsRequestViewModel GetViewModel(AccountRegistrationRequest request, Employee user, List<AccountRegistrationRequestLifeCycle> lifeCycles)
+        {
+            AccountRegistrationDetailsRequestViewModel model = new AccountRegistrationDetailsRequestViewModel();
+            model.RequestModel = new AccountRegistrationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.AttachmentsListModel = new List<AccountRegistrationRequestAttachmentViewModel>();
+
+            foreach (var attachment in request.Attachments)
+            {
+                AccountRegistrationRequestAttachmentViewModel item = new AccountRegistrationRequestAttachmentViewModel
+                {
+                    AttachmentModel = GetViewModel(attachment.Attachment)
+                };
+                model.AttachmentsListModel.Add(item);
+            }
+
+            model.LifeCyclesListModel = new List<AccountRegistrationRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new AccountRegistrationRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static AccountRegistrationRequestViewModel GetViewModel(AccountRegistrationRequest request)
+        {
+            AccountRegistrationRequestViewModel model = new AccountRegistrationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId.Value;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
         public static AccountCancellationDetailsRequestViewModel GetViewModel(AccountCancellationRequest request, Employee user, List<AccountCancellationRequestLifeCycle> lifeCycles)
         {
             AccountCancellationDetailsRequestViewModel model = new AccountCancellationDetailsRequestViewModel();
@@ -262,7 +630,7 @@ namespace WebUI.Models
             return model;
         }
 
-        private static AttachmentViewModel GetViewModel(Attachment attachment)
+        public static AttachmentViewModel GetViewModel(Attachment attachment)
         {
             return new AttachmentViewModel { Id = attachment.Id, DateUploaded = attachment.DateUploaded, Filename = attachment.Filename, Path = attachment.Path };
         }

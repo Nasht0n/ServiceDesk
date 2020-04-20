@@ -9,16 +9,9 @@
 
 <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
 <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-        <a href="@Url.Action("ChooseBranch","Dashboard",new { Area = "" })">Информационные технологии</a>
-    </li>
-    <li class="breadcrumb-item">
-        <a href="@Url.Action("ChooseCategory","Dashboard", new { Area = "", id = Model.ServiceModel.CategoryModel.Id })">@Model.ServiceModel.CategoryModel.Name</a>
-    </li>
-    <li class="breadcrumb-item">
-        <span class="text-primary">@Model.ServiceModel.Name</span>
-        @*<a href="@Url.Action("ChooseService","Dashboard",new { Area = "", id = Model.ServiceModel.Id })">@Model.ServiceModel.Name</a>*@
-    </li>
+    <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
+    <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
+    <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
     <li class="breadcrumb-item active">Редактирование заявки</li>
 </ol>
 

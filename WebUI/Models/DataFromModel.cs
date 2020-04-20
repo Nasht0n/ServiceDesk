@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Models.Requests.Accounts;
 using Domain.Models.Requests.Equipment;
+using Domain.Models.Requests.Network;
 using System;
 using WebUI.ViewModels.AccountModel;
 using WebUI.ViewModels.BranchModel;
@@ -15,6 +16,7 @@ using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.Requests.IT.Accounts;
 using WebUI.ViewModels.Requests.IT.Equipments;
+using WebUI.ViewModels.Requests.IT.Networks;
 using WebUI.ViewModels.ServiceModel;
 using WebUI.ViewModels.SubdivisionModel;
 
@@ -255,6 +257,16 @@ namespace WebUI.Models
             return request;
         }
 
+        public static ConnectionEquipments GetData(ConnectionEquipmentViewModel connection)
+        {
+            return new ConnectionEquipments { 
+                Id = connection.Id,
+                Count = connection.Count,
+                EquipmentTypeId = connection.EquipmentTypeId,
+                RequestId = connection.RequestId
+            };
+        }
+
         public static EquipmentRepairRequest GetData(EquipmentRepairRequestViewModel model)
         {
             return new EquipmentRepairRequest
@@ -276,6 +288,25 @@ namespace WebUI.Models
             };
         }
 
+        public static NetworkConnectionRequest GetData(NetworkConnectionRequestViewModel model)
+        {
+            return new NetworkConnectionRequest {
+                Id = model.Id,                
+                CampusId = model.CampusId,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                Location = model.Location,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
         public static ComponentReplaceRequest GetData(ComponentReplaceRequestViewModel model)
         {
             return new ComponentReplaceRequest
@@ -288,6 +319,58 @@ namespace WebUI.Models
                 ExecutorId = model.ExecutorId,
                 Justification = model.Justification,
                 Location = model.Location,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static AccountDisconnectRequest GetData(AccountDisconnectRequestViewModel model)
+        {
+            return new AccountDisconnectRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static AccountLossRequest GetData(AccountLossRequestViewModel model)
+        {
+            return new AccountLossRequest {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static AccountRegistrationRequest GetData(AccountRegistrationRequestViewModel model)
+        {
+            return new AccountRegistrationRequest {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
                 PriorityId = model.PriorityId,
                 ServiceId = model.ServiceId,
                 StatusId = model.StatusId,

@@ -33,11 +33,11 @@ namespace BusinessLogic.Concrete
             {
                 foreach (var group in executorGroups)
                 {
-                    var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId && (r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null)).ToList();
-                    if (temp.Count != 0) result = result.Concat(requests).ToList();
+                    var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
+                    if (temp.Count != 0) result = result.Concat(temp).ToList();                    
                 }
             }
-            return result;
+            return result.Where(r=> r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null).OrderBy(r=>r.Date).ToList();
         }
 
         public async Task<List<Requests>> GetRequestsByDescending()

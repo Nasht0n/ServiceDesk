@@ -42,15 +42,22 @@
                     </li>
                     <li class="list-group-item bg-white text-dark">
                         <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.AttachmentsModel):</span>
-                        <div>
-                            @foreach (var item in Model.AttachmentsListModel)
-                            {
-                                <a href="@Url.Action("DownloadFile","AccountCancellationRequest",new {id = item.AttachmentModel.Id})" class="btn btn-link">
-                                    <i class="fas fa-file mr-1"></i>
-                                    <span>@item.AttachmentModel.Filename</span>
-                                </a>
-                            }
-                        </div>                      
+                        @foreach (var item in Model.AttachmentsListModel)
+                        {
+                            <div class="row">
+                                <div class="col-8">
+                                    <a href="@Url.Action("DownloadFile","AccountCancellationRequest",new {attachmentId = item.AttachmentModel.Id})" class="btn btn-link text-decoration-none">
+                                        <i class="fas fa-file mr-1"></i>
+                                        <span>@item.AttachmentModel.Filename</span>
+                                    </a>
+                                </div>
+                                <div class="col-4 float-left">
+                                    <a href="@Url.Action("DeleteFile","AccountCancellationRequest",new {requestId = Model.RequestModel.Id, attachmentId = item.AttachmentModel.Id})" class="btn btn-link float-right">
+                                        <i class="fas fa-trash mr-1 text-danger"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
                     </li>
                 </ul>
                 <div class="card-body">

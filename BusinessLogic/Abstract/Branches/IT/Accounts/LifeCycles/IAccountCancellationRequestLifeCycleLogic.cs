@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Accounts.LifeCycles
     public interface IAccountCancellationRequestLifeCycleLogic
     {
         Task<AccountCancellationRequestLifeCycle> Add(AccountCancellationRequestLifeCycle lifeCycle);
-        Task<List<AccountCancellationRequestLifeCycle>> GetLifeCycles(int requestId);
+        Task<List<AccountCancellationRequestLifeCycle>> GetLifeCycles(AccountCancellationRequest request);
     }
 }

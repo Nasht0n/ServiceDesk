@@ -15,6 +15,8 @@ using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.Models.Enum;
 using WebUI.Models.Helpers;
+using WebUI.ViewModels.AttachmentsModel;
+using WebUI.ViewModels.AttachmentsModel.IT.Accounts;
 using WebUI.ViewModels.Requests.IT.Accounts;
 
 namespace WebUI.Areas.IT.Controllers
@@ -115,7 +117,7 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = await PopulateAccountInfo();
             AccountCancellationRequest request = await requestLogic.GetRequestById(id);
             var service = await serviceLogic.GetServiceById(request.ServiceId);
-            List<AccountCancellationRequestLifeCycle> lifeCycles = await lifeCycleLogic.GetLifeCycles(request.Id);
+            List<AccountCancellationRequestLifeCycle> lifeCycles = await lifeCycleLogic.GetLifeCycles(request);
             AccountCancellationDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
             model.AllApproval = IsApproval(service, lifeCycles);
             return View(model);
@@ -152,32 +154,29 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateDropDownList(model);
             Employee user = await PopulateAccountInfo();
             var request = await InitializeRequest(model, user);
-            await requestLogic.Save(request);
-            await LifeCycleMessage(request.Id, user, "Создание заявки");
-
-
             foreach (var file in model.Files)
             {
                 string FileName = Path.GetFileNameWithoutExtension(file.FileName);
                 string FileExtension = Path.GetExtension(file.FileName);
                 string UploadPath = Server.MapPath("~/Files/UploadedFiles/");
-                model.FilePath = UploadPath + DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
+                var filePath = UploadPath + FileName.Trim() + FileExtension;
+                model.FilePath = filePath;
                 file.SaveAs(model.FilePath);
                 Attachment attachmentFile = new Attachment
                 {
                     DateUploaded = DateTime.Now,
                     Filename = FileName,
-                    Path = UploadPath + FileName
+                    Path = filePath
                 };
                 attachmentFile = await attachmentLogic.Save(attachmentFile);
                 AccountCancellationRequestAttachment attachment = new AccountCancellationRequestAttachment
                 {
-                    AttachmentId = attachmentFile.Id,
-                    RequestId = request.Id
+                    AttachmentId = attachmentFile.Id
                 };
-                await requestAttachmentLogic.Add(attachment);
+                request.Attachments.Add(attachment);
             }
-
+            await requestLogic.Save(request);
+            await LifeCycleMessage(request.Id, user, "Создание заявки");
             return RedirectToAction("Details", "AccountCancellationRequest", new { id = request.Id });
         }
 
@@ -186,6 +185,13 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateAccountInfo();
             var request = await requestLogic.GetRequestById(id);
             AccountCancellationRequestViewModel model = ModelFromData.GetViewModel(request);
+            var attachments = await requestAttachmentLogic.GetAttachments(request);
+            foreach (var attachment in attachments)
+            {
+                Attachment file = await attachmentLogic.GetAttachment(attachment.AttachmentId);
+                AttachmentViewModel attachmentModel = ModelFromData.GetViewModel(file);
+                model.AttachmentsModel.Add(new AccountCancellationRequestAttachmentViewModel { AttachmentModel = attachmentModel });
+            }
             await PopulateDropDownList(model);
             return View(model);
         }
@@ -196,14 +202,127 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = await PopulateAccountInfo();
             await PopulateDropDownList(model);
             var request = DataFromModel.GetData(model);
-            var attachments = await requestAttachmentLogic.GetAttachments(request);
-            foreach (var attachment in attachments)
+
+            foreach (var file in model.Files)
             {
-                var file = await attachmentLogic.GetAttachment(attachment.AttachmentId);
+                string FileName = Path.GetFileNameWithoutExtension(file.FileName);
+                string FileExtension = Path.GetExtension(file.FileName);
+                string UploadPath = Server.MapPath("~/Files/UploadedFiles/");
+                var filePath = UploadPath + FileName.Trim() + FileExtension;
+                model.FilePath = filePath;
+                file.SaveAs(filePath);
+                Attachment attachmentFile = new Attachment
+                {
+                    DateUploaded = DateTime.Now,
+                    Filename = FileName,
+                    Path = filePath
+                };
+                attachmentFile = await attachmentLogic.Save(attachmentFile);
+                AccountCancellationRequestAttachment attachment = new AccountCancellationRequestAttachment
+                {
+                    AttachmentId = attachmentFile.Id,
+                    RequestId = request.Id
+                };
+                await requestAttachmentLogic.Add(attachment);
             }
+
             await requestLogic.Save(request);
             await LifeCycleMessage(request.Id, user, "Редактирование заявки");
-            return RedirectToAction("Details", "ComponentReplaceRequest", new { id = request.Id });
+            return RedirectToAction("Details", "AccountCancellationRequest", new { id = request.Id });
+        }
+
+        public async Task<ActionResult> DeleteFile(int requestId, int attachmentId)
+        {
+            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var attachment = await attachmentLogic.GetAttachment(attachmentId);
+            await attachmentLogic.Delete(attachment);
+            return RedirectToAction("Details", service.Controller, new { id = requestId });
+        }
+
+        public async Task<FileResult> DownloadFile(int attachmentId)
+        {
+            if (!string.IsNullOrWhiteSpace(User.Identity.Name))
+            {
+                var file = await attachmentLogic.GetAttachment(attachmentId);
+                string filename = file.Filename + Path.GetExtension(file.Path);
+                string content_type = MimeMapping.GetMimeMapping(filename);
+                string file_type = content_type;
+                return File(file.Path, file_type, filename);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            await PopulateAccountInfo();
+            var request = await requestLogic.GetRequestById(id);
+            AccountCancellationRequestViewModel model = ModelFromData.GetViewModel(request);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id, AccountCancellationRequestViewModel model)
+        {
+            await PopulateAccountInfo();
+            var request = await requestLogic.GetRequestById(id);
+            await requestLogic.Delete(request);
+            return RedirectToAction("Requests", "Dashboard", new { Area = "" });
+        }
+
+        public async Task<ActionResult> AgreeRequest(int id)
+        {
+            Employee user = await PopulateAccountInfo();
+            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            await ChangeRequestStatus(id, RequestStatus.Open);
+            await LifeCycleMessage(id, user, "Заявка прошла согласование");
+            return RedirectToAction("Details", service.Controller, new { id });
+        }
+
+        public async Task<ActionResult> RejectRequest(int id)
+        {
+            Employee user = await PopulateAccountInfo();
+            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            await ChangeRequestStatus(id, RequestStatus.Closed);
+            await LifeCycleMessage(id, user, "Заявка не прошла согласование");
+            return RedirectToAction("Details", service.Controller, new { id });
+        }
+
+        public async Task<ActionResult> GetInWork(int id)
+        {
+            Employee user = await PopulateAccountInfo();
+            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            await ChangeRequestStatus(id, RequestStatus.InWork);
+            await LifeCycleMessage(id, user, "Начало исполнения заявки");
+            return RedirectToAction("Details", service.Controller, new { id });
+        }
+
+        public async Task<ActionResult> DoneWork(int id)
+        {
+            Employee user = await PopulateAccountInfo();
+            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            await ChangeRequestStatus(id, RequestStatus.Done);
+            await LifeCycleMessage(id, user, "Заявка выполнена");
+            return RedirectToAction("Details", service.Controller, new { id });
+        }
+
+        public async Task<ActionResult> Archive(int id)
+        {
+            Employee user = await PopulateAccountInfo();
+            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            await ChangeRequestStatus(id, RequestStatus.Archive);
+            await LifeCycleMessage(id, user, "Заявка перенесена в архив");
+            return RedirectToAction("Details", service.Controller, new { id });
+        }
+
+        public async Task<ActionResult> AddMessage(int id, AccountCancellationDetailsRequestViewModel model)
+        {
+            Employee user = await PopulateAccountInfo();
+            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            await LifeCycleMessage(id, user, model.Message);
+            return RedirectToAction("Details", service.Controller, new { id });
         }
     }
 }
