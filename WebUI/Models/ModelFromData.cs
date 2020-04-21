@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Models.ManyToMany;
 using Domain.Models.Requests.Accounts;
+using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
 using Domain.Models.Requests.Network;
 using Domain.Views;
@@ -21,11 +22,13 @@ using WebUI.ViewModels.EquipmentTypeModel;
 using WebUI.ViewModels.ExecutorGroupMembers;
 using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.LifeCycles.IT.Accounts;
+using WebUI.ViewModels.LifeCycles.IT.Emails;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
 using WebUI.ViewModels.LifeCycles.IT.Networks;
 using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.PriorityModel;
 using WebUI.ViewModels.Requests.IT.Accounts;
+using WebUI.ViewModels.Requests.IT.Emails;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.IT.Networks;
 using WebUI.ViewModels.Requests.View;
@@ -179,6 +182,162 @@ namespace WebUI.Models
             return model;
         }
 
+        public static EmailSizeIncreaseDetailsRequestViewModel GetViewModel(EmailSizeIncreaseRequest request, Employee user, List<EmailSizeIncreaseRequestLifeCycle> lifeCycles)
+        {
+            EmailSizeIncreaseDetailsRequestViewModel model = new EmailSizeIncreaseDetailsRequestViewModel();
+            model.RequestModel = new EmailSizeIncreaseRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                Email = request.Email,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.LifeCyclesListModel = new List<EmailSizeIncreaseRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new EmailSizeIncreaseRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static EmailSizeIncreaseRequestViewModel GetViewModel(EmailSizeIncreaseRequest request)
+        {
+            EmailSizeIncreaseRequestViewModel model = new EmailSizeIncreaseRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                Email = request.Email,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static EmailRegistrationDetailsRequestViewModel GetViewModel(EmailRegistrationRequest request, Employee user, List<EmailRegistrationRequestLifeCycle> lifeCycles)
+        {
+            EmailRegistrationDetailsRequestViewModel model = new EmailRegistrationDetailsRequestViewModel();
+            model.RequestModel = new EmailRegistrationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                Email =request.Email,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }           
+
+            model.LifeCyclesListModel = new List<EmailRegistrationRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new EmailRegistrationRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static EmailRegistrationRequestViewModel GetViewModel(EmailRegistrationRequest request)
+        {
+            EmailRegistrationRequestViewModel model = new EmailRegistrationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                Email = request.Email,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
         public static AccountDisconnectDetailsRequestViewModel GetViewModel(AccountDisconnectRequest request, Employee user, List<AccountDisconnectRequestLifeCycle> lifeCycles)
         {
             AccountDisconnectDetailsRequestViewModel model = new AccountDisconnectDetailsRequestViewModel();
@@ -288,6 +447,9 @@ namespace WebUI.Models
             model.RequestModel = new NetworkConnectionRequestViewModel
             {
                 Id = request.Id,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                Location = request.Location,
                 ClientId = request.ClientId,
                 Client = GetViewModel(request.Client),
                 ExecutorGroupId = request.ExecutorGroupId,

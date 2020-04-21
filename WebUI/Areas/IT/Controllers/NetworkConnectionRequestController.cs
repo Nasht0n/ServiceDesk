@@ -67,7 +67,6 @@ namespace WebUI.Areas.IT.Controllers
             var campuses = await campusLogic.GetCampuses();
             var priorities = await priorityLogic.GetPriorities();
             var equipmentTypes = await equipmentTypeLogic.GetEquipmentTypes();
-
             model.Priorities = new SelectList(priorities, "Id", "Fullname");
             model.Campuses = new SelectList(campuses, "Id", "Name");
             model.EquipmentTypes = new SelectList(equipmentTypes, "Id", "Name");

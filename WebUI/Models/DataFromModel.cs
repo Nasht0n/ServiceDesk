@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Models.Requests.Accounts;
+using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
 using Domain.Models.Requests.Network;
 using System;
@@ -15,6 +16,7 @@ using WebUI.ViewModels.EquipmentTypeModel;
 using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.Requests.IT.Accounts;
+using WebUI.ViewModels.Requests.IT.Emails;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.IT.Networks;
 using WebUI.ViewModels.ServiceModel;
@@ -233,6 +235,44 @@ namespace WebUI.Models
                 InventoryNumber = item.InventoryNumber,
                 EquipmentTypeId = item.EquipmentTypeId,
                 RequestId = item.RequestId
+            };
+        }
+
+        internal static EmailSizeIncreaseRequest GetData(EmailSizeIncreaseRequestViewModel model)
+        {
+            return new EmailSizeIncreaseRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                Email = model.Email,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static EmailRegistrationRequest GetData(EmailRegistrationRequestViewModel model)
+        {
+            return new EmailRegistrationRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                Email = model.Email,
+                SubdivisionId = model.SubdivisionId
             };
         }
 

@@ -63,6 +63,7 @@ namespace Repository.Concrete.Branches.IT.Email.LifeCycles
                 var list = await context.EmailSizeIncreaseRequestLifeCycles
                     .Include(a => a.Request)
                     .Include(a => a.Employee)
+                     .Include(a => a.Employee.Subdivision)
                     .ToListAsync();
                 watch.Stop();
                 return list;

@@ -1366,6 +1366,18 @@
     <Content Include="Areas\IT\Views\AccountRegistrationRequest\Delete.cshtml" />
     <Content Include="Areas\IT\Views\AccountRegistrationRequest\Details.cshtml" />
     <Content Include="Areas\IT\Views\AccountRegistrationRequest\Edit.cshtml" />
+    <Content Include="Areas\IT\Views\NetworkConnectionRequest\Delete.cshtml" />
+    <Content Include="Areas\IT\Views\NetworkConnectionRequest\Details.cshtml" />
+    <Content Include="Areas\IT\Views\NetworkConnectionRequest\Edit.cshtml" />
+    <Content Include="Areas\IT\Views\NetworkConnectionRequest\Create.cshtml" />
+    <Content Include="Areas\IT\Views\EmailRegistrationRequest\Create.cshtml" />
+    <Content Include="Areas\IT\Views\EmailRegistrationRequest\Delete.cshtml" />
+    <Content Include="Areas\IT\Views\EmailRegistrationRequest\Details.cshtml" />
+    <Content Include="Areas\IT\Views\EmailRegistrationRequest\Edit.cshtml" />
+    <Content Include="Areas\IT\Views\EmailSizeIncreaseRequest\Create.cshtml" />
+    <Content Include="Areas\IT\Views\EmailSizeIncreaseRequest\Delete.cshtml" />
+    <Content Include="Areas\IT\Views\EmailSizeIncreaseRequest\Details.cshtml" />
+    <Content Include="Areas\IT\Views\EmailSizeIncreaseRequest\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -1393,6 +1405,7 @@
     <Content Include="Scripts\servicedesk\equipments\replace-equipments-table.js" />
     <Content Include="Scripts\servicedesk\menu-toggle.js" />
     <Content Include="Scripts\servicedesk\NavItemActive.js" />
+    <Content Include="Scripts\servicedesk\networks\network-connections-table.js" />
     <Content Include="Scripts\servicedesk\subdivision-executors.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
@@ -1496,6 +1509,8 @@
     <Compile Include="Areas\IT\Controllers\AccountLossRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\AccountRegistrationRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\ComponentReplaceRequestController.cs" />
+    <Compile Include="Areas\IT\Controllers\EmailRegistrationRequestController.cs" />
+    <Compile Include="Areas\IT\Controllers\EmailSizeIncreaseRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\EquipmentInstallationRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\EquipmentRefillRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\EquipmentRepairRequestController.cs" />
@@ -1550,6 +1565,8 @@
     <Compile Include="ViewModels\LifeCycles\IT\Accounts\AccountDisconnectRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Accounts\AccountLossRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Accounts\AccountRegistrationRequestLifeCycleViewModel.cs" />
+    <Compile Include="ViewModels\LifeCycles\IT\Emails\EmailRegistrationRequestLifeCycleViewModel.cs" />
+    <Compile Include="ViewModels\LifeCycles\IT\Emails\EmailSizeIncreaseRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\ComponentReplaceRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentInstallationRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Equipments\EquipmentRefillRequestLifeCycleViewModel.cs" />
@@ -1571,6 +1588,10 @@
     <Compile Include="ViewModels\Requests\IT\Accounts\AccountRegistrationDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Accounts\AccountRegistrationRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\DetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Emails\EmailRegistrationDetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Emails\EmailRegistrationRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Emails\EmailSizeIncreaseDetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Emails\EmailSizeIncreaseRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\ComponentReplaceDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\ComponentReplaceRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Equipments\EquipmentInstallationDetailsRequestViewModel.cs" />
@@ -1637,7 +1658,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\ControlPanel\Views\Equipment\" />
     <Folder Include="Areas\IT\Data\" />
-    <Folder Include="Areas\IT\Views\NetworkConnectionRequest\" />
     <Folder Include="Areas\IT\Views\Shared\" />
     <Folder Include="Files\UploadedFiles\" />
   </ItemGroup>
