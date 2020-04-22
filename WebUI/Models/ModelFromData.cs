@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Models.ManyToMany;
 using Domain.Models.Requests.Accounts;
+using Domain.Models.Requests.Communication;
 using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
 using Domain.Models.Requests.Network;
@@ -22,12 +23,14 @@ using WebUI.ViewModels.EquipmentTypeModel;
 using WebUI.ViewModels.ExecutorGroupMembers;
 using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.LifeCycles.IT.Accounts;
+using WebUI.ViewModels.LifeCycles.IT.Communications;
 using WebUI.ViewModels.LifeCycles.IT.Emails;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
 using WebUI.ViewModels.LifeCycles.IT.Networks;
 using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.PriorityModel;
 using WebUI.ViewModels.Requests.IT.Accounts;
+using WebUI.ViewModels.Requests.IT.Communications;
 using WebUI.ViewModels.Requests.IT.Emails;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.IT.Networks;
@@ -179,6 +182,413 @@ namespace WebUI.Models
             }
 
 
+            return model;
+        }
+
+        public static VideoCommunicationDetailsRequestViewModel GetViewModel(VideoCommunicationRequest request, Employee user, List<VideoCommunicationRequestLifeCycle> lifeCycles)
+        {
+            VideoCommunicationDetailsRequestViewModel model = new VideoCommunicationDetailsRequestViewModel();
+            model.RequestModel = new VideoCommunicationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                CampusId = request.CampusId,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Date = request.Date
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.LifeCyclesListModel = new List<VideoCommunicationRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new VideoCommunicationRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static VideoCommunicationRequestViewModel GetViewModel(VideoCommunicationRequest request)
+        {
+            VideoCommunicationRequestViewModel model = new VideoCommunicationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Date = request.Date
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static PhoneRepairDetailsRequestViewModel GetViewModel(PhoneRepairRequest request, Employee user, List<PhoneRepairRequestLifeCycle> lifeCycles)
+        {
+            PhoneRepairDetailsRequestViewModel model = new PhoneRepairDetailsRequestViewModel();
+            model.RequestModel = new PhoneRepairRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                CampusId = request.CampusId,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.LifeCyclesListModel = new List<PhoneRepairRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new PhoneRepairRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static PhoneRepairRequestViewModel GetViewModel(PhoneRepairRequest request)
+        {
+            PhoneRepairRequestViewModel model = new PhoneRepairRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static PhoneNumberAllocationDetailsRequestViewModel GetViewModel(PhoneNumberAllocationRequest request, Employee user, List<PhoneNumberAllocationRequestLifeCycle> lifeCycles)
+        {
+            PhoneNumberAllocationDetailsRequestViewModel model = new PhoneNumberAllocationDetailsRequestViewModel();
+            model.RequestModel = new PhoneNumberAllocationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                CampusId = request.CampusId,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.LifeCyclesListModel = new List<PhoneNumberAllocationRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new PhoneNumberAllocationRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static PhoneNumberAllocationRequestViewModel GetViewModel(PhoneNumberAllocationRequest request)
+        {
+            PhoneNumberAllocationRequestViewModel model = new PhoneNumberAllocationRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static PhoneLineRepairDetailsRequestViewModel GetViewModel(PhoneLineRepairRequest request, Employee user, List<PhoneLineRepairRequestLifeCycle> lifeCycles)
+        {
+            PhoneLineRepairDetailsRequestViewModel model = new PhoneLineRepairDetailsRequestViewModel();
+            model.RequestModel = new PhoneLineRepairRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                CampusId = request.CampusId,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.LifeCyclesListModel = new List<PhoneLineRepairRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new PhoneLineRepairRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static PhoneLineRepairRequestViewModel GetViewModel(PhoneLineRepairRequest request)
+        {
+            PhoneLineRepairRequestViewModel model = new PhoneLineRepairRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static HoldingPhoneLineDetailsRequestViewModel GetViewModel(HoldingPhoneLineRequest request, Employee user, List<HoldingPhoneLineRequestLifeCycle> lifeCycles)
+        {
+            HoldingPhoneLineDetailsRequestViewModel model = new HoldingPhoneLineDetailsRequestViewModel();
+            model.RequestModel = new HoldingPhoneLineRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                CampusId = request.CampusId,
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.LifeCyclesListModel = new List<HoldingPhoneLineRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new HoldingPhoneLineRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static HoldingPhoneLineRequestViewModel GetViewModel(HoldingPhoneLineRequest request)
+        {
+            HoldingPhoneLineRequestViewModel model = new HoldingPhoneLineRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                CampusId = request.CampusId,
+                CampusModel = GetViewModel(request.Campus),
+                Location = request.Location,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
             return model;
         }
 

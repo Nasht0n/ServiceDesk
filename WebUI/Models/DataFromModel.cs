@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Models.Requests.Accounts;
+using Domain.Models.Requests.Communication;
 using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
 using Domain.Models.Requests.Network;
@@ -16,6 +17,7 @@ using WebUI.ViewModels.EquipmentTypeModel;
 using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.Requests.IT.Accounts;
+using WebUI.ViewModels.Requests.IT.Communications;
 using WebUI.ViewModels.Requests.IT.Emails;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.IT.Networks;
@@ -235,6 +237,106 @@ namespace WebUI.Models
                 InventoryNumber = item.InventoryNumber,
                 EquipmentTypeId = item.EquipmentTypeId,
                 RequestId = item.RequestId
+            };
+        }
+
+        public static VideoCommunicationRequest GetData(VideoCommunicationRequestViewModel model)
+        {
+            return new VideoCommunicationRequest {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                CampusId = model.CampusId,
+                Location = model.Location,
+                SubdivisionId = model.SubdivisionId,
+                Date = model.Date
+            };
+        }
+
+        public static PhoneRepairRequest GetData(PhoneRepairRequestViewModel model)
+        {
+            return new PhoneRepairRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                CampusId = model.CampusId,
+                Location = model.Location,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static PhoneNumberAllocationRequest GetData(PhoneNumberAllocationRequestViewModel model)
+        {
+            return new PhoneNumberAllocationRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                CampusId = model.CampusId,
+                Location = model.Location,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static PhoneLineRepairRequest GetData(PhoneLineRepairRequestViewModel model)
+        {
+            return new PhoneLineRepairRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                CampusId = model.CampusId,
+                Location = model.Location,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static HoldingPhoneLineRequest GetData(HoldingPhoneLineRequestViewModel model)
+        {
+            return new HoldingPhoneLineRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                CampusId = model.CampusId,
+                Location = model.Location,
+                SubdivisionId = model.SubdivisionId
             };
         }
 
