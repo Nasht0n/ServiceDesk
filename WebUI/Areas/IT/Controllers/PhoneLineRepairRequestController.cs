@@ -63,7 +63,9 @@ namespace WebUI.Areas.IT.Controllers
         private async Task PopulateDropDownList(PhoneLineRepairRequestViewModel model)
         {
             var priorities = await priorityLogic.GetPriorities();
+            var campuses = await campusLogic.GetCampuses();
             model.Priorities = new SelectList(priorities, "Id", "Fullname");
+            model.Campuses = new SelectList(campuses, "Id", "Name");
         }
 
         private async Task<PhoneLineRepairRequest> InitializeRequest(PhoneLineRepairRequestViewModel model, Employee user)

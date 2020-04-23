@@ -12,6 +12,9 @@ using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using BusinessLogic.Abstract.Branches.IT.Networks;
 using BusinessLogic.Abstract.Branches.IT.Networks.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Networks.Requests;
+using BusinessLogic.Abstract.Branches.IT.Softwares.Attachments;
+using BusinessLogic.Abstract.Branches.IT.Softwares.LifeCycles;
+using BusinessLogic.Abstract.Branches.IT.Softwares.Requests;
 using BusinessLogic.Concrete;
 using BusinessLogic.Concrete.Branches.IT.Accounts.Attachments;
 using BusinessLogic.Concrete.Branches.IT.Accounts.LifeCycles;
@@ -26,6 +29,9 @@ using BusinessLogic.Concrete.Branches.IT.Equipments.Requests;
 using BusinessLogic.Concrete.Branches.IT.Networks;
 using BusinessLogic.Concrete.Branches.IT.Networks.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Networks.Requests;
+using BusinessLogic.Concrete.Branches.IT.Softwares.Attachments;
+using BusinessLogic.Concrete.Branches.IT.Softwares.LifeCycles;
+using BusinessLogic.Concrete.Branches.IT.Softwares.Requests;
 using Ninject;
 using Repository.Abstract;
 using Repository.Abstract.Branches.IT.Accounts.Attachments;
@@ -228,6 +234,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IAccountRegistrationRequestAttachmentLogic>().To<AccountRegistrationRequestAttachmentLogic>();
             kernel.Bind<IAccountLossRequestAttachmentLogic>().To<AccountLossRequestAttachmentLogic>();
             kernel.Bind<IAccountDisconnectRequestAttachmentLogic>().To<AccountDisconnectRequestAttachmentLogic>();
+
+            kernel.Bind<ISoftwareDevelopmentRequestAttachmentLogic>().To<SoftwareDevelopmentRequestAttachmentLogic>();
+            kernel.Bind<ISoftwareReworkRequestAttachmentLogic>().To<SoftwareReworkRequestAttachmentLogic>();
         }
 
         private void AddRequestsLogicBindings()
@@ -253,6 +262,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IPhoneNumberAllocationRequestLogic>().To<PhoneNumberAllocationRequestLogic>();
             kernel.Bind<IPhoneRepairRequestLogic>().To<PhoneRepairRequestLogic>();
             kernel.Bind<IVideoCommunicationRequestLogic>().To<VideoCommunicationRequestLogic>();
+
+            kernel.Bind<ISoftwareDevelopmentRequestLogic>().To<SoftwareDevelopmentRequestLogic>();
+            kernel.Bind<ISoftwareReworkRequestLogic>().To<SoftwareReworkRequestLogic>();
         }
 
         private void AddLifeCyclesLogicBindings()
@@ -278,6 +290,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IPhoneNumberAllocationRequestLifeCycleLogic>().To<PhoneNumberAllocationRequestLifeCycleLogic>();
             kernel.Bind<IPhoneRepairRequestLifeCycleLogic>().To<PhoneRepairRequestLifeCycleLogic>();
             kernel.Bind<IVideoCommunicationRequestLifeCycleLogic>().To<VideoCommunicationRequestLifeCycleLogic>();
+
+            kernel.Bind<ISoftwareDevelopmentRequestLifeCycleLogic>().To<SoftwareDevelopmentRequestLifeCycleLogic>();
+            kernel.Bind<ISoftwareReworkRequestLifeCycleLogic>().To<SoftwareReworkRequestLifeCycleLogic>();
         }
 
         public object GetService(Type serviceType)

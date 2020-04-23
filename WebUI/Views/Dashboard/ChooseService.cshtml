@@ -5,29 +5,33 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark mt-3 mb-5">Создание заявки</h2>
-<ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="@Url.Action("ChooseBranch","Dashboard",null)">@Model.CategoryModel.BranchModel.Fullname</a></li>
-    <li class="breadcrumb-item"><a href="@Url.Action("ChooseCategory","Dashboard",new { id = Model.SelectedBranch })">@Model.CategoryModel.Name</a></li>
-    <li class="breadcrumb-item active">Выберите вид заявки</li>
-</ol>
+<div class="container">
+    <h2 class="display-4 text-center text-dark mt-3 mb-5">Создание заявки</h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("ChooseBranch","Dashboard",null)">@Model.CategoryModel.BranchModel.Fullname</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("ChooseCategory","Dashboard",new { id = Model.SelectedBranch })">@Model.CategoryModel.Name</a></li>
+        <li class="breadcrumb-item active">Выберите вид заявки</li>
+    </ol>
 
 
-<div class="list-group">
-    @{ if (Model.Services.Count == 0)
-        {
-            <div class="alert alert-dismissible alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h4 class="alert-heading">Внимание!</h4>
-                <p class="mb-0">Данная категория, пока не содержит заявок для выполнения. Попробуйте позже. <a href="@Url.Action("ChooseCategory","Dashboard",new { id = Model.SelectedBranch })">Выбрать другую категорию.</a></p>
-            </div>
+    <div class="list-group">
+        @{ if (Model.Services.Count == 0)
+            {
+                <div class="alert alert-dismissible alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4 class="alert-heading">Внимание!</h4>
+                    <p class="mb-0">Данная категория, пока не содержит заявок для выполнения. Попробуйте позже. <a href="@Url.Action("ChooseCategory","Dashboard",new { id = Model.SelectedBranch })">Выбрать другую категорию.</a></p>
+                </div>
+            }
         }
-    }
 
-    @foreach (var service in Model.Services)
-    {
-        <a href="@Url.Action("Create",service.Controller,new { Area = service.BranchModel.AreaName })" class="list-group-item list-group-item-action bg-secondary">
-            @service.Name
-        </a>
-    }
+        @foreach (var service in Model.Services)
+        {
+            <a href="@Url.Action("Create",service.Controller,new { Area = service.BranchModel.AreaName })" class="list-group-item list-group-item-action bg-secondary">
+                @service.Name
+            </a>
+        }
+    </div>
 </div>
+
+

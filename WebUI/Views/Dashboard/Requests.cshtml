@@ -19,52 +19,50 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark my-3">@ViewBag.Title</h2>
-
 <div class="container-fluid">
+    <h2 class="display-4 text-center text-dark my-3">@ViewBag.Title</h2>
 
-    <table id="table-request" class="table table-primary table-hover">
-        <thead>
-            <tr>
-                <td>Статус</td>
-                <td>Категория заявки</td>
-                <td>Подразделение</td>
-                <td>Автор</td>
-                <td>Тема заявки</td>
-                <td>Дата регистрации</td>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model.Requests)
-            {
-                <tr class="table-secondary cursor-pointer" onclick="location.href = '@Url.Action("Details", item.Source, new { Area=item.ServiceModel.BranchModel.AreaName, id=item.RequestId })'">
-                    <td class="text-left">
-
-                        @if (@item.StatusId == (int)RequestStatus.Done)
-                        {
-                            <span class="badge badge-success badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
-                        }
-                        else if (@item.StatusId == (int)RequestStatus.Open || @item.StatusId == (int)RequestStatus.Approval)
-                        {
-                            <span class="badge badge-warning badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
-                        }
-                        else
-                        {
-                            <span class="badge badge-primary badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
-                        }
-
-
-                    </td>
-                    <td>@item.ServiceModel.CategoryModel.Name</td>
-                    <td>@item.SubdivisionModel.Shortname</td>
-                    <td>@item.ClientModel.Fullname </td>
-                    <td class="d-flex">
-                        <span class="">@item.Title</span>                       
-                    </td>
-                    <td>@item.Date</td>
+    <div class="container-fluid">
+        <table id="table-request" class="table table-primary table-hover">
+            <thead>
+                <tr>
+                    <td>Статус</td>
+                    <td>Категория заявки</td>
+                    <td>Подразделение</td>
+                    <td>Автор</td>
+                    <td>Тема заявки</td>
+                    <td>Дата регистрации</td>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Requests)
+                {
+                    <tr class="table-secondary cursor-pointer" onclick="location.href = '@Url.Action("Details", item.Source, new { Area=item.ServiceModel.BranchModel.AreaName, id=item.RequestId })'">
+                        <td class="text-left">
+                            @if (@item.StatusId == (int)RequestStatus.Done)
+                            {
+                                <span class="badge badge-success badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
+                            }
+                            else if (@item.StatusId == (int)RequestStatus.Open || @item.StatusId == (int)RequestStatus.Approval)
+                            {
+                                <span class="badge badge-warning badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-primary badge-pill align-self-start ml-3">@item.StatusModel.Shortname</span>
+                            }
+                        </td>
+                        <td>@item.ServiceModel.CategoryModel.Name</td>
+                        <td>@item.SubdivisionModel.Shortname</td>
+                        <td>@item.ClientModel.Fullname </td>
+                        <td class="d-flex">
+                            <span class="">@item.Title</span>
+                        </td>
+                        <td>@item.Date</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+

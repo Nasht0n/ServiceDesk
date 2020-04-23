@@ -4,6 +4,7 @@ using Domain.Models.Requests.Communication;
 using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
 using Domain.Models.Requests.Network;
+using Domain.Models.Requests.Software;
 using System;
 using WebUI.ViewModels.AccountModel;
 using WebUI.ViewModels.BranchModel;
@@ -21,6 +22,7 @@ using WebUI.ViewModels.Requests.IT.Communications;
 using WebUI.ViewModels.Requests.IT.Emails;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.IT.Networks;
+using WebUI.ViewModels.Requests.IT.Softwares;
 using WebUI.ViewModels.ServiceModel;
 using WebUI.ViewModels.SubdivisionModel;
 
@@ -296,6 +298,42 @@ namespace WebUI.Models
                 Title = model.Title,
                 CampusId = model.CampusId,
                 Location = model.Location,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static SoftwareReworkRequest GetData(SoftwareReworkRequestViewModel model)
+        {
+            return new SoftwareReworkRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
+        }
+
+        public static SoftwareDevelopmentRequest GetData(SoftwareDevelopmentRequestViewModel model)
+        {
+            return new SoftwareDevelopmentRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,                
                 SubdivisionId = model.SubdivisionId
             };
         }

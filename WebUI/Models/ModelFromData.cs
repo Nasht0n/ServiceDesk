@@ -5,6 +5,7 @@ using Domain.Models.Requests.Communication;
 using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
 using Domain.Models.Requests.Network;
+using Domain.Models.Requests.Software;
 using Domain.Views;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Linq;
 using WebUI.ViewModels.AccountModel;
 using WebUI.ViewModels.AttachmentsModel;
 using WebUI.ViewModels.AttachmentsModel.IT.Accounts;
+using WebUI.ViewModels.AttachmentsModel.IT.Softwares;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CampusModel;
 using WebUI.ViewModels.CategoryModel;
@@ -27,6 +29,7 @@ using WebUI.ViewModels.LifeCycles.IT.Communications;
 using WebUI.ViewModels.LifeCycles.IT.Emails;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
 using WebUI.ViewModels.LifeCycles.IT.Networks;
+using WebUI.ViewModels.LifeCycles.IT.Softwares;
 using WebUI.ViewModels.PermissionModel;
 using WebUI.ViewModels.PriorityModel;
 using WebUI.ViewModels.Requests.IT.Accounts;
@@ -34,6 +37,7 @@ using WebUI.ViewModels.Requests.IT.Communications;
 using WebUI.ViewModels.Requests.IT.Emails;
 using WebUI.ViewModels.Requests.IT.Equipments;
 using WebUI.ViewModels.Requests.IT.Networks;
+using WebUI.ViewModels.Requests.IT.Softwares;
 using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.ServiceModel;
 using WebUI.ViewModels.ServicesApproversModel;
@@ -182,6 +186,180 @@ namespace WebUI.Models
             }
 
 
+            return model;
+        }
+
+        public static SoftwareReworkDetailsRequestViewModel GetViewModel(SoftwareReworkRequest request, Employee user, List<SoftwareReworkRequestLifeCycle> lifeCycles)
+        {
+            SoftwareReworkDetailsRequestViewModel model = new SoftwareReworkDetailsRequestViewModel();
+            model.RequestModel = new SoftwareReworkRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.AttachmentsListModel = new List<SoftwareReworkRequestAttachmentViewModel>();
+
+            foreach (var attachment in request.Attachments)
+            {
+                SoftwareReworkRequestAttachmentViewModel item = new SoftwareReworkRequestAttachmentViewModel
+                {
+                    AttachmentModel = GetViewModel(attachment.Attachment)
+                };
+                model.AttachmentsListModel.Add(item);
+            }
+
+            model.LifeCyclesListModel = new List<SoftwareReworkRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new SoftwareReworkRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static SoftwareReworkRequestViewModel GetViewModel(SoftwareReworkRequest request)
+        {
+            SoftwareReworkRequestViewModel model = new SoftwareReworkRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId.Value;
+                model.Executor = GetViewModel(request.Executor);
+            }
+            return model;
+        }
+
+        public static SoftwareDevelopmentDetailsRequestViewModel GetViewModel(SoftwareDevelopmentRequest request, Employee user, List<SoftwareDevelopmentRequestLifeCycle> lifeCycles)
+        {
+            SoftwareDevelopmentDetailsRequestViewModel model = new SoftwareDevelopmentDetailsRequestViewModel();
+            model.RequestModel = new SoftwareDevelopmentRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.AttachmentsListModel = new List<SoftwareDevelopmentRequestAttachmentViewModel>();
+
+            foreach (var attachment in request.Attachments)
+            {
+                SoftwareDevelopmentRequestAttachmentViewModel item = new SoftwareDevelopmentRequestAttachmentViewModel
+                {
+                    AttachmentModel = GetViewModel(attachment.Attachment)
+                };
+                model.AttachmentsListModel.Add(item);
+            }
+
+            model.LifeCyclesListModel = new List<SoftwareDevelopmentRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new SoftwareDevelopmentRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
+        }
+
+        public static SoftwareDevelopmentRequestViewModel GetViewModel(SoftwareDevelopmentRequest request)
+        {
+            SoftwareDevelopmentRequestViewModel model = new SoftwareDevelopmentRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision),
+                Title = request.Title
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId.Value;
+                model.Executor = GetViewModel(request.Executor);
+            }
             return model;
         }
 

@@ -3,6 +3,179 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center">Рабочий стол</h2>
 
-<p>Зарегистрировано заявок: @ViewBag.CreateByUser</p>
+
+<div class="container-fluid">
+    <h2 class="display-4 text-center mt-3">Рабочий стол</h2>
+
+    <div class="row mt-3">
+        <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="card-stats card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5 col-md-4">
+                            <div class="icon-big text-center icon-warning">
+                                <i class="fa fa-folder-open text-primary fa-4x"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-md-8">
+                            <div class="numbers">
+                                <p class="card-category">Открыто заявок</p>
+                                <p class="card-title">@ViewBag.CreateByUser</p>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <hr>
+                    <div class="stats">
+                        <a href="#" class="text-decoration-none text-center text-dark">
+                            <i class="fa fa-search"></i>
+                            <span class="ml-1">Просмотр заявок</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="card-stats card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5 col-md-4">
+                            <div class="icon-big text-center icon-warning">
+                                <i class="fa fa-folder-open text-warning fa-4x"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-md-8">
+                            <div class="numbers">
+                                <p class="card-category">Заявок в работе</p>
+                                <p class="card-title">@ViewBag.CreateByUser</p>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <hr>
+                    <div class="stats">
+                        <a href="#" class="text-decoration-none text-center text-dark">
+                            <i class="fa fa-search"></i>
+                            <span class="ml-1">Просмотр заявок</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="card-stats card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5 col-md-4">
+                            <div class="icon-big text-center icon-warning">
+                                <i class="fa fa-folder-open text-success fa-4x"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-md-8">
+                            <div class="numbers">
+                                <p class="card-category">Выполнено заявок</p>
+                                <p class="card-title">@ViewBag.CreateByUser</p>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <hr>
+                    <div class="stats">
+                        <a href="#" class="text-decoration-none text-center text-dark">
+                            <i class="fa fa-search"></i>
+                            <span class="ml-1">Просмотр заявок</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Статистика заявок системы</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <td>Тип заявки</td>
+                                            <td class="text-right">Всего заявок</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Оборудование</td>
+                                            <td class="text-right">2.920</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Последние заявки</h4>
+                </div>
+                <div class="card-body p-1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="list-group my-1">
+                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">Заправка принтера</h5>
+                                        <small>22.04.2020 13:00</small>
+                                    </div>
+                                    <p class="mb-1">Прошу провести заправку принтера, согласно установленным лимитам</p>
+                                    <small>ОИТ, Корзун А.В.</small>
+                                </a>
+                            </div>
+
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">Заправка принтера</h5>
+                                        <small>22.04.2020 13:00</small>
+                                    </div>
+                                    <p class="mb-1">Прошу провести заправку принтера, согласно установленным лимитам</p>
+                                    <small>ОДО, Лауш Н.А.</small>
+                                </a>
+                            </div>
+
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">Заправка принтера</h5>
+                                        <small>22.04.2020 13:00</small>
+                                    </div>
+                                    <p class="mb-1">Прошу провести заправку принтера, согласно установленным лимитам</p>
+                                    <small>ОДО, Лауш Н.А.</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

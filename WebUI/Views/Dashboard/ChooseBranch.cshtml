@@ -5,18 +5,22 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark mt-3 mb-5">Создание заявки</h2>
-<ol class="breadcrumb">
-    <li class="breadcrumb-item active">Выберите отрасль заявки</li>
-</ol>
-<div class="list-group">
-    @foreach (var branch in Model.Branches)
-    {
-        <a href="@Url.Action("ChooseCategory","Dashboard",new { id = branch.Id })" class="list-group-item list-group-item-action bg-secondary">
-            @branch.Fullname
-        </a>
-    }
+<div class="container">
+    <h2 class="display-4 text-center text-dark mt-3 mb-5">Создание заявки</h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Выберите отрасль заявки</li>
+    </ol>
+    <div class="list-group">
+        @foreach (var branch in Model.Branches)
+        {
+            <a href="@Url.Action("ChooseCategory","Dashboard",new { id = branch.Id })" class="list-group-item list-group-item-action bg-secondary">
+                @branch.Fullname
+            </a>
+        }
+    </div>
 </div>
+
+
 
 
 

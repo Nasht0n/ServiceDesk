@@ -62,7 +62,9 @@ namespace WebUI.Areas.IT.Controllers
         private async Task PopulateDropDownList(VideoCommunicationRequestViewModel model)
         {
             var priorities = await priorityLogic.GetPriorities();
+            var campuses = await campusLogic.GetCampuses();
             model.Priorities = new SelectList(priorities, "Id", "Fullname");
+            model.Campuses = new SelectList(campuses, "Id", "Name");
         }
 
         private async Task<VideoCommunicationRequest> InitializeRequest(VideoCommunicationRequestViewModel model, Employee user)

@@ -75,7 +75,7 @@
             <div class="form-group col-md-6">
                 @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                 @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Аудитория/кабинет", autocomplete = "off" } })
+                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории/кабинета", autocomplete = "off" } })
             </div>
         </div>
 
