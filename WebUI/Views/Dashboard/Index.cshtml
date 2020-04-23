@@ -1,9 +1,8 @@
-﻿@{
+﻿@model WebUI.ViewModels.DashboardViewModel
+@{
     ViewBag.Title = "Рабочий стол";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
-
-
 
 <div class="container-fluid">
     <h2 class="display-4 text-center mt-3">Рабочий стол</h2>
@@ -21,7 +20,7 @@
                         <div class="col-7 col-md-8">
                             <div class="numbers">
                                 <p class="card-category">Открыто заявок</p>
-                                <p class="card-title">@ViewBag.CreateByUser</p>
+                                <p class="card-title">@Model.CountCreatedRequest</p>
                                 <p></p>
                             </div>
                         </div>
@@ -51,7 +50,7 @@
                         <div class="col-7 col-md-8">
                             <div class="numbers">
                                 <p class="card-category">Заявок в работе</p>
-                                <p class="card-title">@ViewBag.CreateByUser</p>
+                                <p class="card-title">@Model.CountExecutedRequest</p>
                                 <p></p>
                             </div>
                         </div>
@@ -81,7 +80,7 @@
                         <div class="col-7 col-md-8">
                             <div class="numbers">
                                 <p class="card-category">Выполнено заявок</p>
-                                <p class="card-title">@ViewBag.CreateByUser</p>
+                                <p class="card-title">@Model.CountCompletedRequest</p>
                                 <p></p>
                             </div>
                         </div>

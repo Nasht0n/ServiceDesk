@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
+using WebUI.ViewModels;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CategoryModel;
 using WebUI.ViewModels.Requests.View;
@@ -61,10 +62,15 @@ namespace WebUI.Controllers
         public async Task<ActionResult> Index()
         {
             var user = await PopulateAccountInfo();
-            var requests = await requestsLogic.GetRequests(user, 0, descending: false);
+            var executorGroups = user.ExecutorGroups;
 
-            ViewBag.CreateByUser = requests.Where(r=>r.ClientId == user.Id).Count();
-            return View();
+            List<Requests> requests = new List<Requests>();
+            if (executorGroups != null)
+            {
+                requests = await requestsLogic.GetRequests(user, service:0, descending: false);
+            }
+
+            return View(model);
         }
 
         public async Task<ActionResult> Requests(int service = 0)

@@ -105,6 +105,16 @@ namespace WebUI.Models
             return model;
         }
 
+        public static List<RequestViewModel> GetViewModel(List<Requests> requests)
+        {
+            List<RequestViewModel> result = new List<RequestViewModel>();
+            foreach (var request in requests) {
+                var item = GetViewModel(request);
+                result.Add(item);
+            }
+            return result;
+        }
+
         public static ComponentsListViewModel GetListViewModel(List<Component> components, string search, int page, int pageSize)
         {
             ComponentsListViewModel model = new ComponentsListViewModel();
