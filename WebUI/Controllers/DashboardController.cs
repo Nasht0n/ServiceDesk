@@ -70,7 +70,7 @@ namespace WebUI.Controllers
                 requests = await requestsLogic.GetRequests(user, service:0, descending: false);
             }
 
-            return View(model);
+            return View();
         }
 
         public async Task<ActionResult> Requests(int service = 0)
