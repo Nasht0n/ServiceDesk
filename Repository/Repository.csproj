@@ -127,6 +127,7 @@
     <Compile Include="Abstract\IServiceRepository.cs" />
     <Compile Include="Abstract\IServicesApproversRepository.cs" />
     <Compile Include="Abstract\IServicesExecutorGroupsRepository.cs" />
+    <Compile Include="Abstract\IStatusRepository.cs" />
     <Compile Include="Abstract\ISubdivisionExecutorsRepository.cs" />
     <Compile Include="Abstract\ISubdivisionRepository.cs" />
     <Compile Include="Concrete\AccountPermissionRepository.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Concrete\ServiceRepository.cs" />
     <Compile Include="Concrete\ServicesApproversRepository.cs" />
     <Compile Include="Concrete\ServicesExecutorGroupsRepository.cs" />
+    <Compile Include="Concrete\StatusRepository.cs" />
     <Compile Include="Concrete\SubdivisionExecutorsRepository.cs" />
     <Compile Include="Concrete\SubdivisionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

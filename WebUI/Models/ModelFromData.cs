@@ -105,6 +105,17 @@ namespace WebUI.Models
             return model;
         }
 
+        public static List<ServiceViewModel> GetViewModel(List<Service> services)
+        {
+            List<ServiceViewModel> result = new List<ServiceViewModel>();
+            foreach(var service in services)
+            {
+                var item = GetViewModel(service);
+                result.Add(item);
+            }
+            return result;
+        }
+
         public static List<RequestViewModel> GetViewModel(List<Requests> requests)
         {
             List<RequestViewModel> result = new List<RequestViewModel>();
@@ -145,10 +156,7 @@ namespace WebUI.Models
                     ItemsPerPage = pageSize,
                     TotalItems = list.Count()
                 };
-
             }
-
-
             return model;
         }
 
@@ -1498,7 +1506,7 @@ namespace WebUI.Models
 
 
 
-        public static RequestListViewModel GetListViewModel(List<Requests> requests, Employee user, int service)
+        public static RequestListViewModel GetListViewModel(List<Requests> requests, Employee user, Service service)
         {
             RequestListViewModel model = new RequestListViewModel();
             List<RequestViewModel> requestsModel = new List<RequestViewModel>();
@@ -1508,7 +1516,8 @@ namespace WebUI.Models
                 requestsModel.Add(item);
             }
             model.Requests = requestsModel;
-            model.CurrentService = service;
+            if (service == null) model.CurrentService = null;
+            else model.CurrentService = service.Id;
             return model;
         }
 

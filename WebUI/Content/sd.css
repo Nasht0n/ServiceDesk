@@ -73,21 +73,29 @@ body {
 
 .card {
     border-radius: 12px;
-    box-shadow: 0 6px 10px -4px rgba(0,0,0,.15);
+    box-shadow: 0 6px 10px -4px rgba(0,0,0,.15);    
     background-color: #fff;
     color: #252422;
     margin-bottom: 20px;
     position: relative;
-    border: 1;
 }
 
+    .card .card-header {
+        border-top-right-radius: 12px;
+        border-top-left-radius:12px;
+        background-color: rgba(0,0,0,.15);
+    }
+
+
+
 .card-stats .card-body {
-    padding: 15px 15px 0;
+    padding: 15px 15px 15px 0;
 }
 
     .card-stats .card-body .numbers {
         text-align: right;
         font-size: 2em;
+        margin-bottom: 5px;
     }
 
         .card-stats .card-body .numbers .card-category {
@@ -104,21 +112,12 @@ body {
             margin-bottom: 0;
         }
 
-.card-stats .card-footer {
-    padding: 0 15px 15px;
+.card-stats:hover, focus {
+    background: #faeead;
 }
 
-.card .card-footer {
-    background-color: initial;
-    border: 0;
-}
-
-.card-footer:last-child {
-    border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
-}
-
-.card-stats .card-footer .stats {
-    color: #9a9a9a;
+.list-group-item:hover, focus {
+    background: #faeead;
 }
 
 @media (min-width: 768px) {

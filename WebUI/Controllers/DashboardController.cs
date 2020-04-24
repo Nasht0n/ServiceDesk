@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
+using WebUI.Models.Enum;
 using WebUI.ViewModels;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CategoryModel;
@@ -18,7 +19,6 @@ namespace WebUI.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        //private readonly int pageSize = 6;
         private readonly IAccountRepository accountRepository;
         private readonly IAccountLogic accountLogic;
         private readonly IAccountPermissionLogic accountPermissionLogic;
@@ -29,11 +29,12 @@ namespace WebUI.Controllers
         private readonly IServiceLogic serviceLogic;
         private readonly IAccountPermissionRepository accountPermissionRepository;
         private readonly IRequestsLogic requestsLogic;
+        private readonly IStatusLogic statusLogic;
         private int pageSize = 3;
 
         public DashboardController(IAccountRepository accountRepository, IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
-            IAccountPermissionRepository accountPermissionRepository, IRequestsLogic requestsLogic)
+            IAccountPermissionRepository accountPermissionRepository, IRequestsLogic requestsLogic, IStatusLogic statusLogic)
         {
             this.accountRepository = accountRepository;
             this.accountLogic = accountLogic;
@@ -45,6 +46,7 @@ namespace WebUI.Controllers
             this.serviceLogic = serviceLogic;
             this.accountPermissionRepository = accountPermissionRepository;
             this.requestsLogic = requestsLogic;
+            this.statusLogic = statusLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
@@ -63,28 +65,70 @@ namespace WebUI.Controllers
         {
             var user = await PopulateAccountInfo();
             var executorGroups = user.ExecutorGroups;
-
+            DashboardViewModel model = new DashboardViewModel();
             List<Requests> requests = new List<Requests>();
             if (executorGroups != null)
             {
-                requests = await requestsLogic.GetRequests(user, service:0, descending: false);
+                requests = await requestsLogic.GetRequests(user);
+                model.RequestsModel = ModelFromData.GetViewModel(requests);
             }
+            var services = await serviceLogic.GetActiveServices();
+            List<ServicesStats> stats = new List<ServicesStats>();
+            foreach (var service in services)
+            {
+                ServicesStats item = new ServicesStats();
+                item.ServiceModel = ModelFromData.GetViewModel(service);
+                item.Count = requests.Where(r => r.ServiceId == service.Id).Count();
+                if (item.Count != 0) stats.Add(item);
+            }
+            model.StatsModel = stats;
 
-            return View();
+            model.CountCreatedRequest = requests.Where(r => r.ClientId == user.Id).Count();
+            model.CountExecutedRequest = requests.Where(r => r.ExecutorId == user.Id).Count();
+            model.CountCompletedRequest = requests.Where(r => r.StatusId == (int)RequestStatus.Done).Count();
+            return View(model);
         }
 
-        public async Task<ActionResult> Requests(int service = 0)
+        public async Task<ActionResult> Requests(int serviceId = 0)
         {
             var user = await PopulateAccountInfo();
             var executorGroups = user.ExecutorGroups;
-            List<Requests> requests = new List<Requests>();
-            if(executorGroups!=null)
-            {
-                requests = await requestsLogic.GetRequests(user, service, descending: false);
-            }
-            RequestListViewModel model = ModelFromData.GetListViewModel(requests, user, service);
+            RequestListViewModel model = new RequestListViewModel();
+
+                var service = await serviceLogic.GetServiceById(serviceId);
+                List<Requests> requests = new List<Requests>();
+                if (executorGroups != null)
+                {
+                    requests = await requestsLogic.GetRequests(user, service);
+                }
+                model = ModelFromData.GetListViewModel(requests, user, service);
+            
             return View(model);
         }
+
+        //public async Task<ActionResult> Requests(int statusId, bool client)
+        //{
+        //    var user = await PopulateAccountInfo();
+        //    var executorGroups = user.ExecutorGroups;
+        //    RequestListViewModel model = new RequestListViewModel();
+        //    if (statusId != 0)
+        //    {
+        //        var status = await statusLogic.GetStatus(statusId);
+        //        List<Requests> requests = new List<Requests>();
+        //        if (executorGroups != null)
+        //        {
+        //            requests = await requestsLogic.GetRequests(user, status, descending:true);
+        //        }
+        //        model = ModelFromData.GetListViewModel(requests, user, status);
+        //    }
+
+        //    if (statusId != 0)
+        //    {
+
+        //    }
+
+        //    return View(model);
+        //}
 
 
         public async Task<ActionResult> ChooseBranch()

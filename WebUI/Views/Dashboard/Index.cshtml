@@ -1,4 +1,5 @@
 ﻿@model WebUI.ViewModels.DashboardViewModel
+@using WebUI.Models.Enum
 @{
     ViewBag.Title = "Рабочий стол";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
@@ -9,102 +10,81 @@
 
     <div class="row mt-3">
         <div class="col-sm-6 col-md-6 col-lg-4">
-            <div class="card-stats card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5 col-md-4">
-                            <div class="icon-big text-center icon-warning">
-                                <i class="fa fa-folder-open text-primary fa-4x"></i>
+            <a href="@Url.Action("Requests","Dashboard",new { Area = "", statusId = (int)RequestStatus.Open})" class="text-decoration-none">
+                <div class="card-stats card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5 col-md-4">
+                                <div class="icon-big text-center icon-warning">
+                                    <i class="fa fa-folder-open text-primary fa-4x"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-7 col-md-8">
-                            <div class="numbers">
-                                <p class="card-category">Открыто заявок</p>
-                                <p class="card-title">@Model.CountCreatedRequest</p>
-                                <p></p>
+                            <div class="col-7 col-md-8">
+                                <div class="numbers">
+                                    <p class="card-category">Зарегистрировано заявок</p>
+                                    <p class="card-title">@Model.CountCreatedRequest</p>
+                                    <p></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <hr>
-                    <div class="stats">
-                        <a href="#" class="text-decoration-none text-center text-dark">
-                            <i class="fa fa-search"></i>
-                            <span class="ml-1">Просмотр заявок</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-sm-6 col-md-6 col-lg-4">
-            <div class="card-stats card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5 col-md-4">
-                            <div class="icon-big text-center icon-warning">
-                                <i class="fa fa-folder-open text-warning fa-4x"></i>
+            <a href="@Url.Action("Requests","Dashboard",new { Area = "", status = (int)RequestStatus.InWork, client = false})" class="text-decoration-none">
+                <div class="card-stats card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5 col-md-4">
+                                <div class="icon-big text-center icon-warning">
+                                    <i class="fa fa-folder-open text-warning fa-4x"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-7 col-md-8">
-                            <div class="numbers">
-                                <p class="card-category">Заявок в работе</p>
-                                <p class="card-title">@Model.CountExecutedRequest</p>
-                                <p></p>
+                            <div class="col-7 col-md-8">
+                                <div class="numbers">
+                                    <p class="card-category">Заявок для работы</p>
+                                    <p class="card-title">@Model.CountExecutedRequest</p>
+                                    <p></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <hr>
-                    <div class="stats">
-                        <a href="#" class="text-decoration-none text-center text-dark">
-                            <i class="fa fa-search"></i>
-                            <span class="ml-1">Просмотр заявок</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-sm-6 col-md-6 col-lg-4">
-            <div class="card-stats card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5 col-md-4">
-                            <div class="icon-big text-center icon-warning">
-                                <i class="fa fa-folder-open text-success fa-4x"></i>
+            <a href="@Url.Action("Requests","Dashboard",new { Area = "", status = (int)RequestStatus.Done})" class="text-decoration-none">
+                <div class="card-stats card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5 col-md-4">
+                                <div class="icon-big text-center icon-warning">
+                                    <i class="fa fa-folder-open text-success fa-4x"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-7 col-md-8">
-                            <div class="numbers">
-                                <p class="card-category">Выполнено заявок</p>
-                                <p class="card-title">@Model.CountCompletedRequest</p>
-                                <p></p>
+                            <div class="col-7 col-md-8">
+                                <div class="numbers">
+                                    <p class="card-category">Выполнено заявок</p>
+                                    <p class="card-title">@Model.CountCompletedRequest</p>
+                                    <p></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <hr>
-                    <div class="stats">
-                        <a href="#" class="text-decoration-none text-center text-dark">
-                            <i class="fa fa-search"></i>
-                            <span class="ml-1">Просмотр заявок</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </a>
         </div>
     </div>
 
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Статистика заявок системы</h4>
+                <div class="card-header bg-secondary">
+                    <h4 class="card-title text-center">Статистика заявок системы</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -112,16 +92,19 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                        <tr>
+                                        <tr class="font-weight-bolder">
                                             <td>Тип заявки</td>
                                             <td class="text-right">Всего заявок</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Оборудование</td>
-                                            <td class="text-right">2.920</td>
-                                        </tr>
+                                        @foreach (var serviceStats in Model.StatsModel)
+                                        {
+                                            <tr>
+                                                <td>@serviceStats.ServiceModel.Name</td>
+                                                <td class="text-right">@serviceStats.Count</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -131,46 +114,27 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Последние заявки</h4>
+                <div class="card-header bg-secondary">
+                    <h4 class="card-title text-center">Последние заявки</h4>
                 </div>
                 <div class="card-body p-1">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="list-group my-1">
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">Заправка принтера</h5>
-                                        <small>22.04.2020 13:00</small>
-                                    </div>
-                                    <p class="mb-1">Прошу провести заправку принтера, согласно установленным лимитам</p>
-                                    <small>ОИТ, Корзун А.В.</small>
-                                </a>
-                            </div>
-
-                            <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">Заправка принтера</h5>
-                                        <small>22.04.2020 13:00</small>
-                                    </div>
-                                    <p class="mb-1">Прошу провести заправку принтера, согласно установленным лимитам</p>
-                                    <small>ОДО, Лауш Н.А.</small>
-                                </a>
-                            </div>
-
-                            <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">Заправка принтера</h5>
-                                        <small>22.04.2020 13:00</small>
-                                    </div>
-                                    <p class="mb-1">Прошу провести заправку принтера, согласно установленным лимитам</p>
-                                    <small>ОДО, Лауш Н.А.</small>
-                                </a>
-                            </div>
+                            @foreach (var item in Model.LastRequests)
+                            {
+                                <div class="list-group my-1">
+                                    <a href="@Url.Action("Details",@item.ServiceModel.Controller, new { Area = @item.ServiceModel.BranchModel.AreaName, id = @item.RequestId })" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">@item.Title</h5>
+                                            <small>@item.Date.ToShortDateString()</small>
+                                        </div>
+                                        <p class="mb-1">@item.Justification</p>
+                                        <small>@item.SubdivisionModel.Shortname, @item.ClientModel.Fullname</small>
+                                    </a>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

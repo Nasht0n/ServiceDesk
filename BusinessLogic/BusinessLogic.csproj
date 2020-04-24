@@ -110,6 +110,7 @@
     <Compile Include="Abstract\IServiceLogic.cs" />
     <Compile Include="Abstract\IServicesApproversLogic.cs" />
     <Compile Include="Abstract\IServicesExecutorGroupsLogic.cs" />
+    <Compile Include="Abstract\IStatusLogic.cs" />
     <Compile Include="Abstract\ISubdivisionExecutorLogic.cs" />
     <Compile Include="Abstract\ISubdivisionLogic.cs" />
     <Compile Include="Concrete\AccountLogic.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Concrete\ServiceLogic.cs" />
     <Compile Include="Concrete\ServicesApproversLogic.cs" />
     <Compile Include="Concrete\ServicesExecutorGroupsLogic.cs" />
+    <Compile Include="Concrete\StatusLogic.cs" />
     <Compile Include="Concrete\SubdivisionExecutorLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Concrete\SubdivisionLogic.cs" />
