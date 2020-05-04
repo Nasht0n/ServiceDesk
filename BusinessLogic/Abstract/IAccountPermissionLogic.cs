@@ -1,15 +1,12 @@
-﻿using Domain.Models.ManyToMany;
-using Repository.Abstract;
-using System;
+﻿using Domain.Models;
+using Domain.Models.ManyToMany;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Abstract
 {
     public interface IAccountPermissionLogic
     {
-        Task<List<AccountPermission>> GetPermissions(int accountId);
+        Task<List<AccountPermission>> GetPermissions(Account account);
     }
 }

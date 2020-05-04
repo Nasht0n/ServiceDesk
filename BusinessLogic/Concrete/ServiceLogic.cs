@@ -1,10 +1,8 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
@@ -18,13 +16,14 @@ namespace BusinessLogic.Concrete
             this.serviceRepository = serviceRepository;
         }
 
-        public async Task<List<Service>> GetActiveServices()
+        public async Task<List<Service>> GetActiveServices(bool descendings = false)
         {
             var services = await serviceRepository.GetServices();
-            return services.Where(s => s.Visible).OrderBy(s=>s.Name).ToList();
+            if(descendings) return services.Where(s => s.Visible).OrderByDescending(s => s.Name).ToList();
+            else return services.Where(s => s.Visible).OrderBy(s=>s.Name).ToList();
         }
 
-        public async Task<Service> GetServiceById(int id)
+        public async Task<Service> GetService(int id)
         {
             var services = await serviceRepository.GetServices();
             return services.FirstOrDefault(s => s.Id == id);

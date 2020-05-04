@@ -20,7 +20,7 @@ namespace BusinessLogic.Concrete.Branches.IT.Accounts.Requests
             await repository.Delete(request);
         }
 
-        public async Task<AccountCancellationRequest> GetRequestById(int id)
+        public async Task<AccountCancellationRequest> GetRequest(int id)
         {
             var requests = await repository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);

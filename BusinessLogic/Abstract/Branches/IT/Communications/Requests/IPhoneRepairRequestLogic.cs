@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Communications.Requests
     {
         Task<PhoneRepairRequest> Save(PhoneRepairRequest request);
         Task Delete(PhoneRepairRequest request);
-        Task<PhoneRepairRequest> GetRequestById(int id);
+        Task<PhoneRepairRequest> GetRequest(int id);
     }
 }

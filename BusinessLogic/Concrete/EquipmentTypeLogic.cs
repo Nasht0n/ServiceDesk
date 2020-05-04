@@ -16,22 +16,17 @@ namespace BusinessLogic.Concrete
             this.equipmentTypeRepository = equipmentTypeRepository;
         }
 
-        public async Task<EquipmentType> GetEquipmentTypeById(int id)
+        public async Task<EquipmentType> GetEquipmentType(int id)
         {
             var types = await equipmentTypeRepository.GetEquipmentTypes();
             return types.FirstOrDefault(t => t.Id == id);
         }
 
-        public async Task<List<EquipmentType>> GetEquipmentTypes()
+        public async Task<List<EquipmentType>> GetEquipmentTypes(bool descendings = false)
         {
             var types = await equipmentTypeRepository.GetEquipmentTypes();
-            return types.OrderBy(t => t.Id).ToList();
-        }
-
-        public async Task<List<EquipmentType>> GetEquipmentTypesByDescendings()
-        {
-            var types = await equipmentTypeRepository.GetEquipmentTypes();
-            return types.OrderByDescending(t => t.Id).ToList();
+            if(descendings) return types.OrderByDescending(t => t.Name).ToList();
+            else return types.OrderBy(t => t.Name).ToList();
         }
     }
 }

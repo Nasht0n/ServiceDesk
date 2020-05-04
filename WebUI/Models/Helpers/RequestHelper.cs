@@ -37,7 +37,7 @@ namespace WebUI.Models.Helpers
         public static async Task<Employee> GetExecutor(Employee employee, ExecutorGroup group, ISubdivisionLogic subdvisionService, IEmployeeLogic employeeService)
         {
             // Получение подразделения сотрудника
-            var subdivision = await subdvisionService.GetSubdivisionById(employee.SubdivisionId);
+            var subdivision = await subdvisionService.GetSubdivision(employee.SubdivisionId);
             // Получение списка исполнителей закрепленных за подразделением            
             var subdivisionContractor = subdivision.SubdivisionExecutors.ToList();
             // исполнитель
@@ -47,7 +47,7 @@ namespace WebUI.Models.Helpers
             // проход по всем исполнителям закрепленным за подразделением
             foreach (var emp in subdivisionContractor)
             {
-                var current = await employeeService.GetEmployeeById(emp.Id);
+                var current = await employeeService.GetEmployee(emp.Id);
                 // Если исполнитель относится к группе исполнителей данного вида работ
                 if (current.ExecutorGroups.Any(eg => eg.ExecutorGroupId == group.Id))
                 {

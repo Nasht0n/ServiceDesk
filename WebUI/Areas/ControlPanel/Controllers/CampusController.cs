@@ -17,10 +17,11 @@ namespace WebUI.Areas.ControlPanel.Controllers
         private readonly IEmployeeLogic employeeLogic;
         private readonly ICampusRepository campusRepository;
         private readonly ICampusLogic campusLogic;
+        private readonly IAccountPermissionLogic accountPermissionLogic;
         private readonly int pageSize = 5;
 
         public CampusController(IAccountRepository accountRepository, IAccountLogic accountLogic, IAccountPermissionRepository accountPermissionRepository,
-            IEmployeeLogic employeeLogic, ICampusRepository campusRepository, ICampusLogic campusLogic)
+            IEmployeeLogic employeeLogic, ICampusRepository campusRepository, ICampusLogic campusLogic, IAccountPermissionLogic accountPermissionLogic)
         {
             this.accountRepository = accountRepository;
             this.accountLogic = accountLogic;
@@ -28,16 +29,24 @@ namespace WebUI.Areas.ControlPanel.Controllers
             this.employeeLogic = employeeLogic;
             this.campusRepository = campusRepository;
             this.campusLogic = campusLogic;
+            this.accountPermissionLogic = accountPermissionLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
         {
             int id = int.Parse(User.Identity.Name);
-            var account = await accountLogic.GetAccountById(id);
-            var user = await employeeLogic.GetEmployeeById(account.EmployeeId);
-            account.Permissions = (await accountPermissionRepository.GetAccountPermissions()).Where(ap => ap.AccountId == account.Id).ToList();
+            var account = await accountLogic.GetAccount(id);
+            var user = await employeeLogic.GetEmployee(account.EmployeeId);
+            account.Permissions = await accountPermissionLogic.GetPermissions(account);
+
             ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
+            ViewBag.CanEditRequest = account.Permissions.Where(p => p.PermissionId == 2).ToList().Count != 0;
+            ViewBag.CanDeleteRequest = account.Permissions.Where(p => p.PermissionId == 3).ToList().Count != 0;
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
+            ViewBag.ViewRequest = account.Permissions.Where(p => p.PermissionId == 5).ToList().Count != 0;
+            ViewBag.ApprovalAllowed = account.Permissions.Where(p => p.PermissionId == 6).ToList().Count != 0;
+            ViewBag.GetInWorkRequest = account.Permissions.Where(p => p.PermissionId == 7).ToList().Count != 0;
+
             ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
             return user;
         }
@@ -71,7 +80,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             await PopulateAccountInfo();
-            var campus = await campusLogic.GetCampusById(id);
+            var campus = await campusLogic.GetCampus(id);
             CampusViewModel model = ModelFromData.GetViewModel(campus);
             return View(model);
         }
@@ -89,14 +98,14 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             await PopulateAccountInfo();
-            var campus = await campusLogic.GetCampusById(id);
+            var campus = await campusLogic.GetCampus(id);
             CampusViewModel model = ModelFromData.GetViewModel(campus);
             return View(model);
         }
         [HttpPost]
         public async Task<ActionResult> Delete(int id, CampusViewModel model)
         {
-            var campus = await campusLogic.GetCampusById(id);
+            var campus = await campusLogic.GetCampus(id);
             await campusRepository.Delete(campus);
             return RedirectToAction("Index", "Campus", new { Area = "ControlPanel" });
         }

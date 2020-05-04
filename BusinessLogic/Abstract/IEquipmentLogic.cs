@@ -6,8 +6,8 @@ namespace BusinessLogic.Abstract
 {
     public interface IEquipmentLogic
     {
-        Task<Equipment> GetEquipmentById(int id);
-        Task<Equipment> GetEquipmentByInventory(string inventory);
-        Task<List<Equipment>> GetEquipments(EquipmentType equipmentType);
+        Task<Equipment> GetEquipment(int id);
+        Task<Equipment> GetEquipment(string inventory);
+        Task<List<Equipment>> GetEquipments(EquipmentType equipmentType, bool descendings = false);
     }
 }

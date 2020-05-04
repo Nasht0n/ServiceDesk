@@ -16,19 +16,14 @@ namespace BusinessLogic.Concrete
             this.priorityRepository = priorityRepository;
         }
 
-        public async Task<List<Priority>> GetPriorities()
+        public async Task<List<Priority>> GetPriorities(bool descendings = false)
         {
             var priorities = await priorityRepository.GetPriorities();
-            return priorities.OrderBy(p => p.Id).ToList();
+            if(descendings) return priorities.OrderByDescending(p => p.Fullname).ToList();
+            else return priorities.OrderBy(p => p.Fullname).ToList();
         }
 
-        public async Task<List<Priority>> GetPrioritiesByDescendings()
-        {
-            var priorities = await priorityRepository.GetPriorities();
-            return priorities.OrderByDescending(p => p.Id).ToList();
-        }
-
-        public async Task<Priority> GetPriorityById(int id)
+        public async Task<Priority> GetPriority(int id)
         {
             var priorities = await priorityRepository.GetPriorities();
             return priorities.SingleOrDefault(p => p.Id == id);

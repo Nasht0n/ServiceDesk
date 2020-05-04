@@ -1,10 +1,7 @@
 ﻿using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using Domain.Models.Requests.Equipment;
 using Repository.Concrete.Branches.IT.Equipments.Requests;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
@@ -23,7 +20,7 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
             await requestRepository.Delete(request);
         }
 
-        public async Task<EquipmentInstallationRequest> GetRequestById(int id)
+        public async Task<EquipmentInstallationRequest> GetRequest(int id)
         {
             var requests = await requestRepository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);

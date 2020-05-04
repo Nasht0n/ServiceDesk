@@ -20,7 +20,7 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
             await requestRepository.Delete(request);
         }
 
-        public async Task<ComponentReplaceRequest> GetRequestById(int id)
+        public async Task<ComponentReplaceRequest> GetRequest(int id)
         {
             var requests = await requestRepository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);
@@ -29,14 +29,8 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
         public async Task<ComponentReplaceRequest> Save(ComponentReplaceRequest request)
         {
             ComponentReplaceRequest result;
-            if (request.Id == 0)
-            {
-                result = await requestRepository.Add(request);
-            }
-            else
-            {
-                result = await requestRepository.Update(request);
-            }
+            if (request.Id == 0) result = await requestRepository.Add(request);
+            else result = await requestRepository.Update(request);
             return result;
         }
     }

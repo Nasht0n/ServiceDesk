@@ -24,12 +24,15 @@ namespace WebUI.Areas.ControlPanel.Controllers
         private readonly ISubdivisionLogic subdivisionLogic;
         private readonly ISubdivisionExecutorsRepository subdivisionExecutorsRepository;
         private readonly ISubdivisionExecutorLogic subdivisionExecutorLogic;
+        private readonly IAccountLogic accountLogic;
+        private readonly IAccountPermissionLogic accountPermissionLogic;
 
         public SubdivisionController(IAccountRepository accountRepository, 
             IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic,
             IAccountPermissionRepository accountPermissionRepository, 
             ISubdivisionRepository subdivisionRepository, ISubdivisionLogic subdivisionLogic, 
-            ISubdivisionExecutorsRepository subdivisionExecutorsRepository, ISubdivisionExecutorLogic subdivisionExecutorLogic)
+            ISubdivisionExecutorsRepository subdivisionExecutorsRepository, ISubdivisionExecutorLogic subdivisionExecutorLogic,
+            IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic)
         {
             this.accountRepository = accountRepository;
             this.employeeRepository = employeeRepository;
@@ -39,16 +42,25 @@ namespace WebUI.Areas.ControlPanel.Controllers
             this.subdivisionLogic = subdivisionLogic;
             this.subdivisionExecutorsRepository = subdivisionExecutorsRepository;
             this.subdivisionExecutorLogic = subdivisionExecutorLogic;
+            this.accountLogic = accountLogic;
+            this.accountPermissionLogic = accountPermissionLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
         {
             int id = int.Parse(User.Identity.Name);
-            var account = (await accountRepository.GetAccounts()).Where(a => a.Id == id).FirstOrDefault();
-            var user = (await employeeRepository.GetEmployees()).Where(e => e.Id == account.EmployeeId).FirstOrDefault();
-            account.Permissions = (await accountPermissionRepository.GetAccountPermissions()).Where(ap => ap.AccountId == account.Id).ToList();
+            var account = await accountLogic.GetAccount(id);
+            var user = await employeeLogic.GetEmployee(account.EmployeeId);
+            account.Permissions = await accountPermissionLogic.GetPermissions(account);
+
             ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
+            ViewBag.CanEditRequest = account.Permissions.Where(p => p.PermissionId == 2).ToList().Count != 0;
+            ViewBag.CanDeleteRequest = account.Permissions.Where(p => p.PermissionId == 3).ToList().Count != 0;
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
+            ViewBag.ViewRequest = account.Permissions.Where(p => p.PermissionId == 5).ToList().Count != 0;
+            ViewBag.ApprovalAllowed = account.Permissions.Where(p => p.PermissionId == 6).ToList().Count != 0;
+            ViewBag.GetInWorkRequest = account.Permissions.Where(p => p.PermissionId == 7).ToList().Count != 0;
+
             ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
             return user;
         }
@@ -79,7 +91,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             var user = await PopulateAccountInfo();            
-            var subdivision = await subdivisionLogic.GetSubdivisionById(id);
+            var subdivision = await subdivisionLogic.GetSubdivision(id);
             SubdivisionViewModel model = ModelFromData.GetViewModel(subdivision);
             return View(model);
         }
@@ -94,7 +106,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var user = await PopulateAccountInfo();
-            var subdivision = await subdivisionLogic.GetSubdivisionById(id);
+            var subdivision = await subdivisionLogic.GetSubdivision(id);
             SubdivisionViewModel model = ModelFromData.GetViewModel(subdivision);
             return View(model);
         }
@@ -102,7 +114,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Delete(int id, SubdivisionViewModel model)
         {
             var user = await PopulateAccountInfo();
-            var subdivision = await subdivisionLogic.GetSubdivisionById(id);
+            var subdivision = await subdivisionLogic.GetSubdivision(id);
             await subdivisionRepository.DeleteSubdivision(subdivision);
             return RedirectToAction("Index", "Subdivision", new { Area = "ControlPanel" });
         }
@@ -110,8 +122,10 @@ namespace WebUI.Areas.ControlPanel.Controllers
         [HttpGet]
         public async Task<JsonResult> PopulateExecutors(int subdivisionId, int currentId)
         {
-            var employees = await employeeLogic.GetEmployees(subdivisionId);
-            var subdivisionExecutors = await subdivisionExecutorLogic.GetExecutors(currentId);
+            var subdivision = await subdivisionLogic.GetSubdivision(subdivisionId);
+            var employees = await employeeLogic.GetEmployees(subdivision);
+            var currentSubdivision = await subdivisionLogic.GetSubdivision(currentId);
+            var subdivisionExecutors = await subdivisionExecutorLogic.GetExecutors(currentSubdivision);
             List<Employee> temp = new List<Employee>();
             foreach(var employee in employees)
             {
@@ -133,15 +147,16 @@ namespace WebUI.Areas.ControlPanel.Controllers
         {
             await PopulateAccountInfo();
             SubdivisionExecutorsListViewModel model = new SubdivisionExecutorsListViewModel();
-            var subdivision = await subdivisionLogic.GetSubdivisionById(id);
+            var subdivision = await subdivisionLogic.GetSubdivision(id);
             model.SubdivisionModel = ModelFromData.GetViewModel(subdivision);
-            var executors = await subdivisionExecutorLogic.GetExecutors(id);
+            var executors = await subdivisionExecutorLogic.GetExecutors(subdivision);
             model.ExecutorsModel = ModelFromData.GetViewModel(executors);
             var subdivisions = await subdivisionRepository.GetSubdivisions();
             model.Subdivisions = new SelectList(subdivisions, "Id", "Fullname");
             if (model.SelectedSubdivision.HasValue)
             {
-                var employees = await employeeLogic.GetEmployees(model.SelectedSubdivision.Value);
+                var selSubdivision = await subdivisionLogic.GetSubdivision(model.SelectedSubdivision.Value);
+                var employees = await employeeLogic.GetEmployees(selSubdivision);
                 model.Executors = new SelectList(employees, "Id", "Surname");
             }
             else

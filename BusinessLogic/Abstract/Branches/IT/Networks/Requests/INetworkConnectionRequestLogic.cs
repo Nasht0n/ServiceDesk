@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Networks.Requests
     {
         Task<NetworkConnectionRequest> Save(NetworkConnectionRequest request);
         Task Delete(NetworkConnectionRequest request);
-        Task<NetworkConnectionRequest> GetRequestById(int id);
+        Task<NetworkConnectionRequest> GetRequest(int id);
     }
 }

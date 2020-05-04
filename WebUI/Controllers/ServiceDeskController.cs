@@ -52,8 +52,7 @@ namespace WebUI.Controllers
             if (ModelState.IsValid)
             {
                 // Авторизация
-                // var account = accountService.GetAccountByCredentials(model.Username, model.Password);
-                var account = await accountLogic.GetAccountByCredential(model.Username, model.Password);
+                var account = await accountLogic.GetAccount(model.Username, model.Password);
                 if (account == null)
                 {
                     ModelState.AddModelError("", "Пользователь не найден.");
@@ -104,7 +103,7 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            var account = await accountLogic.GetAccountById(model.AccountId);
+            var account = await accountLogic.GetAccount(model.AccountId);
             if (account != null && model.NewPassword.ToLower().Equals(model.RepeatNewPassword.ToLower()))
             {
                 account.Password = model.NewPassword;

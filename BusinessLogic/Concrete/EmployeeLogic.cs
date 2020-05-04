@@ -1,10 +1,8 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
@@ -18,16 +16,17 @@ namespace BusinessLogic.Concrete
             this.employeeRepository = employeeRepository;
         }
 
-        public async Task<Employee> GetEmployeeById(int id)
+        public async Task<Employee> GetEmployee(int id)
         {
             var employees = await employeeRepository.GetEmployees();
             return employees.FirstOrDefault(e => e.Id == id);
         }
 
-        public async Task<List<Employee>> GetEmployees(int subdivisionId)
+        public async Task<List<Employee>> GetEmployees(Subdivision subdivision, bool descendings = false)
         {
             var employees = await employeeRepository.GetEmployees();
-            return employees.Where(e => e.SubdivisionId == subdivisionId).ToList();
+            if(descendings) return employees.Where(e => e.SubdivisionId == subdivision.Id).OrderByDescending(e=>e.Surname).ToList();
+            else return employees.Where(e => e.SubdivisionId == subdivision.Id).OrderBy(e=>e.Surname).ToList();
         }
     }
 }

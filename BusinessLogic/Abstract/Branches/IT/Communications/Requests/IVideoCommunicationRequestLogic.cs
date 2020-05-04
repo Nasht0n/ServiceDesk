@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Communications.Requests
     {
         Task<VideoCommunicationRequest> Save(VideoCommunicationRequest request);
         Task Delete(VideoCommunicationRequest request);
-        Task<VideoCommunicationRequest> GetRequestById(int id);
+        Task<VideoCommunicationRequest> GetRequest(int id);
     }
 }

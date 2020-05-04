@@ -51,11 +51,18 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<Employee> PopulateAccountInfo()
         {
             int id = int.Parse(User.Identity.Name);
-            var account = await accountLogic.GetAccountById(id);
-            var user = await employeeLogic.GetEmployeeById(account.EmployeeId);
-            account.Permissions = await accountPermissionLogic.GetPermissions(account.Id);
+            var account = await accountLogic.GetAccount(id);
+            var user = await employeeLogic.GetEmployee(account.EmployeeId);
+            account.Permissions = await accountPermissionLogic.GetPermissions(account);
+
             ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
+            ViewBag.CanEditRequest = account.Permissions.Where(p => p.PermissionId == 2).ToList().Count != 0;
+            ViewBag.CanDeleteRequest = account.Permissions.Where(p => p.PermissionId == 3).ToList().Count != 0;
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
+            ViewBag.ViewRequest = account.Permissions.Where(p => p.PermissionId == 5).ToList().Count != 0;
+            ViewBag.ApprovalAllowed = account.Permissions.Where(p => p.PermissionId == 6).ToList().Count != 0;
+            ViewBag.GetInWorkRequest = account.Permissions.Where(p => p.PermissionId == 7).ToList().Count != 0;
+
             ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
             return user;
         }
@@ -71,7 +78,7 @@ namespace WebUI.Areas.IT.Controllers
         private async Task<PhoneNumberAllocationRequest> InitializeRequest(PhoneNumberAllocationRequestViewModel model, Employee user)
         {
             PhoneNumberAllocationRequest request = new PhoneNumberAllocationRequest();
-            Service service = await serviceLogic.GetServiceById(SERVICE_ID);
+            Service service = await serviceLogic.GetService(SERVICE_ID);
             request.ServiceId = service.Id;
             request.StatusId = (service.ApprovalRequired) ? (int)RequestStatus.Approval : (int)RequestStatus.Open;
             request.ClientId = user.Id;
@@ -101,7 +108,7 @@ namespace WebUI.Areas.IT.Controllers
 
         public async Task ChangeRequestStatus(int id, RequestStatus status)
         {
-            var request = await requestLogic.GetRequestById(id);
+            var request = await requestLogic.GetRequest(id);
             request.StatusId = (int)status;
             await requestLogic.Save(request);
         }
@@ -115,7 +122,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> Details(int id)
         {
             Employee user = await PopulateAccountInfo();
-            PhoneNumberAllocationRequest request = await requestLogic.GetRequestById(id);
+            PhoneNumberAllocationRequest request = await requestLogic.GetRequest(id);
             List<PhoneNumberAllocationRequestLifeCycle> lifeCycles = await lifeCycleLogic.GetLifeCycles(request);
             PhoneNumberAllocationDetailsRequestViewModel model = ModelFromData.GetViewModel(request, user, lifeCycles);
             return View(model);
@@ -126,7 +133,7 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateAccountInfo();
             PhoneNumberAllocationRequestViewModel model = new PhoneNumberAllocationRequestViewModel();
             await PopulateDropDownList(model);
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);
             return View(model);
         }
@@ -136,7 +143,7 @@ namespace WebUI.Areas.IT.Controllers
             await PopulateDropDownList(model);
             Employee user = await PopulateAccountInfo();
             var request = await InitializeRequest(model, user);
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             await requestLogic.Save(request);
             await LifeCycleMessage(request.Id, user, "Создание заявки");
             return RedirectToAction("Details", service.Controller, new { id = request.Id });
@@ -146,7 +153,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             await PopulateAccountInfo();
-            var request = await requestLogic.GetRequestById(id);
+            var request = await requestLogic.GetRequest(id);
             PhoneNumberAllocationRequestViewModel model = ModelFromData.GetViewModel(request);
             await PopulateDropDownList(model);
             return View(model);
@@ -157,7 +164,7 @@ namespace WebUI.Areas.IT.Controllers
             Employee user = await PopulateAccountInfo();
             await PopulateDropDownList(model);
             var request = DataFromModel.GetData(model);
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             await requestLogic.Save(request);
             await LifeCycleMessage(request.Id, user, "Редактирование заявки");
             return RedirectToAction("Details", service.Controller, new { id = request.Id });
@@ -167,7 +174,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             Employee user = await PopulateAccountInfo();
-            var request = await requestLogic.GetRequestById(id);
+            var request = await requestLogic.GetRequest(id);
             PhoneNumberAllocationRequestViewModel model = ModelFromData.GetViewModel(request);
             return View(model);
         }
@@ -175,7 +182,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> Delete(int id, PhoneNumberAllocationRequestViewModel model)
         {
             Employee user = await PopulateAccountInfo();
-            var request = await requestLogic.GetRequestById(id);
+            var request = await requestLogic.GetRequest(id);
             await requestLogic.Delete(request);
             return RedirectToAction("Requests", "Dashboard", new { Area = "" });
         }
@@ -184,7 +191,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> AgreeRequest(int id)
         {
             Employee user = await PopulateAccountInfo();
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             await ChangeRequestStatus(id, RequestStatus.Open);
             await LifeCycleMessage(id, user, "Заявка прошла согласование");
             return RedirectToAction("Details", service.Controller, new { id });
@@ -193,7 +200,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> RejectRequest(int id)
         {
             Employee user = await PopulateAccountInfo();
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             await ChangeRequestStatus(id, RequestStatus.Closed);
             await LifeCycleMessage(id, user, "Заявка не прошла согласование");
             return RedirectToAction("Details", service.Controller, new { id });
@@ -202,7 +209,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> GetInWork(int id)
         {
             Employee user = await PopulateAccountInfo();
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             await ChangeRequestStatus(id, RequestStatus.InWork);
             await LifeCycleMessage(id, user, "Начало исполнения заявки");
             return RedirectToAction("Details", service.Controller, new { id });
@@ -211,7 +218,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> DoneWork(int id)
         {
             Employee user = await PopulateAccountInfo();
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             await ChangeRequestStatus(id, RequestStatus.Done);
             await LifeCycleMessage(id, user, "Заявка выполнена");
             return RedirectToAction("Details", service.Controller, new { id });
@@ -220,7 +227,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> Archive(int id)
         {
             Employee user = await PopulateAccountInfo();
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             await ChangeRequestStatus(id, RequestStatus.Archive);
             await LifeCycleMessage(id, user, "Заявка перенесена в архив");
             return RedirectToAction("Details", service.Controller, new { id });
@@ -229,7 +236,7 @@ namespace WebUI.Areas.IT.Controllers
         public async Task<ActionResult> AddMessage(int id, PhoneNumberAllocationDetailsRequestViewModel model)
         {
             Employee user = await PopulateAccountInfo();
-            var service = await serviceLogic.GetServiceById(SERVICE_ID);
+            var service = await serviceLogic.GetService(SERVICE_ID);
             await LifeCycleMessage(id, user, model.Message);
             return RedirectToAction("Details", service.Controller, new { id });
         }

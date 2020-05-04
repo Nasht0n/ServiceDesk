@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Emails.Requests
     {
         Task<EmailSizeIncreaseRequest> Save(EmailSizeIncreaseRequest request);
         Task Delete(EmailSizeIncreaseRequest request);
-        Task<EmailSizeIncreaseRequest> GetRequestById(int id);
+        Task<EmailSizeIncreaseRequest> GetRequest(int id);
     }
 }

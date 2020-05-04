@@ -20,7 +20,7 @@ namespace BusinessLogic.Concrete.Branches.IT.Emails.Requests
             await repository.Delete(request);
         }
 
-        public async Task<EmailRegistrationRequest> GetRequestById(int id)
+        public async Task<EmailRegistrationRequest> GetRequest(int id)
         {
             var requests = await repository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);

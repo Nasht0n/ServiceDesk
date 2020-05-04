@@ -1,10 +1,7 @@
 ﻿using BusinessLogic.Abstract;
-using Domain.Models;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BranchModel = Domain.Models.Branch;
 
@@ -19,16 +16,17 @@ namespace BusinessLogic.Concrete
             this.branchRepository = branchRepository;
         }
 
-        public async Task<BranchModel> GetBranchById(int id)
+        public async Task<BranchModel> GetBranch(int id)
         {
             var branches = await branchRepository.GetBranches();
             return branches.FirstOrDefault(b=>b.Id == id);
         }
 
-        public async Task<List<BranchModel>> GetBranches()
+        public async Task<List<BranchModel>> GetBranches(bool descendings = false)
         {
             var branches = await branchRepository.GetBranches();
-            return branches.OrderBy(b => b.Id).ToList();
+            if(descendings) return branches.OrderByDescending(b => b.Fullname).ToList();
+            else return branches.OrderBy(b => b.Fullname).ToList();
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Repository.Abstract;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
@@ -18,7 +15,7 @@ namespace BusinessLogic.Concrete
             this.subdivisionRepository = subdivisionRepository;
         }
 
-        public async Task<Subdivision> GetSubdivisionById(int id)
+        public async Task<Subdivision> GetSubdivision(int id)
         {
             var subdivisions = await subdivisionRepository.GetSubdivisions();
             return subdivisions.FirstOrDefault(s => s.Id == id);

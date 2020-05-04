@@ -1,10 +1,8 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
@@ -18,22 +16,17 @@ namespace BusinessLogic.Concrete
             this.campusRepository = campusRepository;
         }
 
-        public async Task<Campus> GetCampusById(int id)
+        public async Task<Campus> GetCampus(int id)
         {
             var campuses = await campusRepository.GetCampuses();
             return campuses.FirstOrDefault(c => c.Id == id);
         }
 
-        public async Task<List<Campus>> GetCampuses()
+        public async Task<List<Campus>> GetCampuses(bool descendings = false)
         {
             var campuses = await campusRepository.GetCampuses();
-            return campuses.OrderBy(c=>c.Id).ToList();
-        }
-
-        public async Task<List<Campus>> GetCampusesDescending()
-        {
-            var campuses = await campusRepository.GetCampuses();
-            return campuses.OrderByDescending(c => c.Id).ToList();
+            if(descendings) return campuses.OrderByDescending(c => c.Name).ToList();
+            else return campuses.OrderBy(c=>c.Name).ToList();
         }
     }
 }

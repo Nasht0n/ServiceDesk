@@ -16,22 +16,23 @@ namespace BusinessLogic.Concrete
             this.equipmentRepository = equipmentRepository;
         }
 
-        public async Task<Equipment> GetEquipmentById(int id)
+        public async Task<Equipment> GetEquipment(int id)
         {
             var equipments = await equipmentRepository.GetEquipments();
             return equipments.FirstOrDefault(e => e.Id == id);
         }
 
-        public async Task<Equipment> GetEquipmentByInventory(string inventory)
+        public async Task<Equipment> GetEquipment(string inventory)
         {
             var equipments = await equipmentRepository.GetEquipments();
             return equipments.FirstOrDefault(e => e.InventoryNumber == inventory);
         }
 
-        public async Task<List<Equipment>> GetEquipments(EquipmentType equipmentType)
+        public async Task<List<Equipment>> GetEquipments(EquipmentType equipmentType, bool descendings = false)
         {
             var equipments = await equipmentRepository.GetEquipments();
-            return equipments.Where(e => e.EquipmentTypeId == equipmentType.Id).ToList();
+            if(descendings) return equipments.Where(e => e.EquipmentTypeId == equipmentType.Id).OrderByDescending(e=>e.Name).ToList();
+            else return equipments.Where(e => e.EquipmentTypeId == equipmentType.Id).OrderBy(e=>e.Name).ToList();
         }
     }
 }

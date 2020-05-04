@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Softwares.Requests
     {
         Task<SoftwareReworkRequest> Save(SoftwareReworkRequest request);
         Task Delete(SoftwareReworkRequest request);
-        Task<SoftwareReworkRequest> GetRequestById(int id);
+        Task<SoftwareReworkRequest> GetRequest(int id);
     }
 }

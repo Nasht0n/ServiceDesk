@@ -1,10 +1,8 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
@@ -18,13 +16,14 @@ namespace BusinessLogic.Concrete
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<List<Category>> GetCategoriesByBranchId(int branchId)
+        public async Task<List<Category>> GetCategories(Branch branch, bool descendings = false)
         {
             var categories = await categoryRepository.GetCategories();
-            return categories.Where(c => c.BranchId == branchId).ToList();
+            if(descendings) return categories.Where(c => c.BranchId == branch.Id).OrderByDescending(c=>c.Name).ToList();
+            else return categories.Where(c => c.BranchId == branch.Id).OrderBy(c=>c.Name).ToList();
         }
 
-        public async Task<Category> GetCategoryById(int id)
+        public async Task<Category> GetCategory(int id)
         {
             var categories = await categoryRepository.GetCategories();
             return categories.FirstOrDefault(c => c.Id == id);

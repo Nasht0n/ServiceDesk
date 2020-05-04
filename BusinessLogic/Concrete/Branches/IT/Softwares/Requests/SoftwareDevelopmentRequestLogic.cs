@@ -20,7 +20,7 @@ namespace BusinessLogic.Concrete.Branches.IT.Softwares.Requests
             await repository.Delete(request);
         }
 
-        public async Task<SoftwareDevelopmentRequest> GetRequestById(int id)
+        public async Task<SoftwareDevelopmentRequest> GetRequest(int id)
         {
             var requests = await repository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);

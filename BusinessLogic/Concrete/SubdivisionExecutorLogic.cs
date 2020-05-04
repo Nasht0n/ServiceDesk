@@ -1,10 +1,9 @@
 ﻿using BusinessLogic.Abstract;
+using Domain.Models;
 using Domain.Models.ManyToMany;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
@@ -17,10 +16,11 @@ namespace BusinessLogic.Concrete
         {
             this.subdivisionExecutorsRepository = subdivisionExecutorsRepository;
         }
-        public async Task<List<SubdivisionExecutor>> GetExecutors(int subdivisionId)
+        public async Task<List<SubdivisionExecutor>> GetExecutors(Subdivision subdivision, bool descendings = false)
         {
             var list = await subdivisionExecutorsRepository.GetSubdivisionExecutors();
-            return list.Where(se => se.SubdivisionId == subdivisionId).ToList();
+            if(descendings) return list.Where(se => se.SubdivisionId == subdivision.Id).OrderByDescending(se=>se.SubdivisionId).ToList();
+            else return list.Where(se => se.SubdivisionId == subdivision.Id).OrderBy(se=>se.SubdivisionId).ToList();
         }
     }
 }

@@ -16,10 +16,10 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.LifeCycles
             this.lifeCycleRepository = lifeCycleRepository;
         }
 
-        public async Task<List<ComponentReplaceRequestLifeCycle>> GetLifeCycles(int requestId)
+        public async Task<List<ComponentReplaceRequestLifeCycle>> GetLifeCycles(ComponentReplaceRequest request)
         {
             var lifeCycles = await lifeCycleRepository.GetLifeCycles();
-            return lifeCycles.Where(l => l.RequestId == requestId).ToList();
+            return lifeCycles.Where(l => l.RequestId == request.Id).ToList();
         }
 
         public async Task<ComponentReplaceRequestLifeCycle> Add(ComponentReplaceRequestLifeCycle lifeCycle)

@@ -22,16 +22,17 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
             await requestRepository.Delete(request);
         }
 
-        public async Task<EquipmentRefillRequest> GetRequestById(int id)
+        public async Task<EquipmentRefillRequest> GetRequest(int id)
         {
             var requests = await requestRepository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);
         }
 
-        public async Task<List<EquipmentRefillRequest>> GetRequests(Subdivision subdivision)
+        public async Task<List<EquipmentRefillRequest>> GetRequests(Subdivision subdivision, bool descendings = false)
         {
             var requests = await requestRepository.GetRequests();
-            return requests.Where(r => r.SubdivisionId == subdivision.Id).OrderBy(r => r.Id).ToList();
+            if(descendings) return requests.Where(r => r.SubdivisionId == subdivision.Id).OrderByDescending(r => r.Id).ToList();
+            else return requests.Where(r => r.SubdivisionId == subdivision.Id).OrderBy(r => r.Id).ToList();
         }
 
         public async Task<EquipmentRefillRequest> Save(EquipmentRefillRequest request)

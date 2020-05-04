@@ -1,10 +1,8 @@
 ﻿using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using Domain.Models.Requests.Equipment;
 using Repository.Abstract.Branches.IT.Equipments.Requests;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
@@ -23,22 +21,17 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
             await requestRepository.Delete(request);
         }
 
-        public async Task<EquipmentRepairRequest> GetRequestById(int id)
+        public async Task<EquipmentRepairRequest> GetRequest(int id)
         {
             var requests = await requestRepository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);
         }
 
-        public async Task<List<EquipmentRepairRequest>> GetRequests()
+        public async Task<List<EquipmentRepairRequest>> GetRequests(bool descendings = false)
         {
             var requests = await requestRepository.GetRequests();
-            return requests.OrderBy(r => r.Id).ToList();
-        }
-
-        public async Task<List<EquipmentRepairRequest>> GetRequestsByDescending()
-        {
-            var requests = await requestRepository.GetRequests();
-            return requests.OrderByDescending(r => r.Id).ToList();
+            if (descendings) return requests.OrderByDescending(r => r.Id).ToList();
+            else return requests.OrderBy(r => r.Id).ToList();
         }
 
         public async Task<EquipmentRepairRequest> Save(EquipmentRepairRequest request)

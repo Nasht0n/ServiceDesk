@@ -6,7 +6,7 @@ namespace BusinessLogic.Abstract
 {
     public interface IComponentLogic
     {
-        Task<Component> GetComponentById(int id);
-        Task<List<Component>> GetComponents();
+        Task<Component> GetComponent(int id);
+        Task<List<Component>> GetComponents(bool descendings = false);
     }
 }

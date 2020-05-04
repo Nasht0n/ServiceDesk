@@ -1,8 +1,5 @@
 ﻿using Domain.Models.Requests.Equipment;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Abstract.Branches.IT.Equipments.Requests
@@ -11,8 +8,7 @@ namespace BusinessLogic.Abstract.Branches.IT.Equipments.Requests
     {
         Task<EquipmentRepairRequest> Save(EquipmentRepairRequest request);
         Task Delete(EquipmentRepairRequest request);
-        Task<EquipmentRepairRequest> GetRequestById(int id);
-        Task<List<EquipmentRepairRequest>> GetRequests();
-        Task<List<EquipmentRepairRequest>> GetRequestsByDescending();
+        Task<EquipmentRepairRequest> GetRequest(int id);
+        Task<List<EquipmentRepairRequest>> GetRequests(bool descendings = false);
     }
 }

@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Accounts.Requests
     {
         Task<AccountDisconnectRequest> Save(AccountDisconnectRequest request);
         Task Delete(AccountDisconnectRequest request);
-        Task<AccountDisconnectRequest> GetRequestById(int id);
+        Task<AccountDisconnectRequest> GetRequest(int id);
     }
 }

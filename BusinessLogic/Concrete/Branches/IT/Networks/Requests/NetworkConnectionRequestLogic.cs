@@ -20,7 +20,7 @@ namespace BusinessLogic.Concrete.Branches.IT.Networks.Requests
             await repository.Delete(request);
         }
 
-        public async Task<NetworkConnectionRequest> GetRequestById(int id)
+        public async Task<NetworkConnectionRequest> GetRequest(int id)
         {
             var requests = await repository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);

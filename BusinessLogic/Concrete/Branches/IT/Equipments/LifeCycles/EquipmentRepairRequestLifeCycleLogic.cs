@@ -23,10 +23,10 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.LifeCycles
             return await lifeCycleRepository.Add(lifeCycle);
         }
 
-        public async Task<List<EquipmentRepairRequestLifeCycle>> GetLifeCycles(int requestId)
+        public async Task<List<EquipmentRepairRequestLifeCycle>> GetLifeCycles(EquipmentRepairRequest request)
         {
             var lifeCycles = await lifeCycleRepository.GetLifeCycles();
-            return lifeCycles.Where(r => r.RequestId == requestId).ToList();
+            return lifeCycles.Where(r => r.RequestId == request.Id).ToList();
         }
     }
 }

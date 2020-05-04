@@ -1,10 +1,7 @@
 ﻿using BusinessLogic.Abstract.Branches.IT.Communications.Requests;
 using Domain.Models.Requests.Communication;
 using Repository.Abstract.Branches.IT.Communication.Requests;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete.Branches.IT.Communications.Requests
@@ -23,7 +20,7 @@ namespace BusinessLogic.Concrete.Branches.IT.Communications.Requests
             await repository.Delete(request);
         }
 
-        public async Task<HoldingPhoneLineRequest> GetRequestById(int id)
+        public async Task<HoldingPhoneLineRequest> GetRequest(int id)
         {
             var requests = await repository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);

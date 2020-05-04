@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Emails.Requests
     {
         Task<EmailRegistrationRequest> Save(EmailRegistrationRequest request);
         Task Delete(EmailRegistrationRequest request);
-        Task<EmailRegistrationRequest> GetRequestById(int id);
+        Task<EmailRegistrationRequest> GetRequest(int id);
     }
 }

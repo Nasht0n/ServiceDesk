@@ -1,10 +1,9 @@
 ﻿using BusinessLogic.Abstract;
+using Domain.Models;
 using Domain.Models.ManyToMany;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
@@ -18,10 +17,10 @@ namespace BusinessLogic.Concrete
             this.executorGroupMembersRepository = executorGroupMembersRepository;
         }
 
-        public async Task<List<ExecutorGroupMember>> GetExecutorGroupMembers(int executorGroupId)
+        public async Task<List<ExecutorGroupMember>> GetExecutorGroupMembers(ExecutorGroup executorGroup)
         {
             var groupMembers = await executorGroupMembersRepository.GetGroupMembers();
-            return groupMembers.Where(gm => gm.ExecutorGroupId == executorGroupId).ToList();
+            return groupMembers.Where(gm => gm.ExecutorGroupId == executorGroup.Id).ToList();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace WebUI.ViewModels
         public int CountCreatedRequest { get; set; }
         public int CountExecutedRequest { get; set; }
         public int CountCompletedRequest { get; set; }
+        public int CountApprovalRequest { get; set; }
     }
 
     public class ServicesStats

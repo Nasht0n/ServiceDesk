@@ -6,8 +6,7 @@ namespace BusinessLogic.Abstract
 {
     public interface IPriorityLogic
     {
-        Task<Priority> GetPriorityById(int id);
-        Task<List<Priority>> GetPriorities();
-        Task<List<Priority>> GetPrioritiesByDescendings();
+        Task<Priority> GetPriority(int id);
+        Task<List<Priority>> GetPriorities(bool descendings = false);
     }
 }

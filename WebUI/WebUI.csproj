@@ -1728,16 +1728,16 @@
     <Compile Include="ViewModels\Requests\IT\Accounts\AccountLossRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Accounts\AccountRegistrationDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Accounts\AccountRegistrationRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\HoldingPhoneLineDetailsRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\HoldingPhoneLineRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\PhoneLineRepairDetailsRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\PhoneLineRepairRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\PhoneNumberAllocationDetailsRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\PhoneNumberAllocationRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\PhoneRepairDetailsRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\PhoneRepairRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\VideoCommunicationDetailsRequestViewModel.cs" />
-    <Compile Include="ViewModels\Requests\IT\Communications\VideoCommunicationRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\HoldingPhoneLineDetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\HoldingPhoneLineRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\PhoneLineRepairDetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\PhoneLineRepairRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\PhoneNumberAllocationDetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\PhoneNumberAllocationRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\PhoneRepairDetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\PhoneRepairRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\VideoCommunicationDetailsRequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Accounts\Communications\VideoCommunicationRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\DetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Emails\EmailRegistrationDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Emails\EmailRegistrationRequestViewModel.cs" />
@@ -1779,6 +1779,7 @@
     <Compile Include="ViewModels\SubdivisionExecutorsModel\SubdivisionExecutorViewModel.cs" />
     <Compile Include="ViewModels\SubdivisionModel\SubdivisionViewModel.cs" />
     <Compile Include="ViewModels\SubdivisionModel\SubdivisionsListViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1814,6 +1815,7 @@
     <Folder Include="Areas\ControlPanel\Views\Equipment\" />
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Shared\" />
+    <Folder Include="Files\UploadedFiles\AccountAttachments\" />
     <Folder Include="Files\UploadedFiles\SoftwareAttachments\" />
   </ItemGroup>
   <ItemGroup>

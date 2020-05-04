@@ -35,6 +35,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
         private readonly ISubdivisionRepository subdivisionRepository;
         private readonly ISubdivisionLogic subdivisionLogic;
         private readonly IAccountPermissionRepository accountPermissionRepository;
+        private readonly IAccountPermissionLogic accountPermissionLogic;
         private readonly int pageSize = 5;
 
         public ServiceController(IAccountRepository accountRepository, IAccountLogic accountLogic,
@@ -46,7 +47,7 @@ namespace WebUI.Areas.ControlPanel.Controllers
             IServicesExecutorGroupsRepository servicesExecutorGroupsRepository, IServicesExecutorGroupsLogic servicesExecutorGroupsLogic,
             IServicesApproversRepository servicesApproversRepository, IServicesApproversLogic servicesApproversLogic,
             ISubdivisionRepository subdivisionRepository, ISubdivisionLogic subdivisionLogic,
-            IAccountPermissionRepository accountPermissionRepository)
+            IAccountPermissionRepository accountPermissionRepository, IAccountPermissionLogic accountPermissionLogic)
         {
             this.accountRepository = accountRepository;
             this.accountLogic = accountLogic;
@@ -67,16 +68,24 @@ namespace WebUI.Areas.ControlPanel.Controllers
             this.subdivisionRepository = subdivisionRepository;
             this.subdivisionLogic = subdivisionLogic;
             this.accountPermissionRepository = accountPermissionRepository;
+            this.accountPermissionLogic = accountPermissionLogic;
         }
 
         public async Task<Employee> PopulateAccountInfo()
         {
             int id = int.Parse(User.Identity.Name);
-            var account = await accountLogic.GetAccountById(id);
-            var user = await employeeLogic.GetEmployeeById(account.EmployeeId);
-            account.Permissions = (await accountPermissionRepository.GetAccountPermissions()).Where(ap => ap.AccountId == account.Id).ToList();
+            var account = await accountLogic.GetAccount(id);
+            var user = await employeeLogic.GetEmployee(account.EmployeeId);
+            account.Permissions = await accountPermissionLogic.GetPermissions(account);
+
             ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
+            ViewBag.CanEditRequest = account.Permissions.Where(p => p.PermissionId == 2).ToList().Count != 0;
+            ViewBag.CanDeleteRequest = account.Permissions.Where(p => p.PermissionId == 3).ToList().Count != 0;
             ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
+            ViewBag.ViewRequest = account.Permissions.Where(p => p.PermissionId == 5).ToList().Count != 0;
+            ViewBag.ApprovalAllowed = account.Permissions.Where(p => p.PermissionId == 6).ToList().Count != 0;
+            ViewBag.GetInWorkRequest = account.Permissions.Where(p => p.PermissionId == 7).ToList().Count != 0;
+
             ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
             return user;
         }
@@ -98,7 +107,8 @@ namespace WebUI.Areas.ControlPanel.Controllers
             model.BranchList = new SelectList(branches, "Id", "Fullname");
             if (model.SelectedBranch != 0)
             {
-                var categories = await categoryLogic.GetCategoriesByBranchId(model.SelectedBranch);
+                var _branch = await branchLogic.GetBranch(model.SelectedBranch);
+                var categories = await categoryLogic.GetCategories(_branch);
                 model.CategoryList = new SelectList(categories, "Id", "Name");
             }
             else
@@ -116,7 +126,8 @@ namespace WebUI.Areas.ControlPanel.Controllers
             model.BranchList = new SelectList(branches, "Id", "Fullname");
             if (model.SelectedBranch.HasValue)
             {
-                var categories = await categoryLogic.GetCategoriesByBranchId(model.SelectedBranch.Value);
+                var branch = await branchLogic.GetBranch(model.SelectedBranch.Value);
+                var categories = await categoryLogic.GetCategories(branch);
                 model.CategoryList = new SelectList(categories, "Id", "Name");
             }
             else
@@ -140,12 +151,13 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             var user = await PopulateAccountInfo();
-            var service = await serviceLogic.GetServiceById(id);
+            var service = await serviceLogic.GetService(id);
             ServiceViewModel model = ModelFromData.GetViewModel(service);
 
             var branches = await branchRepository.GetBranches();
             model.BranchList = new SelectList(branches, "Id", "Fullname", model.SelectedBranch);
-            var categories = await categoryLogic.GetCategoriesByBranchId(model.SelectedBranch.Value);
+            var branch = await branchLogic.GetBranch(model.SelectedBranch.Value);
+            var categories = await categoryLogic.GetCategories(branch);
             model.CategoryList = new SelectList(categories, "Id", "Name", model.SelectedCategory);
 
             return View(model);
@@ -164,14 +176,14 @@ namespace WebUI.Areas.ControlPanel.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var user = await PopulateAccountInfo();
-            var service = await serviceLogic.GetServiceById(id);
+            var service = await serviceLogic.GetService(id);
             ServiceViewModel model = ModelFromData.GetViewModel(service);
             return View(model);
         }
         [HttpPost]
         public async Task<ActionResult> Delete(int id, ServiceViewModel model)
         {
-            var service = await serviceLogic.GetServiceById(id);
+            var service = await serviceLogic.GetService(id);
             await serviceRepository.DeleteService(service);
             return RedirectToAction("Index", "Service", new { Area = "ControlPanel" });
         }
@@ -180,11 +192,11 @@ namespace WebUI.Areas.ControlPanel.Controllers
         {
             await PopulateAccountInfo();
             ServicesExecutorGroupsListViewModel model = new ServicesExecutorGroupsListViewModel();
-            var service = await serviceLogic.GetServiceById(id);
+            var service = await serviceLogic.GetService(id);
             model.ServiceModel = ModelFromData.GetViewModel(service);
             var executorGroups = await executorGroupRepository.GetExecutorGroups();
             model.ExecutorGroups = new SelectList(executorGroups, "Id", "Name");
-            var serviceExecutorGroups = await servicesExecutorGroupsLogic.GetServicesExecutorGroups(service.Id);
+            var serviceExecutorGroups = await servicesExecutorGroupsLogic.GetServicesExecutorGroups(service);
             model.ExecutorGroupsListModel = ModelFromData.GetViewModel(serviceExecutorGroups);
             return View(model);
         }
@@ -213,8 +225,10 @@ namespace WebUI.Areas.ControlPanel.Controllers
         [HttpGet]
         public async Task<JsonResult> PopulateEmployees(int subdivisionId, int currentId)
         {
-            var employees = await employeeLogic.GetEmployees(subdivisionId);
-            var serviceApprovers = await servicesApproversLogic.GetServicesApprovers(currentId);
+            var subdivision = await subdivisionLogic.GetSubdivision(subdivisionId);
+            var employees = await employeeLogic.GetEmployees(subdivision);
+            var service = await serviceLogic.GetService(currentId);
+            var serviceApprovers = await servicesApproversLogic.GetServicesApprovers(service);
             List<Employee> temp = new List<Employee>();
             foreach (var employee in employees)
             {
@@ -229,20 +243,21 @@ namespace WebUI.Areas.ControlPanel.Controllers
         {
             await PopulateAccountInfo();
             ServicesApproversListViewModel model = new ServicesApproversListViewModel();
-            var service = await serviceLogic.GetServiceById(id);
+            var service = await serviceLogic.GetService(id);
             model.ServiceModel = ModelFromData.GetViewModel(service);
             var subdivisions = await subdivisionRepository.GetSubdivisions();
             model.Subdivisions = new SelectList(subdivisions, "Id", "Fullname");
             if (model.SelectedSubdivision.HasValue)
             {
-                var employees = await employeeLogic.GetEmployees(model.SelectedSubdivision.Value);
+                var subdivision = await subdivisionLogic.GetSubdivision(model.SelectedSubdivision.Value);
+                var employees = await employeeLogic.GetEmployees(subdivision);
                 model.Employees = new SelectList(employees, "Id", "Surname");
             }
             else
             {
                 model.Employees = new SelectList(Enumerable.Empty<SelectListItem>());
             }
-            var serviceApprovers = await servicesApproversLogic.GetServicesApprovers(service.Id);
+            var serviceApprovers = await servicesApproversLogic.GetServicesApprovers(service);
             model.ApproversListModel = ModelFromData.GetViewModel(serviceApprovers);
             return View(model);
         }

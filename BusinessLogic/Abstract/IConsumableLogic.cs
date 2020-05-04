@@ -1,15 +1,12 @@
 ﻿using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Abstract
 {
     public interface IConsumableLogic
     {
-        Task<Consumable> GetConsumableById(int id);
-        Task<List<Consumable>> GetConsumables();
+        Task<Consumable> GetConsumable(int id);
+        Task<List<Consumable>> GetConsumables(bool descendings = false);
     }
 }

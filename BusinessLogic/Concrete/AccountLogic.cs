@@ -20,19 +20,19 @@ namespace BusinessLogic.Concrete
             await accountRepository.DeleteAccount(account);
         }
 
-        public async Task<Account> GetAccountByCredential(string username, string password)
+        public async Task<Account> GetAccount(string username, string password)
         {
             var accounts = await accountRepository.GetAccounts();
             return accounts.FirstOrDefault(a => a.Username == username && a.Password == password);
         }
 
-        public async Task<Account> GetAccountByEmployeeId(int id)
+        public async Task<Account> GetAccount(Employee employee)
         {
             var accounts = await accountRepository.GetAccounts();
-            return accounts.FirstOrDefault(a => a.EmployeeId == id);
+            return accounts.FirstOrDefault(a => a.EmployeeId == employee.Id);
         }
 
-        public async Task<Account> GetAccountById(int id)
+        public async Task<Account> GetAccount(int id)
         {
             var accounts = await accountRepository.GetAccounts();
             return accounts.FirstOrDefault(e=>e.Id ==id);

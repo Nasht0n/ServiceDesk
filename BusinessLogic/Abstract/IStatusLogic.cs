@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract
     public interface IStatusLogic
     {
         Task<Status> GetStatus(int id);
-        Task<List<Status>> GetStatuses(bool descending = true);
+        Task<List<Status>> GetStatuses(bool descending = false);
     }
 }

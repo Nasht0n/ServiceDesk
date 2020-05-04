@@ -7,6 +7,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Equipments.Requests
     {
         Task<EquipmentInstallationRequest> Save(EquipmentInstallationRequest request);
         Task Delete(EquipmentInstallationRequest request);
-        Task<EquipmentInstallationRequest> GetRequestById(int id);
+        Task<EquipmentInstallationRequest> GetRequest(int id);
     }
 }

@@ -16,15 +16,16 @@ namespace BusinessLogic.Concrete
             this.componentRepository = componentRepository;
         }
 
-        public async Task<Component> GetComponentById(int id)
+        public async Task<Component> GetComponent(int id)
         {
             var components = await componentRepository.GetComponents();
             return components.FirstOrDefault(c => c.Id == id);
         }
 
-        public async Task<List<Component>> GetComponents()
+        public async Task<List<Component>> GetComponents(bool descendings = false)
         {
             var components = await componentRepository.GetComponents();
+            if(descendings) return components.OrderByDescending(c => c.Id).ToList();
             return components.OrderBy(c => c.Id).ToList();
         }
     }

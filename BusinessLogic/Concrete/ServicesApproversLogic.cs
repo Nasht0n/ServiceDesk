@@ -1,10 +1,9 @@
 ﻿using BusinessLogic.Abstract;
+using Domain.Models;
 using Domain.Models.ManyToMany;
 using Repository.Abstract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
@@ -18,10 +17,10 @@ namespace BusinessLogic.Concrete
             this.servicesApproversRepository = servicesApproversRepository;
         }
 
-        public async Task<List<ServicesApprover>> GetServicesApprovers(int serviceId)
+        public async Task<List<ServicesApprover>> GetServicesApprovers(Service service)
         {
             var services = await servicesApproversRepository.GetServicesApprovers();
-            return services.Where(s => s.ServiceId == serviceId).ToList();
+            return services.Where(s => s.ServiceId == service.Id).ToList();
         }
     }
 }

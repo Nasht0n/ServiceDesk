@@ -20,7 +20,7 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
             await requestRepository.Delete(request);
         }
 
-        public async Task<EquipmentReplaceRequest> GetRequestById(int id)
+        public async Task<EquipmentReplaceRequest> GetRequest(int id)
         {
             var requests = await requestRepository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);
