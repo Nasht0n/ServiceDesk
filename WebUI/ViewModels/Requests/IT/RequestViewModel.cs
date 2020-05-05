@@ -8,7 +8,7 @@ using WebUI.ViewModels.SubdivisionModel;
 
 namespace WebUI.ViewModels.Requests.IT
 {
-    public abstract class RequestViewModel
+    public abstract class RequestViewModel:DashboardConfigurationViewModel
     {
         [Required]
         [Display(Name = "Идентификатор заявки на установку оборудования")]

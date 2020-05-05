@@ -2,7 +2,7 @@
 
 namespace WebUI.ViewModels.Requests.IT
 {
-    public abstract class DetailsRequestViewModel
+    public abstract class DetailsRequestViewModel: DashboardConfigurationViewModel
     {
         [Display(Name = "Сообщение жизненного цикла")]
         public string Message { get; set; }
@@ -13,7 +13,6 @@ namespace WebUI.ViewModels.Requests.IT
         public bool IsExecutor { get; set; }
         // Пользователь создатель заявки
         public bool IsClient { get; set; }
-        // 
         public bool AllApproval { get; set; }
     }
 }

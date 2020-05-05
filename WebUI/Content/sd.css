@@ -113,11 +113,11 @@ body {
         }
 
 .card-stats:hover, focus {
-    background: #faeead;
+    background: #c2e3fb;
 }
 
 .list-group-item:hover, focus {
-    background: #faeead;
+    background: #c2e3fb;
 }
 
 @media (min-width: 768px) {
