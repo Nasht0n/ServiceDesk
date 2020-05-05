@@ -1657,6 +1657,7 @@
     <Compile Include="HtmlHelpers\RequestsHelpers.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\DataFromModel.cs" />
+    <Compile Include="Models\Enum\AccountPermissionEnum.cs" />
     <Compile Include="Models\Enum\RequestStatus.cs" />
     <Compile Include="Models\Helpers\RequestHelper.cs" />
     <Compile Include="Models\MailSender.cs" />
@@ -1684,6 +1685,7 @@
     <Compile Include="ViewModels\ConsumableModel\ConsumablesListViewModel.cs" />
     <Compile Include="ViewModels\ConsumableModel\ConsumableViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
+    <Compile Include="ViewModels\DashboardConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\EmployeeModel\EmployeesListViewModel.cs" />
     <Compile Include="ViewModels\EmployeeModel\EmployeeViewModel.cs" />
@@ -1779,7 +1781,6 @@
     <Compile Include="ViewModels\SubdivisionExecutorsModel\SubdivisionExecutorViewModel.cs" />
     <Compile Include="ViewModels\SubdivisionModel\SubdivisionViewModel.cs" />
     <Compile Include="ViewModels\SubdivisionModel\SubdivisionsListViewModel.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

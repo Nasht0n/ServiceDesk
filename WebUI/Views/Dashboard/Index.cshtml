@@ -81,7 +81,7 @@
 
 
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-secondary">
                     <h4 class="card-title text-center">Статистика заявок системы</h4>
@@ -94,15 +94,25 @@
                                     <thead>
                                         <tr class="font-weight-bolder">
                                             <td>Тип заявки</td>
-                                            <td class="text-right">Всего заявок</td>
+                                            <td class="text-right small">Открыто</td>
+                                            <td class="text-right small">На согласовании</td>
+                                            <td class="text-right small">В работе</td>
+                                            <td class="text-right small">Выполнено</td>
+                                            <td class="text-right small"></td>
+                                            <td class="text-right small">Всего</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var serviceStats in Model.StatsModel)
+                                        @foreach (var serviceStats in Model.ServicesInfos)
                                         {
                                             <tr>
                                                 <td>@serviceStats.ServiceModel.Name</td>
-                                                <td class="text-right">@serviceStats.Count</td>
+                                                <td class="text-right">@serviceStats.OpenCount</td>
+                                                <td class="text-right">@serviceStats.ApprovalCount</td>
+                                                <td class="text-right">@serviceStats.InWorkCount</td>
+                                                <td class="text-right">@serviceStats.DoneCount</td>
+                                                <td class="text-right"></td>
+                                                <td class="text-right">@serviceStats.TotalCount</td>
                                             </tr>
                                         }
                                     </tbody>
@@ -114,19 +124,24 @@
             </div>
         </div>
 
-        <div class="col-md-5">
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-secondary">
                     <h4 class="card-title text-center">Последние заявки</h4>
                 </div>
                 <div class="card-body p-1">
                     <div class="row">
-                        <div class="col-md-12">
-                            @foreach (var item in Model.LastRequests)
-                            {
-                                <div class="list-group my-1">
-                                    <a href="@Url.Action("Details",@item.ServiceModel.Controller, new { Area = @item.ServiceModel.BranchModel.AreaName, id = @item.RequestId })" class="list-group-item list-group-item-action flex-column align-items-start">
-                                        <div class="d-flex w-100 justify-content-between">
+                        @foreach (var item in Model.LastRequests)
+                        {
+                            <div class="col-md-4">
+                                <div class="list-group list-group-horizontal h-100">
+                                    <a href="@Url.Action("Details",@item.ServiceModel.Controller, new { Area = @item.ServiceModel.BranchModel.AreaName, id = @item.RequestId })"
+                                       class="list-group-item list-group-item-action flex-column align-items-center">
+                                        <div class="d-flex justify-content-between w-100">
                                             <h5 class="mb-1">@item.Title</h5>
                                             <small>@item.Date.ToShortDateString()</small>
                                         </div>
@@ -134,11 +149,14 @@
                                         <small>@item.SubdivisionModel.Shortname, @item.ClientModel.Fullname</small>
                                     </a>
                                 </div>
-                            }
-                        </div>
+                            </div>
+                        }
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>

@@ -132,6 +132,33 @@ namespace BusinessLogic.Concrete
             {
                 return result.Where(r => r.ExecutorId == employee.Id || r.ExecutorId == null).OrderBy(r => r.Date).ToList();
             }
-        }        
+        }
+
+        public async Task<List<Requests>> GetRequests(Employee employee, Category category, Service service, Status status, bool descending = true)
+        {
+            List<Requests> result = new List<Requests>();
+            // Получение всех заявок
+            var requests = await requestRepository.GetRequests();
+            if (category != null) requests = requests.Where(r => r.Service.Category.Id == category.Id).ToList();
+            // Если вид заявки указан — получаем заявки данного вида
+            if (service != null) requests = requests.Where(r => r.ServiceId == service.Id).ToList();
+            // Если статус заявки указан — получаем заявки с указанным статусом
+            if (status != null) requests = requests.Where(r => r.StatusId == status.Id).ToList();
+            // Список групп исполнителей, в которые включен текущий пользователь
+            var executorGroups = employee.ExecutorGroups;
+            // Если пользователь входит в группу(-ы) исполнителей
+            if (executorGroups != null)
+            {
+                foreach (var group in executorGroups)
+                {
+                    // получаем список заявок, к которым отсносится пользователь
+                    var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
+                    // добавляем в итоговый лист
+                    if (temp.Count != 0) result = result.Concat(temp).ToList();
+                }
+            }
+            // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
+            return result.Where(r => r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null).OrderBy(r => r.Date).ToList();
+        }
     }
 }

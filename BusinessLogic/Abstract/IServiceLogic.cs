@@ -8,5 +8,6 @@ namespace BusinessLogic.Abstract
     {
         Task<Service> GetService(int id);
         Task<List<Service>> GetActiveServices(bool descendings = false);
+        Task<List<Service>> GetActiveServices(Category category, bool descendings = false);
     }
 }

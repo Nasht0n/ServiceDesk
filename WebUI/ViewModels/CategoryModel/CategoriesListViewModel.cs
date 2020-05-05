@@ -4,7 +4,7 @@ using WebUI.Models;
 
 namespace WebUI.ViewModels.CategoryModel
 {
-    public class CategoriesListViewModel
+    public class CategoriesListViewModel: DashboardConfigurationViewModel
     {
         public List<CategoryViewModel> Categories { get; set; }
         public PagingInfo PagingInfo { get; set; }

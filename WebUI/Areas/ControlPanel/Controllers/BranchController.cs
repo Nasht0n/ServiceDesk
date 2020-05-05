@@ -59,9 +59,10 @@ namespace WebUI.Areas.ControlPanel.Controllers
 
         public async Task<ActionResult> Index(string search = "", int page = 1)
         {
+            BranchesListViewModel model = new BranchesListViewModel();
             await PopulateAccountInfo();
             var branches = await branchRepository.GetBranches();
-            BranchesListViewModel model = ModelFromData.GetListViewModel(branches, search, page, pageSize);
+            model = ModelFromData.GetListViewModel(model, branches, search, page, pageSize);
             return View(model);
         }
 

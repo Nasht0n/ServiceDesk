@@ -13,7 +13,7 @@
     <div class="list-group">
         @foreach (var branch in Model.Branches)
         {
-            <a href="@Url.Action("ChooseCategory","Dashboard",new { id = branch.Id })" class="list-group-item list-group-item-action bg-secondary">
+            <a href="@Url.Action("ChooseCategory","Dashboard",new { branchId = branch.Id })" class="list-group-item list-group-item-action bg-secondary">
                 @branch.Fullname
             </a>
         }

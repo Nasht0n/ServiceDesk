@@ -3,7 +3,7 @@ using WebUI.Models;
 
 namespace WebUI.ViewModels.BranchModel
 {
-    public class BranchesListViewModel
+    public class BranchesListViewModel: DashboardConfigurationViewModel
     {
         public List<BranchViewModel> Branches { get; set; }
         public PagingInfo PagingInfo { get; set; }

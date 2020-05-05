@@ -23,6 +23,14 @@ namespace BusinessLogic.Concrete
             else return services.Where(s => s.Visible).OrderBy(s=>s.Name).ToList();
         }
 
+        public async Task<List<Service>> GetActiveServices(Category category, bool descendings = false)
+        {
+            var services = await serviceRepository.GetServices();
+            services = services.Where(s => s.CategoryId == category.Id).ToList();
+            if (descendings) return services.Where(s => s.Visible).OrderByDescending(s => s.Name).ToList();
+            else return services.Where(s => s.Visible).OrderBy(s => s.Name).ToList();
+        }
+
         public async Task<Service> GetService(int id)
         {
             var services = await serviceRepository.GetServices();

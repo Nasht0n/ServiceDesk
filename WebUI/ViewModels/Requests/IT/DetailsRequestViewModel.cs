@@ -2,7 +2,7 @@
 
 namespace WebUI.ViewModels.Requests.IT
 {
-    public abstract class DetailsRequestViewModel:ViewModel
+    public abstract class DetailsRequestViewModel
     {
         [Display(Name = "Сообщение жизненного цикла")]
         public string Message { get; set; }

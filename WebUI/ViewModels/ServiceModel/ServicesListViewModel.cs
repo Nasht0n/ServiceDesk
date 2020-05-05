@@ -7,7 +7,7 @@ using WebUI.ViewModels.CategoryModel;
 
 namespace WebUI.ViewModels.ServiceModel
 {
-    public class ServicesListViewModel
+    public class ServicesListViewModel: DashboardConfigurationViewModel
     {
         public List<ServiceViewModel> Services { get; set; }
         public PagingInfo PagingInfo { get; set; }

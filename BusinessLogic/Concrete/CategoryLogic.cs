@@ -23,6 +23,13 @@ namespace BusinessLogic.Concrete
             else return categories.Where(c => c.BranchId == branch.Id).OrderBy(c=>c.Name).ToList();
         }
 
+        public async Task<List<Category>> GetCategories(bool descendings = false)
+        {
+            var categories = await categoryRepository.GetCategories();
+            if (descendings) return categories.OrderByDescending(c => c.Name).ToList();
+            else return categories.OrderBy(c => c.Name).ToList();
+        }
+
         public async Task<Category> GetCategory(int id)
         {
             var categories = await categoryRepository.GetCategories();

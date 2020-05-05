@@ -265,6 +265,28 @@ namespace WebUI.Models
             return model;
         }
 
+        public static List<CategoryViewModel> GetViewModel(List<Category> categories)
+        {
+            List<CategoryViewModel> list = new List<CategoryViewModel>();
+            foreach(var category in categories)
+            {
+                CategoryViewModel item = GetViewModel(category);
+                list.Add(item);
+            }
+            return list;
+        }
+
+        public static List<BranchViewModel> GetViewModel(List<Branch> branches)
+        {
+            List<BranchViewModel> list = new List<BranchViewModel>();
+            foreach(var branch in branches)
+            {
+                BranchViewModel item = GetViewModel(branch);
+                list.Add(item);
+            }
+            return list;
+        }
+
         public static SoftwareReworkRequestViewModel GetViewModel(SoftwareReworkRequest request)
         {
             SoftwareReworkRequestViewModel model = new SoftwareReworkRequestViewModel
@@ -1506,9 +1528,8 @@ namespace WebUI.Models
 
 
 
-        public static RequestListViewModel GetListViewModel(List<Requests> requests, Employee user, Service service)
+        public static RequestListViewModel GetListViewModel(RequestListViewModel model, List<Requests> requests, Employee user, Service service)
         {
-            RequestListViewModel model = new RequestListViewModel();
             List<RequestViewModel> requestsModel = new List<RequestViewModel>();
             foreach (var request in requests)
             {
@@ -2304,8 +2325,8 @@ namespace WebUI.Models
                 Phone = employee.Phone,
                 HeadOfUnit = employee.HeadOfUnit,
                 SelectedSubdivision = employee.SubdivisionId,
-                SubdivisionModel = GetViewModel(employee.Subdivision),
-            };
+                SubdivisionModel = GetViewModel(employee.Subdivision)
+        };
         }
 
         public static EmployeesListViewModel GetListViewModel(List<Employee> employees, string search = "", int subdivision = 0, int page = 0, int pageSize = 0)
@@ -2357,9 +2378,8 @@ namespace WebUI.Models
             };
         }
 
-        public static BranchesListViewModel GetListViewModel(List<Branch> branches, string search = "", int page = 0, int pageSize = 0)
+        public static BranchesListViewModel GetListViewModel(BranchesListViewModel model, List<Branch> branches, string search = "", int page = 0, int pageSize = 0)
         {
-            BranchesListViewModel model = new BranchesListViewModel();
             List<BranchViewModel> branchModels = new List<BranchViewModel>();
             if (!string.IsNullOrWhiteSpace(search))
             {

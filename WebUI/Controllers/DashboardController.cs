@@ -1,145 +1,234 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
-using Domain.Views;
-using Repository.Abstract;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
-using WebUI.Models.Enum;
 using WebUI.ViewModels;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CategoryModel;
 using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.ServiceModel;
+using static WebUI.ViewModels.CategoryStats;
+using static WebUI.ViewModels.DashboardViewModel;
 
 namespace WebUI.Controllers
 {
     [Authorize]
     public class DashboardController : Controller
     {
-        private readonly IAccountRepository accountRepository;
         private readonly IAccountLogic accountLogic;
         private readonly IAccountPermissionLogic accountPermissionLogic;
-        private readonly IEmployeeRepository employeeRepository;
         private readonly IEmployeeLogic employeeLogic;
         private readonly IBranchLogic branchLogic;
         private readonly ICategoryLogic categoryLogic;
         private readonly IServiceLogic serviceLogic;
-        private readonly IAccountPermissionRepository accountPermissionRepository;
         private readonly IRequestsLogic requestsLogic;
         private readonly IStatusLogic statusLogic;
 
-        public DashboardController(IAccountRepository accountRepository, IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
-            IEmployeeRepository employeeRepository, IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
-            IAccountPermissionRepository accountPermissionRepository, IRequestsLogic requestsLogic, IStatusLogic statusLogic)
+        public DashboardController(IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
+            IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
+            IRequestsLogic requestsLogic, IStatusLogic statusLogic)
         {
-            this.accountRepository = accountRepository;
             this.accountLogic = accountLogic;
             this.accountPermissionLogic = accountPermissionLogic;
-            this.employeeRepository = employeeRepository;
             this.employeeLogic = employeeLogic;
             this.branchLogic = branchLogic;
             this.categoryLogic = categoryLogic;
             this.serviceLogic = serviceLogic;
-            this.accountPermissionRepository = accountPermissionRepository;
             this.requestsLogic = requestsLogic;
             this.statusLogic = statusLogic;
         }
-
-        public async Task<Employee> PopulateAccountInfo()
+        /// <summary>
+        /// Метод получения данных информации об авторизованном пользователе в системе.
+        /// Инициализация данных рабочего пространства
+        /// </summary>
+        /// <param name="model">Модель конфигурации рабочего стола</param>
+        /// <returns>Возвращает объект авторизованного сотрудника</returns>
+        public async Task<Employee> PopulateAccountInfo(DashboardConfigurationViewModel model)
         {
+            // получение идентификатора учетной записи
             int id = int.Parse(User.Identity.Name);
+            // поиск учетной записи сотрудника
             var account = await accountLogic.GetAccount(id);
+            // поиск данных сотрудника
             var user = await employeeLogic.GetEmployee(account.EmployeeId);
-            account.Permissions = await accountPermissionLogic.GetPermissions(account);
-
-            ViewBag.CanAddRequest = account.Permissions.Where(p => p.PermissionId == 1).ToList().Count != 0;
-            ViewBag.CanEditRequest = account.Permissions.Where(p => p.PermissionId == 2).ToList().Count != 0;
-            ViewBag.CanDeleteRequest = account.Permissions.Where(p => p.PermissionId == 3).ToList().Count != 0;
-            ViewBag.AccessToControlPanel = account.Permissions.Where(p => p.PermissionId == 4).ToList().Count != 0;
-            ViewBag.ViewRequest = account.Permissions.Where(p => p.PermissionId == 5).ToList().Count != 0;
-            ViewBag.ApprovalAllowed = account.Permissions.Where(p => p.PermissionId == 6).ToList().Count != 0;
-            ViewBag.GetInWorkRequest = account.Permissions.Where(p => p.PermissionId == 7).ToList().Count != 0;
-
-            ViewBag.ActiveUser = $"{account.Employee.Surname} {account.Employee.Firstname[0]}. {account.Employee.Patronymic[0]}.";
+            // инициализация полей конфигурации
+            // передача информации о сотруднике
+            model.CurrentUser = ModelFromData.GetViewModel(user);
+            // инициализация прав доступа учетной записи
+            model.UserPermissions = new UserPermissions();
+            model.UserPermissions.Permissions = await accountPermissionLogic.GetPermissions(account);
+            model.UserPermissions.Account = ModelFromData.GetViewModel(account);
+            // возвращаем данные о сотруднике
             return user;
         }
-
+        /// <summary>
+        /// Метод инициализации боковое меню
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task MenuInformation(DashboardConfigurationViewModel model)
+        {
+            model.MenuInformation = new MenuStats();
+            var branches = await branchLogic.GetBranches();
+            model.MenuInformation.Branches = ModelFromData.GetViewModel(branches);
+            model.MenuInformation.CategoryStats = new CategoryStats();
+            model.MenuInformation.CategoryStats.CategoryInfos = new List<CategoryInfo>();
+            var categories = await categoryLogic.GetCategories();
+            foreach(var category in categories)
+            {
+                CategoryInfo info = new CategoryInfo(model.Requests);
+                info.CategoryModel = ModelFromData.GetViewModel(category);
+                model.MenuInformation.CategoryStats.CategoryInfos.Add(info);
+            }                      
+        }
+        /// <summary>
+        /// Метод отображения главной страницы рабочего стола
+        /// </summary>
+        /// <returns>Представление рабочего стола</returns>
         public async Task<ActionResult> Index()
         {
-            var user = await PopulateAccountInfo();
-            var executorGroups = user.ExecutorGroups;
-
+            // инициализация модели представления
             DashboardViewModel model = new DashboardViewModel();
-            List<Requests> requests = new List<Requests>();
-            if (executorGroups != null)
-            {
-                requests = await requestsLogic.GetRequests(user);
-                model.RequestsModel = ModelFromData.GetViewModel(requests);
-            }
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo(model);
+            // получение заявок касающихся авторизованного сотрудника
+            var requests = await requestsLogic.GetRequests(user);
+            // инициализации списка заявок в модели представления
+            model.Requests = ModelFromData.GetViewModel(requests);            
+            // инициализация таблицы данных статистики видов заявок
+            model.ServicesInfos = await InitializeServicesInfos(model.Requests);
+            await MenuInformation(model);
+            // отображение представления
+            return View(model);
+        }
+        /// <summary>
+        /// Метод получения статистических данных таблицы видов заявок
+        /// </summary>
+        /// <param name="requests">Список заявок</param>
+        /// <returns>Возвращаем статистику видов работ</returns>
+        private async Task<List<ServicesStats>> InitializeServicesInfos(List<RequestViewModel> requests)
+        {
+            // получение списка активных видов заявок
             var services = await serviceLogic.GetActiveServices();
-            List<ServicesStats> stats = new List<ServicesStats>();
+            // инициализация списка результатов
+            List<ServicesStats> result = new List<ServicesStats>();
+            // обход списка видов заявок
             foreach (var service in services)
             {
-                ServicesStats item = new ServicesStats();
+                // инициализация текущего вида заявок
+                ServicesStats item = new ServicesStats(requests);
+                // получение данных видов заявок
                 item.ServiceModel = ModelFromData.GetViewModel(service);
-                item.Count = requests.Where(r => r.ServiceId == service.Id).Count();
-                if (item.Count != 0) stats.Add(item);
+                // если вид заявок содержит заявки - добавляем в список результата
+                if (item.TotalCount != 0) result.Add(item);
             }
-            model.StatsModel = stats;           
-
-            model.CountCreatedRequest = requests.Where(r => r.ClientId == user.Id).Count();
-            model.CountExecutedRequest = requests.Where(r => r.ExecutorId == user.Id).Count();
-            model.CountApprovalRequest = requests.Where(r => r.StatusId == (int)RequestStatus.Approval).Count();
-            model.CountCompletedRequest = requests.Where(r => r.StatusId == (int)RequestStatus.Done).Count();
-
-            return View(model);
+            // возвращаем список статистики
+            return result;
         }
-
-        public async Task<ActionResult> Requests(int serviceId = 0)
+        /// <summary>
+        /// Метод отображения страницы "Каталог заявок"
+        /// </summary>
+        /// <param name="serviceId">Идентификатор вида заявок</param>
+        /// <returns>Представление каталога заявок</returns>
+        public async Task<ActionResult> Requests(int categoryId = 0,int serviceId = 0, int statusId = 0)
         {
-            var user = await PopulateAccountInfo();
-            var executorGroups = user.ExecutorGroups;
+            // инициализация модели представления
             RequestListViewModel model = new RequestListViewModel();
-
-                var service = await serviceLogic.GetService(serviceId);
-                List<Requests> requests = new List<Requests>();
-                if (executorGroups != null)
-                {
-                    requests = await requestsLogic.GetRequests(user, service);
-                }
-                model = ModelFromData.GetListViewModel(requests, user, service);
-            
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo(model);
+            // получени категории заявок по указанному идентификатору
+            var category = await categoryLogic.GetCategory(categoryId);
+            // получение вида заявок по указанному идентификатору
+            var service = await serviceLogic.GetService(serviceId);
+            // получение статуса заявок по указанному идентификатору
+            var status = await statusLogic.GetStatus(statusId);
+            // получение списка заявок
+            var requests = await requestsLogic.GetRequests(user, category,service, status);
+            // инициализации списка заявок в модели представления
+            model.Requests = ModelFromData.GetViewModel(requests);
+            await MenuInformation(model);
+            // отображение представления
             return View(model);
         }
-
+        /// <summary>
+        /// Метод отображения страницы "Выбор отрасли заявки"
+        /// </summary>
+        /// <returns>Представление выбора отрасли заявки</returns>
         public async Task<ActionResult> ChooseBranch()
         {
-            await PopulateAccountInfo();
+            // инициализация модели представления
+            BranchesListViewModel model = new BranchesListViewModel();
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo(model);
+            // получение заявок касающихся авторизованного сотрудника
+            var requests = await requestsLogic.GetRequests(user);
+            // инициализации списка заявок в модели представления
+            model.Requests = ModelFromData.GetViewModel(requests);
+            // получение списка отраслей заявки
             var branches = await branchLogic.GetBranches();
-            BranchesListViewModel model = ModelFromData.GetListViewModel(branches);
+            // инициализация списка отраслей заявки
+            model.Branches = ModelFromData.GetViewModel(branches);
+            await MenuInformation(model);
+            // отображение представления
             return View(model);
         }
-
-        public async Task<ActionResult> ChooseCategory(int id)
+        /// <summary>
+        /// Метод отображения страницы "Выбор категории заявки"
+        /// </summary>
+        /// <param name="branchId">Идентификатор отрасли заявки</param>
+        /// <returns>Представление выбора категории заявки</returns>
+        public async Task<ActionResult> ChooseCategory(int branchId)
         {
-            await PopulateAccountInfo();
-            var branch = await branchLogic.GetBranch(id);
+            // инициализация модели представления
+            CategoriesListViewModel model = new CategoriesListViewModel();
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo(model);
+            // получение заявок касающихся авторизованного сотрудника
+            var requests = await requestsLogic.GetRequests(user);
+            // инициализации списка заявок в модели представления
+            model.Requests = ModelFromData.GetViewModel(requests);
+            // получение отрасли заявки по идентификатору
+            var branch = await branchLogic.GetBranch(branchId);
+            // получение списка категорий заявки текущей отрасли заявки
             var categories = await categoryLogic.GetCategories(branch);
-            CategoriesListViewModel model = ModelFromData.GetListViewModel(categories);
+            // инициализация списка категорий заявки
+            model.Categories = ModelFromData.GetViewModel(categories);
+            await MenuInformation(model);
+            // отображение представления
             return View(model);
         }
-
-        public async Task<ActionResult> ChooseService(int id)
+        /// <summary>
+        /// Метод отображения страницы "Выбор вида заявки"
+        /// </summary>
+        /// <param name="categoryId">Идентификатор категории заявки</param>
+        /// <returns>Представление выбора вида заявки</returns>
+        public async Task<ActionResult> ChooseService(int categoryId)
         {
-            await PopulateAccountInfo();
-
-            var services = await serviceLogic.GetActiveServices();
-            var category = await categoryLogic.GetCategory(id);
-
-            ServicesListViewModel model = ModelFromData.GetListViewModel(services, category);
+            // инициализация модели представления
+            ServicesListViewModel model = new ServicesListViewModel();
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo(model);
+            // получение заявок касающихся авторизованного сотрудника
+            var requests = await requestsLogic.GetRequests(user);
+            // инициализации списка заявок в модели представления
+            model.Requests = ModelFromData.GetViewModel(requests);
+            // получение категории заявки по идентификатору
+            var category = await categoryLogic.GetCategory(categoryId);
+            // инициализация категории заявки
+            model.CategoryModel = ModelFromData.GetViewModel(category);
+            // получение списка видов работ
+            var services = await serviceLogic.GetActiveServices(category);
+            // инициализация списка категорий заявки
+            model.Services = ModelFromData.GetViewModel(services);
+            await MenuInformation(model);
+            // отображение представления
             return View(model);
         }
     }
