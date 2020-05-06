@@ -966,9 +966,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static AccountDisconnectDetailsRequestViewModel GetViewModel(AccountDisconnectRequest request, Employee user, List<AccountDisconnectRequestLifeCycle> lifeCycles)
+        public static AccountDisconnectDetailsRequestViewModel GetViewModel(AccountDisconnectDetailsRequestViewModel model, AccountDisconnectRequest request, Employee user, List<AccountDisconnectRequestLifeCycle> lifeCycles)
         {
-            AccountDisconnectDetailsRequestViewModel model = new AccountDisconnectDetailsRequestViewModel();
             model.RequestModel = new AccountDisconnectRequestViewModel
             {
                 Id = request.Id,
@@ -1160,9 +1159,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static AccountLossDetailsRequestViewModel GetViewModel(AccountLossRequest request, Employee user, List<AccountLossRequestLifeCycle> lifeCycles)
+        public static AccountLossDetailsRequestViewModel GetViewModel(AccountLossDetailsRequestViewModel model, AccountLossRequest request, Employee user, List<AccountLossRequestLifeCycle> lifeCycles)
         {
-            AccountLossDetailsRequestViewModel model = new AccountLossDetailsRequestViewModel();
             model.RequestModel = new AccountLossRequestViewModel
             {
                 Id = request.Id,
@@ -1247,9 +1245,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static AccountRegistrationDetailsRequestViewModel GetViewModel(AccountRegistrationRequest request, Employee user, List<AccountRegistrationRequestLifeCycle> lifeCycles)
+        public static AccountRegistrationDetailsRequestViewModel GetViewModel(AccountRegistrationDetailsRequestViewModel model, AccountRegistrationRequest request, Employee user, List<AccountRegistrationRequestLifeCycle> lifeCycles)
         {
-            AccountRegistrationDetailsRequestViewModel model = new AccountRegistrationDetailsRequestViewModel();
             model.RequestModel = new AccountRegistrationRequestViewModel
             {
                 Id = request.Id,
@@ -1334,9 +1331,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static AccountCancellationDetailsRequestViewModel GetViewModel(AccountCancellationRequest request, Employee user, List<AccountCancellationRequestLifeCycle> lifeCycles)
+        public static AccountCancellationDetailsRequestViewModel GetViewModel(AccountCancellationDetailsRequestViewModel model, AccountCancellationRequest request, Employee user, List<AccountCancellationRequestLifeCycle> lifeCycles)
         {
-            AccountCancellationDetailsRequestViewModel model = new AccountCancellationDetailsRequestViewModel();
             model.RequestModel = new AccountCancellationRequestViewModel
             {
                 Id = request.Id,

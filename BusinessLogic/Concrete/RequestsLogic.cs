@@ -17,13 +17,15 @@ namespace BusinessLogic.Concrete
             this.requestRepository = requestRepository;
         }
 
-        public async Task<List<Requests>> GetRequests(Employee employee, Service service = null, bool descending = true)
+        public async Task<List<Requests>> GetRequests(Employee employee, Service service = null, bool descending = false)
         {
             List<Requests> result = new List<Requests>();
             // Получение всех заявок
             var requests = await requestRepository.GetRequests();
             // Если вид заявки указан — получаем заявки данного вида
             if (service != null) requests = requests.Where(r => r.ServiceId == service.Id).ToList();
+            // получаем заявки созданные сотрудником
+            result = requests.Where(r => r.ClientId == employee.Id).ToList();
             // Список групп исполнителей, в которые включен текущий пользователь
             var executorGroups = employee.ExecutorGroups;
             // Если пользователь входит в группу(-ы) исполнителей
@@ -34,14 +36,15 @@ namespace BusinessLogic.Concrete
                     // получаем список заявок, к которым отсносится пользователь
                     var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
                     // добавляем в итоговый лист
-                    if (temp.Count != 0) result = result.Concat(temp).ToList();
+                    if (temp.Count != 0) result = result.Union(temp).ToList();
                 }
             }
             // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
-            return result.Where(r => r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null).OrderBy(r => r.Date).ToList();
+            if (descending) return result.OrderByDescending(r => r.Date).ToList();            
+            else return result.OrderBy(r => r.Date).ToList();
         }
 
-        public async Task<List<Requests>> GetRequests(bool descending = true)
+        public async Task<List<Requests>> GetRequests(bool descending = false)
         {
             // Получение всех заявок
             var requests = await requestRepository.GetRequests();
@@ -50,42 +53,51 @@ namespace BusinessLogic.Concrete
             else return requests.OrderBy(r => r.Date).ToList();
         }
 
-        public async Task<List<Requests>> GetRequests(Employee employee, bool descending = true)
+        public async Task<List<Requests>> GetRequests(Employee employee, bool descending = false)
         {
             List<Requests> result = new List<Requests>();
             // Получение всех заявок
             var requests = await requestRepository.GetRequests();
+
+            // получаем заявки созданные сотрудником
+            result = requests.Where(r => r.ClientId == employee.Id).ToList();
+
+            //// получаем заявки где сотрудник является исполнителем
+            //var executors = requests.Where(r => r.ExecutorId == employee.Id).ToList();
+            //if (executors.Count != 0) result = result.Concat(executors).ToList();
+
             // Список групп исполнителей, в которые включен текущий пользователь
             var executorGroups = employee.ExecutorGroups;
             // Если пользователь входит в группу(-ы) исполнителей
-            if (executorGroups != null)
+            if (executorGroups.Count!=0)
             {
                 foreach (var group in executorGroups)
                 {
                     // получаем список заявок, к которым отсносится пользователь
                     var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
                     // добавляем в итоговый лист
-                    if (temp.Count != 0) result = result.Concat(temp).ToList();
+                    if (temp.Count != 0) result = result.Union(temp).ToList();
                 }
             }
             // выводим согласно выбраному типу сортировки
             if (descending)
             {
-                return result.Where(r => r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null).OrderByDescending(r => r.Date).ToList();
+                return result.OrderByDescending(r => r.Date).ToList();
             }
             else
             {
-                return result.Where(r => r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null).OrderBy(r => r.Date).ToList();
+                return result.OrderBy(r => r.Date).ToList();
             }
         }
 
-        public async Task<List<Requests>> GetRequests(Employee employee, Status status, bool descending = true)
+        public async Task<List<Requests>> GetRequests(Employee employee, Status status, bool descending = false)
         {
             List<Requests> result = new List<Requests>();
             var requests = await requestRepository.GetRequests();
             // Если статус заявки указан — получаем заявки данного статуса
             if (status != null) requests = requests.Where(r => r.StatusId == status.Id).ToList();
-
+            // получаем заявки созданные сотрудником
+            result = requests.Where(r => r.ClientId == employee.Id).ToList();
             // Список групп исполнителей, в которые включен текущий пользователь
             var executorGroups = employee.ExecutorGroups;
             // Если пользователь входит в группу(-ы) исполнителей
@@ -96,20 +108,22 @@ namespace BusinessLogic.Concrete
                     // получаем список заявок, к которым отсносится пользователь
                     var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
                     // добавляем в итоговый лист
-                    if (temp.Count != 0) result = result.Concat(temp).ToList();
+                    if (temp.Count != 0) result = result.Union(temp).ToList();
                 }
             }
             // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
-            return result.Where(r => r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null).OrderBy(r => r.Date).ToList();
+            if (descending) return result.OrderByDescending(r => r.Date).ToList();
+            else return result.OrderBy(r => r.Date).ToList();
         }
 
-        public async Task<List<Requests>> GetRequests(Employee employee, Status status, bool client = true, bool descending = true)
+        public async Task<List<Requests>> GetRequests(Employee employee, Status status, bool client = true, bool descending = false)
         {
             List<Requests> result = new List<Requests>();
             var requests = await requestRepository.GetRequests();
             // Если статус заявки указан — получаем заявки данного статуса
             if (status != null) requests = requests.Where(r => r.StatusId == status.Id).ToList();
-
+            // получаем заявки созданные сотрудником
+            result = requests.Where(r => r.ClientId == employee.Id).ToList();
             // Список групп исполнителей, в которые включен текущий пользователь
             var executorGroups = employee.ExecutorGroups;
             // Если пользователь входит в группу(-ы) исполнителей
@@ -134,7 +148,7 @@ namespace BusinessLogic.Concrete
             }
         }
 
-        public async Task<List<Requests>> GetRequests(Employee employee, Category category, Service service, Status status, bool descending = true)
+        public async Task<List<Requests>> GetRequests(Employee employee, Category category, Service service, Status status, bool descending = false)
         {
             List<Requests> result = new List<Requests>();
             // Получение всех заявок
@@ -144,6 +158,8 @@ namespace BusinessLogic.Concrete
             if (service != null) requests = requests.Where(r => r.ServiceId == service.Id).ToList();
             // Если статус заявки указан — получаем заявки с указанным статусом
             if (status != null) requests = requests.Where(r => r.StatusId == status.Id).ToList();
+            // получаем заявки созданные сотрудником
+            result = requests.Where(r => r.ClientId == employee.Id).ToList();
             // Список групп исполнителей, в которые включен текущий пользователь
             var executorGroups = employee.ExecutorGroups;
             // Если пользователь входит в группу(-ы) исполнителей
@@ -154,11 +170,12 @@ namespace BusinessLogic.Concrete
                     // получаем список заявок, к которым отсносится пользователь
                     var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
                     // добавляем в итоговый лист
-                    if (temp.Count != 0) result = result.Concat(temp).ToList();
+                    if (temp.Count != 0) result = result.Union(temp).ToList();
                 }
             }
             // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
-            return result.Where(r => r.ClientId == employee.Id || r.ExecutorId == employee.Id || r.ExecutorId == null).OrderBy(r => r.Date).ToList();
+            if (descending) return result.OrderByDescending(r => r.Date).ToList();
+            else return result.OrderBy(r => r.Date).ToList();
         }
     }
 }

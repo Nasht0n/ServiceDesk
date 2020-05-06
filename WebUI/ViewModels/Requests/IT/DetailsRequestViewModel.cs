@@ -13,6 +13,7 @@ namespace WebUI.ViewModels.Requests.IT
         public bool IsExecutor { get; set; }
         // Пользователь создатель заявки
         public bool IsClient { get; set; }
+        // Заявка прошла полное согласование
         public bool AllApproval { get; set; }
     }
 }
