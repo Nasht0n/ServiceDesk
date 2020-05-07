@@ -207,9 +207,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static SoftwareReworkDetailsRequestViewModel GetViewModel(SoftwareReworkRequest request, Employee user, List<SoftwareReworkRequestLifeCycle> lifeCycles)
+        public static SoftwareReworkDetailsRequestViewModel GetViewModel(SoftwareReworkDetailsRequestViewModel model, SoftwareReworkRequest request, Employee user, List<SoftwareReworkRequestLifeCycle> lifeCycles)
         {
-            SoftwareReworkDetailsRequestViewModel model = new SoftwareReworkDetailsRequestViewModel();
             model.RequestModel = new SoftwareReworkRequestViewModel
             {
                 Id = request.Id,
@@ -316,9 +315,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static SoftwareDevelopmentDetailsRequestViewModel GetViewModel(SoftwareDevelopmentRequest request, Employee user, List<SoftwareDevelopmentRequestLifeCycle> lifeCycles)
+        public static SoftwareDevelopmentDetailsRequestViewModel GetViewModel(SoftwareDevelopmentDetailsRequestViewModel model, SoftwareDevelopmentRequest request, Employee user, List<SoftwareDevelopmentRequestLifeCycle> lifeCycles)
         {
-            SoftwareDevelopmentDetailsRequestViewModel model = new SoftwareDevelopmentDetailsRequestViewModel();
             model.RequestModel = new SoftwareDevelopmentRequestViewModel
             {
                 Id = request.Id,
@@ -403,9 +401,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static VideoCommunicationDetailsRequestViewModel GetViewModel(VideoCommunicationRequest request, Employee user, List<VideoCommunicationRequestLifeCycle> lifeCycles)
+        public static VideoCommunicationDetailsRequestViewModel GetViewModel(VideoCommunicationDetailsRequestViewModel model, VideoCommunicationRequest request, Employee user, List<VideoCommunicationRequestLifeCycle> lifeCycles)
         {
-            VideoCommunicationDetailsRequestViewModel model = new VideoCommunicationDetailsRequestViewModel();
             model.RequestModel = new VideoCommunicationRequestViewModel
             {
                 Id = request.Id,
@@ -486,9 +483,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static PhoneRepairDetailsRequestViewModel GetViewModel(PhoneRepairRequest request, Employee user, List<PhoneRepairRequestLifeCycle> lifeCycles)
+        public static PhoneRepairDetailsRequestViewModel GetViewModel(PhoneRepairDetailsRequestViewModel model, PhoneRepairRequest request, Employee user, List<PhoneRepairRequestLifeCycle> lifeCycles)
         {
-            PhoneRepairDetailsRequestViewModel model = new PhoneRepairDetailsRequestViewModel();
             model.RequestModel = new PhoneRepairRequestViewModel
             {
                 Id = request.Id,
@@ -567,9 +563,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static PhoneNumberAllocationDetailsRequestViewModel GetViewModel(PhoneNumberAllocationRequest request, Employee user, List<PhoneNumberAllocationRequestLifeCycle> lifeCycles)
+        public static PhoneNumberAllocationDetailsRequestViewModel GetViewModel(PhoneNumberAllocationDetailsRequestViewModel model, PhoneNumberAllocationRequest request, Employee user, List<PhoneNumberAllocationRequestLifeCycle> lifeCycles)
         {
-            PhoneNumberAllocationDetailsRequestViewModel model = new PhoneNumberAllocationDetailsRequestViewModel();
             model.RequestModel = new PhoneNumberAllocationRequestViewModel
             {
                 Id = request.Id,
@@ -648,9 +643,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static PhoneLineRepairDetailsRequestViewModel GetViewModel(PhoneLineRepairRequest request, Employee user, List<PhoneLineRepairRequestLifeCycle> lifeCycles)
+        public static PhoneLineRepairDetailsRequestViewModel GetViewModel(PhoneLineRepairDetailsRequestViewModel model, PhoneLineRepairRequest request, Employee user, List<PhoneLineRepairRequestLifeCycle> lifeCycles)
         {
-            PhoneLineRepairDetailsRequestViewModel model = new PhoneLineRepairDetailsRequestViewModel();
             model.RequestModel = new PhoneLineRepairRequestViewModel
             {
                 Id = request.Id,
@@ -729,9 +723,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static HoldingPhoneLineDetailsRequestViewModel GetViewModel(HoldingPhoneLineRequest request, Employee user, List<HoldingPhoneLineRequestLifeCycle> lifeCycles)
+        public static HoldingPhoneLineDetailsRequestViewModel GetViewModel(HoldingPhoneLineDetailsRequestViewModel model, HoldingPhoneLineRequest request, Employee user, List<HoldingPhoneLineRequestLifeCycle> lifeCycles)
         {
-            HoldingPhoneLineDetailsRequestViewModel model = new HoldingPhoneLineDetailsRequestViewModel();
             model.RequestModel = new HoldingPhoneLineRequestViewModel
             {
                 Id = request.Id,
@@ -810,9 +803,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static EmailSizeIncreaseDetailsRequestViewModel GetViewModel(EmailSizeIncreaseRequest request, Employee user, List<EmailSizeIncreaseRequestLifeCycle> lifeCycles)
+        public static EmailSizeIncreaseDetailsRequestViewModel GetViewModel(EmailSizeIncreaseDetailsRequestViewModel model, EmailSizeIncreaseRequest request, Employee user, List<EmailSizeIncreaseRequestLifeCycle> lifeCycles)
         {
-            EmailSizeIncreaseDetailsRequestViewModel model = new EmailSizeIncreaseDetailsRequestViewModel();
             model.RequestModel = new EmailSizeIncreaseRequestViewModel
             {
                 Id = request.Id,
@@ -888,9 +880,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static EmailRegistrationDetailsRequestViewModel GetViewModel(EmailRegistrationRequest request, Employee user, List<EmailRegistrationRequestLifeCycle> lifeCycles)
+        public static EmailRegistrationDetailsRequestViewModel GetViewModel(EmailRegistrationDetailsRequestViewModel model, EmailRegistrationRequest request, Employee user, List<EmailRegistrationRequestLifeCycle> lifeCycles)
         {
-            EmailRegistrationDetailsRequestViewModel model = new EmailRegistrationDetailsRequestViewModel();
             model.RequestModel = new EmailRegistrationRequestViewModel
             {
                 Id = request.Id,
@@ -1068,9 +1059,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static NetworkConnectionDetailsRequestViewModel GetViewModel(NetworkConnectionRequest request, Employee user, List<NetworkConnectionRequestLifeCycle> lifeCycles)
+        public static NetworkConnectionDetailsRequestViewModel GetViewModel(NetworkConnectionDetailsRequestViewModel model, NetworkConnectionRequest request, Employee user, List<NetworkConnectionRequestLifeCycle> lifeCycles)
         {
-            NetworkConnectionDetailsRequestViewModel model = new NetworkConnectionDetailsRequestViewModel();
             model.RequestModel = new NetworkConnectionRequestViewModel
             {
                 Id = request.Id,
@@ -1605,9 +1595,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static EquipmentReplaceDetailsRequestViewModel GetViewModel(EquipmentReplaceRequest request, Employee user, List<EquipmentReplaceRequestLifeCycle> lifeCycles)
+        public static EquipmentReplaceDetailsRequestViewModel GetViewModel(EquipmentReplaceDetailsRequestViewModel model, EquipmentReplaceRequest request, Employee user, List<EquipmentReplaceRequestLifeCycle> lifeCycles)
         {
-            EquipmentReplaceDetailsRequestViewModel model = new EquipmentReplaceDetailsRequestViewModel();
             model.RequestModel = new EquipmentReplaceRequestViewModel
             {
                 Id = request.Id,
@@ -1711,9 +1700,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static ComponentReplaceDetailsRequestViewModel GetViewModel(ComponentReplaceRequest request, Employee user, List<ComponentReplaceRequestLifeCycle> lifeCycles)
+        public static ComponentReplaceDetailsRequestViewModel GetViewModel(ComponentReplaceDetailsRequestViewModel model, ComponentReplaceRequest request, Employee user, List<ComponentReplaceRequestLifeCycle> lifeCycles)
         {
-            ComponentReplaceDetailsRequestViewModel model = new ComponentReplaceDetailsRequestViewModel();
             model.RequestModel = new ComponentReplaceRequestViewModel
             {
                 Id = request.Id,
@@ -1824,9 +1812,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static EquipmentRefillDetailsRequestViewModel GetViewModel(EquipmentRefillRequest request, Employee user, List<EquipmentRefillRequestLifeCycle> lifeCycles)
+        public static EquipmentRefillDetailsRequestViewModel GetViewModel(EquipmentRefillDetailsRequestViewModel model, EquipmentRefillRequest request, Employee user, List<EquipmentRefillRequestLifeCycle> lifeCycles)
         {
-            EquipmentRefillDetailsRequestViewModel model = new EquipmentRefillDetailsRequestViewModel();
             model.RequestModel = new EquipmentRefillRequestViewModel
             {
                 Id = request.Id,
@@ -1916,9 +1903,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static EquipmentRepairDetailsRequestViewModel GetViewModel(EquipmentRepairRequest request, Employee user, List<EquipmentRepairRequestLifeCycle> lifeCycles)
+        public static EquipmentRepairDetailsRequestViewModel GetViewModel(EquipmentRepairDetailsRequestViewModel model, EquipmentRepairRequest request, Employee user, List<EquipmentRepairRequestLifeCycle> lifeCycles)
         {
-            EquipmentRepairDetailsRequestViewModel model = new EquipmentRepairDetailsRequestViewModel();
             model.RequestModel = new EquipmentRepairRequestViewModel
             {
                 Id = request.Id,
@@ -2051,9 +2037,8 @@ namespace WebUI.Models
             return model;
         }
 
-        public static EquipmentInstallationDetailsRequestViewModel GetViewModel(EquipmentInstallationRequest request, Employee user, List<EquipmentInstallationRequestLifeCycle> lifeCycles)
+        public static EquipmentInstallationDetailsRequestViewModel GetViewModel(EquipmentInstallationDetailsRequestViewModel model, EquipmentInstallationRequest request, Employee user, List<EquipmentInstallationRequestLifeCycle> lifeCycles)
         {
-            EquipmentInstallationDetailsRequestViewModel model = new EquipmentInstallationDetailsRequestViewModel();
             model.RequestModel = new EquipmentInstallationRequestViewModel
             {
                 Id = request.Id,
