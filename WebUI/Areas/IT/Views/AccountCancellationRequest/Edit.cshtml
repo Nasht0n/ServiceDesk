@@ -24,7 +24,6 @@
 </ol>
 
 <div class="container-fluid footer">
-
     @using (Html.BeginForm("Edit", "AccountCancellationRequest", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -43,7 +42,7 @@
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Аннулирование учетной записи студентов группы ТО)", autocomplete = "off" } })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Аннулирование учетной записи группы студентов)", autocomplete = "off" } })
 
                 </div>
             </div>
@@ -72,12 +71,11 @@
                     @Html.DropDownListFor(model => model.PriorityId, Model.Priorities, htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
                 </div>
 
-
                 <div class="col-md-8">
                     <div class="form-group">
                         @Html.LabelFor(model => model.FilePath, htmlAttributes: new { @class = "control-label" })
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="inputFile" name="Model.Files" lang="ru" required multiple accept=".xls, .xlsx, .doc, .docx, .txt">
+                            <input type="file" class="custom-file-input" id="inputFile" name="Model.Files" lang="ru" multiple accept=".xls, .xlsx, .doc, .docx, .txt">
                             <label class="custom-file-label" for="inputFile">Выберите файл</label>
                         </div>
                         <div class="row" id="fileList">

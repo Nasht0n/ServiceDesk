@@ -5,15 +5,16 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
-    <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
-    <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
-    <li class="breadcrumb-item text-white active">Редактирование заявки</li>
-</ol>
 
-<div class="container-fluid footer">
+
+<div class="container footer">
+    <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
+        <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
+        <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
+        <li class="breadcrumb-item text-white active">Редактирование заявки</li>
+    </ol>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()

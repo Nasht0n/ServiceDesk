@@ -5,76 +5,77 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
-    <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
-    <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
-    <li class="breadcrumb-item active">Удаление заявки</li>
-</ol>
+    <div class="container">
 
-<div class="container">
-    <h3 class="text-dark">Вы уверены, что хотите удалить заявку?</h3>
-    <hr />
-    <dl class="dl-horizontal text-dark">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+        <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
+            <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
+            <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
+            <li class="breadcrumb-item active">Удаление заявки</li>
+        </ol>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+        <h3 class="text-dark">Вы уверены, что хотите удалить заявку?</h3>
+        <hr />
+        <dl class="dl-horizontal text-dark">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SubdivisionModel.Fullname)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.SubdivisionModel.Fullname)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SubdivisionModel.Fullname)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Justification)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SubdivisionModel.Fullname)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Justification)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Justification)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CampusModel.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Justification)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CampusModel.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CampusModel.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CampusModel.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Location)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Location)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Location)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-    </dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+            <dd>
+                @Html.DisplayFor(model => model.Date)
+            </dd>
+        </dl>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Удалить запись" class="btn btn-danger" />
-            @Html.ActionLink("Вернуться к списку заявок", "Requests", "Dashboard", new { Area = "" }, new { @class = "btn  btn-outline-primary" })
-        </div>
-    }
-</div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить запись" class="btn btn-danger" />
+                @Html.ActionLink("Вернуться к списку заявок", "Requests", "Dashboard", new { Area = "" }, new { @class = "btn  btn-outline-primary" })
+            </div>
+        }
+    </div>
 
 

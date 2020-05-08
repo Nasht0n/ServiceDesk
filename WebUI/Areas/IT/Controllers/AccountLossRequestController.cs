@@ -412,39 +412,42 @@ namespace WebUI.Areas.IT.Controllers
             // обход прикрепленных файлов к заявке
             foreach (var file in model.Files)
             {
-                // получаем имя файла
-                string fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                // получаем расширение файла
-                string fileExtension = Path.GetExtension(file.FileName);
-                // путь к сохранению файлов
-                string uploadPath = Server.MapPath("~/Files/UploadedFiles/AccountAttachments/");
-                // получение полного пути к файлу
-                var filePath = uploadPath + fileName.Trim() + fileExtension;
-                // инициализация пути к файлу
-                model.FilePath = filePath;
-                // сохранение файла на жесткий диск сервера
-                file.SaveAs(model.FilePath);
-                // создаем запись о прикрепленном файле в БД
-                // указываем дату загрузки файла
-                // наименование файла
-                // путь к файлу
-                Attachment attachmentFile = new Attachment
+                if (file != null)
                 {
-                    DateUploaded = DateTime.Now,
-                    Filename = fileName,
-                    Path = filePath
-                };
-                // сохраняем информацию о прикрепленном файле
-                attachmentFile = await attachmentLogic.Save(attachmentFile);
-                // создаем объект прикреплений данного вида заявки
-                // инициализируем идентификатор прикрепленного файла
-                AccountLossRequestAttachment attachment = new AccountLossRequestAttachment
-                {
-                    AttachmentId = attachmentFile.Id,
-                    RequestId = request.Id
-                };
-                // добавляем данные прикрепленных файлов к заявке
-                await requestAttachmentLogic.Add(attachment);
+                    // получаем имя файла
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    // получаем расширение файла
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    // путь к сохранению файлов
+                    string uploadPath = Server.MapPath("~/Files/UploadedFiles/AccountAttachments/");
+                    // получение полного пути к файлу
+                    var filePath = uploadPath + fileName.Trim() + fileExtension;
+                    // инициализация пути к файлу
+                    model.FilePath = filePath;
+                    // сохранение файла на жесткий диск сервера
+                    file.SaveAs(model.FilePath);
+                    // создаем запись о прикрепленном файле в БД
+                    // указываем дату загрузки файла
+                    // наименование файла
+                    // путь к файлу
+                    Attachment attachmentFile = new Attachment
+                    {
+                        DateUploaded = DateTime.Now,
+                        Filename = fileName,
+                        Path = filePath
+                    };
+                    // сохраняем информацию о прикрепленном файле
+                    attachmentFile = await attachmentLogic.Save(attachmentFile);
+                    // создаем объект прикреплений данного вида заявки
+                    // инициализируем идентификатор прикрепленного файла
+                    AccountLossRequestAttachment attachment = new AccountLossRequestAttachment
+                    {
+                        AttachmentId = attachmentFile.Id,
+                        RequestId = request.Id
+                    };
+                    // добавляем данные прикрепленных файлов к заявке
+                    await requestAttachmentLogic.Add(attachment);
+                }
             }
             // сохраняем заявку
             await requestLogic.Save(request);

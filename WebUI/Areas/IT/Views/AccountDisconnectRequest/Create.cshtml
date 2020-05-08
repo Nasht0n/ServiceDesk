@@ -16,14 +16,13 @@
 }
 
 <div class="container footer">
-
     <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="@Url.Action("ChooseCategory","Dashboard",new { Area = "", id=Model.ServiceModel.BranchModel.Id })">@Model.ServiceModel.BranchModel.Fullname</a>
+            <a href="@Url.Action("ChooseCategory","Dashboard",new { Area = "", branchId = Model.ServiceModel.BranchModel.Id })">@Model.ServiceModel.BranchModel.Fullname</a>
         </li>
         <li class="breadcrumb-item">
-            <a href="@Url.Action("ChooseService","Dashboard", new { Area = "", id = Model.ServiceModel.CategoryModel.Id })">@Model.ServiceModel.CategoryModel.Name</a>
+            <a href="@Url.Action("ChooseService","Dashboard", new { Area = "", categoryId = Model.ServiceModel.CategoryModel.Id })">@Model.ServiceModel.CategoryModel.Name</a>
         </li>
         <li class="breadcrumb-item">
             <span class="text-primary">@Model.ServiceModel.Name</span>

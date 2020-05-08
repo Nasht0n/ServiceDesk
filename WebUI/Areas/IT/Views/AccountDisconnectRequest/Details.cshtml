@@ -5,15 +5,16 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.BranchModel.Fullname</li>
-    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.CategoryModel.Name</li>
-    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.Name</li>
-    <li class="breadcrumb-item active">Просмотр заявки</li>
-</ol>
-
 <div class="container-fluid footer">
+
+    <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.BranchModel.Fullname</li>
+        <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.CategoryModel.Name</li>
+        <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.Name</li>
+        <li class="breadcrumb-item active">Просмотр заявки</li>
+    </ol>
+
     <div class="row">
         <div class="col-6">
             <div class="card mb-3 bg-white">

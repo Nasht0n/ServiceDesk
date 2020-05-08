@@ -15,7 +15,7 @@ namespace WebUI.ViewModels.Requests.IT.Networks
         [Required]
         [Display(Name = "Аудитория/Кабинет")]
         public string Location { get; set; }
-        [Display(Name = "Перечень заменяемых компонентов")]
+        [Display(Name = "Список подключаемого оборудования")]
         public List<ConnectionEquipmentViewModel> Connections { get; set; } = new List<ConnectionEquipmentViewModel>();
 
         public SelectList Priorities { get; set; }

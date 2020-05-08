@@ -8,7 +8,6 @@ namespace WebUI.ViewModels.Requests.IT.Accounts
 {
     public class AccountCancellationRequestViewModel:RequestViewModel
     {
-        [Required]
         [Display(Name = "Прикрепить файл")]
         public string FilePath { get; set; }
         [Display(Name = "Прикрепленные файлы")]

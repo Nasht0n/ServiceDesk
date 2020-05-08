@@ -15,15 +15,16 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
-    <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
-    <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
-    <li class="breadcrumb-item active">Редактирование заявки</li>
-</ol>
+<div class="container footer">
 
-<div class="container-fluid footer">
+    <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
+        <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
+        <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
+        <li class="breadcrumb-item active">Редактирование заявки</li>
+    </ol>
+
 
     @using (Html.BeginForm("Edit", "AccountCancellationRequest", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {

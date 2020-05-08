@@ -5,19 +5,21 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.BranchModel.Fullname</li>
-    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.CategoryModel.Name</li>
-    <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.Name</li>
-    <li class="breadcrumb-item active">Просмотр заявки</li>
-</ol>
+
 
 <div class="container-fluid footer">
+    <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.BranchModel.Fullname</li>
+        <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.CategoryModel.Name</li>
+        <li class="breadcrumb-item">@Model.RequestModel.ServiceModel.Name</li>
+        <li class="breadcrumb-item active">Просмотр заявки</li>
+    </ol>
+
     <div class="row">
         <div class="col-6">
             <div class="card mb-3 bg-white">
-                <h3 class="card-header bg-primary text-white">@Model.RequestModel.Title</h3>
+                <h5 class="card-header bg-primary text-white">@Model.RequestModel.Title</h5>
                 <div class="card-body">
                     <h5 class="card-title text-dark">@ViewBag.Title</h5>
                     <h6 class="card-subtitle text-muted ml-auto">@Model.RequestModel.Client.SubdivisionModel.Fullname</h6>
@@ -73,16 +75,16 @@
                 </ul>
                 <div class="card-body">
                     <div class="d-flex align-content-start flex-wrap">
-                        @if (Model.IsApprovers && Model.RequestModel.StatusId == (int)RequestStatus.Open && Model.RequestModel.ServiceModel.ApprovalRequired)
+                        @if (Model.UserPermissions.ApprovalAllowed && Model.RequestModel.StatusId == (int)RequestStatus.Open && Model.RequestModel.ServiceModel.ApprovalRequired)
                         {
                             <a href="@Url.Action("AgreeRequest","ComponentReplaceRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Согласовать</a>
                             <a href="@Url.Action("RejectRequest","ComponentReplaceRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-warning flex-grow-1 mr-1 mb-1">Отклонить</a>
                         }
-                        else if (Model.IsExecutor && Model.AllApproval && Model.RequestModel.StatusId == (int)RequestStatus.Open)
+                        else if (Model.UserPermissions.GetInWorkRequest && Model.AllApproval && Model.RequestModel.StatusId == (int)RequestStatus.Open)
                         {
                             <a href="@Url.Action("GetInWork","ComponentReplaceRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Принять к исполнению</a>
                         }
-                        else if (Model.IsClient && Model.RequestModel.StatusId == (int)RequestStatus.Open || Model.RequestModel.StatusId == (int)RequestStatus.Approval)
+                        else if ((Model.UserPermissions.EditRequest || Model.UserPermissions.DeleteRequest) && (Model.RequestModel.StatusId == (int)RequestStatus.Open || Model.RequestModel.StatusId == (int)RequestStatus.Approval))
                         {
                             <a href="@Url.Action("Edit","ComponentReplaceRequest",new { Area = "IT", id = Model.RequestModel.Id })" class="btn btn-primary mr-1 mb-1">
                                 <i class="fa fa-edit"></i>
@@ -92,13 +94,12 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                         }
-
-                        else if (Model.IsExecutor && Model.RequestModel.StatusId == (int)RequestStatus.Done)
+                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.Done)
                         {
                             <a href="@Url.Action("DoneWork","ComponentReplaceRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Выполнена</a>
                         }
 
-                        else if ((Model.IsExecutor || Model.IsClient) && (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Archive))
+                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Archive)
                         {
                             <a href="@Url.Action("Archive","ComponentReplaceRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">В архив</a>
                         }
@@ -107,7 +108,7 @@
             </div>
         </div>
         <div class="col-6">
-            <h3 class="card-header bg-primary text-white">Жизненный цикл заявки</h3>
+            <h5 class="card-header bg-primary text-white">Жизненный цикл заявки</h5>
             <div class="list-group">
                 @foreach (var lifeCycle in Model.LifeCyclesListModel)
                 {

@@ -5,16 +5,17 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-<h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
-    <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
-    <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
-    <li class="breadcrumb-item active">Удаление заявки</li>
-</ol>
+
 
 
 <div class="container">
+    <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Model.ServiceModel.BranchModel.Fullname</li>
+        <li class="breadcrumb-item">@Model.ServiceModel.CategoryModel.Name</li>
+        <li class="breadcrumb-item">@Model.ServiceModel.Name</li>
+        <li class="breadcrumb-item active">Удаление заявки</li>
+    </ol>
     <h3 class="text-dark">Вы уверены, что хотите удалить заявку?</h3>
     <hr />
     <dl class="dl-horizontal text-dark">
@@ -68,7 +69,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Удалить запись" class="btn btn-danger" /> 
+            <input type="submit" value="Удалить запись" class="btn btn-danger" />
             @Html.ActionLink("Вернуться к списку заявок", "Requests", "Dashboard", new { Area = "" }, new { @class = "btn  btn-outline-primary" })
         </div>
     }
