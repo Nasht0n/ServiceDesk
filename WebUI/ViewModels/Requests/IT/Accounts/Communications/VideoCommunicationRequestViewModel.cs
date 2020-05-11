@@ -17,8 +17,8 @@ namespace WebUI.ViewModels.Requests.IT.Communications
         public string Location { get; set; }
         [Required]
         [Display(Name = "Дата проведения")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh-mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.mm.yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
         public DateTime Date { get; set; } 
 
         public SelectList Priorities { get; set; }

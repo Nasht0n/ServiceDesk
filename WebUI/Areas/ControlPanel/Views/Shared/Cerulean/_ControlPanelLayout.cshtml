@@ -8,19 +8,18 @@
     <link href="~/Content/Cerulean/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/fonts/fontawesome-all.min.css" rel="stylesheet" />
     <link href="~/Content/sd.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/media/css/jquery.dataTables.min.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
     <section id="content-wrapper">
         <div class="wrapper">
-            <div class="d-flex toggled" id="wrapper">
-                @Html.Partial("Cerulean/_DashboardMenu")
+            <div class="d-flex" id="wrapper">
+                @Html.Partial("_ControlPanelMenu")
                 <div id="page-content-wrapper" class="bg-light">
-                    @Html.Partial("Cerulean/_DashboardNavBar")
-                    @*<div class="container-fluid bg-light">*@
+                    @Html.Partial("_DashboardNavBar")
+                    <div class="container-fluid bg-light">
                         @RenderBody()
-                    @*</div>*@
+                    </div>
                 </div>
             </div>
         </div>
@@ -31,8 +30,13 @@
     <script src="~/Scripts/umd/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/servicedesk/menu-toggle.js"></script>
-    <script type="text/javascript" charset="utf-8" src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
-    @RenderSection("Scripts", required: false)
+    <script src="~/Scripts/servicedesk/equipments/installation-equipments-table.js"></script>
+    <script src="~/Scripts/servicedesk/equipments/replace-equipments-table.js"></script>
+    <script src="~/Scripts/servicedesk/cpanel-service-search.js"></script>
+
+    @RenderSection("scripts",required:false)
 </body>
 </html>
+
+
 

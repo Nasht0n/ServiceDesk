@@ -63,7 +63,7 @@
                 </ul>
                 <div class="card-body">
                     <div class="d-flex align-content-start flex-wrap">
-                        @if (Model.UserPermissions.ApprovalAllowed && Model.RequestModel.StatusId == (int)RequestStatus.Open && Model.RequestModel.ServiceModel.ApprovalRequired)
+                        @if (Model.UserPermissions.ApprovalAllowed && Model.RequestModel.StatusId == (int)RequestStatus.Approval && Model.RequestModel.ServiceModel.ApprovalRequired)
                         {
                             <a href="@Url.Action("AgreeRequest","AccountDisconnectRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Согласовать</a>
                             <a href="@Url.Action("RejectRequest","AccountDisconnectRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-warning flex-grow-1 mr-1 mb-1">Отклонить</a>
@@ -82,12 +82,12 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                         }
-                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.Done)
+                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.InWork)
                         {
                             <a href="@Url.Action("DoneWork","AccountDisconnectRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Выполнена</a>
                         }
 
-                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Archive)
+                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Done)
                         {
                             <a href="@Url.Action("Archive","AccountDisconnectRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">В архив</a>
                         }

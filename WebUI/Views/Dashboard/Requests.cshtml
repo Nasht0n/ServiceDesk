@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Requests)
+                @foreach (var item in Model.RequestsModel)
                 {
                     <tr class="table-secondary cursor-pointer" onclick="location.href = '@Url.Action("Details", item.Source, new { Area=item.ServiceModel.BranchModel.AreaName, id=item.RequestId })'">
                         <td class="text-left">

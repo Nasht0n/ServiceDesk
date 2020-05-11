@@ -224,7 +224,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -281,7 +281,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -307,6 +307,8 @@ namespace WebUI.Areas.IT.Controllers
             var user = await PopulateAccountInfo(model);
             // инициализация выпадающего списка представления
             await PopulateDropDownList(model);
+            // Инициализация бокового меню
+            await MenuInformation(model);
             // создание заявки, согласно модели представления и авторизованного сотрудника
             var request = await InitializeRequest(model, user);
             // получение вида заявки
@@ -369,7 +371,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -411,39 +413,42 @@ namespace WebUI.Areas.IT.Controllers
             // обход прикрепленных файлов к заявке
             foreach (var file in model.Files)
             {
-                // получаем имя файла
-                string fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                // получаем расширение файла
-                string fileExtension = Path.GetExtension(file.FileName);
-                // путь к сохранению файлов
-                string uploadPath = Server.MapPath("~/Files/UploadedFiles/SoftwareAttachments/");
-                // получение полного пути к файлу
-                var filePath = uploadPath + fileName.Trim() + fileExtension;
-                // инициализация пути к файлу
-                model.FilePath = filePath;
-                // сохранение файла на жесткий диск сервера
-                file.SaveAs(model.FilePath);
-                // создаем запись о прикрепленном файле в БД
-                // указываем дату загрузки файла
-                // наименование файла
-                // путь к файлу
-                Attachment attachmentFile = new Attachment
+                if (file != null)
                 {
-                    DateUploaded = DateTime.Now,
-                    Filename = fileName,
-                    Path = filePath
-                };
-                // сохраняем информацию о прикрепленном файле
-                attachmentFile = await attachmentLogic.Save(attachmentFile);
-                // создаем объект прикреплений данного вида заявки
-                // инициализируем идентификатор прикрепленного файла
-                SoftwareDevelopmentRequestAttachment attachment = new SoftwareDevelopmentRequestAttachment
-                {
-                    AttachmentId = attachmentFile.Id,
-                    RequestId = request.Id
-                };
-                // добавляем данные прикрепленных файлов к заявке
-                await requestAttachmentLogic.Add(attachment);
+                    // получаем имя файла
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    // получаем расширение файла
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    // путь к сохранению файлов
+                    string uploadPath = Server.MapPath("~/Files/UploadedFiles/SoftwareAttachments/");
+                    // получение полного пути к файлу
+                    var filePath = uploadPath + fileName.Trim() + fileExtension;
+                    // инициализация пути к файлу
+                    model.FilePath = filePath;
+                    // сохранение файла на жесткий диск сервера
+                    file.SaveAs(model.FilePath);
+                    // создаем запись о прикрепленном файле в БД
+                    // указываем дату загрузки файла
+                    // наименование файла
+                    // путь к файлу
+                    Attachment attachmentFile = new Attachment
+                    {
+                        DateUploaded = DateTime.Now,
+                        Filename = fileName,
+                        Path = filePath
+                    };
+                    // сохраняем информацию о прикрепленном файле
+                    attachmentFile = await attachmentLogic.Save(attachmentFile);
+                    // создаем объект прикреплений данного вида заявки
+                    // инициализируем идентификатор прикрепленного файла
+                    SoftwareDevelopmentRequestAttachment attachment = new SoftwareDevelopmentRequestAttachment
+                    {
+                        AttachmentId = attachmentFile.Id,
+                        RequestId = request.Id
+                    };
+                    // добавляем данные прикрепленных файлов к заявке
+                    await requestAttachmentLogic.Add(attachment);
+                }
             }
             // сохраняем заявку
             await requestLogic.Save(request);
@@ -499,7 +504,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -576,6 +581,12 @@ namespace WebUI.Areas.IT.Controllers
             var user = await PopulateAccountInfo();
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
+            // получение заявки
+            var request = await requestLogic.GetRequest(id);
+            // инициализация идентификатора исполнителя
+            request.ExecutorId = user.Id;
+            // сохранение изменений
+            await requestLogic.Save(request);
             // изменение статуса заявки 
             await ChangeRequestStatus(id, RequestStatus.InWork);
             // добавление записи жизненного цикла заявки

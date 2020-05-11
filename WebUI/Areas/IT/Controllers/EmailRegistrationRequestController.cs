@@ -216,7 +216,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -273,7 +273,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -299,6 +299,8 @@ namespace WebUI.Areas.IT.Controllers
             var user = await PopulateAccountInfo(model);
             // инициализация выпадающего списка представления
             await PopulateDropDownList(model);
+            // Инициализация бокового меню
+            await MenuInformation(model);
             // создание заявки, согласно модели представления и авторизованного сотрудника
             var request = await InitializeRequest(model, user);
             // получение вида заявки
@@ -325,7 +327,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -345,6 +347,8 @@ namespace WebUI.Areas.IT.Controllers
             // получение данных об авторизованном сотруднике
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
+            // Инициализация бокового меню
+            await MenuInformation(model);
             // инициализация выпадающего списка представления
             await PopulateDropDownList(model);
             // получение вида заявки
@@ -373,7 +377,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -450,6 +454,12 @@ namespace WebUI.Areas.IT.Controllers
             var user = await PopulateAccountInfo();
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
+            // получение заявки
+            var request = await requestLogic.GetRequest(id);
+            // инициализация идентификатора исполнителя
+            request.ExecutorId = user.Id;
+            // сохранение изменений
+            await requestLogic.Save(request);
             // изменение статуса заявки 
             await ChangeRequestStatus(id, RequestStatus.InWork);
             // добавление записи жизненного цикла заявки

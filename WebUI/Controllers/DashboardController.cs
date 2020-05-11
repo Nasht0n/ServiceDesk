@@ -7,6 +7,7 @@ using WebUI.Models;
 using WebUI.ViewModels;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CategoryModel;
+using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.ServiceModel;
 using static WebUI.ViewModels.CategoryStats;
@@ -25,10 +26,11 @@ namespace WebUI.Controllers
         private readonly IServiceLogic serviceLogic;
         private readonly IRequestsLogic requestsLogic;
         private readonly IStatusLogic statusLogic;
+        private readonly IExecutorGroupLogic executorGroupLogic;
 
         public DashboardController(IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
-            IRequestsLogic requestsLogic, IStatusLogic statusLogic)
+            IRequestsLogic requestsLogic, IStatusLogic statusLogic, IExecutorGroupLogic executorGroupLogic)
         {
             this.accountLogic = accountLogic;
             this.accountPermissionLogic = accountPermissionLogic;
@@ -38,6 +40,7 @@ namespace WebUI.Controllers
             this.serviceLogic = serviceLogic;
             this.requestsLogic = requestsLogic;
             this.statusLogic = statusLogic;
+            this.executorGroupLogic = executorGroupLogic;
         }
         /// <summary>
         /// Метод получения данных информации об авторизованном пользователе в системе.
@@ -56,6 +59,13 @@ namespace WebUI.Controllers
             // инициализация полей конфигурации
             // передача информации о сотруднике
             model.CurrentUser = ModelFromData.GetViewModel(user);
+            model.UserExecutorGroups = new List<ExecutorGroupViewModel>();
+            foreach (var userGroup in user.ExecutorGroups)
+            {
+                var group = await executorGroupLogic.GetExecutorGroup(userGroup.ExecutorGroupId);
+                var temp = ModelFromData.GetViewModel(group);
+                model.UserExecutorGroups.Add(temp);
+            }            
             // инициализация прав доступа учетной записи
             model.UserPermissions = new UserPermissions();
             model.UserPermissions.Permissions = await accountPermissionLogic.GetPermissions(account);
@@ -95,7 +105,7 @@ namespace WebUI.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user,client:false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);            
             // инициализация таблицы данных статистики видов заявок
@@ -133,7 +143,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="serviceId">Идентификатор вида заявок</param>
         /// <returns>Представление каталога заявок</returns>
-        public async Task<ActionResult> Requests(int categoryId = 0,int serviceId = 0, int statusId = 0)
+        public async Task<ActionResult> Requests(int categoryId = 0,int serviceId = 0, int statusId = 0, bool IsClient=false)
         {
             // инициализация модели представления
             RequestListViewModel model = new RequestListViewModel();
@@ -146,10 +156,14 @@ namespace WebUI.Controllers
             var service = await serviceLogic.GetService(serviceId);
             // получение статуса заявок по указанному идентификатору
             var status = await statusLogic.GetStatus(statusId);
-            // получение списка заявок
-            var requests = await requestsLogic.GetRequests(user, category,service, status);
-            // инициализации списка заявок в модели представления
+
+            // получение заявок, которые каким-либо образом относятся к пользователю
+            var requests = await requestsLogic.GetRequests(user, client: false);
             model.Requests = ModelFromData.GetViewModel(requests);
+            // получение списка заявок
+            var requestsStats = await requestsLogic.GetRequests(user, category,service, status, client:IsClient);           
+            // инициализации списка заявок в модели представления
+            model.RequestsModel = ModelFromData.GetViewModel(requestsStats);
             await MenuInformation(model);
             // отображение представления
             return View(model);
@@ -166,7 +180,7 @@ namespace WebUI.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user,client:false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // получение списка отраслей заявки
@@ -190,7 +204,7 @@ namespace WebUI.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // получение отрасли заявки по идентификатору
@@ -216,7 +230,7 @@ namespace WebUI.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // получение категории заявки по идентификатору

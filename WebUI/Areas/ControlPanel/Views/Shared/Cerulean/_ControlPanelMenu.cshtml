@@ -1,0 +1,76 @@
+﻿<!-- Sidebar -->
+<div class="bg-primary" id="sidebar-wrapper">
+    <a href="@Url.Action("Index","Dashboard",new { Area="" })" class="text-white text-center text-decoration-none ">        
+        <h3 class="mt-3"><i class="fa fa-home"></i> Service Desk</h3>
+    </a>
+
+    <div class="list-group list-group-flush mt-4">
+        <a href="@Url.Action("Index","Subdivision",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-building"></i>
+                <span class="ml-3 w-100">Подразделения</span>
+            </div>
+        </a>
+        <a href="@Url.Action("Index","Employee", new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-user-tie"></i>
+                <span class="ml-3 w-100">Сотрудники</span>
+            </div>
+        </a>
+        <a href="@Url.Action("Index","ExecutorGroup", new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-users-cog"></i>
+                <span class="ml-3 w-100">Группы исполнителей</span>
+            </div>
+        </a>
+        @*<a href="#" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-users"></i>
+                <span class="ml-3 w-100">Учетные записи</span>
+            </div>
+        </a>*@
+        <a href="@Url.Action("Index","Branch", new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fa fa-share-alt"></i>
+                <span class="ml-3 w-100">Отрасль заявки</span>
+            </div>
+        </a>
+        <a href="@Url.Action("Index","Category",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-sitemap"></i>
+                <span class="ml-3 w-100">Категории заявок</span>
+            </div>
+        </a>
+        <a href="@Url.Action("Index","Service",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-cogs"></i>
+                <span class="ml-3 w-100">Виды заявок</span>
+            </div>
+        </a>
+
+        <a href="@Url.Action("Index","Campus",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-university"></i>
+                <span class="ml-3 w-100">Учебные корпуса</span>
+            </div>
+        </a>
+
+        <a href="@Url.Action("Index","Component",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-hdd"></i>
+                <span class="ml-3 w-100">Комплектующие</span>
+            </div>
+        </a>
+
+        <a href="@Url.Action("Index","Consumable",new { Area = "ControlPanel" })" class="list-group-item list-group-item-action bg-primary border-dark">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-wrench"></i>
+                <span class="ml-3 w-100">Расходные материалы</span>
+            </div>
+        </a>
+
+
+    </div>
+</div>
+
+

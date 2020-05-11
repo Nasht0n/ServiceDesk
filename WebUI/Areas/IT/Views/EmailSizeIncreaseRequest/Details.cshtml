@@ -1,7 +1,7 @@
 ﻿@model WebUI.ViewModels.Requests.IT.Emails.EmailSizeIncreaseDetailsRequestViewModel
 @using WebUI.Models.Enum
 @{
-    ViewBag.Title = "Заявка на увеличение размера электронной почты";
+    ViewBag.Title = "Заявка на увеличение объема почтового ящика";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
@@ -48,7 +48,7 @@
                 </ul>
                 <div class="card-body">
                     <div class="d-flex align-content-start flex-wrap">
-                        @if (Model.UserPermissions.ApprovalAllowed && Model.RequestModel.StatusId == (int)RequestStatus.Open && Model.RequestModel.ServiceModel.ApprovalRequired)
+                        @if (Model.UserPermissions.ApprovalAllowed && Model.RequestModel.StatusId == (int)RequestStatus.Approval && Model.RequestModel.ServiceModel.ApprovalRequired)
                         {
                             <a href="@Url.Action("AgreeRequest","EmailSizeIncreaseRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Согласовать</a>
                             <a href="@Url.Action("RejectRequest","EmailSizeIncreaseRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-warning flex-grow-1 mr-1 mb-1">Отклонить</a>
@@ -67,12 +67,12 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                         }
-                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.Done)
+                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.InWork)
                         {
                             <a href="@Url.Action("DoneWork","EmailSizeIncreaseRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Выполнена</a>
                         }
 
-                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Archive)
+                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Done)
                         {
                             <a href="@Url.Action("Archive","EmailSizeIncreaseRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">В архив</a>
                         }

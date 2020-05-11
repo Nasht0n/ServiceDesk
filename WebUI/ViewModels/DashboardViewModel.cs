@@ -10,7 +10,7 @@ namespace WebUI.ViewModels
     public class DashboardViewModel : DashboardConfigurationViewModel
     {
         // Количество отображаемых заявок пользователя 
-        private readonly int LastRequestCount = 3;
+        private readonly int LastRequestCount = 6;
         // Список отображаемых заявок, с участием пользователя
         public List<RequestViewModel> LastRequests
         {
@@ -34,7 +34,12 @@ namespace WebUI.ViewModels
         {
             get
             {
-                return Requests.Where(r => r.ExecutorId == CurrentUser.Id).Count();
+                int count = 0;
+                foreach(var userGroup in UserExecutorGroups)
+                {
+                    count += Requests.Where(r => r.ExecutorGroupId == userGroup.Id && (r.StatusId == (int) RequestStatus.Open || r.StatusId == (int) RequestStatus.InWork)).Count();
+                }
+                return count;
             }
         }
         // Количество выполненных заявок
@@ -45,12 +50,42 @@ namespace WebUI.ViewModels
                 return Requests.Where(r => r.StatusId == (int)RequestStatus.Done).Count();
             }
         }
+        // Количество заявок перенесенных в архив
+        public int CountArchiveRequest
+        {
+            get
+            {
+                return Requests.Where(r => r.StatusId == (int)RequestStatus.Archive).Count();
+            }
+        }
         // Количество заявок требующих согласования
         public int CountApprovalRequest
         {
             get
             {
                 return Requests.Where(r => r.StatusId == (int)RequestStatus.Approval).Count();
+            }
+        }
+        // Количество заявок требующих согласования
+        public int CountTotalRequest
+        {
+            get
+            {
+                return Requests.Count();
+            }
+        }
+
+        // Количество заявок требующих согласования
+        public int CountInWorkRequest
+        {
+            get
+            {
+                int count = 0;
+                foreach (var userGroup in UserExecutorGroups)
+                {
+                    count += Requests.Where(r => r.ExecutorGroupId == userGroup.Id && r.StatusId == (int)RequestStatus.InWork).Count();
+                }
+                return count;
             }
         }
 

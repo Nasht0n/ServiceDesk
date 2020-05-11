@@ -5,77 +5,7 @@
         <a href="@Url.Action("Index","Dashboard",new { Area="" })" class="text-center text-decoration-none ">
             <h3 class="mt-3"><i class="fa fa-home"></i> Service Desk</h3>
         </a>
-
-        @*
-
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item list-group-item-action m-0 p-0">
-                <!-- Меню "Информационные технологии" -->
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="true"
-                   class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
-                    <span class="ml-3 mr-auto text-center">Информационные технологии</span>
-                    <span class="badge badge-primary flex-shrink-1 @(1==0?"d-none":"d-inline") px-2 ml-1">1</span>
-                </a>
-                <ul class="collapse list-unstyled bg-light" id="homeSubmenu">
-                    <li>
-                        <a class="list-group-item list-group-item-action  border-dark" href="#">
-                            <div class="d-flex align-items-center">
-                                <i class="fa fa-hdd"></i>
-                                <span class="ml-3 w-100">Оборудование</span>
-                                <span class="badge badge-primary flex-shrink-1 @(1==0?"d-none":"d-inline") px-2 ml-1">1</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="list-group-item list-group-item-action border-dark" href="#">
-                            <div class="d-flex align-items-center">
-                                <i class="fa fa-wifi"></i>
-                                <span class="ml-3 w-100">ЛВС и Интернет</span>
-                                <span class="badge badge-primary flex-shrink-1 @(1==0?"d-none":"d-inline") px-2 ml-1">1</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="list-group-item list-group-item-action border-dark" href="#">
-                            <div class="d-flex align-items-center">
-                                <i class="fa fa-envelope-open"></i>
-                                <span class="ml-3 w-100">Электронная почта</span>
-                                <span class="badge badge-primary flex-shrink-1 @(1==0?"d-none":"d-inline") px-2 ml-1">1</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="list-group-item list-group-item-action border-dark" href="#">
-                            <div class="d-flex align-items-center">
-                                <i class="fa fa-phone"></i>
-                                <span class="ml-3 w-100">Связь</span>
-                                <span class="badge badge-success flex-shrink-1 @(1==0?"d-none":"d-inline") px-2 ml-1">1</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="list-group-item list-group-item-action border-dark" href="#">
-                            <div class="d-flex align-items-center">
-                                <i class="fa fa-users"></i>
-                                <span class="ml-3 w-100">Учетные записи</span>
-                                <span class="badge badge-success flex-shrink-1 @(1==0?"d-none":"d-inline") px-2 ml-1">1</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="list-group-item list-group-item-action border-dark" href="#">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-keyboard"></i>
-                                <span class="ml-3 w-100">Программное обеспечение</span>
-                                <span class="badge badge-success flex-shrink-1 @(1==0?"d-none":"d-inline") px-2 ml-1">1</span>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
-        *@
+               
 
         <ul class="list-group list-group-flush">
             @foreach (var branch in Model.MenuInformation.Branches)
@@ -94,6 +24,8 @@
                                         @*<i class="fa fa-hdd"></i>*@
                                         <span class="ml-3 w-100">@category.CategoryModel.Name</span>
                                         <span class="badge badge-primary flex-shrink-1 @(category.OpenCount==0?"d-none":"d-inline") px-2 ml-1">@category.OpenCount</span>
+
+                                        <span class="badge badge-primary flex-shrink-1 @(category.InWorkCount==0?"d-none":"d-inline") px-2 ml-1">@category.InWorkCount</span>
                                     </div>
                                 </a>
                             </li>

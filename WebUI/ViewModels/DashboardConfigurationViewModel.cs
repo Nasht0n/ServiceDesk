@@ -6,6 +6,7 @@ using WebUI.ViewModels.AccountModel;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CategoryModel;
 using WebUI.ViewModels.EmployeeModel;
+using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.Requests.View;
 
 namespace WebUI.ViewModels
@@ -14,6 +15,8 @@ namespace WebUI.ViewModels
     {
         // Текущий пользователь
         public EmployeeViewModel CurrentUser { get; set; }
+        public List<ExecutorGroupViewModel> UserExecutorGroups { get; set; }
+
         // Права доступа пользователя
         public UserPermissions UserPermissions { get; set; }
         // Список всех заявок
@@ -53,7 +56,7 @@ namespace WebUI.ViewModels
         public CategoryStats CategoryStats { get; set; }
     }
     // Класс статистики категории заявки
-    public class CategoryStats 
+    public class CategoryStats
     {
         // Список категорий
         public List<CategoryInfo> CategoryInfos { get; set; }
@@ -71,22 +74,45 @@ namespace WebUI.ViewModels
             // Открыто заявок
             public int OpenCount
             {
-                get { return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id && r.StatusId == (int)RequestStatus.Open).Count(); }
+                get
+                {
+                    if (requests != null)
+                        return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id && (r.StatusId == (int)RequestStatus.Open || r.StatusId == (int)RequestStatus.Approval)).Count();
+                    else
+                        return 0;
+                }
             }
             // Заявок в работе
             public int InWorkCount
             {
-                get { return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id && r.StatusId == (int)RequestStatus.InWork).Count(); }
+                get
+                {
+                    if (requests != null)
+                        return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id && r.StatusId == (int)RequestStatus.InWork).Count();
+                    else
+                        return 0;
+                }
+
             }
             // Выполнено заявок
             public int DoneCount
             {
-                get { return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id && r.StatusId == (int)RequestStatus.Done).Count(); }
+                get
+                {
+                    if (requests != null) return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id && r.StatusId == (int)RequestStatus.Done).Count();
+                    else
+                        return 0;
+                }
             }
             // Всего заявок данного вида работы
             public int TotalCount
             {
-                get { return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id).Count(); }
+                get
+                {
+                    if (requests != null) return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id).Count();
+                    else
+                        return 0;
+                }
             }
         }
     }

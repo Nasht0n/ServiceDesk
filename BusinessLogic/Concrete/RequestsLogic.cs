@@ -40,7 +40,7 @@ namespace BusinessLogic.Concrete
                 }
             }
             // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
-            if (descending) return result.OrderByDescending(r => r.Date).ToList();            
+            if (descending) return result.OrderByDescending(r => r.Date).ToList();
             else return result.OrderBy(r => r.Date).ToList();
         }
 
@@ -62,14 +62,10 @@ namespace BusinessLogic.Concrete
             // получаем заявки созданные сотрудником
             result = requests.Where(r => r.ClientId == employee.Id).ToList();
 
-            //// получаем заявки где сотрудник является исполнителем
-            //var executors = requests.Where(r => r.ExecutorId == employee.Id).ToList();
-            //if (executors.Count != 0) result = result.Concat(executors).ToList();
-
             // Список групп исполнителей, в которые включен текущий пользователь
             var executorGroups = employee.ExecutorGroups;
             // Если пользователь входит в группу(-ы) исполнителей
-            if (executorGroups.Count!=0)
+            if (executorGroups.Count != 0)
             {
                 foreach (var group in executorGroups)
                 {
@@ -173,6 +169,97 @@ namespace BusinessLogic.Concrete
                     if (temp.Count != 0) result = result.Union(temp).ToList();
                 }
             }
+            // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
+            if (descending) return result.OrderByDescending(r => r.Date).ToList();
+            else return result.OrderBy(r => r.Date).ToList();
+        }
+
+        public async Task<List<Requests>> GetRequests(Employee employee, bool client = false, bool descending = true)
+        {
+            List<Requests> result = new List<Requests>();
+            // Получение всех заявок
+            var requests = await requestRepository.GetRequests();
+
+            // получаем заявки созданные сотрудником
+            result = requests.Where(r => r.ClientId == employee.Id).ToList();
+
+            if (!client)
+            {
+                var approvalServices = employee.ApprovalServices;
+                if (approvalServices.Count != 0)
+                {
+                    foreach(var service in approvalServices)
+                    {
+                        var temp = requests.Where(r => r.ServiceId == service.ServiceId).ToList();
+                        if(temp.Count!=0) result = result.Union(temp).ToList();
+                    }
+                }
+
+                // Список групп исполнителей, в которые включен текущий пользователь
+                var executorGroups = employee.ExecutorGroups;
+                // Если пользователь входит в группу(-ы) исполнителей
+                if (executorGroups.Count != 0)
+                {
+                    foreach (var group in executorGroups)
+                    {
+                        // получаем список заявок, к которым отсносится пользователь
+                        var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
+                        // добавляем в итоговый лист
+                        if (temp.Count != 0) result = result.Union(temp).ToList();
+                    }
+                }
+            }
+            // выводим согласно выбраному типу сортировки
+            if (descending)
+            {
+                return result.OrderByDescending(r => r.Date).ToList();
+            }
+            else
+            {
+                return result.OrderBy(r => r.Date).ToList();
+            }
+        }
+
+        public async Task<List<Requests>> GetRequests(Employee employee, Category category, Service service, Status status, bool client = false, bool descending = true)
+        {
+            List<Requests> result = new List<Requests>();
+            // Получение всех заявок
+            var requests = await requestRepository.GetRequests();
+            if (category != null) requests = requests.Where(r => r.Service.Category.Id == category.Id).ToList();
+            // Если вид заявки указан — получаем заявки данного вида
+            if (service != null) requests = requests.Where(r => r.ServiceId == service.Id).ToList();
+            // Если статус заявки указан — получаем заявки с указанным статусом
+            if (status != null) requests = requests.Where(r => r.StatusId == status.Id).ToList();
+            // получаем заявки созданные сотрудником
+            result = requests.Where(r => r.ClientId == employee.Id).ToList();
+
+            if (!client)
+            {
+                var approvalServices = employee.ApprovalServices;
+                if (approvalServices.Count != 0)
+                {
+                    foreach (var appService in approvalServices)
+                    {
+                        var temp = requests.Where(r => r.ServiceId == appService.ServiceId).ToList();
+                        if (temp.Count != 0) result = result.Union(temp).ToList();
+                    }
+                }
+
+                // Список групп исполнителей, в которые включен текущий пользователь
+                var executorGroups = employee.ExecutorGroups;
+                // Если пользователь входит в группу(-ы) исполнителей
+                if (executorGroups != null)
+                {
+                    foreach (var group in executorGroups)
+                    {
+                        // получаем список заявок, к которым отсносится пользователь
+                        var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
+                        // добавляем в итоговый лист
+                        if (temp.Count != 0) result = result.Union(temp).ToList();
+                    }
+                }
+            }
+
             // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
             if (descending) return result.OrderByDescending(r => r.Date).ToList();
             else return result.OrderBy(r => r.Date).ToList();

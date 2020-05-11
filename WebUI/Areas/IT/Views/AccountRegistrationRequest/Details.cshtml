@@ -46,13 +46,13 @@
                         {
                             <div class="row">
                                 <div class="col-8">
-                                    <a href="@Url.Action("DownloadFile","AccountCancellationRequest",new {attachmentId = item.AttachmentModel.Id})" class="btn btn-link text-decoration-none">
+                                    <a href="@Url.Action("DownloadFile","AccountRegistrationRequest",new {attachmentId = item.AttachmentModel.Id})" class="btn btn-link text-decoration-none">
                                         <i class="fas fa-file mr-1"></i>
                                         <span>@item.AttachmentModel.Filename</span>
                                     </a>
                                 </div>
                                 <div class="col-4 float-left">
-                                    <a href="@Url.Action("DeleteFile","AccountCancellationRequest",new {requestId = Model.RequestModel.Id, attachmentId = item.AttachmentModel.Id})" class="btn btn-link float-right">
+                                    <a href="@Url.Action("DeleteFile","AccountRegistrationRequest",new {requestId = Model.RequestModel.Id, attachmentId = item.AttachmentModel.Id})" class="btn btn-link float-right">
                                         <i class="fas fa-trash mr-1 text-danger"></i>
                                     </a>
                                 </div>
@@ -62,7 +62,7 @@
                 </ul>
                 <div class="card-body">
                     <div class="d-flex align-content-start flex-wrap">
-                        @if (Model.UserPermissions.ApprovalAllowed && Model.RequestModel.StatusId == (int)RequestStatus.Open && Model.RequestModel.ServiceModel.ApprovalRequired)
+                        @if (Model.UserPermissions.ApprovalAllowed && Model.RequestModel.StatusId == (int)RequestStatus.Approval && Model.RequestModel.ServiceModel.ApprovalRequired)
                         {
                             <a href="@Url.Action("AgreeRequest","AccountRegistrationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Согласовать</a>
                             <a href="@Url.Action("RejectRequest","AccountRegistrationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-warning flex-grow-1 mr-1 mb-1">Отклонить</a>
@@ -81,12 +81,12 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                         }
-                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.Done)
+                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.InWork)
                         {
                             <a href="@Url.Action("DoneWork","AccountRegistrationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Выполнена</a>
                         }
 
-                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Archive)
+                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Done)
                         {
                             <a href="@Url.Action("Archive","AccountRegistrationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">В архив</a>
                         }
@@ -110,7 +110,7 @@
                     </a>
                 }
             </div>
-            @using (Html.BeginForm("AddMessage", "AccountCancellationRequest", new { id = Model.RequestModel.Id }, FormMethod.Post))
+            @using (Html.BeginForm("AddMessage", "AccountRegistrationRequest", new { id = Model.RequestModel.Id }, FormMethod.Post))
             {
                 <div class="d-flex mt-1">
                     <div class="flex-grow-1 form-group mr-1">

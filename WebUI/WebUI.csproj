@@ -1420,6 +1420,8 @@
     <Content Include="Areas\IT\Views\SoftwareReworkRequest\Delete.cshtml" />
     <Content Include="Areas\IT\Views\SoftwareReworkRequest\Details.cshtml" />
     <Content Include="Areas\IT\Views\SoftwareReworkRequest\Edit.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Shared\Cerulean\_ControlPanelLayout.cshtml" />
+    <Content Include="Areas\ControlPanel\Views\Shared\Cerulean\_ControlPanelMenu.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

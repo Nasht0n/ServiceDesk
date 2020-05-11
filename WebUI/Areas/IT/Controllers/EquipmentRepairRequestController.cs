@@ -241,9 +241,10 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
+            await PopulateDropDownList(model);
             // Инициализация бокового меню
             await MenuInformation(model);
             // поиск заявки по идентификатору
@@ -298,7 +299,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -331,6 +332,8 @@ namespace WebUI.Areas.IT.Controllers
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);
+            // Инициализация бокового меню
+            await MenuInformation(model);
             // если оборудование не найдено
             if (equipment == null)
             {
@@ -358,7 +361,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -383,6 +386,8 @@ namespace WebUI.Areas.IT.Controllers
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);
+            // Инициализация бокового меню
+            await MenuInformation(model);
             // инициализация заявки из модели представления
             var request = DataFromModel.GetData(model);
             // поиск оборудования по инвентарному номеру
@@ -414,7 +419,7 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
@@ -493,6 +498,12 @@ namespace WebUI.Areas.IT.Controllers
             var service = await serviceLogic.GetService(SERVICE_ID);
             // изменение статуса заявки 
             await ChangeRequestStatus(id, RequestStatus.InWork);
+            // получение заявки
+            var request = await requestLogic.GetRequest(id);
+            // инициализация идентификатора исполнителя
+            request.ExecutorId = user.Id;
+            // сохранение изменений
+            await requestLogic.Save(request);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Начало исполнения заявки");
             // открытие окна заявки
