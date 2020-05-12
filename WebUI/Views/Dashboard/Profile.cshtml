@@ -1,0 +1,31 @@
+﻿@model WebUI.ViewModels.ProfileViewModel
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
+}
+
+<div class="container p-3">
+    <h2 class="text-center my-3">Профиль сотрудника</h2>
+
+    <div class="card mb-3 bg-white">
+        <h5 class="card-header bg-primary text-white">Информация о сотруднике</h5>
+        <div class="card-body">
+            <h5 class="card-title text-center text-dark">@Model.Employee.Fullname</h5>
+            <h6 class="card-subtitle text-center text-muted ml-auto">@Model.Employee.Post</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-white text-dark">
+                <span class="font-weight-bold ">@Html.LabelFor(model => model.Employee.Email):</span>
+                <span class="ml-1">@Model.Employee.Email</span>
+            </li>
+            <li class="list-group-item bg-white text-dark">
+                <span class="font-weight-bold">@Html.LabelFor(model => model.Employee.Phone):</span>
+                <span class="ml-1">@Model.Employee.Phone</span>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+

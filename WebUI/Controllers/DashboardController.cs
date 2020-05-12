@@ -1,12 +1,15 @@
 ﻿using BusinessLogic.Abstract;
 using Domain.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.ViewModels;
 using WebUI.ViewModels.BranchModel;
 using WebUI.ViewModels.CategoryModel;
+using WebUI.ViewModels.EmployeeModel;
 using WebUI.ViewModels.ExecutorGroupModel;
 using WebUI.ViewModels.Requests.View;
 using WebUI.ViewModels.ServiceModel;
@@ -97,7 +100,7 @@ namespace WebUI.Controllers
         /// Метод отображения главной страницы рабочего стола
         /// </summary>
         /// <returns>Представление рабочего стола</returns>
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(bool lastMonth = false)
         {
             // инициализация модели представления
             DashboardViewModel model = new DashboardViewModel();
@@ -106,11 +109,16 @@ namespace WebUI.Controllers
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
             var requests = await requestsLogic.GetRequests(user,client:false);
+            if (lastMonth)
+            {
+                int month = DateTime.Now.Month;
+                requests = requests.Where(r => r.Date.Month == month).ToList();
+            }
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);            
             // инициализация таблицы данных статистики видов заявок
             model.ServicesInfos = await InitializeServicesInfos(model.Requests);
-            await MenuInformation(model);
+            await MenuInformation(model);          
             // отображение представления
             return View(model);
         }
@@ -143,7 +151,7 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="serviceId">Идентификатор вида заявок</param>
         /// <returns>Представление каталога заявок</returns>
-        public async Task<ActionResult> Requests(int categoryId = 0,int serviceId = 0, int statusId = 0, bool IsClient=false)
+        public async Task<ActionResult> Requests(int categoryId = 0,int serviceId = 0, int statusId = 0, bool IsClient=false, DateTime? start = null, DateTime? end = null)
         {
             // инициализация модели представления
             RequestListViewModel model = new RequestListViewModel();
@@ -156,7 +164,6 @@ namespace WebUI.Controllers
             var service = await serviceLogic.GetService(serviceId);
             // получение статуса заявок по указанному идентификатору
             var status = await statusLogic.GetStatus(statusId);
-
             // получение заявок, которые каким-либо образом относятся к пользователю
             var requests = await requestsLogic.GetRequests(user, client: false);
             model.Requests = ModelFromData.GetViewModel(requests);
@@ -243,6 +250,25 @@ namespace WebUI.Controllers
             model.Services = ModelFromData.GetViewModel(services);
             await MenuInformation(model);
             // отображение представления
+            return View(model);
+        }
+
+        public async Task<ActionResult> Profile()
+        {
+            ProfileViewModel model = new ProfileViewModel();
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo(model);
+            // получение заявок касающихся авторизованного сотрудника
+            var requests = await requestsLogic.GetRequests(user, client: false);
+            // инициализации списка заявок в модели представления
+            model.Requests = ModelFromData.GetViewModel(requests);
+            await MenuInformation(model);
+
+            var employee = await employeeLogic.GetEmployee(user.Id);
+            model.Employee = ModelFromData.GetViewModel(employee);
+            var account = await accountLogic.GetAccount(employee);
+            model.Account = ModelFromData.GetViewModel(account);
             return View(model);
         }
     }

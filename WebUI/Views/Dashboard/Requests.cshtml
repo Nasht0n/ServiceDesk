@@ -2,16 +2,67 @@
 @using WebUI.Models.Enum
 @using WebUI.HtmlHelpers
 @section Scripts{
-    <script>       
-
+    <script>
         $(document).ready(function () {
             $('#table-request').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Russian.json"
                 },
                 "autoWidth": false
+            });  
+
+            $("#datepicker_from").datepicker({
+                showOn: "button",
+                buttonImage: "images/calendar.gif",
+                buttonImageOnly: false,
+                "onSelect": function (date) {
+                    minDateFilter = new Date(date).getTime();
+                    oTable.fnDraw();
+                }
+            }).keyup(function () {
+                minDateFilter = new Date(this.value).getTime();
+                oTable.fnDraw();
+            });
+
+            $("#datepicker_to").datepicker({
+                showOn: "button",
+                buttonImage: "images/calendar.gif",
+                buttonImageOnly: false,
+                "onSelect": function (date) {
+                    maxDateFilter = new Date(date).getTime();
+                    oTable.fnDraw();
+                }
+            }).keyup(function () {
+                maxDateFilter = new Date(this.value).getTime();
+                oTable.fnDraw();
             });
         });
+
+        // Date range filter
+        minDateFilter = "";
+        maxDateFilter = "";
+
+        $.fn.dataTableExt.afnFiltering.push(
+            function (oSettings, aData, iDataIndex) {
+                if (typeof aData._date == 'undefined') {
+                    aData._date = new Date(aData[0]).getTime();
+                }
+
+                if (minDateFilter && !isNaN(minDateFilter)) {
+                    if (aData._date < minDateFilter) {
+                        return false;
+                    }
+                }
+
+                if (maxDateFilter && !isNaN(maxDateFilter)) {
+                    if (aData._date > maxDateFilter) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        );
     </script>
 }
 @{
@@ -21,6 +72,14 @@
 
 <div class="container-fluid">
     <h2 class="display-4 text-center text-dark my-3">@ViewBag.Title</h2>
+
+    <p id="date-filter">
+        <span id="date-label-from" class="date-label">Начало периода: </span>
+        <input class="date_range_filter date" type="text" id="datepicker_from" />
+        <span id="date-label-to" class="date-label">По:</span>
+        <input class="date_range_filter date" type="date" id="datepicker_to" />
+    </p>
+
     <div class="container-fluid">
         <table id="table-request" class="table table-primary table-hover">
             <thead>

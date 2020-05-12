@@ -11,7 +11,7 @@
     </script>
 }
 @{
-    ViewBag.Title = "Заявка об утрате данных учетной записи";
+    ViewBag.Title = "Заявка об утере учетной записи";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
@@ -39,7 +39,7 @@
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Потеря данных доступа к учетной записи)", autocomplete = "off" } })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Утеря данных доступа к учетной записи)", autocomplete = "off" } })
 
                 </div>
             </div>

@@ -26,7 +26,8 @@ namespace WebUI.ViewModels
         {
             get
             {
-                return Requests.Where(r => r.ClientId == CurrentUser.Id).Count();
+                return Requests.Count();
+                //return Requests.Where(r => r.ClientId == CurrentUser.Id).Count();
             }
         }
         // Количество заявок в работе
@@ -34,12 +35,20 @@ namespace WebUI.ViewModels
         {
             get
             {
-                int count = 0;
-                foreach(var userGroup in UserExecutorGroups)
+
+                if (CurrentUser.HeadOfUnit)
                 {
-                    count += Requests.Where(r => r.ExecutorGroupId == userGroup.Id && (r.StatusId == (int) RequestStatus.Open || r.StatusId == (int) RequestStatus.InWork)).Count();
+                    return Requests.Where(r => r.StatusId == (int)RequestStatus.Open).Count();
                 }
-                return count;
+                else
+                {
+                    int count = 0;
+                    foreach (var userGroup in UserExecutorGroups)
+                    {
+                        count += Requests.Where(r => (r.StatusId == (int)RequestStatus.Open)).Count();
+                    }
+                    return count;
+                }
             }
         }
         // Количество выполненных заявок
@@ -74,18 +83,24 @@ namespace WebUI.ViewModels
                 return Requests.Count();
             }
         }
-
         // Количество заявок требующих согласования
         public int CountInWorkRequest
         {
             get
             {
-                int count = 0;
-                foreach (var userGroup in UserExecutorGroups)
+                if (CurrentUser.HeadOfUnit)
                 {
-                    count += Requests.Where(r => r.ExecutorGroupId == userGroup.Id && r.StatusId == (int)RequestStatus.InWork).Count();
+                    return Requests.Where(r => r.StatusId == (int)RequestStatus.InWork).Count();
                 }
-                return count;
+                else
+                {
+                    int count = 0;
+                    foreach (var userGroup in UserExecutorGroups)
+                    {
+                        count += Requests.Where(r => (r.StatusId == (int)RequestStatus.InWork)).Count();
+                    }
+                    return count;
+                }
             }
         }
 
@@ -103,7 +118,7 @@ namespace WebUI.ViewModels
             // Открыто заявок
             public int OpenCount
             {
-                get { return requests.Where(r => r.ServiceId == ServiceModel.Id && r.StatusId == (int) RequestStatus.Open).Count(); }
+                get { return requests.Where(r => r.ServiceId == ServiceModel.Id && r.StatusId == (int)RequestStatus.Open).Count(); }
             }
             // Открыто заявок
             public int ApprovalCount
@@ -113,12 +128,12 @@ namespace WebUI.ViewModels
             // Заявок в работе
             public int InWorkCount
             {
-                get { return requests.Where(r => r.ServiceId == ServiceModel.Id && r.StatusId == (int) RequestStatus.InWork).Count(); }
+                get { return requests.Where(r => r.ServiceId == ServiceModel.Id && r.StatusId == (int)RequestStatus.InWork).Count(); }
             }
             // Выполнено заявок
             public int DoneCount
             {
-                get { return requests.Where(r => r.ServiceId == ServiceModel.Id && r.StatusId == (int) RequestStatus.Done).Count(); }
+                get { return requests.Where(r => r.ServiceId == ServiceModel.Id && r.StatusId == (int)RequestStatus.Done).Count(); }
             }
             // Всего заявок данного вида работы
             public int TotalCount

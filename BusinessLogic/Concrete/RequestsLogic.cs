@@ -180,8 +180,15 @@ namespace BusinessLogic.Concrete
             // Получение всех заявок
             var requests = await requestRepository.GetRequests();
 
-            // получаем заявки созданные сотрудником
-            result = requests.Where(r => r.ClientId == employee.Id).ToList();
+            if (employee.HeadOfUnit)
+            {
+                result = requests.Where(r => r.Client.SubdivisionId == employee.SubdivisionId).ToList();
+            }
+            else
+            {
+                // получаем заявки созданные сотрудником
+                result = requests.Where(r => r.ClientId == employee.Id).ToList();
+            }
 
             if (!client)
             {
@@ -230,8 +237,16 @@ namespace BusinessLogic.Concrete
             if (service != null) requests = requests.Where(r => r.ServiceId == service.Id).ToList();
             // Если статус заявки указан — получаем заявки с указанным статусом
             if (status != null) requests = requests.Where(r => r.StatusId == status.Id).ToList();
-            // получаем заявки созданные сотрудником
-            result = requests.Where(r => r.ClientId == employee.Id).ToList();
+
+            if (employee.HeadOfUnit)
+            {
+                result = requests.Where(r => r.Client.SubdivisionId == employee.SubdivisionId).ToList();
+            }
+            else
+            {
+                // получаем заявки созданные сотрудником
+                result = requests.Where(r => r.ClientId == employee.Id).ToList();
+            }           
 
             if (!client)
             {
@@ -261,8 +276,8 @@ namespace BusinessLogic.Concrete
             }
 
             // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
-            if (descending) return result.OrderByDescending(r => r.Date).ToList();
-            else return result.OrderBy(r => r.Date).ToList();
+            if (descending) return result.OrderByDescending(r => r.PriorityId).ThenByDescending(r=>r.Date).ToList();
+            else return result.OrderBy(r => r.PriorityId).ThenBy(r=>r.Date).ToList();
         }
     }
 }

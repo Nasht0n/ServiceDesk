@@ -463,7 +463,7 @@ namespace WebUI.Areas.IT.Controllers
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Заявка прошла согласование");
             // открытие окна заявки
-            return RedirectToAction("Details", service.Controller, new { id });
+            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = "4" });
         }
         /// <summary>
         /// Метод отмены согласования заявки
@@ -482,7 +482,7 @@ namespace WebUI.Areas.IT.Controllers
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Заявка не прошла согласование");
             // открытие окна заявки
-            return RedirectToAction("Details", service.Controller, new { id });
+            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = "4" });
         }
         /// <summary>
         /// Метод принятия заявки в работу

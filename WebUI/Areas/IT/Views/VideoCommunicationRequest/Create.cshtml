@@ -3,8 +3,6 @@
     ViewBag.Title = "Заявка на проведение видеосвязи";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
-
-
 <div class="container footer">
 
     <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
@@ -61,11 +59,9 @@
                 <div class="form-group col-md-6">
                     @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", Name = "Model.Date", autocomplete = "off" } })
+                    @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd HH:mm}", new { htmlAttributes = new { @class = "form-control", Name = "Model.Date", autocomplete = "off" } })
+                    @*@Html.TextBoxFor(x => x.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })*@
                 </div>
-
-
-
             </div>
 
             <div class="row">
