@@ -4178,11 +4178,12 @@
 		var language = settings.oLanguage;
 		var previousSearch = settings.oPreviousSearch;
 		var features = settings.aanFeatures;
-		var input = '<input type="search"  class="' + classes.sFilterInput + 'form-control d-inline w-auto' + '"/>';
-		var str = language.sSearch;
-		str = str.match(/_INPUT_/) ?
-			str.replace('_INPUT_', input) :
-			str+input;
+		var input = '<input type="search" class="' + classes.sFilterInput + 'form-control' + '"/>';
+		//var str = language.sSearch;
+		var str = input;
+			//str.match(/_INPUT_/) ?
+			//str.replace('_INPUT_', input) :
+			//str+input;
 	
 		var filter = $('<div/>', {
 				'id': ! features.f ? tableId+'_filter' : null,
@@ -11718,7 +11719,7 @@
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.searchPlaceholder
 			 */
-			"sSearchPlaceholder": "",
+			"sSearchPlaceholder": "Начните вводить текст для поиска заявок (-ки)",
 	
 	
 			/**

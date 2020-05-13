@@ -4,6 +4,7 @@ using Domain.Models.Requests.Accounts;
 using Domain.Models.Requests.Communication;
 using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
+using Domain.Models.Requests.Events;
 using Domain.Models.Requests.Network;
 using Domain.Models.Requests.Software;
 using Domain.Views;
@@ -67,6 +68,11 @@ namespace Domain
         public virtual DbSet<SoftwareReworkRequest> SoftwareReworkRequests { get; set; }
         public virtual DbSet<SoftwareReworkRequestLifeCycle> SoftwareReworkRequestLifeCycles { get; set; }
 
+        public virtual DbSet<TechnicalSupportEventRequest> TechnicalSupportEventRequests { get; set; }
+        public virtual DbSet<TechnicalSupportEventRequestLifeCycle> TechnicalSupportEventRequestLifeCycles { get; set; }
+        public virtual DbSet<TechnicalSupportEventEquipments> TechnicalSupportEventEquipments { get; set; }
+        public virtual DbSet<TechnicalSupportEventInfos> TechnicalSupportEventInfos { get; set; }
+
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<Branch> Branches { get; set; }
@@ -99,9 +105,7 @@ namespace Domain
         public virtual DbSet<SubdivisionExecutor> SubdivisionExecutors { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            
+        {     
             modelBuilder.Entity<AccountPermission>().HasKey(c => new { c.AccountId, c.PermissionId });
 
             modelBuilder.Entity<Account>()

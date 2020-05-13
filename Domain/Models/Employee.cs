@@ -12,7 +12,7 @@ namespace Domain.Models
         /// <summary>
         /// Идентификатор сотрудника
         /// </summary>
-
+        
         public int Id { get; set; }
         /// <summary>
         /// Фамилия сотрудника

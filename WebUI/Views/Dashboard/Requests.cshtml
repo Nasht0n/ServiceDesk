@@ -3,83 +3,78 @@
 @using WebUI.HtmlHelpers
 @section Scripts{
     <script>
+
         $(document).ready(function () {
             $('#table-request').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Russian.json"
                 },
                 "autoWidth": false
-            });  
-
-            $("#datepicker_from").datepicker({
-                showOn: "button",
-                buttonImage: "images/calendar.gif",
-                buttonImageOnly: false,
-                "onSelect": function (date) {
-                    minDateFilter = new Date(date).getTime();
-                    oTable.fnDraw();
-                }
-            }).keyup(function () {
-                minDateFilter = new Date(this.value).getTime();
-                oTable.fnDraw();
-            });
-
-            $("#datepicker_to").datepicker({
-                showOn: "button",
-                buttonImage: "images/calendar.gif",
-                buttonImageOnly: false,
-                "onSelect": function (date) {
-                    maxDateFilter = new Date(date).getTime();
-                    oTable.fnDraw();
-                }
-            }).keyup(function () {
-                maxDateFilter = new Date(this.value).getTime();
-                oTable.fnDraw();
             });
         });
 
-        // Date range filter
-        minDateFilter = "";
-        maxDateFilter = "";
-
-        $.fn.dataTableExt.afnFiltering.push(
-            function (oSettings, aData, iDataIndex) {
-                if (typeof aData._date == 'undefined') {
-                    aData._date = new Date(aData[0]).getTime();
+        $(document).ready(function () {
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var min = $('#min').datepicker("getDate");
+                    var max = $('#max').datepicker("getDate");
+                    var datetimeColumn = data[5].split(" ");
+                    var date = datetimeColumn[0].split(".");
+                    var day = date[0];
+                    var month = date[1] - 1;
+                    var year = date[2];
+                    var startDate = new Date(year, month, day, 0, 0, 0);
+                    if (min == null && max == null) { return true; }
+                    if (min == null && startDate <= max) { return true; }
+                    if (max == null && startDate >= min) { return true; }
+                    if (startDate <= max && startDate >= min) { return true; }
+                    return false;
                 }
+            );
 
-                if (minDateFilter && !isNaN(minDateFilter)) {
-                    if (aData._date < minDateFilter) {
-                        return false;
-                    }
-                }
+            $("#min").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true, dateFormat: "dd.mm.yy", clearBtn: true });
+            $("#max").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true, dateFormat: "dd.mm.yy" });
 
-                if (maxDateFilter && !isNaN(maxDateFilter)) {
-                    if (aData._date > maxDateFilter) {
-                        return false;
-                    }
-                }
+            var table = $('#table-request').DataTable();
+            $('#min, #max').change(function () {
+                table.draw();
+            });
+        });
 
-                return true;
-            }
-        );
+        var $dates = $('#min, #max').datepicker();
+
+        $('#btnClear').on('click', function () {
+            $dates.datepicker('setDate', null);
+            var table = $('#table-request').DataTable();
+            table.draw();
+        });
+
+
     </script>
 }
 @{
-    ViewBag.Title = "Список заявок";
+    ViewBag.Title = "Каталог заявок";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
 <div class="container-fluid">
-    <h2 class="display-4 text-center text-dark my-3">@ViewBag.Title</h2>
-
-    <p id="date-filter">
-        <span id="date-label-from" class="date-label">Начало периода: </span>
-        <input class="date_range_filter date" type="text" id="datepicker_from" />
-        <span id="date-label-to" class="date-label">По:</span>
-        <input class="date_range_filter date" type="date" id="datepicker_to" />
-    </p>
-
+    <h2 class="display-4 text-center my-3">@ViewBag.Title</h2>
+    <h6 class="ml-3 my-1">Поиск заявок за период</h6>
+    <div class="row mx-3 my-3">
+        <div class="col-md-5 p-0">
+            <input name="min" id="min" type="text" placeholder="Стартовая дата периода" class="form-control d-inline" autocomplete="off">
+        </div>
+        <div class="col-md-5">
+            <input name="max" id="max" type="text" placeholder="Конец периода" class="form-control d-inline" autocomplete="off">
+        </div>
+        <div class="col-md-2 p-0">
+            <button class="btn btn-outline-primary w-100" id="btnClear">
+                <i class="fa fa-eraser"></i>
+                <span>Очистить</span>
+            </button>
+        </div>
+    </div>
+    <hr />
     <div class="container-fluid">
         <table id="table-request" class="table table-primary table-hover">
             <thead>

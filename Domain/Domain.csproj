@@ -131,6 +131,10 @@
     <Compile Include="Models\Requests\Equipment\RepairEquipments.cs" />
     <Compile Include="Models\Requests\Equipment\ReplaceComponents.cs" />
     <Compile Include="Models\Requests\Equipment\ReplaceEquipments.cs" />
+    <Compile Include="Models\Requests\Events\TechnicalSupportEventInfos.cs" />
+    <Compile Include="Models\Requests\Events\TechnicalSupportEventEquipments.cs" />
+    <Compile Include="Models\Requests\Events\TechnicalSupportEventRequest.cs" />
+    <Compile Include="Models\Requests\Events\TechnicalSupportEventRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Network\ConnectionEquipments.cs" />
     <Compile Include="Models\Requests\Network\NetworkConnectionRequest.cs" />
     <Compile Include="Models\Requests\Network\NetworkConnectionRequestLifeCycle.cs" />
