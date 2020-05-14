@@ -77,7 +77,7 @@ namespace WebUI.ViewModels
                 get
                 {
                     if (requests != null)
-                        return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id && (r.StatusId == (int)RequestStatus.Open || r.StatusId == (int)RequestStatus.Approval)).Count();
+                        return requests.Where(r => r.ServiceModel.CategoryModel.Id == CategoryModel.Id && r.StatusId != (int)RequestStatus.Closed).Count();
                     else
                         return 0;
                 }

@@ -7,6 +7,7 @@
         InWork = 5,
         Done = 6,
         Closed = 7,
-        Archive = 8
+        Archive = 8,
+        Agreed = 9
     }
 }

@@ -1,8 +1,8 @@
-﻿using Domain.Models.Requests.Communication;
+﻿using Domain.Models.Requests.Events;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Repository.Abstract.Branches.IT.Communication.LifeCycles
+namespace Repository.Abstract.Branches.IT.Events.LifeCycles
 {
     public interface IVideoCommunicationRequestLifeCycleRepository
     {

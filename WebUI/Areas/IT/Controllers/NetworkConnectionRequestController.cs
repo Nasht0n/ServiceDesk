@@ -195,10 +195,11 @@ namespace WebUI.Areas.IT.Controllers
         /// <param name="id">Идентификатор заявки</param>
         /// <param name="status">Новый статус заявки</param>
         /// <returns></returns>
-        public async Task ChangeRequestStatus(int id, RequestStatus status)
+        private async Task ChangeRequestStatus(int id, RequestStatus status, Employee executor = null)
         {
             // получаем заявку по идентификатору
             var request = await requestLogic.GetRequest(id);
+            if (executor != null) request.ExecutorId = executor.Id;
             // инициализируем идентификатор статуса новым значением
             request.StatusId = (int)status;
             // сохраняем изменения заявки
@@ -463,14 +464,12 @@ namespace WebUI.Areas.IT.Controllers
             // получение данных об авторизованном сотруднике
             // инициализация конфигурации
             var user = await PopulateAccountInfo();
-            // получение вида заявки
-            var service = await serviceLogic.GetService(SERVICE_ID);
             // изменение статуса заявки 
-            await ChangeRequestStatus(id, RequestStatus.Open);
+            await ChangeRequestStatus(id, RequestStatus.Agreed);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Заявка прошла согласование");
             // открытие окна заявки
-            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = "4" });
+            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = (int)RequestStatus.Approval });
         }
         /// <summary>
         /// Метод отмены согласования заявки
@@ -482,14 +481,12 @@ namespace WebUI.Areas.IT.Controllers
             // получение данных об авторизованном сотруднике
             // инициализация конфигурации
             var user = await PopulateAccountInfo();
-            // получение вида заявки
-            var service = await serviceLogic.GetService(SERVICE_ID);
             // изменение статуса заявки 
             await ChangeRequestStatus(id, RequestStatus.Closed);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Заявка не прошла согласование");
             // открытие окна заявки
-            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = "4" });
+            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = (int)RequestStatus.Approval });
         }
         /// <summary>
         /// Метод принятия заявки в работу
@@ -503,14 +500,8 @@ namespace WebUI.Areas.IT.Controllers
             var user = await PopulateAccountInfo();
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
-            // получение заявки
-            var request = await requestLogic.GetRequest(id);
-            // инициализация идентификатора исполнителя
-            request.ExecutorId = user.Id;
-            // сохранение изменений
-            await requestLogic.Save(request);
             // изменение статуса заявки 
-            await ChangeRequestStatus(id, RequestStatus.InWork);
+            await ChangeRequestStatus(id, RequestStatus.InWork, user);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Начало исполнения заявки");
             // открытие окна заявки
@@ -532,6 +523,25 @@ namespace WebUI.Areas.IT.Controllers
             await ChangeRequestStatus(id, RequestStatus.Done);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Заявка выполнена");
+            // открытие окна заявки
+            return RedirectToAction("Details", service.Controller, new { id });
+        }
+        /// <summary>
+        /// Метод перевода заявки в архив
+        /// </summary>
+        /// <param name="id">Идентификатор заявки</param>
+        /// <returns></returns>
+        public async Task<ActionResult> Close(int id)
+        {
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo();
+            // получение вида заявки
+            var service = await serviceLogic.GetService(SERVICE_ID);
+            // изменение статуса заявки 
+            await ChangeRequestStatus(id, RequestStatus.Closed);
+            // добавление записи жизненного цикла заявки
+            await LifeCycleMessage(id, user, "Заявка закрыта");
             // открытие окна заявки
             return RedirectToAction("Details", service.Controller, new { id });
         }

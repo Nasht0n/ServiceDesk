@@ -1,7 +1,7 @@
-﻿using Domain.Models.Requests.Communication;
+﻿using Domain.Models.Requests.Events;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.Abstract.Branches.IT.Communications.Requests
+namespace BusinessLogic.Abstract.Branches.IT.Events.Requests
 {
     public interface IVideoCommunicationRequestLogic
     {

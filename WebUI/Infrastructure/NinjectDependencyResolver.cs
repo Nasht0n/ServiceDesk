@@ -9,6 +9,9 @@ using BusinessLogic.Abstract.Branches.IT.Emails.Requests;
 using BusinessLogic.Abstract.Branches.IT.Equipments;
 using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
+using BusinessLogic.Abstract.Branches.IT.Events;
+using BusinessLogic.Abstract.Branches.IT.Events.LifeCycles;
+using BusinessLogic.Abstract.Branches.IT.Events.Requests;
 using BusinessLogic.Abstract.Branches.IT.Networks;
 using BusinessLogic.Abstract.Branches.IT.Networks.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Networks.Requests;
@@ -26,12 +29,16 @@ using BusinessLogic.Concrete.Branches.IT.Emails.Requests;
 using BusinessLogic.Concrete.Branches.IT.Equipments;
 using BusinessLogic.Concrete.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Equipments.Requests;
+using BusinessLogic.Concrete.Branches.IT.Events;
+using BusinessLogic.Concrete.Branches.IT.Events.LifeCycles;
+using BusinessLogic.Concrete.Branches.IT.Events.Requests;
 using BusinessLogic.Concrete.Branches.IT.Networks;
 using BusinessLogic.Concrete.Branches.IT.Networks.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Networks.Requests;
 using BusinessLogic.Concrete.Branches.IT.Softwares.Attachments;
 using BusinessLogic.Concrete.Branches.IT.Softwares.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Softwares.Requests;
+using Domain.Models.Requests.Events;
 using Ninject;
 using Repository.Abstract;
 using Repository.Abstract.Branches.IT.Accounts.Attachments;
@@ -44,6 +51,9 @@ using Repository.Abstract.Branches.IT.Email.Requests;
 using Repository.Abstract.Branches.IT.Equipments;
 using Repository.Abstract.Branches.IT.Equipments.LifeCycles;
 using Repository.Abstract.Branches.IT.Equipments.Requests;
+using Repository.Abstract.Branches.IT.Events;
+using Repository.Abstract.Branches.IT.Events.LifeCycles;
+using Repository.Abstract.Branches.IT.Events.Requests;
 using Repository.Abstract.Branches.IT.Network;
 using Repository.Abstract.Branches.IT.Network.LifeCycles;
 using Repository.Abstract.Branches.IT.Network.Requests;
@@ -61,6 +71,9 @@ using Repository.Concrete.Branches.IT.Email.Requests;
 using Repository.Concrete.Branches.IT.Equipments;
 using Repository.Concrete.Branches.IT.Equipments.LifeCycles;
 using Repository.Concrete.Branches.IT.Equipments.Requests;
+using Repository.Concrete.Branches.IT.Events;
+using Repository.Concrete.Branches.IT.Events.LifeCycles;
+using Repository.Concrete.Branches.IT.Events.Requests;
 using Repository.Concrete.Branches.IT.Network;
 using Repository.Concrete.Branches.IT.Network.LifeCycles;
 using Repository.Concrete.Branches.IT.Network.Requests;
@@ -120,6 +133,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IRefuelingLimitRepository>().To<RefuelingLimitRepository>();
             kernel.Bind<IAttachmentRepository>().To<AttachmentRepository>();
 
+            kernel.Bind<ITechnicalSupportEventEquipmentRepository>().To<TechnicalSupportEventEquipmentRepository>();
+            kernel.Bind<ITechnicalSupportEventInfoRepository>().To<TechnicalSupportEventInfoRepository>();
+
             AddLifeCyclesRepositoriesBindings();
             AddRequestsRepositoriesBindings();
             AddAttachmentsRepositoriesBindings();            
@@ -153,7 +169,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IPhoneLineRepairRequestRepository>().To<PhoneLineRepairRequestRepository>();
             kernel.Bind<IPhoneNumberAllocationRequestRepository>().To<PhoneNumberAllocationRequestRepository>();
             kernel.Bind<IPhoneRepairRequestRepository>().To<PhoneRepairRequestRepository>();
+
             kernel.Bind<IVideoCommunicationRequestRepository>().To<VideoCommunicationRequestRepository>();
+            kernel.Bind<ITechnicalSupportEventRequestRepository>().To<TechnicalSupportEventRequestRepository>();
 
             kernel.Bind<IEmailRegistrationRequestRepository>().To<EmailRegistrationRequestRepository>();
             kernel.Bind<IEmailSizeIncreaseRequestRepository>().To<EmailSizeIncreaseRequestRepository>();
@@ -181,7 +199,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IPhoneLineRepairRequestLifeCycleRepository>().To<PhoneLineRepairRequestLifeCycleRepository>();
             kernel.Bind<IPhoneNumberAllocationRequestLifeCycleRepository>().To<PhoneNumberAllocationRequestLifeCycleRepository>();
             kernel.Bind<IPhoneRepairRequestLifeCycleRepository>().To<PhoneRepairRequestLifeCycleRepository>();
+
             kernel.Bind<IVideoCommunicationRequestLifeCycleRepository>().To<VideoCommunicationRequestLifeCycleRepository>();
+            kernel.Bind<ITechnicalSupportEventRequestLifeCycleRepository>().To<TechnicalSupportEventRequestLifeCycleRepository>();
 
             kernel.Bind<IEmailRegistrationRequestLifeCycleRepository>().To<EmailRegistrationRequestLifeCycleRepository>();
             kernel.Bind<IEmailSizeIncreaseRequestLifeCycleRepository>().To<EmailSizeIncreaseRequestLifeCycleRepository>();
@@ -216,6 +236,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IRequestsLogic>().To<RequestsLogic>();
             kernel.Bind<IRefuelingLimitsLogic>().To<RefuelingLimitsLogic>();
             kernel.Bind<IAttachmentLogic>().To<AttachmentLogic>();
+
+            kernel.Bind<ITechnicalSupportEventEquipmentsLogic>().To<TechnicalSupportEventEquipmentsLogic>();
+            kernel.Bind<ITechnicalSupportEventInfosLogic>().To<TechnicalSupportEventInfosLogic>();
 
             kernel.Bind<IInstallationEquipmentsLogic>().To<InstallationEquipmentsLogic>();
             kernel.Bind<IRefillEquipmentsLogic>().To<RefillEquipmentsLogic>();
@@ -263,7 +286,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IPhoneLineRepairRequestLogic>().To<PhoneLineRepairRequestLogic>();
             kernel.Bind<IPhoneNumberAllocationRequestLogic>().To<PhoneNumberAllocationRequestLogic>();
             kernel.Bind<IPhoneRepairRequestLogic>().To<PhoneRepairRequestLogic>();
+
             kernel.Bind<IVideoCommunicationRequestLogic>().To<VideoCommunicationRequestLogic>();
+            kernel.Bind<ITechnicalSupportEventRequestLogic>().To<TechnicalSupportEventRequestLogic>();
 
             kernel.Bind<ISoftwareDevelopmentRequestLogic>().To<SoftwareDevelopmentRequestLogic>();
             kernel.Bind<ISoftwareReworkRequestLogic>().To<SoftwareReworkRequestLogic>();
@@ -291,7 +316,9 @@ namespace WebUI.Infrastructure
             kernel.Bind<IPhoneLineRepairRequestLifeCycleLogic>().To<PhoneLineRepairRequestLifeCycleLogic>();
             kernel.Bind<IPhoneNumberAllocationRequestLifeCycleLogic>().To<PhoneNumberAllocationRequestLifeCycleLogic>();
             kernel.Bind<IPhoneRepairRequestLifeCycleLogic>().To<PhoneRepairRequestLifeCycleLogic>();
+
             kernel.Bind<IVideoCommunicationRequestLifeCycleLogic>().To<VideoCommunicationRequestLifeCycleLogic>();
+            kernel.Bind<ITechnicalSupportEventRequestLifeCycleLogic>().To<TechnicalSupportEventRequestLifeCycleLogic>();
 
             kernel.Bind<ISoftwareDevelopmentRequestLifeCycleLogic>().To<SoftwareDevelopmentRequestLifeCycleLogic>();
             kernel.Bind<ISoftwareReworkRequestLifeCycleLogic>().To<SoftwareReworkRequestLifeCycleLogic>();

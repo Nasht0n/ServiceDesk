@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebUI.ViewModels.Requests.IT.Communications;
+using WebUI.ViewModels.Requests.IT.Events;
 
-namespace WebUI.ViewModels.LifeCycles.IT.Communications
+namespace WebUI.ViewModels.LifeCycles.IT.Events
 {
     public class VideoCommunicationRequestLifeCycleViewModel:LifeCycleViewModel
     {

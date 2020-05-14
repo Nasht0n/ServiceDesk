@@ -1,4 +1,4 @@
-﻿@model WebUI.ViewModels.Requests.IT.Communications.VideoCommunicationDetailsRequestViewModel
+﻿@model WebUI.ViewModels.Requests.IT.Events.VideoCommunicationDetailsRequestViewModel
 @using WebUI.Models.Enum
 @{
     ViewBag.Title = "Заявка на проведение видеосвязи";
@@ -52,6 +52,10 @@
                         <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.Date):</span>
                         <span class="ml-1">@Model.RequestModel.Date.ToShortDateString()</span>
                     </li>
+                    <li class="list-group-item bg-white text-dark">
+                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.Time):</span>
+                        <span class="ml-1">@Model.RequestModel.Time</span>
+                    </li>
                 </ul>
                 <div class="card-body">
                     <div class="d-flex align-content-start flex-wrap">
@@ -60,7 +64,7 @@
                             <a href="@Url.Action("AgreeRequest","VideoCommunicationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Согласовать</a>
                             <a href="@Url.Action("RejectRequest","VideoCommunicationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-warning flex-grow-1 mr-1 mb-1">Отклонить</a>
                         }
-                        else if (Model.UserPermissions.GetInWorkRequest && Model.AllApproval && Model.RequestModel.StatusId == (int)RequestStatus.Open)
+                        else if (Model.UserPermissions.GetInWorkRequest && Model.AllApproval && (Model.RequestModel.StatusId == (int)RequestStatus.Agreed || Model.RequestModel.StatusId == (int)RequestStatus.Open))
                         {
                             <a href="@Url.Action("GetInWork","VideoCommunicationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Принять к исполнению</a>
                         }
@@ -78,8 +82,11 @@
                         {
                             <a href="@Url.Action("DoneWork","VideoCommunicationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Выполнена</a>
                         }
-
-                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Done)
+                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Done && Model.CurrentUser.Id == Model.RequestModel.ClientId)
+                        {
+                            <a href="@Url.Action("Close","VideoCommunicationRequest",new { Area = "IT", id = Model.RequestModel.Id })" class="btn btn-primary mr-1 mb-1">Закрыть заявку</a>
+                        }
+                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed && Model.RequestModel.ExecutorId == Model.CurrentUser.Id)
                         {
                             <a href="@Url.Action("Archive","VideoCommunicationRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">В архив</a>
                         }

@@ -1,6 +1,6 @@
 ﻿using Domain;
-using Domain.Models.Requests.Communication;
-using Repository.Abstract.Branches.IT.Communication.Requests;
+using Domain.Models.Requests.Events;
+using Repository.Abstract.Branches.IT.Events.Requests;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -8,25 +8,25 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Repository.Concrete.Branches.IT.Communication.Requests
+namespace Repository.Concrete.Branches.IT.Events.Requests
 {
-    public class VideoCommunicationRequestRepository : IVideoCommunicationRequestRepository
+    public class TechnicalSupportEventRequestRepository : ITechnicalSupportEventRequestRepository
     {
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
         private readonly ServiceDeskContext context;
 
-        public VideoCommunicationRequestRepository(ServiceDeskContext context)
+        public TechnicalSupportEventRequestRepository(ServiceDeskContext context)
         {
             this.context = context;
         }
 
-        public async Task<VideoCommunicationRequest> Add(VideoCommunicationRequest request)
+        public async Task<TechnicalSupportEventRequest> Add(TechnicalSupportEventRequest request)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var inserted = context.VideoCommunicationRequests.Add(request);
+                var inserted = context.TechnicalSupportEventRequests.Add(request);
                 await context.SaveChangesAsync();
                 watch.Stop();
                 return inserted;
@@ -37,14 +37,14 @@ namespace Repository.Concrete.Branches.IT.Communication.Requests
             }
         }
 
-        public async Task Delete(VideoCommunicationRequest request)
+        public async Task Delete(TechnicalSupportEventRequest request)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var deleted = await context.VideoCommunicationRequests.SingleOrDefaultAsync(r => r.Id == request.Id);
-                context.VideoCommunicationRequests.Remove(deleted);
+                var deleted = await context.TechnicalSupportEventRequests.SingleOrDefaultAsync(r => r.Id == request.Id);
+                context.TechnicalSupportEventRequests.Remove(deleted);
                 await context.SaveChangesAsync();
                 watch.Stop();
             }
@@ -54,14 +54,13 @@ namespace Repository.Concrete.Branches.IT.Communication.Requests
             }
         }
 
-        public async Task<List<VideoCommunicationRequest>> GetRequests()
+        public async Task<List<TechnicalSupportEventRequest>> GetRequests()
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var list = await context.VideoCommunicationRequests
-                    .Include(a => a.Campus)
+                var list = await context.TechnicalSupportEventRequests
                     .Include(a => a.Service)
                     .Include(a => a.Service.Category)
                     .Include(a => a.Service.Category.Branch)
@@ -83,18 +82,15 @@ namespace Repository.Concrete.Branches.IT.Communication.Requests
             }
         }
 
-        public async Task<VideoCommunicationRequest> Update(VideoCommunicationRequest request)
+        public async Task<TechnicalSupportEventRequest> Update(TechnicalSupportEventRequest request)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var updated = await context.VideoCommunicationRequests.SingleOrDefaultAsync(r => r.Id == request.Id);
+                var updated = await context.TechnicalSupportEventRequests.SingleOrDefaultAsync(r => r.Id == request.Id);
                 if (updated != null)
                 {
-                    updated.Location = request.Location;
-                    updated.Date = request.Date;
-                    updated.CampusId = request.CampusId;
                     updated.Title = request.Title;
                     updated.Justification = request.Justification;
                     updated.Description = request.Description;

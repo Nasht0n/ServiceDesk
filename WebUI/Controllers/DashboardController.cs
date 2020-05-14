@@ -68,7 +68,7 @@ namespace WebUI.Controllers
                 var group = await executorGroupLogic.GetExecutorGroup(userGroup.ExecutorGroupId);
                 var temp = ModelFromData.GetViewModel(group);
                 model.UserExecutorGroups.Add(temp);
-            }            
+            }
             // инициализация прав доступа учетной записи
             model.UserPermissions = new UserPermissions();
             model.UserPermissions.Permissions = await accountPermissionLogic.GetPermissions(account);
@@ -89,12 +89,12 @@ namespace WebUI.Controllers
             model.MenuInformation.CategoryStats = new CategoryStats();
             model.MenuInformation.CategoryStats.CategoryInfos = new List<CategoryInfo>();
             var categories = await categoryLogic.GetCategories();
-            foreach(var category in categories)
+            foreach (var category in categories)
             {
                 CategoryInfo info = new CategoryInfo(model.Requests);
                 info.CategoryModel = ModelFromData.GetViewModel(category);
                 model.MenuInformation.CategoryStats.CategoryInfos.Add(info);
-            }                      
+            }
         }
         /// <summary>
         /// Метод отображения главной страницы рабочего стола
@@ -107,18 +107,20 @@ namespace WebUI.Controllers
             // получение данных об авторизованном сотруднике
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
+            // получаем данные учетной записи
+            var account = await accountLogic.GetAccount(user);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user,client:false);
+            var requests = await requestsLogic.GetRequests(account);
             if (lastMonth)
             {
                 int month = DateTime.Now.Month;
                 requests = requests.Where(r => r.Date.Month == month).ToList();
             }
             // инициализации списка заявок в модели представления
-            model.Requests = ModelFromData.GetViewModel(requests);            
+            model.Requests = ModelFromData.GetViewModel(requests);
             // инициализация таблицы данных статистики видов заявок
             model.ServicesInfos = await InitializeServicesInfos(model.Requests);
-            await MenuInformation(model);          
+            await MenuInformation(model);
             // отображение представления
             return View(model);
         }
@@ -151,26 +153,32 @@ namespace WebUI.Controllers
         /// </summary>
         /// <param name="serviceId">Идентификатор вида заявок</param>
         /// <returns>Представление каталога заявок</returns>
-        public async Task<ActionResult> Requests(int categoryId = 0,int serviceId = 0, int statusId = 0, bool IsClient=false, DateTime? start = null, DateTime? end = null)
+        public async Task<ActionResult> Requests(int categoryId = 0, int serviceId = 0, int statusId = 0, bool inWork = false, bool approver = false)
         {
             // инициализация модели представления
             RequestListViewModel model = new RequestListViewModel();
             // получение данных об авторизованном сотруднике
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
+            // получаем данные учетной записи
+            var account = await accountLogic.GetAccount(user);
             // получени категории заявок по указанному идентификатору
             var category = await categoryLogic.GetCategory(categoryId);
+            model.CategoryModel = ModelFromData.GetViewModel(category);
             // получение вида заявок по указанному идентификатору
             var service = await serviceLogic.GetService(serviceId);
+            model.ServiceModel = ModelFromData.GetViewModel(service);
             // получение статуса заявок по указанному идентификатору
             var status = await statusLogic.GetStatus(statusId);
+            model.StatusModel = ModelFromData.GetViewModel(status);
+            model.InWork = inWork;
+            model.Approver = approver;
             // получение заявок, которые каким-либо образом относятся к пользователю
-            var requests = await requestsLogic.GetRequests(user, client: false);
+            var requests = await requestsLogic.GetRequests(account);
+            // список меню
             model.Requests = ModelFromData.GetViewModel(requests);
             // получение списка заявок
-            var requestsStats = await requestsLogic.GetRequests(user, category,service, status, client:IsClient);           
-            // инициализации списка заявок в модели представления
-            model.RequestsModel = ModelFromData.GetViewModel(requestsStats);
+            //requests = await requestsLogic.GetRequests(account, category, service, status, IsClient);            
             await MenuInformation(model);
             // отображение представления
             return View(model);
@@ -187,7 +195,7 @@ namespace WebUI.Controllers
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
             // получение заявок касающихся авторизованного сотрудника
-            var requests = await requestsLogic.GetRequests(user,client:false);
+            var requests = await requestsLogic.GetRequests(user, client: false);
             // инициализации списка заявок в модели представления
             model.Requests = ModelFromData.GetViewModel(requests);
             // получение списка отраслей заявки

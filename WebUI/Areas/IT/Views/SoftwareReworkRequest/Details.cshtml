@@ -67,7 +67,7 @@
                             <a href="@Url.Action("AgreeRequest","SoftwareReworkRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Согласовать</a>
                             <a href="@Url.Action("RejectRequest","SoftwareReworkRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-warning flex-grow-1 mr-1 mb-1">Отклонить</a>
                         }
-                        else if (Model.UserPermissions.GetInWorkRequest && Model.AllApproval && Model.RequestModel.StatusId == (int)RequestStatus.Open)
+                        else if (Model.UserPermissions.GetInWorkRequest && Model.AllApproval && (Model.RequestModel.StatusId == (int)RequestStatus.Agreed || Model.RequestModel.StatusId == (int)RequestStatus.Open))
                         {
                             <a href="@Url.Action("GetInWork","SoftwareReworkRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Принять к исполнению</a>
                         }
@@ -85,8 +85,11 @@
                         {
                             <a href="@Url.Action("DoneWork","SoftwareReworkRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Выполнена</a>
                         }
-
-                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed || Model.RequestModel.StatusId == (int)RequestStatus.Done)
+                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Done && Model.CurrentUser.Id == Model.RequestModel.ClientId)
+                        {
+                            <a href="@Url.Action("Close","SoftwareReworkRequest",new { Area = "IT", id = Model.RequestModel.Id })" class="btn btn-primary mr-1 mb-1">Закрыть заявку</a>
+                        }
+                        else if (Model.RequestModel.StatusId == (int)RequestStatus.Closed && Model.RequestModel.ExecutorId == Model.CurrentUser.Id)
                         {
                             <a href="@Url.Action("Archive","SoftwareReworkRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">В архив</a>
                         }

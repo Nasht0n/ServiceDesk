@@ -69,6 +69,14 @@
     <Compile Include="Migrations\202004140917116_AddCascade.designer.cs">
       <DependentUpon>202004140917116_AddCascade.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005131240324_EventRequest.cs" />
+    <Compile Include="Migrations\202005131240324_EventRequest.designer.cs">
+      <DependentUpon>202005131240324_EventRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005141132202_AddTimeFieldToVideoRequest.cs" />
+    <Compile Include="Migrations\202005141132202_AddTimeFieldToVideoRequest.designer.cs">
+      <DependentUpon>202005141132202_AddTimeFieldToVideoRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ManyToMany\AccountCancellationRequestAttachment.cs" />
@@ -110,8 +118,8 @@
     <Compile Include="Models\Requests\Communication\PhoneNumberAllocationRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Communication\PhoneRepairRequest.cs" />
     <Compile Include="Models\Requests\Communication\PhoneRepairRequestLifeCycle.cs" />
-    <Compile Include="Models\Requests\Communication\VideoCommunicationRequest.cs" />
-    <Compile Include="Models\Requests\Communication\VideoCommunicationRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Events\VideoCommunicationRequest.cs" />
+    <Compile Include="Models\Requests\Events\VideoCommunicationRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Email\EmailRegistrationRequest.cs" />
     <Compile Include="Models\Requests\Email\EmailRegistrationRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Email\EmailSizeIncreaseRequest.cs" />
@@ -171,6 +179,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004140917116_AddCascade.resx">
       <DependentUpon>202004140917116_AddCascade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005131240324_EventRequest.resx">
+      <DependentUpon>202005131240324_EventRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005141132202_AddTimeFieldToVideoRequest.resx">
+      <DependentUpon>202005141132202_AddTimeFieldToVideoRequest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

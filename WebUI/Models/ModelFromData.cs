@@ -4,6 +4,7 @@ using Domain.Models.Requests.Accounts;
 using Domain.Models.Requests.Communication;
 using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
+using Domain.Models.Requests.Events;
 using Domain.Models.Requests.Network;
 using Domain.Models.Requests.Software;
 using Domain.Views;
@@ -28,6 +29,7 @@ using WebUI.ViewModels.LifeCycles.IT.Accounts;
 using WebUI.ViewModels.LifeCycles.IT.Communications;
 using WebUI.ViewModels.LifeCycles.IT.Emails;
 using WebUI.ViewModels.LifeCycles.IT.Equipments;
+using WebUI.ViewModels.LifeCycles.IT.Events;
 using WebUI.ViewModels.LifeCycles.IT.Networks;
 using WebUI.ViewModels.LifeCycles.IT.Softwares;
 using WebUI.ViewModels.PermissionModel;
@@ -36,6 +38,7 @@ using WebUI.ViewModels.Requests.IT.Accounts;
 using WebUI.ViewModels.Requests.IT.Communications;
 using WebUI.ViewModels.Requests.IT.Emails;
 using WebUI.ViewModels.Requests.IT.Equipments;
+using WebUI.ViewModels.Requests.IT.Events;
 using WebUI.ViewModels.Requests.IT.Networks;
 using WebUI.ViewModels.Requests.IT.Softwares;
 using WebUI.ViewModels.Requests.View;
@@ -108,7 +111,7 @@ namespace WebUI.Models
         public static List<ServiceViewModel> GetViewModel(List<Service> services)
         {
             List<ServiceViewModel> result = new List<ServiceViewModel>();
-            foreach(var service in services)
+            foreach (var service in services)
             {
                 var item = GetViewModel(service);
                 result.Add(item);
@@ -119,7 +122,8 @@ namespace WebUI.Models
         public static List<RequestViewModel> GetViewModel(List<Requests> requests)
         {
             List<RequestViewModel> result = new List<RequestViewModel>();
-            foreach (var request in requests) {
+            foreach (var request in requests)
+            {
                 var item = GetViewModel(request);
                 result.Add(item);
             }
@@ -267,7 +271,7 @@ namespace WebUI.Models
         public static List<CategoryViewModel> GetViewModel(List<Category> categories)
         {
             List<CategoryViewModel> list = new List<CategoryViewModel>();
-            foreach(var category in categories)
+            foreach (var category in categories)
             {
                 CategoryViewModel item = GetViewModel(category);
                 list.Add(item);
@@ -278,7 +282,7 @@ namespace WebUI.Models
         public static List<BranchViewModel> GetViewModel(List<Branch> branches)
         {
             List<BranchViewModel> list = new List<BranchViewModel>();
-            foreach(var branch in branches)
+            foreach (var branch in branches)
             {
                 BranchViewModel item = GetViewModel(branch);
                 list.Add(item);
@@ -372,6 +376,11 @@ namespace WebUI.Models
             return model;
         }
 
+        public static TechnicalSupportEventDetailsRequestViewModel GetViewModel(TechnicalSupportEventDetailsRequestViewModel model, TechnicalSupportEventRequest request, Employee user, List<TechnicalSupportEventRequestLifeCycle> lifeCycles)
+        {
+            throw new NotImplementedException();
+        }
+
         public static SoftwareDevelopmentRequestViewModel GetViewModel(SoftwareDevelopmentRequest request)
         {
             SoftwareDevelopmentRequestViewModel model = new SoftwareDevelopmentRequestViewModel
@@ -424,7 +433,8 @@ namespace WebUI.Models
                 StatusModel = GetViewModel(request.Status),
                 SubdivisionId = request.SubdivisionId,
                 SubdivisionModel = GetViewModel(request.Subdivision),
-                Date = request.Date
+                Date = request.Date,
+                Time = request.Time
             };
             model.RequestModel.ExecutorId = request.ExecutorId ?? null;
             if (request.ExecutorId.HasValue)
@@ -451,6 +461,11 @@ namespace WebUI.Models
             return model;
         }
 
+        internal static TechnicalSupportEventRequestViewModel GetViewModel(TechnicalSupportEventRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public static VideoCommunicationRequestViewModel GetViewModel(VideoCommunicationRequest request)
         {
             VideoCommunicationRequestViewModel model = new VideoCommunicationRequestViewModel
@@ -474,7 +489,8 @@ namespace WebUI.Models
                 Title = request.Title,
                 SubdivisionId = request.SubdivisionId,
                 SubdivisionModel = GetViewModel(request.Subdivision),
-                Date = request.Date
+                Date = request.Date,
+                Time = request.Time                
             };
             if (request.ExecutorId.HasValue)
             {
@@ -897,7 +913,7 @@ namespace WebUI.Models
                 Title = request.Title,
                 Justification = request.Justification,
                 Description = request.Description,
-                Email =request.Email,
+                Email = request.Email,
                 PriorityId = request.PriorityId,
                 PriorityModel = GetViewModel(request.Priority),
                 ServiceId = request.ServiceId,
@@ -911,7 +927,7 @@ namespace WebUI.Models
             if (request.ExecutorId.HasValue)
             {
                 model.RequestModel.Executor = GetViewModel(request.Executor);
-            }           
+            }
 
             model.LifeCyclesListModel = new List<EmailRegistrationRequestLifeCycleViewModel>();
             foreach (var record in lifeCycles)
@@ -1093,7 +1109,7 @@ namespace WebUI.Models
             {
                 model.RequestModel.Executor = GetViewModel(request.Executor);
             }
-           
+
             model.RequestModel.Connections = new List<ConnectionEquipmentViewModel>();
             foreach (var item in request.ConnectionEquipments)
             {
@@ -1355,10 +1371,11 @@ namespace WebUI.Models
 
             model.AttachmentsListModel = new List<AccountCancellationRequestAttachmentViewModel>();
 
-            foreach(var attachment in request.Attachments)
+            foreach (var attachment in request.Attachments)
             {
-                AccountCancellationRequestAttachmentViewModel item = new AccountCancellationRequestAttachmentViewModel { 
-                    AttachmentModel = GetViewModel(attachment.Attachment)                    
+                AccountCancellationRequestAttachmentViewModel item = new AccountCancellationRequestAttachmentViewModel
+                {
+                    AttachmentModel = GetViewModel(attachment.Attachment)
                 };
                 model.AttachmentsListModel.Add(item);
             }
@@ -1387,7 +1404,7 @@ namespace WebUI.Models
             AccountCancellationRequestViewModel model = new AccountCancellationRequestViewModel
             {
                 Id = request.Id,
-                ClientId = request.ClientId,                
+                ClientId = request.ClientId,
                 Client = GetViewModel(request.Client),
                 Description = request.Description,
                 ExecutorGroupId = request.ExecutorGroupId,
@@ -1519,19 +1536,19 @@ namespace WebUI.Models
 
 
 
-        public static RequestListViewModel GetListViewModel(RequestListViewModel model, List<Requests> requests, Employee user, Service service)
-        {
-            List<RequestViewModel> requestsModel = new List<RequestViewModel>();
-            foreach (var request in requests)
-            {
-                RequestViewModel item = GetViewModel(request);
-                requestsModel.Add(item);
-            }
-            model.Requests = requestsModel;
-            if (service == null) model.CurrentService = null;
-            else model.CurrentService = service.Id;
-            return model;
-        }
+        //public static RequestListViewModel GetListViewModel(RequestListViewModel model, List<Requests> requests, Employee user, Service service)
+        //{
+        //    List<RequestViewModel> requestsModel = new List<RequestViewModel>();
+        //    foreach (var request in requests)
+        //    {
+        //        RequestViewModel item = GetViewModel(request);
+        //        requestsModel.Add(item);
+        //    }
+        //    model.Requests = requestsModel;
+        //    if (service == null) model.CurrentService = null;
+        //    else model.CurrentService = service.Id;
+        //    return model;
+        //}
 
         public static List<ServicesExecutorGroupsViewModel> GetViewModel(List<ServicesExecutorGroup> serviceExecutorGroups)
         {
@@ -2150,12 +2167,14 @@ namespace WebUI.Models
 
         public static StatusViewModel GetViewModel(Status status)
         {
-            return new StatusViewModel
-            {
-                Id = status.Id,
-                Fullname = status.Fullname,
-                Shortname = status.Shortname
-            };
+            if (status == null) return null;
+            else
+                return new StatusViewModel
+                {
+                    Id = status.Id,
+                    Fullname = status.Fullname,
+                    Shortname = status.Shortname
+                };
         }
 
         public static PriorityViewModel GetViewModel(Priority priority)
@@ -2312,7 +2331,7 @@ namespace WebUI.Models
                 HeadOfUnit = employee.HeadOfUnit,
                 SelectedSubdivision = employee.SubdivisionId,
                 SubdivisionModel = GetViewModel(employee.Subdivision)
-        };
+            };
         }
 
         public static EmployeesListViewModel GetListViewModel(List<Employee> employees, string search = "", int subdivision = 0, int page = 0, int pageSize = 0)
@@ -2402,13 +2421,15 @@ namespace WebUI.Models
 
         public static CategoryViewModel GetViewModel(Category category)
         {
-            return new CategoryViewModel
-            {
-                Id = category.Id,
-                Name = category.Name,
-                SelectedBranch = category.BranchId,
-                BranchModel = GetViewModel(category.Branch)
-            };
+            if (category == null) return null;
+            else
+                return new CategoryViewModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    SelectedBranch = category.BranchId,
+                    BranchModel = GetViewModel(category.Branch)
+                };
         }
 
         public static CategoriesListViewModel GetListViewModel(List<Category> categories, string search = "", int branch = 0, int page = 0, int pageSize = 0)
@@ -2455,18 +2476,20 @@ namespace WebUI.Models
 
         public static ServiceViewModel GetViewModel(Service service)
         {
-            return new ServiceViewModel
-            {
-                Id = service.Id,
-                Name = service.Name,
-                Visible = service.Visible,
-                ApprovalRequired = service.ApprovalRequired,
-                Controller = service.Controller,
-                SelectedCategory = service.CategoryId,
-                CategoryModel = GetViewModel(service.Category),
-                BranchModel = GetViewModel(service.Category.Branch),
-                SelectedBranch = service.Category.BranchId
-            };
+            if (service == null) return null;
+            else
+                return new ServiceViewModel
+                {
+                    Id = service.Id,
+                    Name = service.Name,
+                    Visible = service.Visible,
+                    ApprovalRequired = service.ApprovalRequired,
+                    Controller = service.Controller,
+                    SelectedCategory = service.CategoryId,
+                    CategoryModel = GetViewModel(service.Category),
+                    BranchModel = GetViewModel(service.Category.Branch),
+                    SelectedBranch = service.Category.BranchId
+                };
         }
 
         public static ServicesListViewModel GetListViewModel(List<Service> services, Category categoryModel, string search = "", int category = 0, int branch = 0, int page = 0, int pageSize = 0)

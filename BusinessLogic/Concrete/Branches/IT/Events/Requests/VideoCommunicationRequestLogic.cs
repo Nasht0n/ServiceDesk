@@ -1,10 +1,10 @@
-﻿using BusinessLogic.Abstract.Branches.IT.Communications.Requests;
-using Domain.Models.Requests.Communication;
-using Repository.Abstract.Branches.IT.Communication.Requests;
+﻿using BusinessLogic.Abstract.Branches.IT.Events.Requests;
+using Domain.Models.Requests.Events;
+using Repository.Abstract.Branches.IT.Events.Requests;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.Concrete.Branches.IT.Communications.Requests
+namespace BusinessLogic.Concrete.Branches.IT.Events.Requests
 {
     public class VideoCommunicationRequestLogic : IVideoCommunicationRequestLogic
     {

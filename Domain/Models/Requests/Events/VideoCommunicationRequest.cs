@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Models.Requests.Communication
+namespace Domain.Models.Requests.Events
 {
     /// <summary>
     /// Класс-сущность, содержащий описание данных для хранения в таблице "Заявка на проведение видеосвязи"
@@ -20,6 +20,12 @@ namespace Domain.Models.Requests.Communication
         /// </summary>
         [Required]
         public DateTime Date { get; set; }
+        /// <summary>
+        /// Время проведения мероприятия
+        /// </summary>
+        [Required]
+        [MaxLength(100)]
+        public string Time { get; set; }
         /// <summary>
         /// Идентификатор учебного корпуса
         /// </summary>

@@ -195,10 +195,10 @@ namespace BusinessLogic.Concrete
                 var approvalServices = employee.ApprovalServices;
                 if (approvalServices.Count != 0)
                 {
-                    foreach(var service in approvalServices)
+                    foreach (var service in approvalServices)
                     {
                         var temp = requests.Where(r => r.ServiceId == service.ServiceId).ToList();
-                        if(temp.Count!=0) result = result.Union(temp).ToList();
+                        if (temp.Count != 0) result = result.Union(temp).ToList();
                     }
                 }
 
@@ -246,7 +246,7 @@ namespace BusinessLogic.Concrete
             {
                 // получаем заявки созданные сотрудником
                 result = requests.Where(r => r.ClientId == employee.Id).ToList();
-            }           
+            }
 
             if (!client)
             {
@@ -276,8 +276,164 @@ namespace BusinessLogic.Concrete
             }
 
             // возвращаем список заявок, где пользователь является создателем, исполнителем или входит в группу исполнителей закрепленных за видом заявки
-            if (descending) return result.OrderByDescending(r => r.PriorityId).ThenByDescending(r=>r.Date).ToList();
-            else return result.OrderBy(r => r.PriorityId).ThenBy(r=>r.Date).ToList();
+            if (descending) return result.OrderByDescending(r => r.PriorityId).ThenByDescending(r => r.Date).ToList();
+            else return result.OrderBy(r => r.PriorityId).ThenBy(r => r.Date).ToList();
+        }
+
+        public async Task<List<Requests>> GetRequests(Account account, bool descending = true)
+        {
+            List<Requests> result = new List<Requests>();
+            // Получение всех заявок
+            var requests = await requestRepository.GetRequests();
+
+            if (account.Employee.HeadOfUnit)
+            {
+                result = requests.Where(r => r.SubdivisionId == account.Employee.SubdivisionId).ToList();
+            }
+
+            foreach (var permission in account.Permissions)
+            {
+                switch (permission.PermissionId)
+                {
+                    case 1:
+                        {
+                            // Пользователь имеет право на создание заявок => получаем список заявок созданных пользователем
+                            var temp = requests.Where(r => r.ClientId == account.Employee.Id).ToList();
+                            result = result.Union(temp).ToList();
+                            break;
+                        }
+                    case 6:
+                        {
+                            // получаем список заявок на согласование
+                            var approvalServices = account.Employee.ApprovalServices;
+                            if (approvalServices.Count != 0)
+                            {
+                                foreach (var service in approvalServices)
+                                {
+                                    var temp = requests.Where(r => r.ServiceId == service.ServiceId).ToList();
+                                    if (temp.Count != 0) result = result.Union(temp).ToList();
+                                }
+                            }
+                            break;
+                        }
+                    case 7:
+                        {
+                            var executorGroups = account.Employee.ExecutorGroups;
+                            if (executorGroups.Count != 0)
+                            {
+                                foreach (var group in executorGroups)
+                                {
+                                    // получаем список заявок, к которым отсносится пользователь
+                                    var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
+                                    // добавляем в итоговый лист
+                                    if (temp.Count != 0) result = result.Union(temp).ToList();
+                                }
+                            }
+                            break;
+                        }
+                }
+            }
+            // выводим согласно выбраному типу сортировки
+            if (descending)
+            {
+                return result.OrderByDescending(r => r.Date).ToList();
+            }
+            else
+            {
+                return result.OrderBy(r => r.Date).ToList();
+            }
+        }
+
+        public async Task<List<Requests>> GetRequests(Account account, Category category, Service service, Status status, bool isClient, bool descending = true)
+        {
+            List<Requests> result = new List<Requests>();
+            // Получение всех заявок
+            var requests = await requestRepository.GetRequests();
+
+            if (category != null) requests = requests.Where(r => r.Service.Category.Id == category.Id).ToList();
+            // Если вид заявки указан — получаем заявки данного вида
+            if (service != null) requests = requests.Where(r => r.ServiceId == service.Id).ToList();
+            // Если статус заявки указан — получаем заявки с указанным статусом
+            if (status != null) requests = requests.Where(r => r.StatusId == status.Id).ToList();
+            
+            if (account.Employee.HeadOfUnit)
+            {
+                result = requests.Where(r => r.SubdivisionId == account.Employee.SubdivisionId).ToList();
+            }
+
+            if (!isClient)
+            {
+                var executorGroups = account.Employee.ExecutorGroups;
+                if (executorGroups.Count != 0)
+                {
+                    foreach (var group in executorGroups)
+                    {
+                        // получаем список заявок, к которым отсносится пользователь
+                        var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
+                        // добавляем в итоговый лист
+                        if (temp.Count != 0) result = result.Union(temp).ToList();
+                    }
+                }
+                return result;
+            }
+
+            foreach (var permission in account.Permissions)
+            {
+                switch (permission.PermissionId)
+                {
+                    case 1:
+                        {
+                            // Пользователь имеет право на создание заявок => получаем список заявок созданных пользователем
+                            var temp = requests.Where(r => r.ClientId == account.Employee.Id).ToList();
+                            result = result.Union(temp).ToList();
+                            break;
+                        }
+                    case 5:
+                        {
+                            // Если нет права на просмотр заявок
+                            return null;
+                        }
+                    case 6:
+                        {
+                            // получаем список заявок на согласование
+                            var approvalServices = account.Employee.ApprovalServices;
+                            if (approvalServices.Count != 0)
+                            {
+                                foreach (var appService in approvalServices)
+                                {
+                                    var temp = requests.Where(r => r.ServiceId == appService.ServiceId).ToList();
+                                    if (temp.Count != 0) result = result.Union(temp).ToList();
+                                }
+                            }
+                            break;
+                        }
+                    case 7:
+                        {
+                            var executorGroups = account.Employee.ExecutorGroups;
+                            if (executorGroups.Count != 0)
+                            {
+                                foreach (var group in executorGroups)
+                                {
+                                    // получаем список заявок, к которым отсносится пользователь
+                                    var temp = requests.Where(r => r.ExecutorGroupId == group.ExecutorGroupId).ToList();
+                                    // добавляем в итоговый лист
+                                    if (temp.Count != 0) result = result.Union(temp).ToList();
+                                }
+                            }
+                            break;
+                        }
+                }
+            }           
+
+            // выводим согласно выбраному типу сортировки
+            if (descending)
+            {
+                return result.OrderByDescending(r => r.Date).ToList();
+            }
+            else
+            {
+                return result.OrderBy(r => r.Date).ToList();
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using BusinessLogic.Abstract;
-using BusinessLogic.Abstract.Branches.IT.Communications.LifeCycles;
-using BusinessLogic.Abstract.Branches.IT.Communications.Requests;
+using BusinessLogic.Abstract.Branches.IT.Events.LifeCycles;
+using BusinessLogic.Abstract.Branches.IT.Events.Requests;
 using Domain.Models;
-using Domain.Models.Requests.Communication;
+using Domain.Models.Requests.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using WebUI.Models;
 using WebUI.Models.Enum;
 using WebUI.Models.Helpers;
 using WebUI.ViewModels;
-using WebUI.ViewModels.Requests.IT.Communications;
+using WebUI.ViewModels.Requests.IT.Events;
 using static WebUI.ViewModels.CategoryStats;
 
 namespace WebUI.Areas.IT.Controllers
@@ -110,8 +110,30 @@ namespace WebUI.Areas.IT.Controllers
         {
             var priorities = await priorityLogic.GetPriorities();
             var campuses = await campusLogic.GetCampuses();
+            var times = new List<string>
+                {
+                    "6:00", "6:15", "6:30", "6:45",
+                    "7:00", "7:15", "7:30", "7:45",
+                    "8:00", "8:15", "8:30", "8:45",
+                    "9:00", "9:15", "9:30", "9:45",
+                    "10:00", "10:15", "10:30", "10:45",
+                    "11:00", "11:15", "11:30", "11:45",
+                    "12:00", "12:15", "12:30", "12:45",
+                    "13:00", "13:15", "13:30", "13:45",
+                    "14:00", "14:15", "14:30", "14:45",
+                    "15:00", "15:15", "15:30", "15:45",
+                    "16:00", "16:15", "16:30", "16:45",
+                    "17:00", "17:15", "17:30", "17:45",
+                    "18:00", "18:15", "18:30", "18:45",
+                    "19:00", "19:15", "19:30", "19:45",
+                    "20:00", "20:15", "20:30", "20:45",
+                    "21:00", "21:15", "21:30", "21:45",
+                    "22:00", "22:15", "22:30", "22:45"
+                };
+
             model.Priorities = new SelectList(priorities, "Id", "Fullname");
             model.Campuses = new SelectList(campuses, "Id", "Name");
+            model.Times = new SelectList(times);
         }
         /// <summary>
         /// Метод инициализации заявки
@@ -157,6 +179,8 @@ namespace WebUI.Areas.IT.Controllers
             request.Location = model.Location;
             // инициализация даты проведения мероприятия
             request.Date = model.Date;
+            // инициализация времени проведения мероприятия
+            request.Time = model.Time;
             return request;
         }
         /// <summary>
@@ -187,10 +211,11 @@ namespace WebUI.Areas.IT.Controllers
         /// <param name="id">Идентификатор заявки</param>
         /// <param name="status">Новый статус заявки</param>
         /// <returns></returns>
-        public async Task ChangeRequestStatus(int id, RequestStatus status)
+        private async Task ChangeRequestStatus(int id, RequestStatus status, Employee executor = null)
         {
             // получаем заявку по идентификатору
             var request = await requestLogic.GetRequest(id);
+            if (executor != null) request.ExecutorId = executor.Id;
             // инициализируем идентификатор статуса новым значением
             request.StatusId = (int)status;
             // сохраняем изменения заявки
@@ -422,14 +447,12 @@ namespace WebUI.Areas.IT.Controllers
             // получение данных об авторизованном сотруднике
             // инициализация конфигурации
             var user = await PopulateAccountInfo();
-            // получение вида заявки
-            var service = await serviceLogic.GetService(SERVICE_ID);
             // изменение статуса заявки 
-            await ChangeRequestStatus(id, RequestStatus.Open);
+            await ChangeRequestStatus(id, RequestStatus.Agreed);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Заявка прошла согласование");
             // открытие окна заявки
-            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = "4" });
+            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = (int)RequestStatus.Approval });
         }
         /// <summary>
         /// Метод отмены согласования заявки
@@ -441,14 +464,12 @@ namespace WebUI.Areas.IT.Controllers
             // получение данных об авторизованном сотруднике
             // инициализация конфигурации
             var user = await PopulateAccountInfo();
-            // получение вида заявки
-            var service = await serviceLogic.GetService(SERVICE_ID);
             // изменение статуса заявки 
             await ChangeRequestStatus(id, RequestStatus.Closed);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Заявка не прошла согласование");
             // открытие окна заявки
-            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = "4" });
+            return RedirectToAction("Requests", "Dashboard", new { Area = "", statusId = (int)RequestStatus.Approval });
         }
         /// <summary>
         /// Метод принятия заявки в работу
@@ -462,14 +483,8 @@ namespace WebUI.Areas.IT.Controllers
             var user = await PopulateAccountInfo();
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
-            // получение заявки
-            var request = await requestLogic.GetRequest(id);
-            // инициализация идентификатора исполнителя
-            request.ExecutorId = user.Id;
-            // сохранение изменений
-            await requestLogic.Save(request);
             // изменение статуса заявки 
-            await ChangeRequestStatus(id, RequestStatus.InWork);
+            await ChangeRequestStatus(id, RequestStatus.InWork, user);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Начало исполнения заявки");
             // открытие окна заявки
@@ -491,6 +506,25 @@ namespace WebUI.Areas.IT.Controllers
             await ChangeRequestStatus(id, RequestStatus.Done);
             // добавление записи жизненного цикла заявки
             await LifeCycleMessage(id, user, "Заявка выполнена");
+            // открытие окна заявки
+            return RedirectToAction("Details", service.Controller, new { id });
+        }
+        /// <summary>
+        /// Метод перевода заявки в архив
+        /// </summary>
+        /// <param name="id">Идентификатор заявки</param>
+        /// <returns></returns>
+        public async Task<ActionResult> Close(int id)
+        {
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo();
+            // получение вида заявки
+            var service = await serviceLogic.GetService(SERVICE_ID);
+            // изменение статуса заявки 
+            await ChangeRequestStatus(id, RequestStatus.Closed);
+            // добавление записи жизненного цикла заявки
+            await LifeCycleMessage(id, user, "Заявка закрыта");
             // открытие окна заявки
             return RedirectToAction("Details", service.Controller, new { id });
         }

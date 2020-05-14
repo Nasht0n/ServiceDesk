@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Repository.Concrete
@@ -73,7 +74,9 @@ namespace Repository.Concrete
                 var list = await context.Accounts
                     .Include(a=>a.Employee)
                     .Include(a=>a.Employee.Subdivision)
-                    .Include(a=>a.Permissions)
+                    .Include(a=>a.Employee.ApprovalServices.Select(s=>s.Service))
+                    .Include(a => a.Employee.ExecutorGroups.Select(e=>e.ExecutorGroup))
+                    .Include(a=>a.Permissions.Select(p=>p.Permission))
                     .ToListAsync();
 
                 watch.Stop();

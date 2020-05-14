@@ -1,6 +1,6 @@
 ﻿using Domain;
-using Domain.Models.Requests.Communication;
-using Repository.Abstract.Branches.IT.Communication.LifeCycles;
+using Domain.Models.Requests.Events;
+using Repository.Abstract.Branches.IT.Events.LifeCycles;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -8,25 +8,25 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Repository.Concrete.Branches.IT.Communication.LifeCycles
+namespace Repository.Concrete.Branches.IT.Events.LifeCycles
 {
-    public class VideoCommunicationRequestLifeCycleRepository : IVideoCommunicationRequestLifeCycleRepository
+    public class TechnicalSupportEventRequestLifeCycleRepository : ITechnicalSupportEventRequestLifeCycleRepository
     {
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
         private readonly ServiceDeskContext context;
 
-        public VideoCommunicationRequestLifeCycleRepository(ServiceDeskContext context)
+        public TechnicalSupportEventRequestLifeCycleRepository(ServiceDeskContext context)
         {
             this.context = context;
         }
 
-        public async Task<VideoCommunicationRequestLifeCycle> Add(VideoCommunicationRequestLifeCycle lifeCycle)
+        public async Task<TechnicalSupportEventRequestLifeCycle> Add(TechnicalSupportEventRequestLifeCycle lifeCycle)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var inserted = context.VideoCommunicationRequestLifeCycles.Add(lifeCycle);
+                var inserted = context.TechnicalSupportEventRequestLifeCycles.Add(lifeCycle);
                 await context.SaveChangesAsync();
                 watch.Stop();
                 return inserted;
@@ -37,14 +37,14 @@ namespace Repository.Concrete.Branches.IT.Communication.LifeCycles
             }
         }
 
-        public async Task Delete(VideoCommunicationRequestLifeCycle lifeCycle)
+        public async Task Delete(TechnicalSupportEventRequestLifeCycle lifeCycle)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var deleted = await context.VideoCommunicationRequestLifeCycles.SingleOrDefaultAsync(e => e.Id == lifeCycle.Id);
-                context.VideoCommunicationRequestLifeCycles.Remove(deleted);
+                var deleted = await context.TechnicalSupportEventRequestLifeCycles.SingleOrDefaultAsync(e => e.Id == lifeCycle.Id);
+                context.TechnicalSupportEventRequestLifeCycles.Remove(deleted);
                 await context.SaveChangesAsync();
                 watch.Stop();
             }
@@ -54,13 +54,13 @@ namespace Repository.Concrete.Branches.IT.Communication.LifeCycles
             }
         }
 
-        public async Task<List<VideoCommunicationRequestLifeCycle>> GetLifeCycles()
+        public async Task<List<TechnicalSupportEventRequestLifeCycle>> GetLifeCycles()
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var list = await context.VideoCommunicationRequestLifeCycles
+                var list = await context.TechnicalSupportEventRequestLifeCycles
                     .Include(a => a.Request)
                     .Include(a => a.Employee)
                     .Include(a => a.Employee.Subdivision)
@@ -74,13 +74,13 @@ namespace Repository.Concrete.Branches.IT.Communication.LifeCycles
             }
         }
 
-        public async Task<VideoCommunicationRequestLifeCycle> Update(VideoCommunicationRequestLifeCycle lifeCycle)
+        public async Task<TechnicalSupportEventRequestLifeCycle> Update(TechnicalSupportEventRequestLifeCycle lifeCycle)
         {
             try
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                var updated = await context.VideoCommunicationRequestLifeCycles.SingleOrDefaultAsync(lc => lc.Id == lifeCycle.Id);
+                var updated = await context.TechnicalSupportEventRequestLifeCycles.SingleOrDefaultAsync(lc => lc.Id == lifeCycle.Id);
                 if (updated != null)
                 {
                     updated.Date = lifeCycle.Date;

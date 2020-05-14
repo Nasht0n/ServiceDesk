@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using WebUI.ViewModels.LifeCycles.IT.Communications;
+using WebUI.ViewModels.LifeCycles.IT.Events;
 
-namespace WebUI.ViewModels.Requests.IT.Communications
+namespace WebUI.ViewModels.Requests.IT.Events
 {
     public class VideoCommunicationDetailsRequestViewModel:DetailsRequestViewModel
     {

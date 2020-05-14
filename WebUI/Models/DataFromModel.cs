@@ -3,6 +3,7 @@ using Domain.Models.Requests.Accounts;
 using Domain.Models.Requests.Communication;
 using Domain.Models.Requests.Email;
 using Domain.Models.Requests.Equipment;
+using Domain.Models.Requests.Events;
 using Domain.Models.Requests.Network;
 using Domain.Models.Requests.Software;
 using System;
@@ -21,6 +22,7 @@ using WebUI.ViewModels.Requests.IT.Accounts;
 using WebUI.ViewModels.Requests.IT.Communications;
 using WebUI.ViewModels.Requests.IT.Emails;
 using WebUI.ViewModels.Requests.IT.Equipments;
+using WebUI.ViewModels.Requests.IT.Events;
 using WebUI.ViewModels.Requests.IT.Networks;
 using WebUI.ViewModels.Requests.IT.Softwares;
 using WebUI.ViewModels.ServiceModel;
@@ -557,6 +559,11 @@ namespace WebUI.Models
                 Title = model.Title,
                 SubdivisionId = model.SubdivisionId
             };
+        }
+
+        public static TechnicalSupportEventRequest GetData(TechnicalSupportEventRequestViewModel model)
+        {
+            throw new NotImplementedException();
         }
 
         public static AccountCancellationRequest GetData(AccountCancellationRequestViewModel model)

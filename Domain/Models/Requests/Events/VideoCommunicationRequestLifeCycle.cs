@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Models.Requests.Communication
+namespace Domain.Models.Requests.Events
 {
     /// <summary>
     /// Класс-сущность, содержащий описание данных для хранения в таблице "Жизненный цикл заявки на проведение видеосвязи"

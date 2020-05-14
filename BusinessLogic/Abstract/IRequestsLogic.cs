@@ -15,5 +15,8 @@ namespace BusinessLogic.Abstract
         Task<List<Requests>> GetRequests(Employee employee, Service service, bool descending = true);
         Task<List<Requests>> GetRequests(Employee employee, Category category, Service service, Status status, bool descending = true);
         Task<List<Requests>> GetRequests(Employee employee, Category category, Service service, Status status, bool client = false, bool descending = true);
+
+        Task<List<Requests>> GetRequests(Account account, bool descending = true);
+        Task<List<Requests>> GetRequests(Account account, Category category, Service service, Status status, bool isClient, bool descending = true);
     }
 }

@@ -1,5 +1,4 @@
-﻿using Domain.Views;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using WebUI.Models.Enum;
 using WebUI.ViewModels.Requests.View;
@@ -21,34 +20,53 @@ namespace WebUI.ViewModels
         }
         // Таблица статистики видов работ
         public List<ServicesStats> ServicesInfos { get; set; }
+        // Количество заявок
+        public int CountTotalRequest
+        {
+            get
+            {
+                return Requests.Count();
+            }
+        }
         // Количество заявок открытых пользователем
         public int CountCreatedRequest
         {
             get
             {
-                return Requests.Count();
-                //return Requests.Where(r => r.ClientId == CurrentUser.Id).Count();
+                return Requests.Where(r => r.ClientId == CurrentUser.Id).Count();
             }
         }
+
         // Количество заявок в работе
-        public int CountExecutedRequest
+        public int CountOpenRequest
         {
             get
             {
-
-                if (CurrentUser.HeadOfUnit)
-                {
-                    return Requests.Where(r => r.StatusId == (int)RequestStatus.Open).Count();
-                }
-                else
-                {
-                    int count = 0;
-                    foreach (var userGroup in UserExecutorGroups)
-                    {
-                        count += Requests.Where(r => (r.StatusId == (int)RequestStatus.Open)).Count();
-                    }
-                    return count;
-                }
+                return Requests.Where(r => r.StatusId == (int)RequestStatus.Open || r.StatusId == (int)RequestStatus.Agreed).Count();
+            }
+        }
+        // Количество заявок требующих согласования
+        public int CountApprovalRequest
+        {
+            get
+            {
+                return Requests.Where(r => r.StatusId == (int)RequestStatus.Approval).Count();
+            }
+        }
+        // Количество согласованных заявок 
+        public int CountAgreedRequest
+        {
+            get
+            {
+                return Requests.Where(r => r.StatusId != (int)RequestStatus.Open && r.StatusId != (int)RequestStatus.Approval ).Count();
+            }
+        }
+        // Количество заявок требующих согласования
+        public int CountInWorkRequest
+        {
+            get
+            {
+                return Requests.Where(r => r.StatusId == (int)RequestStatus.InWork).Count();
             }
         }
         // Количество выполненных заявок
@@ -60,6 +78,14 @@ namespace WebUI.ViewModels
             }
         }
         // Количество заявок перенесенных в архив
+        public int CountClosedRequest
+        {
+            get
+            {
+                return Requests.Where(r => r.StatusId == (int)RequestStatus.Closed).Count();
+            }
+        }
+        // Количество заявок перенесенных в архив
         public int CountArchiveRequest
         {
             get
@@ -67,42 +93,7 @@ namespace WebUI.ViewModels
                 return Requests.Where(r => r.StatusId == (int)RequestStatus.Archive).Count();
             }
         }
-        // Количество заявок требующих согласования
-        public int CountApprovalRequest
-        {
-            get
-            {
-                return Requests.Where(r => r.StatusId == (int)RequestStatus.Approval).Count();
-            }
-        }
-        // Количество заявок требующих согласования
-        public int CountTotalRequest
-        {
-            get
-            {
-                return Requests.Count();
-            }
-        }
-        // Количество заявок требующих согласования
-        public int CountInWorkRequest
-        {
-            get
-            {
-                if (CurrentUser.HeadOfUnit)
-                {
-                    return Requests.Where(r => r.StatusId == (int)RequestStatus.InWork).Count();
-                }
-                else
-                {
-                    int count = 0;
-                    foreach (var userGroup in UserExecutorGroups)
-                    {
-                        count += Requests.Where(r => (r.StatusId == (int)RequestStatus.InWork)).Count();
-                    }
-                    return count;
-                }
-            }
-        }
+
 
         // Класс статистики видов работ
         public class ServicesStats

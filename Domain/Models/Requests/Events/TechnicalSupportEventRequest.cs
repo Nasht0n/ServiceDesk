@@ -7,5 +7,6 @@ namespace Domain.Models.Requests.Events
     {
         public virtual IList<TechnicalSupportEventInfos> EventInfos { get; set; }
         public virtual IList<TechnicalSupportEventEquipments> EventEquipments { get; set; }
+        public virtual IList<TechnicalSupportEventRequestLifeCycle> TechnicalSupportEventRequestLifeCycles { get; set; }
     }
 }
