@@ -378,7 +378,75 @@ namespace WebUI.Models
 
         public static TechnicalSupportEventDetailsRequestViewModel GetViewModel(TechnicalSupportEventDetailsRequestViewModel model, TechnicalSupportEventRequest request, Employee user, List<TechnicalSupportEventRequestLifeCycle> lifeCycles)
         {
-            throw new NotImplementedException();
+            model.RequestModel = new TechnicalSupportEventRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Title = request.Title,
+                Justification = request.Justification,
+                Description = request.Description,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            model.RequestModel.ExecutorId = request.ExecutorId ?? null;
+            if (request.ExecutorId.HasValue)
+            {
+                model.RequestModel.Executor = GetViewModel(request.Executor);
+            }
+
+            model.RequestModel.EquipmentModels = new List<TechnicalSupportEventEquipmentViewModel>();
+            foreach (var item in request.EventEquipments)
+            {
+                model.RequestModel.EquipmentModels.Add(new TechnicalSupportEventEquipmentViewModel
+                {
+                    Id = item.Id,
+                    RequestId = item.RequestId,
+                    Equipment = item.EquipmentName,
+                    Count = item.Count
+                });
+            }
+
+            model.RequestModel.InfoModels = new List<TechnicalSupportEventInfoViewModel>();
+            foreach (var item in request.EventInfos)
+            {
+                model.RequestModel.InfoModels.Add(new TechnicalSupportEventInfoViewModel
+                {
+                    Id = item.Id,
+                    RequestId = item.RequestId,
+                    CampusId = item.CampusId,
+                    Location = item.Location,
+                    EventDate = item.EventDate,
+                    StartTime = item.StartTime,
+                    EndTime = item.EndTime                    
+                });
+            }
+
+            model.LifeCyclesListModel = new List<TechnicalSupportEventRequestLifeCycleViewModel>();
+            foreach (var record in lifeCycles)
+            {
+                model.LifeCyclesListModel.Add(new TechnicalSupportEventRequestLifeCycleViewModel
+                {
+                    Id = record.Id,
+                    Date = record.Date,
+                    EmployeeId = record.EmployeeId,
+                    Employee = GetViewModel(record.Employee),
+                    Message = record.Message,
+                    RequestId = record.RequestId
+                });
+            }
+            model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
+            model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
+            model.IsClient = request.ClientId == user.Id ? true : false;
+            return model;
         }
 
         public static SoftwareDevelopmentRequestViewModel GetViewModel(SoftwareDevelopmentRequest request)
@@ -461,7 +529,7 @@ namespace WebUI.Models
             return model;
         }
 
-        internal static TechnicalSupportEventRequestViewModel GetViewModel(TechnicalSupportEventRequest request)
+        public static TechnicalSupportEventRequestViewModel GetViewModel(TechnicalSupportEventRequest request)
         {
             throw new NotImplementedException();
         }
@@ -1533,22 +1601,6 @@ namespace WebUI.Models
             }
             return result;
         }
-
-
-
-        //public static RequestListViewModel GetListViewModel(RequestListViewModel model, List<Requests> requests, Employee user, Service service)
-        //{
-        //    List<RequestViewModel> requestsModel = new List<RequestViewModel>();
-        //    foreach (var request in requests)
-        //    {
-        //        RequestViewModel item = GetViewModel(request);
-        //        requestsModel.Add(item);
-        //    }
-        //    model.Requests = requestsModel;
-        //    if (service == null) model.CurrentService = null;
-        //    else model.CurrentService = service.Id;
-        //    return model;
-        //}
 
         public static List<ServicesExecutorGroupsViewModel> GetViewModel(List<ServicesExecutorGroup> serviceExecutorGroups)
         {
