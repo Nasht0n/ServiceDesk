@@ -15,6 +15,7 @@ namespace WebUI.ViewModels.Requests.IT.Events
         [Display(Name = "Место проведения мероприятия")]
         public string Location { get; set; }
         [Display(Name = "Дата проведения мероприятия")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EventDate { get; set; }
         [Display(Name = "Время начала мероприятия")]
         public string StartTime { get; set; }

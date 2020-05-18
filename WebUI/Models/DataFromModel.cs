@@ -122,7 +122,8 @@ namespace WebUI.Models
 
         public static Component GetData(ComponentViewModel model)
         {
-            return new Component { 
+            return new Component
+            {
                 Id = model.Id,
                 Name = model.Name
             };
@@ -130,8 +131,8 @@ namespace WebUI.Models
 
         public static ExecutorGroup GetData(ExecutorGroupViewModel model)
         {
-            return new ExecutorGroup 
-            { 
+            return new ExecutorGroup
+            {
                 Id = model.Id,
                 Name = model.Name
             };
@@ -151,7 +152,7 @@ namespace WebUI.Models
                 ChangePasswordOnNextEnter = model.ChangePasswordOnNextEnter,
                 EmployeeId = model.EmployeeModel.Id
             };
-            
+
             return account;
         }
 
@@ -246,7 +247,8 @@ namespace WebUI.Models
 
         public static VideoCommunicationRequest GetData(VideoCommunicationRequestViewModel model)
         {
-            return new VideoCommunicationRequest {
+            return new VideoCommunicationRequest
+            {
                 Id = model.Id,
                 ClientId = model.ClientId,
                 Description = model.Description,
@@ -335,7 +337,7 @@ namespace WebUI.Models
                 PriorityId = model.PriorityId,
                 ServiceId = model.ServiceId,
                 StatusId = model.StatusId,
-                Title = model.Title,                
+                Title = model.Title,
                 SubdivisionId = model.SubdivisionId
             };
         }
@@ -441,7 +443,8 @@ namespace WebUI.Models
 
         public static ConnectionEquipments GetData(ConnectionEquipmentViewModel connection)
         {
-            return new ConnectionEquipments { 
+            return new ConnectionEquipments
+            {
                 Id = connection.Id,
                 Count = connection.Count,
                 EquipmentTypeId = connection.EquipmentTypeId,
@@ -472,8 +475,9 @@ namespace WebUI.Models
 
         public static NetworkConnectionRequest GetData(NetworkConnectionRequestViewModel model)
         {
-            return new NetworkConnectionRequest {
-                Id = model.Id,                
+            return new NetworkConnectionRequest
+            {
+                Id = model.Id,
                 CampusId = model.CampusId,
                 ClientId = model.ClientId,
                 Description = model.Description,
@@ -509,6 +513,23 @@ namespace WebUI.Models
             };
         }
 
+        public static TechnicalSupportEventEquipments GetData(TechnicalSupportEventEquipmentViewModel item)
+        {
+            return new TechnicalSupportEventEquipments { EquipmentName = item.Equipment, Count = item.Count };
+        }
+
+        public static TechnicalSupportEventInfos GetData(TechnicalSupportEventInfoViewModel item)
+        {
+            return new TechnicalSupportEventInfos
+            {
+                CampusId = item.CampusId,
+                Location = item.Location,
+                EventDate = item.EventDate,
+                StartTime = item.StartTime,
+                EndTime = item.EndTime
+            };
+        }
+
         public static AccountDisconnectRequest GetData(AccountDisconnectRequestViewModel model)
         {
             return new AccountDisconnectRequest
@@ -529,7 +550,8 @@ namespace WebUI.Models
 
         public static AccountLossRequest GetData(AccountLossRequestViewModel model)
         {
-            return new AccountLossRequest {
+            return new AccountLossRequest
+            {
                 Id = model.Id,
                 ClientId = model.ClientId,
                 Description = model.Description,
@@ -546,7 +568,8 @@ namespace WebUI.Models
 
         public static AccountRegistrationRequest GetData(AccountRegistrationRequestViewModel model)
         {
-            return new AccountRegistrationRequest {
+            return new AccountRegistrationRequest
+            {
                 Id = model.Id,
                 ClientId = model.ClientId,
                 Description = model.Description,
@@ -563,12 +586,26 @@ namespace WebUI.Models
 
         public static TechnicalSupportEventRequest GetData(TechnicalSupportEventRequestViewModel model)
         {
-            throw new NotImplementedException();
+            return new TechnicalSupportEventRequest
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                ExecutorGroupId = model.ExecutorGroupId,
+                ExecutorId = model.ExecutorId,
+                Justification = model.Justification,
+                PriorityId = model.PriorityId,
+                ServiceId = model.ServiceId,
+                StatusId = model.StatusId,
+                Title = model.Title,
+                SubdivisionId = model.SubdivisionId
+            };
         }
 
         public static AccountCancellationRequest GetData(AccountCancellationRequestViewModel model)
         {
-            return new AccountCancellationRequest {
+            return new AccountCancellationRequest
+            {
                 Id = model.Id,
                 ClientId = model.ClientId,
                 Description = model.Description,

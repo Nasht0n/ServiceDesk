@@ -12,13 +12,15 @@
     cell.attr("class", "d-none");
     cell.html(innerEquipmentTypeId);
     var cell = $(row.insertCell(-1));
-    var innerEquipmentTypeModelId = '< input type = "hidden" class="readonly" name = "Model.Installations[' + counter + '].EquipmentTypeModel.Id" value = "' + selectedValue + '" /> ';
+    var innerEquipmentTypeModelId = '<input type = "hidden" class="readonly" name = "Model.Installations[' + counter + '].EquipmentTypeModel.Id" value = "' + selectedValue + '" /> ';
     cell.attr("class", "d-none");
     cell.html(innerEquipmentTypeModelId);
+
     var cell = $(row.insertCell(-1));
     cell.attr("class", "w-100");
     var innerEquipmentText = '<input type = "text" class="form-control tblItem bg-white border-0" readonly name = "Model.Installations[' + counter + '].EquipmentTypeModel.Name" value = "' + selectedText + '" /> ';
     cell.html(innerEquipmentText);
+
     cell = $(row.insertCell(-1));
     cell.attr("class", "w-100");
     var innerCount = '<input type = "text" class="form-control tblItem bg-white border-0" readonly name = "Model.Installations[' + counter + '].Count" value = "' + count.val() + '" /> ';

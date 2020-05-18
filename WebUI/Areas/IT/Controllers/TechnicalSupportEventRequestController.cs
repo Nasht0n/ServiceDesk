@@ -336,11 +336,36 @@ namespace WebUI.Areas.IT.Controllers
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);
-            // сохраняем заявку
-            await requestLogic.Save(request);
-            // создаем запись жизненного цикла заявки
-            await LifeCycleMessage(request.Id, user, "Создание заявки");
-            return RedirectToAction("Details", service.Controller, new { id = request.Id });
+
+            // если список оборудования пуст
+            if (model.InfoModels.Count == 0)
+            {
+                ModelState.AddModelError("", "Нет информации о дате проведения мероприятия.");
+                return View(model);
+            }
+            else 
+            {
+                request.EventInfos = new List<TechnicalSupportEventInfos>();
+                foreach(var item in model.InfoModels)
+                {
+                    TechnicalSupportEventInfos record = DataFromModel.GetData(item);
+                    request.EventInfos.Add(record);
+                }
+                if(model.EquipmentModels.Count != 0)
+                {
+                    request.EventEquipments = new List<TechnicalSupportEventEquipments>();
+                    foreach (var item in model.EquipmentModels)
+                    {
+                        TechnicalSupportEventEquipments record = DataFromModel.GetData(item);
+                        request.EventEquipments.Add(record);
+                    }
+                }               
+                // сохраняем заявку
+                await requestLogic.Save(request);
+                // создаем запись жизненного цикла заявки
+                await LifeCycleMessage(request.Id, user, "Создание заявки");
+                return RedirectToAction("Details", service.Controller, new { id = request.Id });
+            }
         }
         /// <summary>
         /// Метод отображения страницы редактирования заявки
@@ -386,11 +411,41 @@ namespace WebUI.Areas.IT.Controllers
             model.ServiceModel = ModelFromData.GetViewModel(service);
             // инициализация заявки из модели представления
             var request = DataFromModel.GetData(model);
-            // сохраняем заявку
-            await requestLogic.Save(request);
-            // создаем запись жизненного цикла заявки
-            await LifeCycleMessage(request.Id, user, "Редактирование заявки");
-            return RedirectToAction("Details", service.Controller, new { id = request.Id });
+            await infosLogic.DeleteEntry(request);
+            await equipmentsLogic.DeleteEntry(request);
+            // если список оборудования пуст
+            if (model.InfoModels.Count == 0)
+            {
+                ModelState.AddModelError("", "Нет информации о дате проведения мероприятия.");
+                return View(model);
+            }
+            else
+            {
+                request.EventInfos = new List<TechnicalSupportEventInfos>();
+                foreach (var item in model.InfoModels)
+                {
+                    TechnicalSupportEventInfos record = DataFromModel.GetData(item);
+                    record.RequestId = request.Id;
+                    await infosLogic.Add(record);
+                    request.EventInfos.Add(record);
+                }
+                if (model.EquipmentModels.Count != 0)
+                {
+                    request.EventEquipments = new List<TechnicalSupportEventEquipments>();
+                    foreach (var item in model.EquipmentModels)
+                    {
+                        TechnicalSupportEventEquipments record = DataFromModel.GetData(item);
+                        record.RequestId = request.Id;
+                        await equipmentsLogic.Add(record);
+                        request.EventEquipments.Add(record);
+                    }
+                }
+                // сохраняем заявку
+                await requestLogic.Save(request);
+                // создаем запись жизненного цикла заявки
+                await LifeCycleMessage(request.Id, user, "Редактирование заявки");
+                return RedirectToAction("Details", service.Controller, new { id = request.Id });
+            }
         }
         /// <summary>
         /// Метод отображения страницы удаления заявки

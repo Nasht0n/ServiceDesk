@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Repository.Concrete.Branches.IT.Events.Requests
@@ -72,6 +73,8 @@ namespace Repository.Concrete.Branches.IT.Events.Requests
                     .Include(a => a.Executor.Subdivision)
                     .Include(a => a.ExecutorGroup)
                     .Include(a => a.Subdivision)
+                    .Include(a=>a.EventInfos.Select(e=>e.Campus))
+                    .Include(a => a.EventEquipments)
                     .ToListAsync();
                 watch.Stop();
                 return list;

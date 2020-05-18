@@ -1,0 +1,283 @@
+﻿@model WebUI.ViewModels.Requests.IT.Events.TechnicalSupportEventRequestViewModel
+
+@{
+    ViewBag.Title = "Заявка на техническое обеспечение мероприятия";
+    Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
+}
+@section Scripts
+{
+    <script>
+        var $eventDate = $('#EventDate').datepicker();
+
+        $("body").on("click", "#btnAddEventInfo", function (val) {
+            var table = document.getElementById("tblEventDate");
+            var counter = table.rows.length - 2;
+            var campusDropDown = document.getElementById("Campuses");
+            var selectedText = campusDropDown.options[campusDropDown.selectedIndex].text;
+            var selectedValue = campusDropDown.options[campusDropDown.selectedIndex].value;
+            var location = $("#Location");
+            var eventDate = $("#EventDate").datepicker("getDate");
+            var startTimeDropDown = document.getElementById("StartTime");
+            var startTimeText = startTimeDropDown.options[startTimeDropDown.selectedIndex].text;
+            var endTimeDropDown = document.getElementById("EndTime");
+            var endTimeText = endTimeDropDown.options[endTimeDropDown.selectedIndex].text;
+            var tBody = $("#tblEventDate > TBODY")[0];
+            var row = tBody.insertRow(-1);
+            var cell = $(row.insertCell(-1));
+            var innerCampusId = '<input type ="hidden" class="readonly" name = "Model.InfoModels[' + counter + '].CampusId" value = "' + selectedValue + '" />';
+            cell.attr("class", "d-none");
+            cell.html(innerCampusId);
+            var cell = $(row.insertCell(-1));
+            var innerCampusModelId = '<input type = "hidden" class="readonly" name = "Model.InfoModels[' + counter + '].Campus.Id" value = "' + selectedValue + '" /> ';
+            cell.attr("class", "d-none");
+            cell.html(innerCampusModelId);
+            var cell = $(row.insertCell(-1));
+            cell.attr("class", "w-auto");
+            var innerCampusModelName = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.InfoModels[' + counter + '].Campus.Name" value = "' + selectedText + '" /> ';
+            cell.html(innerCampusModelName);
+            var cell = $(row.insertCell(-1));
+            cell.attr("class", "w-auto");
+            var innerLocation = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.InfoModels[' + counter + '].Location" value = "' + location.val() + '" /> ';
+            cell.html(innerLocation);
+            var cell = $(row.insertCell(-1));
+            cell.attr("class", "w-auto");
+            var innerEventDate = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.InfoModels[' + counter + '].EventDate" value = "' + $.datepicker.formatDate("dd.mm.yy", eventDate) + '" /> ';
+            cell.html(innerEventDate);
+            var cell = $(row.insertCell(-1));
+            var innerStartTime = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.InfoModels[' + counter + '].StartTime" value = "' + startTimeText + '" /> ';
+            cell.attr("class", "w-auto");
+            cell.html(innerStartTime);
+            var cell = $(row.insertCell(-1));
+            var innerEndTime = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.InfoModels[' + counter + '].EndTime" value = "' + endTimeText + '" /> ';
+            cell.attr("class", "w-auto");
+            cell.html(innerEndTime);
+            cell = $(row.insertCell(-1));
+            cell.attr("class", "w-auto");
+            var btnRemove = '<button type="button" value="Удалить" class="btn btn-danger w-100" onclick="Remove(this)"> <i class="fa fa-trash"></i></button>';
+            cell.append(btnRemove);
+            $("#Campuses").prop('selectedIndex', 0);
+            $("#Location").val("");
+            $("#EventDate").datepicker('setDate', '');
+            $("#StartTime").prop('selectedIndex', 0);
+            $("#EndTime").prop('selectedIndex', 0);
+            counter++;
+        });
+
+        $(".table tbody").on("click", ".btn", function () {
+            $(this).closest("TR").remove();
+        });
+
+        $("body").on("click", "#btnAddEquipment", function (val) {
+            var table = document.getElementById("tblEventEquipments");
+            var counter = table.rows.length - 2;
+
+            var equipment = $("#Equipment");
+            var count = $("#Count");
+
+            var tBody = $("#tblEventEquipments > TBODY")[0];
+            var row = tBody.insertRow(-1);
+            var cell = $(row.insertCell(-1));
+            cell.attr("class", "w-auto");
+            var innerLocation = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.EquipmentModels[' + counter + '].Equipment" value = "' + equipment.val() + '" /> ';
+            cell.html(innerLocation);
+
+            var cell = $(row.insertCell(-1));
+            cell.attr("class", "w-auto");
+            var innerLocation = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.EquipmentModels[' + counter + '].Count" value = "' + count.val() + '" /> ';
+            cell.html(innerLocation);
+
+            cell = $(row.insertCell(-1));
+            cell.attr("class", "w-auto");
+            var btnRemove = '<button type="button" value="Удалить" class="btn btn-danger w-100" onclick="Remove(this)"> <i class="fa fa-trash"></i></button>';
+            cell.append(btnRemove);
+            $("#Equipment").val("");
+            $("#Count").val("");
+            counter++;
+        });
+    </script>
+}
+
+<div class="container footer">
+
+    <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("ChooseCategory","Dashboard",new { Area = "", branchId = Model.ServiceModel.BranchModel.Id })">@Model.ServiceModel.BranchModel.Fullname</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("ChooseService","Dashboard", new { Area = "", categoryId = Model.ServiceModel.CategoryModel.Id })">@Model.ServiceModel.CategoryModel.Name</a>
+        </li>
+        <li class="breadcrumb-item">
+            <span class="text-primary">@Model.ServiceModel.Name</span>
+        </li>
+        <li class="breadcrumb-item active">Редактирование заявки</li>
+    </ol>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id, htmlAttributes: new { @class = "form-control", Name = "Model.Id" })
+            @Html.HiddenFor(model => model.ServiceId, htmlAttributes: new { @class = "form-control", Name = "Model.ServiceId" })
+            @Html.HiddenFor(model => model.StatusId, htmlAttributes: new { @class = "form-control", Name = "Model.StatusId" })
+            @Html.HiddenFor(model => model.ClientId, htmlAttributes: new { @class = "form-control", Name = "Model.ClientId" })
+            @Html.HiddenFor(model => model.ExecutorGroupId, htmlAttributes: new { @class = "form-control", Name = "Model.ExecutorGroupId" })
+            @Html.HiddenFor(model => model.ExecutorId, htmlAttributes: new { @class = "form-control", Name = "Model.ExecutorId" })
+            @Html.HiddenFor(model => model.SubdivisionId, htmlAttributes: new { @class = "form-control", Name = "Model.SubdivisionId" })
+            <div class="row">
+                <div class="form-group col-12">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Техническое обеспечение мероприятия)", autocomplete = "off" } })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-12">
+                    @Html.LabelFor(model => model.Justification, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.EditorFor(model => model.Justification, new { htmlAttributes = new { @class = "form-control", Name = "Model.Justification", placeholder = "Опишите необходимость заявки", @rows = 4 } })
+                    @Html.ValidationMessageFor(model => model.Justification, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-12">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Name = "Model.Description", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.PriorityModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.DropDownListFor(model => model.PriorityId, Model.Priorities, htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
+                </div>
+            </div>
+
+            <div class="row m-1">
+                <h6 class="text-center">Дата и время проведения мероприятия</h6>
+                <table id="tblEventDate" class="table">
+                    <thead class="table-primary">
+                        <tr class="text-center">
+                            <th class="d-none"></th>
+                            <th class="d-none"></th>
+                            <th class="w-auto text-nowrap">Учебный корпус</th>
+                            <th class="w-auto text-nowrap">Аудитория</th>
+                            <th class="w-auto text-nowrap">Дата мероприятия</th>
+                            <th class="w-auto text-nowrap">Начало</th>
+                            <th class="w-auto text-nowrap">Окончание</th>
+                            <th class="w-auto text-nowrap"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int indexDate = 0;
+                            foreach (var item in Model.InfoModels)
+                            {
+                                <tr>
+                                    <td class="d-none">
+                                        @Html.HiddenFor(modelItem => item.CampusModel.Id, new { Name = $"Model.InfoModels[{indexDate}].CampusId" })
+                                    </td>
+                                    <td class="d-none">
+                                        @Html.HiddenFor(modelItem => item.CampusModel.Id, new { Name = $"Model.InfoModels[{indexDate}].CampusModel.Id" })
+                                    </td>
+
+                                    <td class="w-auto">@Html.TextBoxFor(modelItem => item.CampusModel.Name, new { @class = "form-control tblItem bg-transparent border-0", Name = $"Model.InfoModels[{indexDate}].CampusModel.Name", @readonly = "readonly" })</td>
+                                    <td class="w-auto">@Html.TextBoxFor(modelItem => item.Location, new { @class = "form-control tblItem bg-transparent  border-0", Name = $"Model.InfoModels[{indexDate}].Location", @readonly = "readonly" })</td>
+                                    <td class="w-auto">@Html.TextBoxFor(modelItem => item.EventDate, "{0:yyyy-MM-dd}", new { @class = "form-control tblItem bg-transparent border-0", type = "date", Name = $"Model.InfoModels[{indexDate}].EventDate", @readonly = "readonly" })</td>
+                                    <td class="w-auto">@Html.TextBoxFor(modelItem => item.StartTime, new { @class = "form-control tblItem bg-transparent  border-0", Name = $"Model.InfoModels[{indexDate}].StartTime", @readonly = "readonly" })</td>
+                                    <td class="w-auto">@Html.TextBoxFor(modelItem => item.EndTime, new { @class = "form-control tblItem bg-transparent  border-0", Name = $"Model.InfoModels[{indexDate}].EndTime", @readonly = "readonly" })</td>
+                                    <td>
+                                        <button type="button" value="Удалить" class="btn btn-danger w-100">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                indexDate++;
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="w-auto">@Html.DropDownList("Campuses", Model.Campuses, "Учебный корпус", htmlAttributes: new { @class = "form-control" })</td>
+                            <td class="w-auto">@Html.TextBox("Location", "", new { @class = "form-control", id = "Location" })</td>
+                            <td class="w-auto">
+                                @Html.Editor("EventDate", "{0:dd.MM.yyyy}", new { htmlAttributes = new { @class = "form-control", autocomplete = "off", type = "datetime" } })
+                            </td>
+                            <td class="w-auto">
+                                @Html.DropDownList("StartTime", Model.Times, new { @class = "form-control", autocomplete = "off" })
+                            </td>
+                            <td class="w-auto">
+                                @Html.DropDownList("EndTime", Model.Times, new { @class = "form-control", autocomplete = "off" })
+                            </td>
+
+                            <td class="w-auto">
+                                <input type="button" id="btnAddEventInfo" value="Добавить" class="btn btn-success w-100" />
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="row m-1">
+                <h6 class="text-center">Оборудование для проведения мероприятия</h6>
+                <table id="tblEventEquipments" class="table">
+                    <thead class="table-primary">
+                        <tr class="text-center">
+                            <th class="w-50">Наименование оборудования</th>
+                            <th class="w-25">Количество</th>
+                            <th class="w-auto"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int index = 0;
+                            foreach (var item in Model.EquipmentModels)
+                            {
+                                <tr>
+                                    <td class="w-auto">@Html.TextBoxFor(modelItem => item.Equipment, new { @class = "form-control tblItem bg-transparent border-0", Name = $"Model.EquipmentModels[{index}].Equipment", @readonly = "readonly" })</td>
+                                    <td class="w-auto">@Html.TextBoxFor(modelItem => item.Count, new { @class = "form-control tblItem bg-transparent  border-0", Name = $"Model.EquipmentModels[{index}].Count", @readonly = "readonly" })</td>
+
+                                    <td>
+                                        <button type="button" value="Удалить" class="btn btn-danger w-100">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="w-auto">@Html.TextBox("Equipment", "", new { @class = "form-control", id = "Equipment" })</td>
+                            <td class="w-auto">@Html.TextBox("Count", "", new { @class = "form-control", id = "Count" })</td>
+                            <td class="w-auto">
+                                <input type="button" id="btnAddEquipment" value="Добавить" class="btn btn-success w-100" />
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-auto">
+                    <input type="submit" value="Сохранить" class="btn btn-success" />
+                </div>
+            </div>
+            <div class="text-dark">
+                @Html.ActionLink("Вернуться к созданию заявки", "ChooseBranch", "Dashboard", new { Area = "" }, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+
+    }
+</div>

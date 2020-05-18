@@ -423,6 +423,7 @@ namespace WebUI.Models
                     Id = item.Id,
                     RequestId = item.RequestId,
                     CampusId = item.CampusId,
+                    CampusModel = GetViewModel(item.Campus),
                     Location = item.Location,
                     EventDate = item.EventDate,
                     StartTime = item.StartTime,
@@ -531,7 +532,59 @@ namespace WebUI.Models
 
         public static TechnicalSupportEventRequestViewModel GetViewModel(TechnicalSupportEventRequest request)
         {
-            throw new NotImplementedException();
+            TechnicalSupportEventRequestViewModel model = new TechnicalSupportEventRequestViewModel
+            {
+                Id = request.Id,
+                ClientId = request.ClientId,
+                Client = GetViewModel(request.Client),
+                Description = request.Description,
+                ExecutorGroupId = request.ExecutorGroupId,
+                ExecutorGroupModel = GetViewModel(request.ExecutorGroup),
+                Justification = request.Justification,
+                PriorityId = request.PriorityId,
+                PriorityModel = GetViewModel(request.Priority),
+                ServiceId = request.ServiceId,
+                ServiceModel = GetViewModel(request.Service),
+                StatusId = request.StatusId,
+                StatusModel = GetViewModel(request.Status),
+                Title = request.Title,
+                SubdivisionId = request.SubdivisionId,
+                SubdivisionModel = GetViewModel(request.Subdivision)
+            };
+            if (request.ExecutorId.HasValue)
+            {
+                model.ExecutorId = request.ExecutorId;
+                model.Executor = GetViewModel(request.Executor);
+            }
+
+            model.InfoModels = new List<TechnicalSupportEventInfoViewModel>();
+            foreach (var item in request.EventInfos)
+            {
+                model.InfoModels.Add(new TechnicalSupportEventInfoViewModel
+                {
+                    Id = item.Id,
+                    RequestId = item.RequestId,
+                    CampusId = item.CampusId,
+                    Location = item.Location,
+                    EventDate = item.EventDate,
+                    StartTime = item.StartTime,
+                    EndTime = item.EndTime,
+                    CampusModel = GetViewModel(item.Campus)
+                });
+            }
+
+            model.EquipmentModels = new List<TechnicalSupportEventEquipmentViewModel>();
+            foreach(var item in request.EventEquipments)
+            {
+                model.EquipmentModels.Add(new TechnicalSupportEventEquipmentViewModel { 
+                    Id = item.Id,
+                    Count = item.Count,
+                    RequestId = item.RequestId,
+                    Equipment = item.EquipmentName
+                });
+            }
+
+            return model;
         }
 
         public static VideoCommunicationRequestViewModel GetViewModel(VideoCommunicationRequest request)

@@ -1448,6 +1448,10 @@
     <Content Include="Areas\IT\Views\SoftwareReworkRequest\Edit.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Shared\Cerulean\_ControlPanelLayout.cshtml" />
     <Content Include="Areas\ControlPanel\Views\Shared\Cerulean\_ControlPanelMenu.cshtml" />
+    <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Create.cshtml" />
+    <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Delete.cshtml" />
+    <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Details.cshtml" />
+    <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -1778,7 +1782,6 @@
     <Folder Include="Areas\ControlPanel\Views\Equipment\" />
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\Shared\" />
-    <Folder Include="Areas\IT\Views\TechnicalSupportEventRequest\" />
     <Folder Include="Files\UploadedFiles\AccountAttachments\" />
     <Folder Include="Files\UploadedFiles\SoftwareAttachments\" />
   </ItemGroup>
