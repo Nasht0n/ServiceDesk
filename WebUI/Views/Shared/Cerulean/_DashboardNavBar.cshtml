@@ -49,9 +49,9 @@
                     <span class="ml-1">@Model.CurrentUser.Fullname</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    @*<a class="dropdown-item" href="@Url.Action("Profile","Dashboard",new { Area ="" })">Профиль сотрудника</a>
-                    <a class="dropdown-item" href="#">Руководство пользователя</a>
-                    <div class="dropdown-divider"></div>*@
+                    @*<a class="dropdown-item" href="@Url.Action("Profile","Dashboard",new { Area ="" })">Профиль сотрудника</a>*@
+                    <a class="dropdown-item" target="_blank" href="@Url.Action("Manual","Dashboard", new { Area = ""})">Руководство пользователя</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="@Url.Action("Logout","ServiceDesk",new { Area = "" })">Выйти из системы</a>
                 </div>
             </li>

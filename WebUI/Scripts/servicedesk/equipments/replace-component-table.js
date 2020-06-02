@@ -19,12 +19,12 @@
     cell.html(innerEquipmentTypeModelId);
 
     var cell = $(row.insertCell(-1));    
-    var innerEquipmentText = '<input type="text" class="form-control tblItem bg-white border-0" readonly name="Model.Replaces[' + counter + '].ComponentModel.Name" value="' + selectedText + '"/>';
+    var innerEquipmentText = '<input type="text" class="form-control tblItem bg-transparent border-0" readonly name="Model.Replaces[' + counter + '].ComponentModel.Name" value="' + selectedText + '"/>';
     cell.attr("class", "w-100");
     cell.html(innerEquipmentText);
 
     var cell = $(row.insertCell(-1));    
-    var innerCount = '<input type="text" class="form-control tblItem bg-white border-0" readonly name="Model.Replaces[' + counter + '].Count" value="' + count.val() + '"/>';
+    var innerCount = '<input type="text" class="form-control tblItem bg-transparent border-0" readonly name="Model.Replaces[' + counter + '].Count" value="' + count.val() + '"/>';
     cell.attr("class", "w-100");
     cell.html(innerCount);
 

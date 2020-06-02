@@ -1452,6 +1452,7 @@
     <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Delete.cshtml" />
     <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Details.cshtml" />
     <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Edit.cshtml" />
+    <Content Include="Files\SERVICE DESK. Руководство пользователя.pdf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -1486,7 +1487,6 @@
     <Content Include="Scripts\servicedesk\menu-toggle.js" />
     <Content Include="Scripts\servicedesk\NavItemActive.js" />
     <Content Include="Scripts\servicedesk\networks\network-connections-table.js" />
-    <Content Include="Scripts\servicedesk\subdivision-executors.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />

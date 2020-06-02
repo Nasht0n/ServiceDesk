@@ -279,5 +279,14 @@ namespace WebUI.Controllers
             model.Account = ModelFromData.GetViewModel(account);
             return View(model);
         }
+
+        public FileResult Manual()
+        {
+            // Путь к файлу
+            string file_path = Server.MapPath("~/Files/SERVICE DESK. Руководство пользователя.pdf");
+            // Тип файла - content-type
+            string file_type = "application/pdf";
+            return File(file_path, file_type);
+        }
     }
 }

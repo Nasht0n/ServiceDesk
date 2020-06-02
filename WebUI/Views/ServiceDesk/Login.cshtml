@@ -10,7 +10,7 @@
         <img src="~/Content/Images/gerb.png" id="gerb-icon" />
         <h1 class="display-2 text-center">Service Desk</h1>
         <hr class="my-3">
-        <p class="text-center my-3">Пожалуйста, заполните поля для ввода в систему</p>
+        <p class="text-center my-3">Пожалуйста, заполните поля для входа в систему</p>
         @using (Html.BeginForm("Login","ServiceDesk", FormMethod.Post,new { @class ="form-horizontal" }))
         {
             @Html.AntiForgeryToken()

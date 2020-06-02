@@ -8,7 +8,7 @@
 
     cell = $(row.insertCell(-1));
     cell.attr("class", "w-75");
-    var innerCount = '<input type = "text" class="form-control tblItem bg-white border-0" readonly name = "Model.Refills[' + counter + '].InventoryNumber" value = "' + inventoryNumber.val() + '" /> ';
+    var innerCount = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.Refills[' + counter + '].InventoryNumber" value = "' + inventoryNumber.val() + '" /> ';
     cell.html(innerCount);
 
     cell = $(row.insertCell(-1));

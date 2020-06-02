@@ -10,13 +10,24 @@ using System.Threading.Tasks;
 
 namespace Repository.Concrete
 {
+    /// <summary>
+    /// Класс доступа к хранилищу расходных материалов
+    /// </summary>
     public class ConsumableRepository : IConsumableRepository
     {
+        // Логгер
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+        // Контекст данных доступа к данным
         private readonly ServiceDeskContext context;
-
+        // Объявление секундомера для получения времени выполнения метода
+        private readonly Stopwatch watch = new Stopwatch();
+        /// <summary>
+        /// Конструктор класса
+        /// </summary>
+        /// <param name="context">Контекст данных доступа к данным</param>
         public ConsumableRepository(ServiceDeskContext context)
         {
+            // инициализация контекста данных
             this.context = context;
         }
 
@@ -24,18 +35,14 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Добавление расходного материала для ремонта: {consumable.ToString()}");
-                Stopwatch watch = new Stopwatch();
                 watch.Start();
                 var inserted = context.Consumables.Add(consumable);
                 await context.SaveChangesAsync();
                 watch.Stop();
-                log.Debug($"Расходный материал для ремонта добавлен. Затрачено времени: {watch.Elapsed}.");
                 return inserted;
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка добавления расходного материала для ремонта. Сообщение: {ex.Message}.");
                 return null;
             }
         }
@@ -44,20 +51,14 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Удаление расходного материала для ремонта: {consumable.ToString()}");
-                Stopwatch watch = new Stopwatch();
-
                 watch.Start();
                 var deleted = await context.Consumables.SingleOrDefaultAsync(a => a.Id == consumable.Id);
                 context.Consumables.Remove(deleted);
                 await context.SaveChangesAsync();
                 watch.Stop();
-                log.Debug($"Расходный материал для ремонта удален. Затрачено времени: {watch.Elapsed}.");
-
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка удаления расходного материала для ремонта. Сообщение: {ex.Message}.");
             }
         }
 
@@ -65,18 +66,13 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Получение списка расходного материала для ремонта оборудования");
-                Stopwatch watch = new Stopwatch();
                 watch.Start();
                 var list = await context.Consumables.ToListAsync();
                 watch.Stop();
-                log.Debug($"Список расходного материала для ремонта оборудования получен. Количество записей: {list.Count}. Затрачено времени: {watch.Elapsed}.");
                 return list;
-
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка получения списка расходного материала для ремонта оборудования. Сообщение: {ex.Message}.");
                 return null;
             }
         }
@@ -85,26 +81,18 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Редактирование расходного материала для ремонта: {consumable.ToString()}");
-                Stopwatch watch = new Stopwatch();
-
                 watch.Start();
                 var updated = await context.Consumables.SingleOrDefaultAsync(b => b.Id == consumable.Id);
-
                 if (updated != null)
                 {
                     updated.Name = consumable.Name;
                 }
-
                 await context.SaveChangesAsync();
                 watch.Stop();
-                log.Debug($"Расходный материал для ремонта отредактирован. Затрачено времени: {watch.Elapsed}.");
                 return updated;
-
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка редактирования расходного материала для ремонта. Сообщение: {ex.Message}.");
                 return null;
             }
         }

@@ -17,11 +17,11 @@
     cell.html(innerEquipmentTypeModelId);
     var cell = $(row.insertCell(-1));
     cell.attr("class", "w-100");
-    var innerEquipmentText = '<input type = "text" class="form-control tblItem bg-white border-0" readonly name = "Model.Connections[' + counter + '].EquipmentTypeModel.Name" value = "' + selectedText + '" /> ';
+    var innerEquipmentText = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.Connections[' + counter + '].EquipmentTypeModel.Name" value = "' + selectedText + '" /> ';
     cell.html(innerEquipmentText);
     cell = $(row.insertCell(-1));
     cell.attr("class", "w-100");
-    var innerCount = '<input type = "text" class="form-control tblItem bg-white border-0" readonly name = "Model.Connections[' + counter + '].Count" value = "' + count.val() + '" /> ';
+    var innerCount = '<input type = "text" class="form-control tblItem bg-transparent border-0" readonly name = "Model.Connections[' + counter + '].Count" value = "' + count.val() + '" /> ';
     cell.html(innerCount);
     cell = $(row.insertCell(-1));
     cell.attr("class", "w-100");
