@@ -92,7 +92,7 @@ namespace Repository.Concrete
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка удаления записи области заявки: {ex.Message}.");
+                log.Error($"Ошибка удаления записи вида комплектующего: {ex.Message}.");
             }
         }
         /// <summary>
@@ -118,7 +118,7 @@ namespace Repository.Concrete
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка получения списка областей заявок: {ex.Message}.");
+                log.Error($"Ошибка получения списка видов комплектующего: {ex.Message}.");
                 return null;
             }
         }

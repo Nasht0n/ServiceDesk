@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Repository.Concrete
@@ -16,6 +14,7 @@ namespace Repository.Concrete
     {
         private readonly ServiceDeskContext context;
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+        private readonly Stopwatch watch = new Stopwatch();
 
         public SubdivisionExecutorsRepository(ServiceDeskContext context)
         {
@@ -26,21 +25,14 @@ namespace Repository.Concrete
         {
             try
             {
-                //log.Information($"Закрепление исполнителя за подразделением: {subdivisionExecutor.Employee.ToString()} {subdivisionExecutor.Subdivision.ToString()}");
-                Stopwatch watch = new Stopwatch();
-                using (var context = new ServiceDeskContext())
-                {
-                    watch.Start();
-                    var inserted = context.SubdivisionExecutors.Add(subdivisionExecutor);
-                    await context.SaveChangesAsync();
-                    watch.Stop();
-                    log.Debug($"Исполнитель закреплен за подразделением. Затрачено времени: {watch.Elapsed}.");
-                    return inserted;
-                }
+                watch.Start();
+                var inserted = context.SubdivisionExecutors.Add(subdivisionExecutor);
+                await context.SaveChangesAsync();
+                watch.Stop();
+                return inserted;
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка закрепления исполнителя за подразделением. Сообщение: {ex.Message}.");
                 return null;
             }
         }
@@ -49,21 +41,14 @@ namespace Repository.Concrete
         {
             try
             {
-                //log.Information($"Открепление исполнителя от подразделения: {subdivisionExecutor.Employee.ToString()} {subdivisionExecutor.Subdivision.ToString()}");
-                Stopwatch watch = new Stopwatch();
-                using (var context = new ServiceDeskContext())
-                {
-                    watch.Start();
-                    var deleted = await context.SubdivisionExecutors.SingleOrDefaultAsync(a => a.SubdivisionId == subdivisionExecutor.SubdivisionId && a.EmployeeId == subdivisionExecutor.EmployeeId);
-                    context.SubdivisionExecutors.Remove(deleted);
-                    await context.SaveChangesAsync();
-                    watch.Stop();
-                    log.Debug($"Исполнитель откреплен от подразделения. Затрачено времени: {watch.Elapsed}.");
-                }
+                watch.Start();
+                var deleted = await context.SubdivisionExecutors.SingleOrDefaultAsync(a => a.SubdivisionId == subdivisionExecutor.SubdivisionId && a.EmployeeId == subdivisionExecutor.EmployeeId);
+                context.SubdivisionExecutors.Remove(deleted);
+                await context.SaveChangesAsync();
+                watch.Stop();
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка открепления исполнителя от подразделения. Сообщение: {ex.Message}.");
             }
         }
 
@@ -71,24 +56,17 @@ namespace Repository.Concrete
         {
             try
             {
-                log.Information($"Получение списка исполнителей закрепленных за подразделениями");
-                Stopwatch watch = new Stopwatch();
-                using (var context = new ServiceDeskContext())
-                {
-                    watch.Start();
-                    var list = await context.SubdivisionExecutors
-                        .Include(a => a.Subdivision)
-                        .Include(a => a.Employee)
-                        .Include(a => a.Employee.Subdivision)
-                        .ToListAsync();
-                    watch.Stop();
-                    log.Debug($"Список исполниетлей закрепленных за подразделениями получен. Количество записей: {list.Count}. Затрачено времени: {watch.Elapsed}.");
-                    return list;
-                }
+                watch.Start();
+                var list = await context.SubdivisionExecutors
+                    .Include(a => a.Subdivision)
+                    .Include(a => a.Employee)
+                    .Include(a => a.Employee.Subdivision)
+                    .ToListAsync();
+                watch.Stop();
+                return list;
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка получения списка исполнителей закрепленных за подразделениями. Сообщение: {ex.Message}.");
                 return null;
             }
         }
