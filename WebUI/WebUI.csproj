@@ -1654,6 +1654,7 @@
     <Compile Include="ViewModels\ExecutorGroupMembers\ExecutorGroupMemberViewModel.cs" />
     <Compile Include="ViewModels\ExecutorGroupModel\ExecutorGroupsListViewModel.cs" />
     <Compile Include="ViewModels\ExecutorGroupModel\ExecutorGroupViewModel.cs" />
+    <Compile Include="ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Accounts\AccountCancellationRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Accounts\AccountDisconnectRequestLifeCycleViewModel.cs" />
     <Compile Include="ViewModels\LifeCycles\IT\Accounts\AccountLossRequestLifeCycleViewModel.cs" />

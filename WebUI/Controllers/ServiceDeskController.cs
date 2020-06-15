@@ -110,7 +110,7 @@ namespace WebUI.Controllers
                 account.DateChangePassword = DateTime.Now;
                 account.ChangePasswordOnNextEnter = false;
                 account.LastEnterDateTime = DateTime.Now;
-                account = await accountLogic.Save(account);
+                await accountLogic.Save(account);
                 return RedirectToAction("Index", "Dashboard", new { Area = "" });
             }
             return View();
