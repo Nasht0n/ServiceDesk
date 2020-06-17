@@ -92,7 +92,7 @@ namespace Repository.Concrete.Branches.IT.Email.Requests
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка удаления записи жизненного цикла заявки: {ex.Message}.");
+                log.Error($"Ошибка удаления записи заявки: {ex.Message}.");
             }
         }
         /// <summary>
