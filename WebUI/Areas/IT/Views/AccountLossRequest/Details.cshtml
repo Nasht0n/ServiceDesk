@@ -71,7 +71,7 @@
                         {
                             <a href="@Url.Action("GetInWork","AccountLossRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Принять к исполнению</a>
                         }
-                        else if ((Model.UserPermissions.EditRequest || Model.UserPermissions.DeleteRequest) && (Model.RequestModel.StatusId == (int)RequestStatus.Open || Model.RequestModel.StatusId == (int)RequestStatus.Approval))
+                        else if (Model.CurrentUser.Id == Model.RequestModel.ClientId && (Model.UserPermissions.EditRequest || Model.UserPermissions.DeleteRequest) && (Model.RequestModel.StatusId == (int)RequestStatus.Open || Model.RequestModel.StatusId == (int)RequestStatus.Approval))
                         {
                             <a href="@Url.Action("Edit","AccountLossRequest",new { Area = "IT", id = Model.RequestModel.Id })" class="btn btn-primary mr-1 mb-1">
                                 <i class="fa fa-edit"></i>

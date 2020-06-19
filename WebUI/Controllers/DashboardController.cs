@@ -288,5 +288,46 @@ namespace WebUI.Controllers
             string file_type = "application/pdf";
             return File(file_path, file_type);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Feedback()
+        {
+            FeedbackViewModel model = new FeedbackViewModel();
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo(model);
+            // получаем данные учетной записи
+            var account = await accountLogic.GetAccount(user);
+            // получение заявок касающихся авторизованного сотрудника
+            var requests = await requestsLogic.GetRequests(account);
+            // инициализации списка заявок в модели представления
+            model.Requests = ModelFromData.GetViewModel(requests);
+            var employee = await employeeLogic.GetEmployee(user.Id);
+            model.Name = employee.Firstname;
+            await MenuInformation(model);
+            // отображение представления
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Feedback(FeedbackViewModel model)
+        {
+            // получение данных об авторизованном сотруднике
+            // инициализация конфигурации
+            var user = await PopulateAccountInfo(model);
+            // получаем данные учетной записи
+            var account = await accountLogic.GetAccount(user);
+            // получение заявок касающихся авторизованного сотрудника
+            var requests = await requestsLogic.GetRequests(account);
+            // инициализации списка заявок в модели представления
+            model.Requests = ModelFromData.GetViewModel(requests);
+            await MenuInformation(model);
+            if (ModelState.IsValid)
+            {                
+                MailSender.SendFeedback(model.Name, model.Message);
+                return RedirectToAction("Index", "Dashboard", new { Area = "" });
+            }
+            
+            return View();
+        }
     }
 }

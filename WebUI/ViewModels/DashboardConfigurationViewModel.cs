@@ -45,6 +45,8 @@ namespace WebUI.ViewModels
         public bool ApprovalAllowed { get { return Permissions.Where(p => p.AccountId == Account.Id && p.PermissionId == (int)AccountPermissionEnum.ApprovalAllowed).Any(); } }
         // Право принятия заявки в работу
         public bool GetInWorkRequest { get { return Permissions.Where(p => p.AccountId == Account.Id && p.PermissionId == (int)AccountPermissionEnum.GetInWorkRequest).Any(); } }
+        // Право обратного отзыва
+        public bool Feedback { get { return Permissions.Where(p => p.AccountId == Account.Id && p.PermissionId == (int)AccountPermissionEnum.Feedback).Any(); } }
     }
 
     // Класс статистики бокового меню рабочего стола

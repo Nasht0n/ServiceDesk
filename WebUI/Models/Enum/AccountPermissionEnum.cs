@@ -8,6 +8,7 @@
         AccessToControlPanel = 4,
         ViewRequest = 5,
         ApprovalAllowed = 6,
-        GetInWorkRequest = 7
+        GetInWorkRequest = 7,
+        Feedback = 8
     }
 }

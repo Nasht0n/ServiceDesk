@@ -9,7 +9,7 @@ namespace WebUI.ViewModels
     public class DashboardViewModel : DashboardConfigurationViewModel
     {
         // Количество отображаемых заявок пользователя 
-        private readonly int LastRequestCount = 6;
+        private readonly int LastRequestCount = 3;
         // Список отображаемых заявок, с участием пользователя
         public List<RequestViewModel> LastRequests
         {

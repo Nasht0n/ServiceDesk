@@ -43,6 +43,16 @@
                 </li>
             }
 
+            @if (Model.UserPermissions.Feedback)
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-primary" href="@Url.Action("Feedback","Dashboard",new { Area = "" })">
+                        <i class="fa fa-comments"></i>
+                        <span class="ml-1">Оставить отзыв</span>
+                    </a>
+                </li>
+            }
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user"></i>

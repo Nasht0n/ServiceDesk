@@ -5,7 +5,7 @@ namespace WebUI.Models
 {
     public static class MailSender
     {
-        private const string systemEmail = "akorzun.91@gmail.com";
+        private const string systemEmail = "service@barsu.by";
 
         public static void SendMessage(string emailTo, string fullname, string message)
         {
@@ -15,8 +15,22 @@ namespace WebUI.Models
             msg.Subject = $"{fullname} оставил сообщение.";
             msg.Body = message;
             msg.IsBodyHtml = false;
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential(systemEmail,"5893TohA0921");
+            SmtpClient smtp = new SmtpClient("mail.barsu.by", 587);
+            smtp.Credentials = new NetworkCredential(systemEmail,"d8wiPJjLXVIm");
+            smtp.EnableSsl = true;
+            smtp.Send(msg);
+        }
+
+        public static void SendFeedback(string name, string message)
+        {
+            MailAddress from = new MailAddress(systemEmail, name);
+            MailAddress to = new MailAddress(systemEmail);
+            MailMessage msg = new MailMessage(from, to);
+            msg.Subject = $"Форма обратной связи. {name} оставил сообщение.";
+            msg.Body = message;
+            msg.IsBodyHtml = false;
+            SmtpClient smtp = new SmtpClient("mail.barsu.by", 587);
+            smtp.Credentials = new NetworkCredential(systemEmail, "d8wiPJjLXVIm");
             smtp.EnableSsl = true;
             smtp.Send(msg);
         }
