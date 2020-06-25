@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyManager", "NotifyManager\NotifyManager.csproj", "{7E322A6A-973E-4AC5-AAC4-5C9A66FCE47D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E322A6A-973E-4AC5-AAC4-5C9A66FCE47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E322A6A-973E-4AC5-AAC4-5C9A66FCE47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E322A6A-973E-4AC5-AAC4-5C9A66FCE47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E322A6A-973E-4AC5-AAC4-5C9A66FCE47D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

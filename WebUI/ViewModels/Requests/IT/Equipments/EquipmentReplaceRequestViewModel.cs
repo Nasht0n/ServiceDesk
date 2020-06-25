@@ -13,7 +13,7 @@ namespace WebUI.ViewModels.Requests.IT.Equipments
         [Required]
         [Display(Name = "Идентификатор учебного корпуса")]
         public int CampusId { get; set; }
-        [Display(Name = "Учебный компус")]
+        [Display(Name = "Учебный корпус")]
         public CampusViewModel CampusModel { get; set; }
         [Display(Name = "Перечень заменяемого оборудования")]
         public List<ReplaceEquipmentViewModel> Replaces { get; set; } = new List<ReplaceEquipmentViewModel>();

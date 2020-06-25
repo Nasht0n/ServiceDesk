@@ -16,6 +16,7 @@ namespace WebUI.ViewModels.AccountModel
         public string Username { get; set; }
         [Required]
         [Display(Name = "Пароль учетной записи")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
         [Display(Name = "Дата регистрации учетной записи")]

@@ -15,6 +15,7 @@ namespace WebUI.ViewModels.Requests.View
         public bool InWork { get; set; }
         public bool Approver { get; set; }
 
+
         public List<RequestViewModel> RequestsList
         {
             get
@@ -24,7 +25,7 @@ namespace WebUI.ViewModels.Requests.View
                 if (ServiceModel != null) result = result.Where(r => r.ServiceId == ServiceModel.Id).ToList();
                 if (StatusModel != null) result = result.Where(r => r.StatusId == StatusModel.Id).ToList();
                 if (InWork) result = result.Where(r => r.StatusId == (int)RequestStatus.Open || r.StatusId == (int)RequestStatus.Agreed).ToList();
-                if (Approver) result = result.Where(r => r.StatusId != (int)RequestStatus.Open && r.StatusId != (int)RequestStatus.Agreed).ToList();
+                if (Approver) result = result.Where(r => r.StatusId != (int)RequestStatus.Open && r.StatusId != (int)RequestStatus.Approval).ToList();
                 return result;
             }
         }
