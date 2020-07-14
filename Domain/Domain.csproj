@@ -77,8 +77,17 @@
     <Compile Include="Migrations\202005141132202_AddTimeFieldToVideoRequest.designer.cs">
       <DependentUpon>202005141132202_AddTimeFieldToVideoRequest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007100552298_ConsumableInventory.cs" />
+    <Compile Include="Migrations\202007100552298_ConsumableInventory.designer.cs">
+      <DependentUpon>202007100552298_ConsumableInventory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007131316047_ConsumableConsumption.cs" />
+    <Compile Include="Migrations\202007131316047_ConsumableConsumption.designer.cs">
+      <DependentUpon>202007131316047_ConsumableConsumption.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\ConsumableType.cs" />
     <Compile Include="Models\ManyToMany\AccountCancellationRequestAttachment.cs" />
     <Compile Include="Models\ManyToMany\AccountDisconnectRequestAttachment.cs" />
     <Compile Include="Models\ManyToMany\AccountLossRequestAttachment.cs" />
@@ -118,6 +127,7 @@
     <Compile Include="Models\Requests\Communication\PhoneNumberAllocationRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Communication\PhoneRepairRequest.cs" />
     <Compile Include="Models\Requests\Communication\PhoneRepairRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentRefillRequestConsumption.cs" />
     <Compile Include="Models\Requests\Events\VideoCommunicationRequest.cs" />
     <Compile Include="Models\Requests\Events\VideoCommunicationRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Email\EmailRegistrationRequest.cs" />
@@ -185,6 +195,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005141132202_AddTimeFieldToVideoRequest.resx">
       <DependentUpon>202005141132202_AddTimeFieldToVideoRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007100552298_ConsumableInventory.resx">
+      <DependentUpon>202007100552298_ConsumableInventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007131316047_ConsumableConsumption.resx">
+      <DependentUpon>202007131316047_ConsumableConsumption.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

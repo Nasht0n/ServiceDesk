@@ -57,6 +57,7 @@
     <Compile Include="Abstract\Branches\IT\Communications\LifeCycles\IPhoneLineRepairRequestLifeCycleLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Communications\LifeCycles\IPhoneNumberAllocationRequestLifeCycleLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Communications\LifeCycles\IPhoneRepairRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Consumption\IEquipmentRefillRequestConsumptionLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Events\ITechnicalSupportEventEquipmentsLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Events\ITechnicalSupportEventInfosLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Events\LifeCycles\ITechnicalSupportEventRequestLifeCycleLogic.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Abstract\ICategoryLogic.cs" />
     <Compile Include="Abstract\IComponentLogic.cs" />
     <Compile Include="Abstract\IConsumableLogic.cs" />
+    <Compile Include="Abstract\IConsumableTypeLogic.cs" />
     <Compile Include="Abstract\IEmployeeLogic.cs" />
     <Compile Include="Abstract\IEquipmentLogic.cs" />
     <Compile Include="Abstract\IEquipmentTypeLogic.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Concrete\Branches\IT\Communications\LifeCycles\PhoneLineRepairRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Communications\LifeCycles\PhoneNumberAllocationRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Communications\LifeCycles\PhoneRepairRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Consumption\EquipmentRefillRequestConsumptionLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Events\LifeCycles\TechnicalSupportEventRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Events\LifeCycles\VideoCommunicationRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Communications\Requests\HoldingPhoneLineRequestLogic.cs" />
@@ -179,6 +182,7 @@
     <Compile Include="Concrete\CategoryLogic.cs" />
     <Compile Include="Concrete\ComponentLogic.cs" />
     <Compile Include="Concrete\ConsumableLogic.cs" />
+    <Compile Include="Concrete\ConsumableTypeLogic.cs" />
     <Compile Include="Concrete\EmployeeLogic.cs" />
     <Compile Include="Concrete\EquipmentLogic.cs" />
     <Compile Include="Concrete\EquipmentTypeLogic.cs" />

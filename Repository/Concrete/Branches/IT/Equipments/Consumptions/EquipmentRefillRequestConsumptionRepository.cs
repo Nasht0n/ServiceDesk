@@ -1,6 +1,6 @@
 ﻿using Domain;
-using Domain.Models;
-using Repository.Abstract;
+using Domain.Models.Requests.Equipment;
+using Repository.Abstract.Branches.IT.Equipments.Consumptions;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -8,12 +8,9 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Repository.Concrete
+namespace Repository.Concrete.Branches.IT.Equipments.Consumptions
 {
-    /// <summary>
-    /// Класс доступа к хранилищу расходных материалов
-    /// </summary>
-    public class ConsumableRepository : IConsumableRepository
+    public class EquipmentRefillRequestConsumptionRepository : IEquipmentRefillRequestConsumptionRepository
     {
         // Логгер
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
@@ -25,63 +22,62 @@ namespace Repository.Concrete
         /// Конструктор класса
         /// </summary>
         /// <param name="context">Контекст данных доступа к данным</param>
-        public ConsumableRepository(ServiceDeskContext context)
+        public EquipmentRefillRequestConsumptionRepository(ServiceDeskContext context)
         {
-            // инициализация контекста данных
             this.context = context;
         }
         /// <summary>
-        /// Метод добавления расходного материала
+        /// Метод добавления данных о затратах расходного материала на заправку оборудования
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
-        /// <returns>Возвращает объект расходного материала</returns>
-        public async Task<Consumable> Add(Consumable consumable)
+        /// <param name="consumption">Объект расхода материалов на заправку оборудования</param>
+        /// <returns>Возвращаем объект затраченных расходных материалов на заправку оборудования</returns>
+        public async Task<EquipmentRefillRequestConsumption> Add(EquipmentRefillRequestConsumption consumption)
         {
-            log.Debug($"Метод добавления расходного материала");
+            log.Debug($"Метод добавления записи о затратах расходного материала на заправку оборудования");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
-                // добавление записи
-                var inserted = context.Consumables.Add(consumable);
+                // добавление учетной записи
+                var inserted = context.EquipmentRefillRequestConsumptions.Add(consumption);
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений
                 await context.SaveChangesAsync();
                 // остановка таймера
                 watch.Stop();
                 log.Debug($"Запись успешно добавлена. Затрачено времени: {watch.Elapsed}.");
-                // возвращаем объект прикрепленного файла
+                // возврат объекта учетной записи
                 return inserted;
             }
             catch (Exception ex)
             {
                 log.Error($"Ошибка добавления записи: {ex.Message}.");
-                // ошибка выполнения метода возвращаем null    
+                // ошибка выполнения метода возвращаем null      
                 return null;
             }
         }
         /// <summary>
-        /// Метод удаления расходного материала
+        /// Метод удаления данных о затратах расходного материала на заправку оборудования
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
+        /// <param name="consumption">Объект расхода материалов на заправку оборудования</param>
         /// <returns></returns>
-        public async Task Delete(Consumable consumable)
+        public async Task Delete(EquipmentRefillRequestConsumption consumption)
         {
-            log.Debug($"Метод удаления расходного материала");
+            log.Debug($"Метод удаления записи о затратах расходного материала на заправку оборудования");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // поиск удаляемой записи
-                var deleted = await context.Consumables.SingleOrDefaultAsync(a => a.Id == consumable.Id);
+                var deleted = await context.EquipmentRefillRequestConsumptions.SingleOrDefaultAsync(e => e.Id == consumption.Id);
                 log.Debug($"Удаляемая запись найдена. Продолжение операции...");
                 // если запись найдена
                 if (deleted != null)
                 {
                     // удаление записи
-                    context.Consumables.Remove(deleted);
+                    context.EquipmentRefillRequestConsumptions.Remove(deleted);
                     log.Debug($"Сохранение изменений.");
                     // сохранение изменений
                     await context.SaveChangesAsync();
@@ -92,24 +88,27 @@ namespace Repository.Concrete
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка удаления записи области заявки: {ex.Message}.");
+                log.Error($"Ошибка удаления записи о затратах расходного материала на заправку оборудования: {ex.Message}.");
             }
         }
         /// <summary>
-        /// Метод получения списка расходных материалов
+        /// Метод получения списка затрат расходных материалов на заправку оборудования
         /// </summary>
-        /// <returns>Возвращает список расходных материалов</returns>
-        public async Task<List<Consumable>> GetConsumables()
+        /// <returns>Возврат списка затрат расходных материалов на заправку оборудования</returns>
+        public async Task<List<EquipmentRefillRequestConsumption>> GetRequestConsumptions()
         {
-            log.Debug($"Метод получения списка расходных материалов");
+            log.Debug($"Метод получения списка затрат расходных материалов на заправку оборудования");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 log.Debug($"Получение списка...");
-                // получение списка прикрепленных файлов
-                var list = await context.Consumables.ToListAsync();
+                // получение списка записей
+                var list = await context.EquipmentRefillRequestConsumptions
+                    .Include(a => a.Request)
+                    .Include(a => a.Consumable)
+                    .ToListAsync();
                 // остановка таймера
                 watch.Stop();
                 log.Debug($"Операция завершена успешно. Количество элементов списка: {list.Count}. Затрачено времени: {watch.Elapsed}.");
@@ -118,33 +117,34 @@ namespace Repository.Concrete
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка получения списка расходных материалов: {ex.Message}.");
+                log.Error($"Ошибка получения списка затрат расходных материалов на заправку оборудования: {ex.Message}.");
                 return null;
             }
         }
         /// <summary>
-        /// Метод обновления записи расходного материала
+        /// Метод редактирования данных о затратах расходного материала на заправку оборудования
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
-        /// <returns>Возвращает запись расходного материала</returns>
-        public async Task<Consumable> Update(Consumable consumable)
+        /// <param name="consumption">Объект расхода материалов на заправку оборудования</param>
+        /// <returns>Возвращаем объект затраченных расходных материалов на заправку оборудования</returns>
+        public async Task<EquipmentRefillRequestConsumption> Update(EquipmentRefillRequestConsumption consumption)
         {
-            log.Debug($"Метод обновления записи расходного материала");
+            log.Debug($"Метод редактировния записи о затратах расходного материала на заправку оборудования");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // поиск обновляемой записи
-                var updated = await context.Consumables.SingleOrDefaultAsync(b => b.Id == consumable.Id);
+                var updated = await context.EquipmentRefillRequestConsumptions.SingleOrDefaultAsync(lc => lc.Id == consumption.Id);
                 log.Debug($"Запись для редактирования найдена. Продолжение операции...");
                 // если запись найдена
                 if (updated != null)
                 {
                     // обновляем поля объекта
-                    updated.Name = consumable.Name;
-                    updated.InventoryNumber = consumable.InventoryNumber;
-                    updated.TypeId = consumable.TypeId;
+                    updated.RequestId = consumption.RequestId;
+                    updated.ConsumableId = consumption.ConsumableId;
+                    updated.Count = consumption.Count;
+                    updated.Unit = consumption.Unit;
                 }
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений
@@ -158,7 +158,7 @@ namespace Repository.Concrete
             catch (Exception ex)
             {
                 log.Error($"Ошибка редактирования записи: {ex.Message}.");
-                // ошибка выполнения метода возвращаем null   
+                // ошибка выполнения метода возвращаем nul
                 return null;
             }
         }

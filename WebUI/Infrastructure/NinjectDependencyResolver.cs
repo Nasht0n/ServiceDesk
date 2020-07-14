@@ -7,6 +7,7 @@ using BusinessLogic.Abstract.Branches.IT.Communications.Requests;
 using BusinessLogic.Abstract.Branches.IT.Emails.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Emails.Requests;
 using BusinessLogic.Abstract.Branches.IT.Equipments;
+using BusinessLogic.Abstract.Branches.IT.Equipments.Consumption;
 using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using BusinessLogic.Abstract.Branches.IT.Events;
@@ -27,6 +28,7 @@ using BusinessLogic.Concrete.Branches.IT.Communications.Requests;
 using BusinessLogic.Concrete.Branches.IT.Emails.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Emails.Requests;
 using BusinessLogic.Concrete.Branches.IT.Equipments;
+using BusinessLogic.Concrete.Branches.IT.Equipments.Consumption;
 using BusinessLogic.Concrete.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Equipments.Requests;
 using BusinessLogic.Concrete.Branches.IT.Events;
@@ -49,6 +51,7 @@ using Repository.Abstract.Branches.IT.Communication.Requests;
 using Repository.Abstract.Branches.IT.Email.LifeCycles;
 using Repository.Abstract.Branches.IT.Email.Requests;
 using Repository.Abstract.Branches.IT.Equipments;
+using Repository.Abstract.Branches.IT.Equipments.Consumptions;
 using Repository.Abstract.Branches.IT.Equipments.LifeCycles;
 using Repository.Abstract.Branches.IT.Equipments.Requests;
 using Repository.Abstract.Branches.IT.Events;
@@ -69,6 +72,7 @@ using Repository.Concrete.Branches.IT.Communication.Requests;
 using Repository.Concrete.Branches.IT.Email.LifeCycles;
 using Repository.Concrete.Branches.IT.Email.Requests;
 using Repository.Concrete.Branches.IT.Equipments;
+using Repository.Concrete.Branches.IT.Equipments.Consumptions;
 using Repository.Concrete.Branches.IT.Equipments.LifeCycles;
 using Repository.Concrete.Branches.IT.Equipments.Requests;
 using Repository.Concrete.Branches.IT.Events;
@@ -110,6 +114,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<ICategoryRepository>().To<CategoryRepository>();
             kernel.Bind<IComponentRepository>().To<ComponentRepository>();
             kernel.Bind<IConsumableRepository>().To<ConsumableRepository>();
+            kernel.Bind<IConsumableTypeRepository>().To<ConsumableTypeRepository>();
             kernel.Bind<IEquipmentRepository>().To<EquipmentRepository>();
             kernel.Bind<IEquipmentTypeRepository>().To<EquipmentTypeRepository>();
             kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
@@ -138,7 +143,13 @@ namespace WebUI.Infrastructure
 
             AddLifeCyclesRepositoriesBindings();
             AddRequestsRepositoriesBindings();
-            AddAttachmentsRepositoriesBindings();            
+            AddAttachmentsRepositoriesBindings();
+            AddConsumptionRepositoriesBindings();
+        }
+
+        private void AddConsumptionRepositoriesBindings()
+        {
+            kernel.Bind<IEquipmentRefillRequestConsumptionRepository>().To<EquipmentRefillRequestConsumptionRepository>();
         }
 
         private void AddAttachmentsRepositoriesBindings()
@@ -221,6 +232,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<ICategoryLogic>().To<CategoryLogic>();
             kernel.Bind<IComponentLogic>().To<ComponentLogic>();
             kernel.Bind<IConsumableLogic>().To<ConsumableLogic>();
+            kernel.Bind<IConsumableTypeLogic>().To<ConsumableTypeLogic>();
             kernel.Bind<IEquipmentLogic>().To<EquipmentLogic>();
             kernel.Bind<IEquipmentTypeLogic>().To<EquipmentTypeLogic>();
             kernel.Bind<IEmployeeLogic>().To<EmployeeLogic>();
@@ -251,6 +263,12 @@ namespace WebUI.Infrastructure
             AddLifeCyclesLogicBindings();
             AddRequestsLogicBindings();
             AddRequestAttachmentsLogicBindings();
+            AddConsumptionLogicBindings();
+        }
+
+        private void AddConsumptionLogicBindings()
+        {
+            kernel.Bind<IEquipmentRefillRequestConsumptionLogic>().To<EquipmentRefillRequestConsumptionLogic>();
         }
 
         private void AddRequestAttachmentsLogicBindings()

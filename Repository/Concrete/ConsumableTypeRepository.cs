@@ -6,14 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Repository.Concrete
 {
-    /// <summary>
-    /// Класс доступа к хранилищу расходных материалов
-    /// </summary>
-    public class ConsumableRepository : IConsumableRepository
+    public class ConsumableTypeRepository : IConsumableTypeRepository
     {
         // Логгер
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
@@ -25,26 +24,25 @@ namespace Repository.Concrete
         /// Конструктор класса
         /// </summary>
         /// <param name="context">Контекст данных доступа к данным</param>
-        public ConsumableRepository(ServiceDeskContext context)
+        public ConsumableTypeRepository(ServiceDeskContext context)
         {
-            // инициализация контекста данных
             this.context = context;
         }
         /// <summary>
-        /// Метод добавления расходного материала
+        /// Метод добавления типа расходного материала
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
+        /// <param name="type">Тип расходного материала</param>
         /// <returns>Возвращает объект расходного материала</returns>
-        public async Task<Consumable> Add(Consumable consumable)
+        public async Task<ConsumableType> Add(ConsumableType type)
         {
-            log.Debug($"Метод добавления расходного материала");
+            log.Debug($"Метод добавления типа расходного материала");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // добавление записи
-                var inserted = context.Consumables.Add(consumable);
+                var inserted = context.ConsumableTypes.Add(type);
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений
                 await context.SaveChangesAsync();
@@ -62,26 +60,26 @@ namespace Repository.Concrete
             }
         }
         /// <summary>
-        /// Метод удаления расходного материала
+        /// Метод удаления типа расходного материала
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
+        /// <param name="type">Тип расходного материала</param>
         /// <returns></returns>
-        public async Task Delete(Consumable consumable)
+        public async Task Delete(ConsumableType type)
         {
-            log.Debug($"Метод удаления расходного материала");
+            log.Debug($"Метод удаления типа расходного материала");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // поиск удаляемой записи
-                var deleted = await context.Consumables.SingleOrDefaultAsync(a => a.Id == consumable.Id);
+                var deleted = await context.ConsumableTypes.SingleOrDefaultAsync(a => a.Id == type.Id);
                 log.Debug($"Удаляемая запись найдена. Продолжение операции...");
                 // если запись найдена
                 if (deleted != null)
                 {
                     // удаление записи
-                    context.Consumables.Remove(deleted);
+                    context.ConsumableTypes.Remove(deleted);
                     log.Debug($"Сохранение изменений.");
                     // сохранение изменений
                     await context.SaveChangesAsync();
@@ -96,12 +94,12 @@ namespace Repository.Concrete
             }
         }
         /// <summary>
-        /// Метод получения списка расходных материалов
+        /// Метод получения списка типов расходного материала
         /// </summary>
-        /// <returns>Возвращает список расходных материалов</returns>
-        public async Task<List<Consumable>> GetConsumables()
+        /// <returns>Возвращает список типов расходного материала</returns>
+        public async Task<List<ConsumableType>> GetConsumableTypes()
         {
-            log.Debug($"Метод получения списка расходных материалов");
+            log.Debug($"Метод получения списка типов расходных материалов");
             try
             {
                 log.Debug($"Начало выполнения метода.");
@@ -109,7 +107,7 @@ namespace Repository.Concrete
                 watch.Start();
                 log.Debug($"Получение списка...");
                 // получение списка прикрепленных файлов
-                var list = await context.Consumables.ToListAsync();
+                var list = await context.ConsumableTypes.ToListAsync();
                 // остановка таймера
                 watch.Stop();
                 log.Debug($"Операция завершена успешно. Количество элементов списка: {list.Count}. Затрачено времени: {watch.Elapsed}.");
@@ -118,33 +116,31 @@ namespace Repository.Concrete
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка получения списка расходных материалов: {ex.Message}.");
+                log.Error($"Ошибка получения списка типов расходных материалов: {ex.Message}.");
                 return null;
             }
         }
         /// <summary>
-        /// Метод обновления записи расходного материала
+        /// Метод редактирования типа расходного материала
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
-        /// <returns>Возвращает запись расходного материала</returns>
-        public async Task<Consumable> Update(Consumable consumable)
+        /// <param name="type">Тип расходного материала</param>
+        /// <returns>Возвращает объект расходного материала</returns>
+        public async Task<ConsumableType> Update(ConsumableType type)
         {
-            log.Debug($"Метод обновления записи расходного материала");
+            log.Debug($"Метод обновления записи типа расходного материала");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // поиск обновляемой записи
-                var updated = await context.Consumables.SingleOrDefaultAsync(b => b.Id == consumable.Id);
+                var updated = await context.ConsumableTypes.SingleOrDefaultAsync(b => b.Id == type.Id);
                 log.Debug($"Запись для редактирования найдена. Продолжение операции...");
                 // если запись найдена
                 if (updated != null)
                 {
                     // обновляем поля объекта
-                    updated.Name = consumable.Name;
-                    updated.InventoryNumber = consumable.InventoryNumber;
-                    updated.TypeId = consumable.TypeId;
+                    updated.Name = type.Name;
                 }
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений

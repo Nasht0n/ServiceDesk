@@ -73,6 +73,7 @@
     <Compile Include="Abstract\Branches\IT\Communication\LifeCycles\IPhoneLineRepairRequestLifeCycleRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Communication\LifeCycles\IPhoneNumberAllocationRequestLifeCycleRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Communication\LifeCycles\IPhoneRepairRequestLifeCycleRepository.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Consumptions\IEquipmentRefillRequestConsumptionRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Events\ITechnicalSupportEventEquipmentRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Events\ITechnicalSupportEventInfoRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Events\LifeCycles\ITechnicalSupportEventRequestLifeCycleRepository.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Abstract\ICategoryRepository.cs" />
     <Compile Include="Abstract\IComponentRepository.cs" />
     <Compile Include="Abstract\IConsumableRepository.cs" />
+    <Compile Include="Abstract\IConsumableTypeRepository.cs" />
     <Compile Include="Abstract\IEmployeeRepository.cs" />
     <Compile Include="Abstract\IEquipmentRepository.cs" />
     <Compile Include="Abstract\IEquipmentTypeRepository.cs" />
@@ -153,6 +155,7 @@
     <Compile Include="Concrete\Branches\IT\Communication\LifeCycles\PhoneLineRepairRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Communication\LifeCycles\PhoneNumberAllocationRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Communication\LifeCycles\PhoneRepairRequestLifeCycleRepository.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Consumptions\EquipmentRefillRequestConsumptionRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Events\LifeCycles\TechnicalSupportEventRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Events\LifeCycles\VideoCommunicationRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Communication\Requests\HoldingPhoneLineRequestRepository.cs" />
@@ -196,6 +199,7 @@
     <Compile Include="Concrete\CategoryRepository.cs" />
     <Compile Include="Concrete\ComponentRepository.cs" />
     <Compile Include="Concrete\ConsumableRepository.cs" />
+    <Compile Include="Concrete\ConsumableTypeRepository.cs" />
     <Compile Include="Concrete\EmployeeRepository.cs" />
     <Compile Include="Concrete\EquipmentRepository.cs" />
     <Compile Include="Concrete\EquipmentTypeRepository.cs" />

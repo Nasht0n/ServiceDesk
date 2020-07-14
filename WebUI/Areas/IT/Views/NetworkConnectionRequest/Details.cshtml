@@ -70,7 +70,7 @@
                     </li>
                 </ul>
                 <div class="card-body">
-                    <div class="d-flex align-content-start flex-wrap">
+                    <div class="d-flex align-content-start flex-wrap">                       
                         @if (Model.UserPermissions.ApprovalAllowed && Model.RequestModel.StatusId == (int)RequestStatus.Approval && Model.RequestModel.ServiceModel.ApprovalRequired)
                         {
                             <a href="@Url.Action("AgreeRequest","NetworkConnectionRequest",new { Area = "IT", id=Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Согласовать</a>

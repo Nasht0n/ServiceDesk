@@ -50,6 +50,7 @@ namespace Domain
 
         public virtual DbSet<EquipmentRefillRequest> EquipmentRefillRequests { get; set; }
         public virtual DbSet<EquipmentRefillRequestLifeCycle> EquipmentRefillRequestsLifeCycles { get; set; }
+        public virtual DbSet<EquipmentRefillRequestConsumption> EquipmentRefillRequestConsumptions { get; set; }
         public virtual DbSet<RefillEquipments> RefillEquipments { get; set; }
 
         public virtual DbSet<EquipmentRepairRequest> EquipmentRepairRequests { get; set; }
@@ -78,6 +79,7 @@ namespace Domain
         public virtual DbSet<Branch> Branches { get; set; }
         public virtual DbSet<Campus> Campuses { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<ConsumableType> ConsumableTypes { get; set; }
         public virtual DbSet<Consumable> Consumables { get; set; }
         public virtual DbSet<Component> Components { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
