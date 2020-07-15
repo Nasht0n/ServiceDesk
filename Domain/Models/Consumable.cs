@@ -15,8 +15,7 @@ namespace Domain.Models
         /// <summary>
         /// Идентификатор типа расходного материала
         /// </summary>
-        public int TypeId { get; set; }
-        public ConsumableType Type { get; set; }
+        public int TypeId { get; set; }        
         /// <summary>
         /// Наименование расходного материала
         /// </summary>
@@ -28,6 +27,14 @@ namespace Domain.Models
         /// </summary>
         [Required]
         [MaxLength(150)]
-        public string InventoryNumber { get; set; }        
+        public string InventoryNumber { get; set; }
+        /// <summary>
+        /// Идентификатор еденицы измерения
+        /// </summary>
+        [Required]        
+        public int UnitId { get; set; }
+
+        public ConsumableType Type { get; set; }
+        public Unit Unit { get; set; }
     }
 }

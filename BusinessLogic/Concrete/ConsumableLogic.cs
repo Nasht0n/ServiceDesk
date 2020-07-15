@@ -28,5 +28,12 @@ namespace BusinessLogic.Concrete
             if(descendings) return consumables.OrderByDescending(c => c.Name).ToList();
             else return consumables.OrderBy(c => c.Name).ToList();
         }
+
+        public async Task<List<Consumable>> GetConsumables(ConsumableType type, bool descendings = false)
+        {
+            var consumables = await consumableRepository.GetConsumables();
+            if (descendings) return consumables.Where(c=>c.TypeId == type.Id).OrderByDescending(c => c.Name).ToList();
+            else return consumables.Where(c => c.TypeId == type.Id).OrderBy(c => c.Name).ToList();
+        }
     }
 }

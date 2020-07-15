@@ -85,6 +85,10 @@
     <Compile Include="Migrations\202007131316047_ConsumableConsumption.designer.cs">
       <DependentUpon>202007131316047_ConsumableConsumption.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007151322350_Unit.cs" />
+    <Compile Include="Migrations\202007151322350_Unit.designer.cs">
+      <DependentUpon>202007151322350_Unit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -164,6 +168,7 @@
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\Subdivision.cs" />
+    <Compile Include="Models\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceDeskContext.cs" />
     <Compile Include="Views\Requests.cs" />
@@ -201,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007131316047_ConsumableConsumption.resx">
       <DependentUpon>202007131316047_ConsumableConsumption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007151322350_Unit.resx">
+      <DependentUpon>202007151322350_Unit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

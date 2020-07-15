@@ -995,6 +995,7 @@
     <Compile Include="ViewModels\SubdivisionExecutorsModel\SubdivisionExecutorViewModel.cs" />
     <Compile Include="ViewModels\SubdivisionModel\SubdivisionViewModel.cs" />
     <Compile Include="ViewModels\SubdivisionModel\SubdivisionsListViewModel.cs" />
+    <Compile Include="ViewModels\UnitModel\UnitViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

@@ -59,8 +59,7 @@
         var subdivisionsUrl = '@Url.Action("PopulateExecutors", "ExecutorGroup")';
         var subdivisions = $('#SelectedSubdivision');
         var executors = $('#SelectedExecutor');
-        var currentSubdivision = $('#currentExecutorGroup');
-        console.log(currentSubdivision.val());
+        var currentSubdivision = $('#currentExecutorGroup'); 
         $('#SelectedSubdivision').change(function () {
             executors.empty();
             $.getJSON(subdivisionsUrl, { subdivisionId: $(this).val(), currentId: currentSubdivision.val() }, function (data) {

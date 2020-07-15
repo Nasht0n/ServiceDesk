@@ -93,6 +93,7 @@ namespace Domain
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<Subdivision> Subdivisions { get; set; }
+        public virtual DbSet<Unit> Units { get; set; }
         // many to many
         public virtual DbSet<AccountCancellationRequestAttachment> AccountCancellationRequestAttachments { get; set; }
         public virtual DbSet<AccountDisconnectRequestAttachment> AccountDisconnectRequestAttachments { get; set; }

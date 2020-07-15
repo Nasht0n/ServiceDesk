@@ -10,10 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Concrete
 {
-    /// <summary>
-    /// Класс доступа к хранилищу расходных материалов
-    /// </summary>
-    public class ConsumableRepository : IConsumableRepository
+    public class UnitRepository : IUnitRepository
     {
         // Логгер
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
@@ -25,26 +22,25 @@ namespace Repository.Concrete
         /// Конструктор класса
         /// </summary>
         /// <param name="context">Контекст данных доступа к данным</param>
-        public ConsumableRepository(ServiceDeskContext context)
+        public UnitRepository(ServiceDeskContext context)
         {
-            // инициализация контекста данных
             this.context = context;
         }
         /// <summary>
-        /// Метод добавления расходного материала
+        /// Метод добавления еденицы измерения
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
-        /// <returns>Возвращает объект расходного материала</returns>
-        public async Task<Consumable> Add(Consumable consumable)
+        /// <param name="unit">Еденица измерения</param>
+        /// <returns>Возвращает объект еденицы измерения</returns>
+        public async Task<Unit> Add(Unit unit)
         {
-            log.Debug($"Метод добавления расходного материала");
+            log.Debug($"Метод добавления еденицы измерения");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // добавление записи
-                var inserted = context.Consumables.Add(consumable);
+                var inserted = context.Units.Add(unit);
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений
                 await context.SaveChangesAsync();
@@ -57,31 +53,31 @@ namespace Repository.Concrete
             catch (Exception ex)
             {
                 log.Error($"Ошибка добавления записи: {ex.Message}.");
-                // ошибка выполнения метода возвращаем null    
+                // ошибка выполнения метода возвращаем null   
                 return null;
             }
         }
         /// <summary>
-        /// Метод удаления расходного материала
+        /// Метод удаления еденицы измерения
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
+        /// <param name="unit">Еденица измерения</param>
         /// <returns></returns>
-        public async Task Delete(Consumable consumable)
+        public async Task Delete(Unit unit)
         {
-            log.Debug($"Метод удаления расходного материала");
+            log.Debug($"Метод удаления еденицы измерения");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // поиск удаляемой записи
-                var deleted = await context.Consumables.SingleOrDefaultAsync(a => a.Id == consumable.Id);
+                var deleted = await context.Units.SingleOrDefaultAsync(a => a.Id == unit.Id);
                 log.Debug($"Удаляемая запись найдена. Продолжение операции...");
                 // если запись найдена
                 if (deleted != null)
                 {
                     // удаление записи
-                    context.Consumables.Remove(deleted);
+                    context.Units.Remove(deleted);
                     log.Debug($"Сохранение изменений.");
                     // сохранение изменений
                     await context.SaveChangesAsync();
@@ -92,16 +88,16 @@ namespace Repository.Concrete
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка удаления записи области заявки: {ex.Message}.");
+                log.Error($"Ошибка удаления еденицы измерения: {ex.Message}.");
             }
         }
         /// <summary>
-        /// Метод получения списка расходных материалов
+        /// Метод получения списка едениц измерения
         /// </summary>
-        /// <returns>Возвращает список расходных материалов</returns>
-        public async Task<List<Consumable>> GetConsumables()
+        /// <returns>Возвращает список едениц измерения</returns>
+        public async Task<List<Unit>> GetUnits()
         {
-            log.Debug($"Метод получения списка расходных материалов");
+            log.Debug($"Метод получения списка едениц измерения");
             try
             {
                 log.Debug($"Начало выполнения метода.");
@@ -109,7 +105,7 @@ namespace Repository.Concrete
                 watch.Start();
                 log.Debug($"Получение списка...");
                 // получение списка прикрепленных файлов
-                var list = await context.Consumables.ToListAsync();
+                var list = await context.Units.ToListAsync();
                 // остановка таймера
                 watch.Stop();
                 log.Debug($"Операция завершена успешно. Количество элементов списка: {list.Count}. Затрачено времени: {watch.Elapsed}.");
@@ -118,34 +114,32 @@ namespace Repository.Concrete
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка получения списка расходных материалов: {ex.Message}.");
+                log.Error($"Ошибка получения списка едениц измерения: {ex.Message}.");
                 return null;
             }
         }
         /// <summary>
-        /// Метод обновления записи расходного материала
+        /// Метод редактирования еденицы измерения
         /// </summary>
-        /// <param name="consumable">Расходный материал</param>
-        /// <returns>Возвращает запись расходного материала</returns>
-        public async Task<Consumable> Update(Consumable consumable)
+        /// <param name="unit">Еденица измерения</param>
+        /// <returns>Возвращает объект еденицы измерения</returns>
+        public async Task<Unit> Update(Unit unit)
         {
-            log.Debug($"Метод обновления записи расходного материала");
+            log.Debug($"Метод обновления еденицы измерения");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // поиск обновляемой записи
-                var updated = await context.Consumables.SingleOrDefaultAsync(b => b.Id == consumable.Id);
+                var updated = await context.Units.SingleOrDefaultAsync(s => s.Id == unit.Id);
                 log.Debug($"Запись для редактирования найдена. Продолжение операции...");
                 // если запись найдена
                 if (updated != null)
                 {
                     // обновляем поля объекта
-                    updated.Name = consumable.Name;
-                    updated.InventoryNumber = consumable.InventoryNumber;
-                    updated.TypeId = consumable.TypeId;
-                    updated.UnitId = consumable.UnitId;
+                    updated.Fullname = unit.Fullname;
+                    updated.Shortname = unit.Shortname;
                 }
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений
@@ -159,7 +153,7 @@ namespace Repository.Concrete
             catch (Exception ex)
             {
                 log.Error($"Ошибка редактирования записи: {ex.Message}.");
-                // ошибка выполнения метода возвращаем null   
+                // ошибка выполнения метода возвращаем null
                 return null;
             }
         }

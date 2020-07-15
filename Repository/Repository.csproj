@@ -136,6 +136,7 @@
     <Compile Include="Abstract\IStatusRepository.cs" />
     <Compile Include="Abstract\ISubdivisionExecutorsRepository.cs" />
     <Compile Include="Abstract\ISubdivisionRepository.cs" />
+    <Compile Include="Abstract\IUnitRepository.cs" />
     <Compile Include="Concrete\AccountPermissionRepository.cs" />
     <Compile Include="Concrete\AccountRepository.cs" />
     <Compile Include="Concrete\AttachmentRepository.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Concrete\StatusRepository.cs" />
     <Compile Include="Concrete\SubdivisionExecutorsRepository.cs" />
     <Compile Include="Concrete\SubdivisionRepository.cs" />
+    <Compile Include="Concrete\UnitRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

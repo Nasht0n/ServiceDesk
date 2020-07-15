@@ -8,5 +8,6 @@ namespace BusinessLogic.Abstract
     {
         Task<Consumable> GetConsumable(int id);
         Task<List<Consumable>> GetConsumables(bool descendings = false);
+        Task<List<Consumable>> GetConsumables(ConsumableType type,bool descendings = false);
     }
 }

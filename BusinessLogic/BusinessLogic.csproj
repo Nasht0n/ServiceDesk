@@ -119,6 +119,7 @@
     <Compile Include="Abstract\IStatusLogic.cs" />
     <Compile Include="Abstract\ISubdivisionExecutorLogic.cs" />
     <Compile Include="Abstract\ISubdivisionLogic.cs" />
+    <Compile Include="Abstract\IUnitLogic.cs" />
     <Compile Include="Concrete\AccountLogic.cs" />
     <Compile Include="Concrete\AccountPermissionLogic.cs" />
     <Compile Include="Concrete\AttachmentLogic.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Concrete\ServicesExecutorGroupsLogic.cs" />
     <Compile Include="Concrete\StatusLogic.cs" />
     <Compile Include="Concrete\SubdivisionExecutorLogic.cs" />
+    <Compile Include="Concrete\UnitLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Concrete\SubdivisionLogic.cs" />
   </ItemGroup>

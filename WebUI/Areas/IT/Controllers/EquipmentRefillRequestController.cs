@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Abstract;
 using BusinessLogic.Abstract.Branches.IT.Equipments;
+using BusinessLogic.Abstract.Branches.IT.Equipments.Consumption;
 using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using Domain.Models;
@@ -40,12 +41,15 @@ namespace WebUI.Areas.IT.Controllers
         private readonly IEquipmentRefillRequestLifeCycleLogic lifeCycleLogic;
         private readonly IRefillEquipmentsLogic equipmentsLogic;
         private readonly IRefuelingLimitsLogic limitsLogic;
+        private readonly IConsumableTypeLogic consumableTypeLogic;
+        private readonly IConsumableLogic consumableLogic;
+        private readonly IEquipmentRefillRequestConsumptionLogic consumptionLogic;
 
         public EquipmentRefillRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic,
            ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IEquipmentLogic equipmentLogic, IServiceLogic serviceLogic,
            ISubdivisionLogic subdivisionLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IRequestsLogic requestsLogic,
            IEquipmentRefillRequestLogic requestLogic, IEquipmentRefillRequestLifeCycleLogic lifeCycleLogic, IRefillEquipmentsLogic refillEquipmentsLogic, 
-           IRefuelingLimitsLogic limitsLogic)
+           IRefuelingLimitsLogic limitsLogic, IConsumableTypeLogic consumableTypeLogic, IConsumableLogic consumableLogic, IEquipmentRefillRequestConsumptionLogic consumptionLogic)
         {
             this.accountLogic = accountLogic;
             this.employeeLogic = employeeLogic;
@@ -63,6 +67,9 @@ namespace WebUI.Areas.IT.Controllers
             this.lifeCycleLogic = lifeCycleLogic;
             this.equipmentsLogic = refillEquipmentsLogic;
             this.limitsLogic = limitsLogic;
+            this.consumableTypeLogic = consumableTypeLogic;
+            this.consumableLogic = consumableLogic;
+            this.consumptionLogic = consumptionLogic;
         }
         /// <summary>
         /// Метод получения данных информации об авторизованном пользователе в системе.
@@ -120,8 +127,36 @@ namespace WebUI.Areas.IT.Controllers
         {
             var campuses = await campusLogic.GetCampuses();
             var priorities = await priorityLogic.GetPriorities();
+            
             model.Priorities = new SelectList(priorities, "Id", "Fullname");
             model.Campuses = new SelectList(campuses, "Id", "Name");
+            
+        }
+        /// <summary>
+        /// Метод инициализации выпадающих списков
+        /// </summary>
+        /// <param name="model">Модель представления</param>
+        /// <returns></returns>
+        private async Task PopulateDropDownList(EquipmentRefillDetailsRequestViewModel model)
+        {
+            var consumableTypes = await consumableTypeLogic.GetConsumableTypes();
+            var consumables = await consumableLogic.GetConsumables(consumableTypes[0]);
+
+            model.ConsumableTypes = new SelectList(consumableTypes, "Id", "Name");
+            model.Consumables = new SelectList(consumables, "Id", "Name");
+        }
+        /// <summary>
+        /// Метод инициализации списка расходных материалов
+        /// </summary>
+        /// <param name="subdivisionId"></param>
+        /// <param name="currentId"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> PopulateConsumables(int consumableTypeId, int currentId)
+        {
+            var consumableType = await consumableTypeLogic.GetConsumableType(consumableTypeId);
+            var consumbable = await consumableLogic.GetConsumables(consumableType);            
+            var result = consumbable.Select(c => new { Value = c.Id, Text = $"{c.Name}(Инв.№ {c.InventoryNumber})" });
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// Метод инициализации заявки
@@ -238,6 +273,8 @@ namespace WebUI.Areas.IT.Controllers
             model.Requests = ModelFromData.GetViewModel(requests);
             // Инициализация бокового меню
             await MenuInformation(model);
+            // инициализация выпадающего списка представления
+            await PopulateDropDownList(model);
             // поиск заявки по идентификатору
             var request = await requestLogic.GetRequest(id);
             // получение вида заявки
