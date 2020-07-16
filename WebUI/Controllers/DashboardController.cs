@@ -1,10 +1,15 @@
 ﻿using BusinessLogic.Abstract;
+using BusinessLogic.Abstract.Branches.IT.Equipments.Consumption;
 using Domain.Models;
+using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using WebUI.Models;
 using WebUI.ViewModels;
 using WebUI.ViewModels.BranchModel;
@@ -29,10 +34,12 @@ namespace WebUI.Controllers
         private readonly IRequestsLogic requestsLogic;
         private readonly IStatusLogic statusLogic;
         private readonly IExecutorGroupLogic executorGroupLogic;
+        private readonly IEquipmentRefillRequestConsumptionLogic equipmentRefillRequestConsumptionLogic;
 
         public DashboardController(IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
-            IRequestsLogic requestsLogic, IStatusLogic statusLogic, IExecutorGroupLogic executorGroupLogic)
+            IRequestsLogic requestsLogic, IStatusLogic statusLogic, IExecutorGroupLogic executorGroupLogic,
+            IEquipmentRefillRequestConsumptionLogic equipmentRefillRequestConsumptionLogic)
         {
             this.accountLogic = accountLogic;
             this.accountPermissionLogic = accountPermissionLogic;
@@ -43,6 +50,7 @@ namespace WebUI.Controllers
             this.requestsLogic = requestsLogic;
             this.statusLogic = statusLogic;
             this.executorGroupLogic = executorGroupLogic;
+            this.equipmentRefillRequestConsumptionLogic = equipmentRefillRequestConsumptionLogic;
         }
         /// <summary>
         /// Метод получения данных информации об авторизованном пользователе в системе.
@@ -327,6 +335,30 @@ namespace WebUI.Controllers
             }
             
             return View();
+        }
+        
+        public async Task<ActionResult> DownloadConsumptionReport()
+        {            
+            string contentType =  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "Входящая корреспонденция.xlsx";
+            string path = Server.MapPath("~/Files/Templates/") + fileName;
+            string type = MimeTypes.GetMimeType(fileName);
+            var requests = await requestsLogic.GetRequests();
+
+            try
+            {
+                var workbook = ReportManager.CreateConsumptionReport(path, requests);
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, type, fileName);
+                }
+            }
+            catch (Exception)
+            {                   
+                throw;
+            }
         }
     }
 }
