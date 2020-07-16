@@ -89,6 +89,10 @@
     <Compile Include="Migrations\202007151322350_Unit.designer.cs">
       <DependentUpon>202007151322350_Unit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007160606293_RemoveUnitConsumption.cs" />
+    <Compile Include="Migrations\202007160606293_RemoveUnitConsumption.designer.cs">
+      <DependentUpon>202007160606293_RemoveUnitConsumption.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -209,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007151322350_Unit.resx">
       <DependentUpon>202007151322350_Unit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007160606293_RemoveUnitConsumption.resx">
+      <DependentUpon>202007160606293_RemoveUnitConsumption.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

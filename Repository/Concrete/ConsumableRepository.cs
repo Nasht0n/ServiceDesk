@@ -109,7 +109,10 @@ namespace Repository.Concrete
                 watch.Start();
                 log.Debug($"Получение списка...");
                 // получение списка прикрепленных файлов
-                var list = await context.Consumables.ToListAsync();
+                var list = await context.Consumables
+                    .Include(c=>c.Type)
+                    .Include(c=>c.Unit)
+                    .ToListAsync();
                 // остановка таймера
                 watch.Stop();
                 log.Debug($"Операция завершена успешно. Количество элементов списка: {list.Count}. Затрачено времени: {watch.Elapsed}.");

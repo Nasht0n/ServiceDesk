@@ -151,12 +151,18 @@ namespace WebUI.Areas.IT.Controllers
         /// <param name="subdivisionId"></param>
         /// <param name="currentId"></param>
         /// <returns></returns>
-        public async Task<JsonResult> PopulateConsumables(int consumableTypeId, int currentId)
+        public async Task<JsonResult> PopulateConsumables(int typeId)
         {
-            var consumableType = await consumableTypeLogic.GetConsumableType(consumableTypeId);
-            var consumbable = await consumableLogic.GetConsumables(consumableType);            
-            var result = consumbable.Select(c => new { Value = c.Id, Text = $"{c.Name}(Инв.№ {c.InventoryNumber})" });
+            var consumableType = await consumableTypeLogic.GetConsumableType(typeId);
+            var consumables = await consumableLogic.GetConsumables(consumableType);
+            var result = consumables.Select(c => new { Value = c.Id, Text = $"{c.InventoryNumber} —— { c.Name}" });
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<ActionResult> AddConsumption(EquipmentRefillDetailsRequestViewModel model)
+        {
+            await consumptionLogic.Save(new EquipmentRefillRequestConsumption { RequestId = model.RequestModel.Id, ConsumableId = model.SelectedConsumable.Value, Count = model.ConsumptionModel.Count });            
+            return RedirectToAction("Details", "EquipmentRefillRequest", new { id = model.RequestModel.Id });
         }
         /// <summary>
         /// Метод инициализации заявки
@@ -281,8 +287,10 @@ namespace WebUI.Areas.IT.Controllers
             var service = await serviceLogic.GetService(request.ServiceId);
             // получение списка жизненного цикла заявки
             var lifeCycles = await lifeCycleLogic.GetLifeCycles(request);
+
+            var consumptions = await consumptionLogic.GetConsumptions(request);
             // инициализация модели представления
-            model = ModelFromData.GetViewModel(model, request, user, lifeCycles);
+            model = ModelFromData.GetViewModel(model, request, user, lifeCycles, consumptions);
             // проверка: прошла ли заявка полное согласование (при множественном согласовании)
             model.AllApproval = IsApproval(service, lifeCycles);
             // отображаем информацию о заправке
@@ -295,6 +303,17 @@ namespace WebUI.Areas.IT.Controllers
             // отображаем представление 
             return View(model);
         }
+
+        public async Task<ActionResult> RemoveConsumption(int id)
+        {
+            var consumption = await consumptionLogic.GetConsumption(id);
+            if (consumption != null)
+            {
+                await consumptionLogic.Delete(consumption);
+            }
+            return RedirectToAction("Details", "EquipmentRefillRequest", new { id = consumption.RequestId });
+        }
+
         /// <summary>
         /// Метод проверки заявки на полное согласование (множественное)
         /// </summary>
@@ -303,6 +322,8 @@ namespace WebUI.Areas.IT.Controllers
         /// <returns>Возвращает true — если заявка согласована, иначе false</returns>
         private bool IsApproval(Service service, List<EquipmentRefillRequestLifeCycle> lifeCycles)
         {
+            
+            
             // флаг согласования
             bool allApproval = true;
             // если вид заявки требует согласования нескольких лиц

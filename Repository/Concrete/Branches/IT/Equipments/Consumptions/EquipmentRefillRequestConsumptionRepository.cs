@@ -108,6 +108,8 @@ namespace Repository.Concrete.Branches.IT.Equipments.Consumptions
                 var list = await context.EquipmentRefillRequestConsumptions
                     .Include(a => a.Request)
                     .Include(a => a.Consumable)
+                    .Include(a => a.Consumable.Unit)
+                    .Include(a => a.Consumable.Type)
                     .ToListAsync();
                 // остановка таймера
                 watch.Stop();
@@ -144,7 +146,6 @@ namespace Repository.Concrete.Branches.IT.Equipments.Consumptions
                     updated.RequestId = consumption.RequestId;
                     updated.ConsumableId = consumption.ConsumableId;
                     updated.Count = consumption.Count;
-                    updated.Unit = consumption.Unit;
                 }
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений

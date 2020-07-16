@@ -8,16 +8,16 @@
     {
     <script>
         var url = '@Url.Action("PopulateConsumables", "EquipmentRefillRequest")';
-        var subdivisions = $('#SelectedSubdivision');
-        var executors = $('#SelectedExecutor');
-        var currentSubdivision = $('#currentExecutorGroup');
-        $('#SelectedSubdivision').change(function () {
-            executors.empty();
-            $.getJSON(url, { subdivisionId: $(this).val(), currentId: currentSubdivision.val() }, function (data) {
+        var ddConsumableType = $('#SelectedConsumableType');
+        var ddConsumable = $('#SelectedConsumable');
+
+        ddConsumableType.change(function () {
+            ddConsumable.empty();
+            $.getJSON(url, { typeId: $(this).val() }, function (data) {
                 if (!data) { return; }
-                executors.append($('<option></option>').val('').text('Выберите сотрудника'));
+                ddConsumable.append($('<option></option>').val('').text('Выберите расходный материал'));
                 $.each(data, function (index, item) {
-                    executors.append($('<option></option>').val(item.Value).text(item.Text));
+                    ddConsumable.append($('<option></option>').val(item.Value).text(item.Text));
                 });
             });
         })
@@ -112,7 +112,7 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                         }
-                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.InWork)
+                        else if (Model.UserPermissions.GetInWorkRequest && Model.RequestModel.StatusId == (int)RequestStatus.InWork && Model.ConsumptionsListModel.Count != 0)
                         {
                             <a href="@Url.Action("DoneWork", "EquipmentRefillRequest", new { Area = "IT", id = Model.RequestModel.Id })" class="btn btn-success flex-grow-1 mr-1 mb-1">Выполнена</a>
                         }
@@ -147,12 +147,43 @@
                             @if (Model.ConsumptionsListModel.Count == 0)
                             {
                                 <div class="row">
-                                    Нет информации о затраченном материале
+                                    <p class="ml-3">Нет информации о затраченном материале</p>
                                 </div>
                             }
                             else
                             {
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td>Инв. №</td>
+                                            <td>Наименование</td>
+                                            <td>Количество</td>
+                                            @if (Model.RequestModel.StatusId == (int)RequestStatus.InWork)
+                                            {
+                                                <td></td>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ConsumptionsListModel)
+                                        {
+                                            <tr>
+                                                <td>@item.ConsumableModel.InventoryNumber</td>
+                                                <td>@item.ConsumableModel.Name</td>
+                                                <td>@item.Count @item.ConsumableModel.UnitModel.Shortname</td>
 
+                                                @if (Model.RequestModel.StatusId == (int)RequestStatus.InWork)
+                                                {
+                                                    <td>
+                                                        <a href="@Url.Action("RemoveConsumption","EquipmentRefillRequest",new { id = item.Id })">
+                                                            <i class="fa fa-trash text-danger"></i>
+                                                        </a>
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             }
                         </div>
                     </div>
@@ -168,23 +199,24 @@
                         </div>
                         @using (Html.BeginForm("AddConsumption", "EquipmentRefillRequest", FormMethod.Post))
                         {
-                    <div class="modal-body">
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.SelectedConsumableType, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.DropDownListFor(model => model.SelectedConsumableType, Model.ConsumableTypes, "Выберите тип расходного материала", new { @class = "form-control" })
-                        </div>
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.SelectedConsumable, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.DropDownListFor(model => model.SelectedConsumable, Model.Consumables, "Выберите расходный материал", new { @class = "form-control" })
-                        </div>
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.ConsumptionModel.Count, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.ConsumptionModel.Count, new { htmlAttributes = new { @class = "form-control", @placeholder = "Введите количество материала", @autocomplete = "off" } })
-                            @Html.ValidationMessageFor(model => model.ConsumptionModel.Count, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            @Html.HiddenFor(model => model.RequestModel.Id)
+                            <div class="modal-body">
+                                <div class="row m-3">
+                                    @Html.LabelFor(model => model.SelectedConsumableType, htmlAttributes: new { @class = "control-label text-dark" })
+                                    @Html.DropDownListFor(model => model.SelectedConsumableType, Model.ConsumableTypes, "Выберите тип расходного материала", new { @class = "form-control" })
+                                </div>
+                                <div class="row m-3">
+                                    @Html.LabelFor(model => model.SelectedConsumable, htmlAttributes: new { @class = "control-label text-dark" })
+                                    @Html.DropDownListFor(model => model.SelectedConsumable, Model.Consumables, "Выберите расходный материал", new { @class = "form-control" })
+                                </div>
+                                <div class="row m-3">
+                                    @Html.LabelFor(model => model.ConsumptionModel.Count, htmlAttributes: new { @class = "control-label text-dark" })
+                                    @Html.EditorFor(model => model.ConsumptionModel.Count, new { htmlAttributes = new { @class = "form-control", @placeholder = "Введите количество материала", @autocomplete = "off" } })
+                                    @Html.ValidationMessageFor(model => model.ConsumptionModel.Count, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Закрыть</button>
                                 <button type="submit" class="btn btn-primary">Добавить</button>
                             </div>
                         }
@@ -208,7 +240,7 @@
                         <div class="list-group p-1">
                             @foreach (var lifeCycle in Model.LifeCyclesListModel)
                             {
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start bg-white text-dark">
+                                <a class="list-group-item list-group-item-action flex-column align-items-start bg-white text-dark">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h5 class="mb-1">@lifeCycle.Message</h5>
                                         <small>@lifeCycle.Date.ToString()</small>

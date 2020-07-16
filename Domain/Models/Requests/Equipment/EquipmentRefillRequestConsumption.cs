@@ -21,10 +21,6 @@
         /// Количество
         /// </summary>
         public int Count { get; set; }
-        /// <summary>
-        /// Еденица измерения
-        /// </summary>
-        public string Unit { get; set; }
 
         public EquipmentRefillRequest Request { get; set; }
         public Consumable Consumable { get; set; }

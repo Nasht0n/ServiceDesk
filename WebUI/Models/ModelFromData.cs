@@ -20,6 +20,8 @@ using WebUI.ViewModels.CampusModel;
 using WebUI.ViewModels.CategoryModel;
 using WebUI.ViewModels.ComponentModel;
 using WebUI.ViewModels.ConsumableModel;
+using WebUI.ViewModels.ConsumableTypeModel;
+using WebUI.ViewModels.Consumption.IT.Equipments;
 using WebUI.ViewModels.EmployeeModel;
 using WebUI.ViewModels.EquipmentModel;
 using WebUI.ViewModels.EquipmentTypeModel;
@@ -48,6 +50,7 @@ using WebUI.ViewModels.ServicesExecutorGroupsModel;
 using WebUI.ViewModels.StatusModel;
 using WebUI.ViewModels.SubdivisionExecutorsModel;
 using WebUI.ViewModels.SubdivisionModel;
+using WebUI.ViewModels.UnitModel;
 
 namespace WebUI.Models
 {
@@ -1939,7 +1942,7 @@ namespace WebUI.Models
             return model;
         }
 
-        public static EquipmentRefillDetailsRequestViewModel GetViewModel(EquipmentRefillDetailsRequestViewModel model, EquipmentRefillRequest request, Employee user, List<EquipmentRefillRequestLifeCycle> lifeCycles)
+        public static EquipmentRefillDetailsRequestViewModel GetViewModel(EquipmentRefillDetailsRequestViewModel model, EquipmentRefillRequest request, Employee user, List<EquipmentRefillRequestLifeCycle> lifeCycles, List<EquipmentRefillRequestConsumption> consumptions)
         {
             model.RequestModel = new EquipmentRefillRequestViewModel
             {
@@ -1991,6 +1994,19 @@ namespace WebUI.Models
                     RequestId = record.RequestId
                 });
             }
+
+            model.ConsumptionsListModel = new List<EquipmentRefillRequestConsumptionViewModel>();
+            foreach(var record in consumptions)
+            {
+                model.ConsumptionsListModel.Add(new EquipmentRefillRequestConsumptionViewModel { 
+                    Id = record.Id,
+                    RequestId = record.RequestId,
+                    ConsumableId = record.ConsumableId,
+                    ConsumableModel = GetViewModel(record.Consumable),
+                    Count = record.Count
+                });
+            }
+
             model.IsApprovers = (user.ApprovalServices != null && user.ApprovalServices.Count > 0) ? true : false;
             model.IsExecutor = request.ExecutorId.HasValue && user.Id == request.ExecutorId ? true : false;
             model.IsClient = request.ClientId == user.Id ? true : false;
@@ -2658,8 +2674,23 @@ namespace WebUI.Models
             return new ConsumableViewModel
             {
                 Id = consumable.Id,
-                Name = consumable.Name
+                Name = consumable.Name,
+                InventoryNumber = consumable.InventoryNumber,
+                TypeId = consumable.TypeId,
+                ConsumableTypeModel = GetViewModel(consumable.Type),
+                UnitId = consumable.UnitId,
+                UnitModel = GetViewModel(consumable.Unit)
             };
+        }
+
+        private static UnitViewModel GetViewModel(Unit unit)
+        {
+            return new UnitViewModel { Id = unit.Id, Fullname = unit.Fullname, Shortname = unit.Shortname };
+        }
+
+        private static ConsumableTypeViewModel GetViewModel(ConsumableType type)
+        {
+            return new ConsumableTypeViewModel { Id = type.Id, Name = type.Name };
         }
 
         public static ConsumablesListViewModel GetListViewModel(List<Consumable> consumables, string search, int page, int pageSize)
