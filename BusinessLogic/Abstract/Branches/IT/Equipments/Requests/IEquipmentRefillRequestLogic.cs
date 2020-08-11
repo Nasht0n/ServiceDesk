@@ -10,6 +10,7 @@ namespace BusinessLogic.Abstract.Branches.IT.Equipments.Requests
         Task<EquipmentRefillRequest> Save(EquipmentRefillRequest request);
         Task Delete(EquipmentRefillRequest request);
         Task<EquipmentRefillRequest> GetRequest(int id);
+        Task<List<EquipmentRefillRequest>> GetRequests(bool descendings = false);
         Task<List<EquipmentRefillRequest>> GetRequests(Subdivision subdivision, bool descendings = false);
     }
 }

@@ -35,6 +35,13 @@ namespace BusinessLogic.Concrete.Branches.IT.Equipments.Requests
             else return requests.Where(r => r.SubdivisionId == subdivision.Id).OrderBy(r => r.Id).ToList();
         }
 
+        public async Task<List<EquipmentRefillRequest>> GetRequests(bool descendings = false)
+        {
+            var requests = await requestRepository.GetRequests();
+            if (descendings) return requests.OrderByDescending(r => r.Id).ToList();
+            else return requests.OrderBy(r => r.Id).ToList();
+        }
+
         public async Task<EquipmentRefillRequest> Save(EquipmentRefillRequest request)
         {
             EquipmentRefillRequest result;

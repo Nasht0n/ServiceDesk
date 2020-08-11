@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Views
 {
-    [Table("dbo.RequestsView")]
+    [Table("dbo.RequestsView")]    
     public class Requests
     {
         [Key]
