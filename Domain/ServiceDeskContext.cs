@@ -88,6 +88,10 @@ namespace Domain
         public virtual DbSet<ExecutorGroup> ExecutorGroups { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Priority> Priorities { get; set; }
+
+        public virtual DbSet<RefillRequestConsumption> RefillRequestConsumptions { get; set; }
+        public virtual DbSet<RefillRequestJournal> RefillRequestJournals { get; set; }
+
         public virtual DbSet<RefuelingLimits> RefuelingLimits { get; set; }
         public virtual DbSet<Requests> Requests { get; set; }
         public virtual DbSet<Service> Services { get; set; }

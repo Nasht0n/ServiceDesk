@@ -36,15 +36,13 @@ namespace WebUI.Controllers
         private readonly IRequestsLogic requestsLogic;
         private readonly IStatusLogic statusLogic;
         private readonly IExecutorGroupLogic executorGroupLogic;
-        private readonly IEquipmentRefillRequestConsumptionLogic equipmentRefillRequestConsumptionLogic;
-        private readonly IEquipmentRefillRequestLogic refillRequestLogic;
-        private readonly IEquipmentRefillRequestLifeCycleLogic lifeCycleLogic;
+        private readonly IRefillRequestJournalLogic refillJournalLogic;
 
         public DashboardController(IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
             IRequestsLogic requestsLogic, IStatusLogic statusLogic, IExecutorGroupLogic executorGroupLogic,
             IEquipmentRefillRequestConsumptionLogic equipmentRefillRequestConsumptionLogic, 
-            IEquipmentRefillRequestLogic refillRequestLogic, IEquipmentRefillRequestLifeCycleLogic lifeCycleLogic)
+            IRefillRequestJournalLogic refillJournalLogic)
         {
             this.accountLogic = accountLogic;
             this.accountPermissionLogic = accountPermissionLogic;
@@ -55,9 +53,7 @@ namespace WebUI.Controllers
             this.requestsLogic = requestsLogic;
             this.statusLogic = statusLogic;
             this.executorGroupLogic = executorGroupLogic;
-            this.equipmentRefillRequestConsumptionLogic = equipmentRefillRequestConsumptionLogic;
-            this.refillRequestLogic = refillRequestLogic;
-            this.lifeCycleLogic = lifeCycleLogic;
+            this.refillJournalLogic = refillJournalLogic;
         }
         /// <summary>
         /// Метод получения данных информации об авторизованном пользователе в системе.
@@ -344,20 +340,15 @@ namespace WebUI.Controllers
             return View();
         }
         
-        public async Task<ActionResult> DownloadConsumptionReport()
+        public async Task<ActionResult> DownloadJournalReport()
         {            
             string fileName = "Входящая корреспонденция.xlsx";
             string path = Server.MapPath("~/Files/Templates/") + fileName;
             string type = MimeTypes.GetMimeType(fileName);
-            var requests = await requestsLogic.GetRequests();
-
-            var refillRequests = await refillRequestLogic.GetRequests();
-            
-
-
+            var journal = await refillJournalLogic.GetJournal();          
             try
             {
-                var workbook = ReportManager.CreateConsumptionReport(path, requests);
+                var workbook = ReportManager.CreateConsumptionReport(path, journal);
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);

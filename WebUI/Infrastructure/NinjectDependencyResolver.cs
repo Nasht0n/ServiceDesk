@@ -135,6 +135,8 @@ namespace WebUI.Infrastructure
             kernel.Bind<IReplaceComponentsRepository>().To<ReplaceComponentsRepository>();
             kernel.Bind<IReplaceEquipmentsRepository>().To<ReplaceEquipmentsRepository>();
             kernel.Bind<IConnectionEquipmentsRepository>().To<ConnectionEquipmentsRepository>();
+            kernel.Bind<IRefillRequestConsumptionRepository>().To<RefillRequestConsumptionRepository>();
+            kernel.Bind<IRefillRequestJournalRepository>().To<RefillRequestJournalRepository>();
             kernel.Bind<IRequestRepository>().To<RequestRepository>();
             kernel.Bind<IRefuelingLimitRepository>().To<RefuelingLimitRepository>();
             kernel.Bind<IAttachmentRepository>().To<AttachmentRepository>();
@@ -246,6 +248,10 @@ namespace WebUI.Infrastructure
             kernel.Bind<ISubdivisionLogic>().To<SubdivisionLogic>();
             kernel.Bind<IPriorityLogic>().To<PriorityLogic>();
             kernel.Bind<IStatusLogic>().To<StatusLogic>();
+
+            kernel.Bind<IRefillRequestConsumptionLogic>().To<RefillRequestConsumptionLogic>();
+            kernel.Bind<IRefillRequestJournalLogic>().To<RefillRequestJournalLogic>();
+
             kernel.Bind<IRequestsLogic>().To<RequestsLogic>();
             kernel.Bind<IRefuelingLimitsLogic>().To<RefuelingLimitsLogic>();
             kernel.Bind<IAttachmentLogic>().To<AttachmentLogic>();

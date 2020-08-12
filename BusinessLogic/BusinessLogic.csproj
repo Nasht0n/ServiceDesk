@@ -111,6 +111,8 @@
     <Compile Include="Abstract\IExecutorGroupLogic.cs" />
     <Compile Include="Abstract\IExecutorGroupMemberLogic.cs" />
     <Compile Include="Abstract\IPriorityLogic.cs" />
+    <Compile Include="Abstract\IRefillRequestConsumptionLogic.cs" />
+    <Compile Include="Abstract\IRefillRequestJournalLogic.cs" />
     <Compile Include="Abstract\IRefuelingLimitsLogic.cs" />
     <Compile Include="Abstract\IRequestsLogic.cs" />
     <Compile Include="Abstract\IServiceLogic.cs" />
@@ -190,6 +192,8 @@
     <Compile Include="Concrete\ExecutorGroupLogic.cs" />
     <Compile Include="Concrete\ExecutorGroupMemberLogic.cs" />
     <Compile Include="Concrete\PriorityLogic.cs" />
+    <Compile Include="Concrete\RefillRequestConsumptionLogic.cs" />
+    <Compile Include="Concrete\RefillRequestJournalLogic.cs" />
     <Compile Include="Concrete\RefuelingLimitsLogic.cs" />
     <Compile Include="Concrete\RequestsLogic.cs" />
     <Compile Include="Concrete\ServiceLogic.cs" />

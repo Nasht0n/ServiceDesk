@@ -93,6 +93,18 @@
     <Compile Include="Migrations\202007160606293_RemoveUnitConsumption.designer.cs">
       <DependentUpon>202007160606293_RemoveUnitConsumption.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008110658243_AddRefillRequestView.cs" />
+    <Compile Include="Migrations\202008110658243_AddRefillRequestView.designer.cs">
+      <DependentUpon>202008110658243_AddRefillRequestView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008110732371_RefillRequestViewChangeRowIndex.cs" />
+    <Compile Include="Migrations\202008110732371_RefillRequestViewChangeRowIndex.designer.cs">
+      <DependentUpon>202008110732371_RefillRequestViewChangeRowIndex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008110735426_LongViewIndex.cs" />
+    <Compile Include="Migrations\202008110735426_LongViewIndex.designer.cs">
+      <DependentUpon>202008110735426_LongViewIndex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -218,6 +230,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007160606293_RemoveUnitConsumption.resx">
       <DependentUpon>202007160606293_RemoveUnitConsumption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008110658243_AddRefillRequestView.resx">
+      <DependentUpon>202008110658243_AddRefillRequestView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008110732371_RefillRequestViewChangeRowIndex.resx">
+      <DependentUpon>202008110732371_RefillRequestViewChangeRowIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008110735426_LongViewIndex.resx">
+      <DependentUpon>202008110735426_LongViewIndex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
