@@ -36,7 +36,6 @@ namespace WebUI.ViewModels
                 return Requests.Where(r => r.ClientId == CurrentUser.Id).Count();
             }
         }
-
         // Количество заявок в работе
         public int CountOpenRequest
         {

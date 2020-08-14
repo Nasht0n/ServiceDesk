@@ -1,7 +1,5 @@
 ﻿using BusinessLogic.Abstract;
 using BusinessLogic.Abstract.Branches.IT.Equipments.Consumption;
-using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
-using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using Domain.Models;
 using MimeKit;
 using System;
@@ -9,9 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Services.Description;
 using WebUI.Models;
 using WebUI.ViewModels;
 using WebUI.ViewModels.BranchModel;
@@ -37,12 +33,12 @@ namespace WebUI.Controllers
         private readonly IStatusLogic statusLogic;
         private readonly IExecutorGroupLogic executorGroupLogic;
         private readonly IRefillRequestJournalLogic refillJournalLogic;
+        private readonly IRefillRequestConsumptionLogic consumptionLogic;
 
         public DashboardController(IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
             IRequestsLogic requestsLogic, IStatusLogic statusLogic, IExecutorGroupLogic executorGroupLogic,
-            IEquipmentRefillRequestConsumptionLogic equipmentRefillRequestConsumptionLogic, 
-            IRefillRequestJournalLogic refillJournalLogic)
+            IRefillRequestJournalLogic refillJournalLogic, IRefillRequestConsumptionLogic consumptionLogic)
         {
             this.accountLogic = accountLogic;
             this.accountPermissionLogic = accountPermissionLogic;
@@ -54,6 +50,7 @@ namespace WebUI.Controllers
             this.statusLogic = statusLogic;
             this.executorGroupLogic = executorGroupLogic;
             this.refillJournalLogic = refillJournalLogic;
+            this.consumptionLogic = consumptionLogic;
         }
         /// <summary>
         /// Метод получения данных информации об авторизованном пользователе в системе.
@@ -105,6 +102,8 @@ namespace WebUI.Controllers
                 info.CategoryModel = ModelFromData.GetViewModel(category);
                 model.MenuInformation.CategoryStats.CategoryInfos.Add(info);
             }
+            model.StartPeriodDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            model.EndPeriodDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
         }
         /// <summary>
         /// Метод отображения главной страницы рабочего стола
@@ -339,16 +338,20 @@ namespace WebUI.Controllers
             
             return View();
         }
-        
-        public async Task<ActionResult> DownloadJournalReport()
-        {            
+        [HttpPost]
+        public async Task<ActionResult> DownloadJournalReport(DashboardViewModel model)
+        {
             string fileName = "Входящая корреспонденция.xlsx";
             string path = Server.MapPath("~/Files/Templates/") + fileName;
             string type = MimeTypes.GetMimeType(fileName);
-            var journal = await refillJournalLogic.GetJournal();          
+
+            var startDate = model.StartPeriodDate;
+            var endDate = model.EndPeriodDate;
+
+            var journal = await refillJournalLogic.GetJournal(startDate, endDate);                
             try
             {
-                var workbook = ReportManager.CreateConsumptionReport(path, journal);
+                var workbook = ReportManager.CreateConsumptionReport(path, journal, startDate, endDate);
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);

@@ -37,9 +37,9 @@
             </a>
             <ul class="collapse list-unstyled bg-light" id="RefillDocuments">
                 <li>
-                    <a class="list-group-item list-group-item-action" href="@Url.Action("DownloadJournalReport", "Dashboard", new { Area = "" })">
+                    <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#refillJournalModal">
                         Входящая корреспонденция
-                    </a>
+                    </button>
                 </li>
                 <li>
                     <a class="list-group-item list-group-item-action" href="#">
@@ -49,4 +49,35 @@
             </ul>
         </li>
     </ul>
+    <!-- Modal -->
+    <div class="modal fade" id="refillJournalModal" tabindex="-1" role="dialog" aria-labelledby="refillJournalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="refillJournalModalLabel">Формирование отчета</h5>
+                </div>
+
+                @using (Html.BeginForm("DownloadJournalReport", "Dashboard", FormMethod.Post))
+                {
+                    <div class="modal-body">
+                        <div class="row m-3">
+                            @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                            @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        <div class="row m-3">
+                            @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                            @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сформировать</button>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
 </div>
+
+

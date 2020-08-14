@@ -1,5 +1,7 @@
 ﻿using Domain.Models.ManyToMany;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using WebUI.Models.Enum;
 using WebUI.ViewModels.AccountModel;
@@ -20,9 +22,22 @@ namespace WebUI.ViewModels
         // Права доступа пользователя
         public UserPermissions UserPermissions { get; set; }
         // Список всех заявок
-        public List<RequestViewModel> Requests { get; set; }
+        public List<RequestViewModel> Requests { get; set; } = new List<RequestViewModel>();
         // Всплывающее меню
         public MenuStats MenuInformation { get; set; }
+
+        // Период времения (для формирования отчётов)
+        [Required]
+        [Display(Name = "Стартовая дата периода")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public DateTime StartPeriodDate { get; set; }
+        [Required]
+        [Display(Name = "Конец периода")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public DateTime EndPeriodDate { get; set; }
+
     }
     // Права доступа пользователя
     public class UserPermissions
