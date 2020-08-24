@@ -49,7 +49,8 @@ namespace WebUI.Areas.IT.Controllers
            ICampusLogic campusLogic, IPriorityLogic priorityLogic, IEquipmentTypeLogic equipmentTypeLogic, IEquipmentLogic equipmentLogic, IServiceLogic serviceLogic,
            ISubdivisionLogic subdivisionLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IRequestsLogic requestsLogic,
            IEquipmentRefillRequestLogic requestLogic, IEquipmentRefillRequestLifeCycleLogic lifeCycleLogic, IRefillEquipmentsLogic refillEquipmentsLogic, 
-           IRefuelingLimitsLogic limitsLogic, IConsumableTypeLogic consumableTypeLogic, IConsumableLogic consumableLogic, IEquipmentRefillRequestConsumptionLogic consumptionLogic)
+           IRefuelingLimitsLogic limitsLogic, IConsumableTypeLogic consumableTypeLogic, IConsumableLogic consumableLogic, 
+           IEquipmentRefillRequestConsumptionLogic consumptionLogic)
         {
             this.accountLogic = accountLogic;
             this.employeeLogic = employeeLogic;
@@ -313,7 +314,6 @@ namespace WebUI.Areas.IT.Controllers
             }
             return RedirectToAction("Details", "EquipmentRefillRequest", new { id = consumption.RequestId });
         }
-
         /// <summary>
         /// Метод проверки заявки на полное согласование (множественное)
         /// </summary>
@@ -662,6 +662,7 @@ namespace WebUI.Areas.IT.Controllers
         /// </summary>
         /// <param name="id">Идентификатор заявки</param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<ActionResult> AddMessage(int id, EquipmentRefillDetailsRequestViewModel model)
         {
             // получение данных об авторизованном сотруднике

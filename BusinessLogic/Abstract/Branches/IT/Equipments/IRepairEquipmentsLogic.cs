@@ -6,5 +6,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Equipments
     public interface IRepairEquipmentsLogic
     {
         Task<RepairEquipments> Add(RepairEquipments repair);
+        Task DeleteEntry(EquipmentRepairRequest request);
     }
 }

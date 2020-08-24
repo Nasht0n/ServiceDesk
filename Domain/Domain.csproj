@@ -105,6 +105,18 @@
     <Compile Include="Migrations\202008110735426_LongViewIndex.designer.cs">
       <DependentUpon>202008110735426_LongViewIndex.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008170627046_UpdateConsumptionRefillRequestView.cs" />
+    <Compile Include="Migrations\202008170627046_UpdateConsumptionRefillRequestView.designer.cs">
+      <DependentUpon>202008170627046_UpdateConsumptionRefillRequestView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008240630201_SomeChangesDb.cs" />
+    <Compile Include="Migrations\202008240630201_SomeChangesDb.designer.cs">
+      <DependentUpon>202008240630201_SomeChangesDb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008240650493_DeleteInventoryFieldRepairRequest.cs" />
+    <Compile Include="Migrations\202008240650493_DeleteInventoryFieldRepairRequest.designer.cs">
+      <DependentUpon>202008240650493_DeleteInventoryFieldRepairRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -148,6 +160,7 @@
     <Compile Include="Models\Requests\Communication\PhoneRepairRequest.cs" />
     <Compile Include="Models\Requests\Communication\PhoneRepairRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Equipment\EquipmentRefillRequestConsumption.cs" />
+    <Compile Include="Models\Requests\Equipment\EquipmentRepairRequestConsumption.cs" />
     <Compile Include="Models\Requests\Events\VideoCommunicationRequest.cs" />
     <Compile Include="Models\Requests\Events\VideoCommunicationRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Email\EmailRegistrationRequest.cs" />
@@ -239,6 +252,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008110735426_LongViewIndex.resx">
       <DependentUpon>202008110735426_LongViewIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008170627046_UpdateConsumptionRefillRequestView.resx">
+      <DependentUpon>202008170627046_UpdateConsumptionRefillRequestView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008240630201_SomeChangesDb.resx">
+      <DependentUpon>202008240630201_SomeChangesDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008240650493_DeleteInventoryFieldRepairRequest.resx">
+      <DependentUpon>202008240650493_DeleteInventoryFieldRepairRequest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

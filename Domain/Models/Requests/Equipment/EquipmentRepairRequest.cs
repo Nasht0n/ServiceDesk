@@ -16,11 +16,6 @@ namespace Domain.Models.Requests.Equipment
         [MaxLength(150)]
         public string Location { get; set; }
         /// <summary>
-        /// Инвентарный номер оборудования
-        /// </summary>
-        [Required]
-        public string InventoryNumber { get; set; }
-        /// <summary>
         /// Идентификатор учебного корпуса
         /// </summary>
         [Required]

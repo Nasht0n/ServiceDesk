@@ -227,10 +227,9 @@ namespace WebUI.Models
         {
             return new RepairEquipments
             {
-                Id = item.Id,
-                ConsumableId = item.ConsumableId,
-                RequestId = item.RequestId,
-                Count = item.Count
+                Id = item.Id,                
+                InventoryNumber = item.InventoryNumber,
+                RequestId = item.RequestId
             };
         }
 
@@ -468,8 +467,7 @@ namespace WebUI.Models
                 ServiceId = model.ServiceId,
                 StatusId = model.StatusId,
                 Title = model.Title,
-                SubdivisionId = model.SubdivisionId,
-                InventoryNumber = model.InventoryNumber
+                SubdivisionId = model.SubdivisionId
             };
         }
 

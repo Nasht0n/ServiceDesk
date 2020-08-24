@@ -13,11 +13,15 @@ namespace WebUI.ViewModels.Requests.IT.Equipments
         public List<EquipmentRefillRequestConsumptionViewModel> ConsumptionsListModel { get; set; } = new List<EquipmentRefillRequestConsumptionViewModel>();
 
         public EquipmentRefillRequestConsumptionViewModel ConsumptionModel { get; set; }
+
         [Display(Name = "Тип расходного материала")]        
         public int? SelectedConsumableType { get; set; }
         public SelectList ConsumableTypes { get; set; }
+
         [Display(Name = "Расходный материал")]
         public int? SelectedConsumable { get; set; }
         public SelectList Consumables { get; set; }
+
+
     }
 }

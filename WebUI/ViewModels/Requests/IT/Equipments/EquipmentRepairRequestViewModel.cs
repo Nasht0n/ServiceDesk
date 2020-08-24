@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using WebUI.ViewModels.CampusModel;
 
@@ -12,11 +13,11 @@ namespace WebUI.ViewModels.Requests.IT.Equipments
         [Display(Name = "Учебный корпус")]
         public CampusViewModel CampusModel { get; set; }
         [Required]
-        [Display(Name = "Инвентарный номер")]
-        public string InventoryNumber { get; set; }
-        [Required]
         [Display(Name = "Аудитория/Кабинет")]
         public string Location { get; set; }
+
+        [Display(Name = "Перечень ремонтируемого оборудования")]
+        public List<RepairEquipmentViewModel> Repairs { get; set; } = new List<RepairEquipmentViewModel>();
 
         public SelectList Priorities { get; set; }
         public SelectList Campuses { get; set; }

@@ -1,5 +1,7 @@
 ﻿@model WebUI.ViewModels.Requests.IT.Equipments.EquipmentRepairRequestViewModel
-
+@section Scripts{
+    <script src="~/Scripts/servicedesk/equipments/repair-equipments-table.js" type="text/javascript"></script>
+}
 @{
     ViewBag.Title = "Заявка на ремонт оборудования";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
@@ -57,30 +59,64 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                     @Html.LabelFor(model => model.PriorityModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.DropDownListFor(model => model.PriorityId, Model.Priorities, htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
                 </div>
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                     @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.DropDownListFor(model => model.CampusId, Model.Campuses, htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
                 </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                     @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                     @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории/кабинета", autocomplete = "off" } })
                 </div>
-
-                <div class="col-md-6 form-group">
-                    @Html.LabelFor(model => model.InventoryNumber, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.ValidationMessageFor(model => model.InventoryNumber, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.InventoryNumber, new { htmlAttributes = new { @class = "form-control", Name = "Model.InventoryNumber", placeholder = "Введите инвентарный номер", autocomplete = "off" } })
-                </div>
             </div>
+
+            <div class="row m-1">
+                <h6 class="text-center">Список оборудования, требующего заправку</h6>
+                <table id="tblRepairEquipments" class="table">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="d-none"></th>
+                            <th class="d-none"></th>
+                            <th class="w-75">Инвентарный номер оборудования</th>
+                            <th class="w-25"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+                            int index = 0;
+                            foreach (var item in Model.Repairs)
+                            {
+                                <tr>
+                                    <td class="w-100">@Html.TextBoxFor(modelItem => item.InventoryNumber, new { @class = "form-control bg-transparent tblItem border-0", Name = $"Model.Repairs[{index}].InventoryNumber", @readonly = "readonly" })</td>
+                                    <td>
+                                        <button type="button" value="Удалить" class="btn btn-danger w-100">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="w-75">@Html.TextBox("InventoryNumber", "", new { @class = "form-control", id = "InventoryNumber" })</td>
+                            <td class="w-25">
+                                <input type="button" id="btnAddRepairEquipments" value="Добавить" class="btn btn-success w-100" />
+                            </td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+
+            </div>
+
 
             <div class="row">
                 <div class="form-group">

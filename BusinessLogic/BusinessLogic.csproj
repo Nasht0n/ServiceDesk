@@ -58,6 +58,7 @@
     <Compile Include="Abstract\Branches\IT\Communications\LifeCycles\IPhoneNumberAllocationRequestLifeCycleLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Communications\LifeCycles\IPhoneRepairRequestLifeCycleLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\Consumption\IEquipmentRefillRequestConsumptionLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Consumption\IEquipmentRepairRequestConsumptionLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Events\ITechnicalSupportEventEquipmentsLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Events\ITechnicalSupportEventInfosLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Events\LifeCycles\ITechnicalSupportEventRequestLifeCycleLogic.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Concrete\Branches\IT\Communications\LifeCycles\PhoneNumberAllocationRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Communications\LifeCycles\PhoneRepairRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Equipments\Consumption\EquipmentRefillRequestConsumptionLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Consumption\EquipmentRepairRequestConsumptionLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Events\LifeCycles\TechnicalSupportEventRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Events\LifeCycles\VideoCommunicationRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Communications\Requests\HoldingPhoneLineRequestLogic.cs" />

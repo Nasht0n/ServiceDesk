@@ -918,6 +918,7 @@
     <Compile Include="ViewModels\ConsumableModel\ConsumableViewModel.cs" />
     <Compile Include="ViewModels\ConsumableTypeModel\ConsumableTypeViewModel.cs" />
     <Compile Include="ViewModels\Consumption\IT\Equipments\EquipmentRefillRequestConsumptionViewModel.cs" />
+    <Compile Include="ViewModels\Consumption\IT\Equipments\EquipmentRepairRequestConsumptionViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\DashboardConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />

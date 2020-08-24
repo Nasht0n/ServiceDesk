@@ -1,83 +1,115 @@
 ﻿@model WebUI.ViewModels.DashboardConfigurationViewModel
 
-<div id="sidebar-wrapper" class="bg-light">
-    <a href="@Url.Action("Index","Dashboard",new { Area="" })" class="text-center text-decoration-none ">
-        <h3 class="mt-3"><i class="fa fa-home"></i> Service Desk</h3>
-    </a>
-    <h6 class="m-3 text-black-50 text-center">Информация о заявках</h6>
-    <ul class="list-group list-group-flush">
-        @foreach (var branch in Model.MenuInformation.Branches)
-        {
-            <li class="list-group-item list-group-item-action m-0 p-0">
-                <a href="#@branch.AreaName" data-toggle="collapse" aria-expanded="true"
-                   class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
-                    <span class="ml-3 mr-auto text-center">@branch.Fullname</span>
-                </a>
-                @foreach (var category in Model.MenuInformation.CategoryStats.CategoryInfos.Where(c => c.CategoryModel.BranchModel.Id == branch.Id))
-                {
-                    <ul class="collapse list-unstyled bg-light" id="@branch.AreaName">
-                        <li>
-                            <a class="list-group-item list-group-item-action " href="@Url.Action("Requests","Dashboard",new { Area = "", categoryId = category.CategoryModel.Id })">
-                                <div class="d-flex align-items-center">
-                                    <span class="ml-3 w-100">@category.CategoryModel.Name</span>
-                                    <span class="badge badge-primary flex-shrink-1 @(category.OpenCount==0?"d-none":"d-inline") px-2 ml-1">@category.OpenCount</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                }
-            </li>
-        }
-    </ul>
-    <h6 class="m-3 text-black-50 text-center">Документы</h6>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item list-group-item-action m-0 p-0">
-            <a href="#RefillDocuments" data-toggle="collapse" aria-expanded="true" class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
-                <span class="ml-3 mr-auto text-center">Заправка оборудования</span>
-            </a>
-            <ul class="collapse list-unstyled bg-light" id="RefillDocuments">
-                <li>
-                    <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#refillJournalModal">
-                        Входящая корреспонденция
-                    </button>
-                </li>
-                <li>
-                    <a class="list-group-item list-group-item-action" href="#">
-                        Списание
+    <div id="sidebar-wrapper" class="bg-light">
+        <a href="@Url.Action("Index","Dashboard",new { Area="" })" class="text-center text-decoration-none ">
+            <h3 class="mt-3"><i class="fa fa-home"></i> Service Desk</h3>
+        </a>
+        <h6 class="m-3 text-black-50 text-center">Информация о заявках</h6>
+        <ul class="list-group list-group-flush">
+            @foreach (var branch in Model.MenuInformation.Branches)
+            {
+                <li class="list-group-item list-group-item-action m-0 p-0">
+                    <a href="#@branch.AreaName" data-toggle="collapse" aria-expanded="true"
+                       class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
+                        <span class="ml-3 mr-auto text-center">@branch.Fullname</span>
                     </a>
+                    @foreach (var category in Model.MenuInformation.CategoryStats.CategoryInfos.Where(c => c.CategoryModel.BranchModel.Id == branch.Id))
+                    {
+                        <ul class="collapse list-unstyled bg-light" id="@branch.AreaName">
+                            <li>
+                                <a class="list-group-item list-group-item-action " href="@Url.Action("Requests","Dashboard",new { Area = "", categoryId = category.CategoryModel.Id })">
+                                    <div class="d-flex align-items-center">
+                                        <span class="ml-3 w-100">@category.CategoryModel.Name</span>
+                                        <span class="badge badge-primary flex-shrink-1 @(category.OpenCount==0?"d-none":"d-inline") px-2 ml-1">@category.OpenCount</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    }
                 </li>
-            </ul>
-        </li>
-    </ul>
-    <!-- Modal -->
-    <div class="modal fade" id="refillJournalModal" tabindex="-1" role="dialog" aria-labelledby="refillJournalModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="refillJournalModalLabel">Формирование отчета</h5>
+            }
+        </ul>
+        <h6 class="m-3 text-black-50 text-center">Документы</h6>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action m-0 p-0">
+                <a href="#RefillDocuments" data-toggle="collapse" aria-expanded="true" class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
+                    <span class="ml-3 mr-auto text-center">Заправка оборудования</span>
+                </a>
+                <ul class="collapse list-unstyled bg-light" id="RefillDocuments">
+                    <li>
+                        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#refillJournalModal">
+                            Входящая корреспонденция
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#refillConsumptionModal">
+                            Списание
+                        </button>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Modal Refill Journal -->
+        <div class="modal fade" id="refillJournalModal" tabindex="-1" role="dialog" aria-labelledby="refillJournalModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="refillJournalModalLabel">Формирование отчета</h5>
+                    </div>
+
+                    @using (Html.BeginForm("DownloadJournalReport", "Dashboard", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-primary">Сформировать</button>
+                        </div>
+                    }
+
                 </div>
-
-                @using (Html.BeginForm("DownloadJournalReport", "Dashboard", FormMethod.Post))
-                {
-                    <div class="modal-body">
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Сформировать</button>
-                    </div>
-                }
-
             </div>
         </div>
+        <!-- END Modal Refill Journal-->
+        <!-- Modal Refill Consumption -->
+        <div class="modal fade" id="refillConsumptionModal" tabindex="-1" role="dialog" aria-labelledby="refillConsumptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="refillConsumptionModalLabel">Формирование отчета</h5>
+                    </div>
+
+                    @using (Html.BeginForm("DownloadConsumptionReport", "Dashboard", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-primary">Сформировать</button>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <!-- END Modal Refill Journal-->
     </div>
-</div>
 
 

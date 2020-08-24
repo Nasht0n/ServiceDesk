@@ -74,6 +74,7 @@
     <Compile Include="Abstract\Branches\IT\Communication\LifeCycles\IPhoneNumberAllocationRequestLifeCycleRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Communication\LifeCycles\IPhoneRepairRequestLifeCycleRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Equipments\Consumptions\IEquipmentRefillRequestConsumptionRepository.cs" />
+    <Compile Include="Abstract\Branches\IT\Equipments\Consumptions\IEquipmentRepairRequestConsumptionRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Events\ITechnicalSupportEventEquipmentRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Events\ITechnicalSupportEventInfoRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Events\LifeCycles\ITechnicalSupportEventRequestLifeCycleRepository.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Concrete\Branches\IT\Communication\LifeCycles\PhoneNumberAllocationRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Communication\LifeCycles\PhoneRepairRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Equipments\Consumptions\EquipmentRefillRequestConsumptionRepository.cs" />
+    <Compile Include="Concrete\Branches\IT\Equipments\Consumptions\EquipmentRepairRequestConsumptionRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Events\LifeCycles\TechnicalSupportEventRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Events\LifeCycles\VideoCommunicationRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Communication\Requests\HoldingPhoneLineRequestRepository.cs" />

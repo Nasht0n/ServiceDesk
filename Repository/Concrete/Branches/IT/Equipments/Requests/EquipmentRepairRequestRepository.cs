@@ -123,7 +123,7 @@ namespace Repository.Concrete.Branches.IT.Equipments.Requests
                     .Include(a => a.Executor.Subdivision)
                     .Include(a => a.ExecutorGroup)
                     .Include(a => a.Subdivision)
-                    .Include(a => a.RepairEquipments.Select(re => re.Consumable))
+                    .Include(a => a.RepairEquipments)
                     .ToListAsync();
                 // остановка таймера
                 watch.Stop();
@@ -158,7 +158,6 @@ namespace Repository.Concrete.Branches.IT.Equipments.Requests
                 {
                     // обновляем поля объекта
                     updated.Location = request.Location;
-                    updated.InventoryNumber = request.InventoryNumber;
                     updated.CampusId = request.CampusId;
                     updated.Title = request.Title;
                     updated.Justification = request.Justification;

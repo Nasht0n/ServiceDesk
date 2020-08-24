@@ -55,6 +55,7 @@ namespace Domain
 
         public virtual DbSet<EquipmentRepairRequest> EquipmentRepairRequests { get; set; }
         public virtual DbSet<EquipmentRepairRequestLifeCycle> EquipmentRepairRequestLifeCycles { get; set; }
+        public virtual DbSet<EquipmentRepairRequestConsumption> EquipmentRepairRequestConsumptions { get; set; }
         public virtual DbSet<RepairEquipments> RepairEquipments { get; set; }
 
         public virtual DbSet<EquipmentReplaceRequest> EquipmentReplaceRequests { get; set; }

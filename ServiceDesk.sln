@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportManager", "ReportManager\ReportManager.csproj", "{8A538B85-D9A9-4345-9A27-64F0166B3DC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A538B85-D9A9-4345-9A27-64F0166B3DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A538B85-D9A9-4345-9A27-64F0166B3DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A538B85-D9A9-4345-9A27-64F0166B3DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A538B85-D9A9-4345-9A27-64F0166B3DC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -351,7 +351,7 @@ namespace WebUI.Controllers
             var journal = await refillJournalLogic.GetJournal(startDate, endDate);                
             try
             {
-                var workbook = ReportManager.CreateConsumptionReport(path, journal, startDate, endDate);
+                var workbook = ReportManager.CreateJournalReport(path, journal, startDate, endDate);
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
@@ -361,6 +361,32 @@ namespace WebUI.Controllers
             }
             catch (Exception)
             {                   
+                throw;
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> DownloadConsumptionReport(DashboardViewModel model)
+        {
+            string fileName = "Списание.xlsx";
+            string path = Server.MapPath("~/Files/Templates/") + fileName;
+            string type = MimeTypes.GetMimeType(fileName);
+
+            var startDate = model.StartPeriodDate;
+            var endDate = model.EndPeriodDate;
+
+            var consumption = await consumptionLogic.GetConsumptions();
+            try
+            {
+                var workbook = ReportManager.CreateConsumptionReport(path, consumption, startDate, endDate);
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, type, fileName);
+                }
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

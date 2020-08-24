@@ -153,6 +153,7 @@ namespace WebUI.Infrastructure
         private void AddConsumptionRepositoriesBindings()
         {
             kernel.Bind<IEquipmentRefillRequestConsumptionRepository>().To<EquipmentRefillRequestConsumptionRepository>();
+            kernel.Bind<IEquipmentRepairRequestConsumptionRepository>().To<EquipmentRepairRequestConsumptionRepository>();
         }
 
         private void AddAttachmentsRepositoriesBindings()
@@ -277,6 +278,7 @@ namespace WebUI.Infrastructure
         private void AddConsumptionLogicBindings()
         {
             kernel.Bind<IEquipmentRefillRequestConsumptionLogic>().To<EquipmentRefillRequestConsumptionLogic>();
+            kernel.Bind<IEquipmentRepairRequestConsumptionLogic>().To<EquipmentRepairRequestConsumptionLogic>();
         }
 
         private void AddRequestAttachmentsLogicBindings()

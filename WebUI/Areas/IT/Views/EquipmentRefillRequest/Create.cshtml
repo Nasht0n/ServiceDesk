@@ -7,7 +7,6 @@
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
 
-
 <div class="container footer">
     <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
     <ol class="breadcrumb">
@@ -64,8 +63,6 @@
                 <div class="form-group col-12">
                     @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Name = "Model.Description", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
-
-
                 </div>
             </div>
 
@@ -77,7 +74,6 @@
                 <div class="col-md-4 form-group">
                     @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.DropDownListFor(model => model.CampusId, Model.Campuses, htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
-
                 </div>
                 <div class="col-md-4 form-group">
                     @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })

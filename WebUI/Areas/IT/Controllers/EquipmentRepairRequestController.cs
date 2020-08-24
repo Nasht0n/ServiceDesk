@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Abstract;
 using BusinessLogic.Abstract.Branches.IT.Equipments;
+using BusinessLogic.Abstract.Branches.IT.Equipments.Consumption;
 using BusinessLogic.Abstract.Branches.IT.Equipments.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Equipments.Requests;
 using Domain.Models;
@@ -39,12 +40,14 @@ namespace WebUI.Areas.IT.Controllers
         private readonly IRepairEquipmentsLogic repairEquipmentsLogic;
         private readonly IConsumableLogic consumableLogic;
         private readonly IEquipmentLogic equipmentLogic;
+        private readonly IEquipmentRepairRequestConsumptionLogic consumptionLogic;
+        private readonly IConsumableTypeLogic consumableTypeLogic;
 
         public EquipmentRepairRequestController(IAccountLogic accountLogic, IEmployeeLogic employeeLogic, IAccountPermissionLogic accountPermissionLogic,
            ICampusLogic campusLogic, IPriorityLogic priorityLogic, IServiceLogic serviceLogic, ISubdivisionLogic subdivisionLogic,
            IBranchLogic branchLogic, ICategoryLogic categoryLogic, IRequestsLogic requestsLogic,
            IEquipmentRepairRequestLogic requestLogic, IEquipmentRepairRequestLifeCycleLogic lifeCycleLogic, IRepairEquipmentsLogic repairEquipmentsLogic, IConsumableLogic consumableLogic,
-           IEquipmentLogic equipmentLogic)
+           IEquipmentLogic equipmentLogic, IEquipmentRepairRequestConsumptionLogic consumptionLogic, IConsumableTypeLogic consumableTypeLogic)
         {
             this.accountLogic = accountLogic;
             this.employeeLogic = employeeLogic;
@@ -61,6 +64,8 @@ namespace WebUI.Areas.IT.Controllers
             this.repairEquipmentsLogic = repairEquipmentsLogic;
             this.consumableLogic = consumableLogic;
             this.equipmentLogic = equipmentLogic;
+            this.consumptionLogic = consumptionLogic;
+            this.consumableTypeLogic = consumableTypeLogic;
         }
         /// <summary>
         /// Метод получения данных информации об авторизованном пользователе в системе.
@@ -128,8 +133,30 @@ namespace WebUI.Areas.IT.Controllers
         /// <returns></returns>
         private async Task PopulateDropDownList(EquipmentRepairDetailsRequestViewModel model)
         {
-            var consumables = await consumableLogic.GetConsumables();
+            var consumableTypes = await consumableTypeLogic.GetConsumableTypes();
+            var consumables = await consumableLogic.GetConsumables(consumableTypes[0]);
+
+            model.ConsumableTypes = new SelectList(consumableTypes, "Id", "Name");
             model.Consumables = new SelectList(consumables, "Id", "Name");
+        }
+        /// <summary>
+        /// Метод инициализации списка расходных материалов
+        /// </summary>
+        /// <param name="subdivisionId"></param>
+        /// <param name="currentId"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> PopulateConsumables(int typeId)
+        {
+            var consumableType = await consumableTypeLogic.GetConsumableType(typeId);
+            var consumables = await consumableLogic.GetConsumables(consumableType);
+            var result = consumables.Select(c => new { Value = c.Id, Text = $"{c.InventoryNumber} —— { c.Name}" });
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<ActionResult> AddConsumption(EquipmentRepairDetailsRequestViewModel model)
+        {
+            await consumptionLogic.Save(new EquipmentRepairRequestConsumption { RequestId = model.RequestModel.Id, ConsumableId = model.SelectedConsumable.Value, Count = model.ConsumptionModel.Count });
+            return RedirectToAction("Details", "EquipmentRepairRequest", new { id = model.RequestModel.Id });
         }
         /// <summary>
         /// Метод инициализации заявки
@@ -173,8 +200,6 @@ namespace WebUI.Areas.IT.Controllers
             request.Justification = model.Justification;
             // инициализация описания заявки
             request.Description = model.Description;
-            // возвращаем объект заявки
-            request.InventoryNumber = model.InventoryNumber;
             return request;
         }
         /// <summary>
@@ -254,10 +279,19 @@ namespace WebUI.Areas.IT.Controllers
             var service = await serviceLogic.GetService(request.ServiceId);
             // получение списка жизненного цикла заявки
             var lifeCycles = await lifeCycleLogic.GetLifeCycles(request);
+
+            var consumptions = await consumptionLogic.GetConsumptions(request);
             // инициализация модели представления
-            model = ModelFromData.GetViewModel(model, request, user, lifeCycles);
+            model = ModelFromData.GetViewModel(model, request, user, lifeCycles, consumptions);
             // проверка: прошла ли заявка полное согласование (при множественном согласовании)
             model.AllApproval = IsApproval(service, lifeCycles);
+            // отображаем информацию о заправке
+            foreach (var repair in model.RequestModel.Repairs)
+            {
+                var equipment = await equipmentLogic.GetEquipment(repair.InventoryNumber);
+                repair.EquipmentTypeModel = ModelFromData.GetViewModel(equipment.EquipmentType);
+                repair.Model = equipment.Name;
+            }
             // отображаем представление 
             return View(model);
         }
@@ -324,28 +358,44 @@ namespace WebUI.Areas.IT.Controllers
             // получение данных об авторизованном сотруднике
             // инициализация конфигурации
             var user = await PopulateAccountInfo(model);
+
             // инициализация выпадающего списка представления
             await PopulateDropDownList(model);
+            // Инициализация бокового меню
+            await MenuInformation(model);
             // создание заявки, согласно модели представления и авторизованного сотрудника
             var request = await InitializeRequest(model, user);
-            // поиск оборудования по инвентарному номеру
-            var equipment = await equipmentLogic.GetEquipment(request.InventoryNumber);
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);
-            // Инициализация бокового меню
-            await MenuInformation(model);
-            // если оборудование не найдено
-            if (equipment == null)
+            if (model.Repairs.Count == 0)
             {
-                ModelState.AddModelError("", "Оборудование с данным инвентарным номером не найдено.");
+                ModelState.AddModelError("", "Список оборудования требующего ремонт пуст.");
                 return View(model);
             }
-            // сохраняем заявку
-            await requestLogic.Save(request);
-            // создаем запись жизненного цикла заявки
-            await LifeCycleMessage(request.Id, user, "Создание заявки");
-            return RedirectToAction("Details", service.Controller, new { id = request.Id });
+            else
+            {
+                // создаем список заправок из модели представления
+                request.RepairEquipments = new List<RepairEquipments>();
+                foreach (var item in model.Repairs)
+                {
+                    // поиск оборудования по инвентарному номеру
+                    var equipment = await equipmentLogic.GetEquipment(item.InventoryNumber);
+                    if (equipment == null)
+                    {
+                        ModelState.AddModelError("", $"Оборудование с данным инвентарным номером не найдено: '{item.InventoryNumber}'.");
+                        model.Repairs = new List<RepairEquipmentViewModel>();
+                        return View(model);
+                    }
+                    RepairEquipments repair = DataFromModel.GetData(item);
+                    request.RepairEquipments.Add(repair);
+                }
+                // сохраняем заявку
+                await requestLogic.Save(request);
+                // создаем запись жизненного цикла заявки
+                await LifeCycleMessage(request.Id, user, "Создание заявки");
+                return RedirectToAction("Details", service.Controller, new { id = request.Id });
+            }
         }
         /// <summary>
         /// Метод отображения страницы редактирования заявки
@@ -391,19 +441,31 @@ namespace WebUI.Areas.IT.Controllers
             await MenuInformation(model);
             // инициализация заявки из модели представления
             var request = DataFromModel.GetData(model);
-            // поиск оборудования по инвентарному номеру
-            var equipment = await equipmentLogic.GetEquipment(request.InventoryNumber);
-            // если оборудование не найдено
-            if (equipment == null)
+            // удаляем все записи заправок текущей заявки
+            await repairEquipmentsLogic.DeleteEntry(request);
+            if (model.Repairs.Count == 0)
             {
-                ModelState.AddModelError("", "Оборудование с данным инвентарным номером не найдено.");
+                ModelState.AddModelError("", "Список оборудования требующего заправку пуст.");
                 return View(model);
             }
-            // сохраняем заявку
-            await requestLogic.Save(request);
-            // создаем запись жизненного цикла заявки
-            await LifeCycleMessage(request.Id, user, "Редактирование заявки");
-            return RedirectToAction("Details", service.Controller, new { id = request.Id });
+            else
+            {
+                // создаем список заправок из модели представления
+                List<RepairEquipments> equipments = new List<RepairEquipments>();
+                foreach (var item in model.Repairs)
+                {
+                    RepairEquipments repair = DataFromModel.GetData(item);
+                    repair.RequestId = request.Id;
+                    await repairEquipmentsLogic.Add(repair);
+                    equipments.Add(repair);
+                }
+                request.RepairEquipments = equipments;
+                // сохраняем заявку
+                await requestLogic.Save(request);
+                // создаем запись жизненного цикла заявки
+                await LifeCycleMessage(request.Id, user, "Редактирование заявки");
+                return RedirectToAction("Details", "EquipmentRefillRequest", new { id = request.Id });
+            }
         }
         /// <summary>
         /// Метод отображения страницы удаления заявки
@@ -562,6 +624,7 @@ namespace WebUI.Areas.IT.Controllers
         /// </summary>
         /// <param name="id">Идентификатор заявки</param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<ActionResult> AddMessage(int id, EquipmentRepairDetailsRequestViewModel model)
         {
             Employee user = await PopulateAccountInfo();
@@ -575,12 +638,12 @@ namespace WebUI.Areas.IT.Controllers
         /// <param name="id">Идентификатор заявки</param>
         /// <param name="model">Модель представления</param>
         /// <returns></returns>
-        public async Task<ActionResult> AddConsumable(int id, EquipmentRepairDetailsRequestViewModel model)
-        {
-            RepairEquipments repair = new RepairEquipments { RequestId = id, ConsumableId = model.SelectedConsumable, Count = model.RepairModel.Count };
-            var service = await serviceLogic.GetService(SERVICE_ID);
-            await repairEquipmentsLogic.Add(repair);
-            return RedirectToAction("Details", service.Controller, new { id });
-        }
+        //public async Task<ActionResult> AddConsumable(int id, EquipmentRepairDetailsRequestViewModel model)
+        //{
+        //    RepairEquipments repair = new RepairEquipments { RequestId = id, ConsumableId = model.SelectedConsumable, Count = model.RepairModel.Count };
+        //    var service = await serviceLogic.GetService(SERVICE_ID);
+        //    await repairEquipmentsLogic.Add(repair);
+        //    return RedirectToAction("Details", service.Controller, new { id });
+        //}
     }
 }

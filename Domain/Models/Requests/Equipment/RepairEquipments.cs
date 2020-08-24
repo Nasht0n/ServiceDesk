@@ -10,9 +10,9 @@
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// Количество затраченных единиц
+        /// Инвентарный номер техники
         /// </summary>
-        public int Count { get; set; }
+        public string InventoryNumber { get; set; }
         /// <summary>
         /// Идентификатор заявки на ремонт оборудования
         /// </summary>
@@ -20,15 +20,7 @@
         /// <summary>
         /// Объект заявки на ремонт оборудования
         /// </summary>
-        public EquipmentRepairRequest Request { get; set; }
-        /// <summary>
-        /// Идентификатор расходного материала
-        /// </summary>
-        public int ConsumableId { get; set; }
-        /// <summary>
-        /// Объект расходного материала
-        /// </summary>
-        public Consumable Consumable { get; set; }
+        public EquipmentRepairRequest Request { get; set; }        
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
@@ -39,14 +31,13 @@
         /// <summary>
         /// Контструктор с параметрами
         /// </summary>
-        /// <param name="count">Количество затраченных единиц</param>
-        /// <param name="requestId">Идентификатор заявки на ремонт оборудования</param>
-        /// <param name="consumableId">Идентификатор расходного материала</param>
-        public RepairEquipments(int count, int requestId, int consumableId)
+        /// <param name="inventoryNumber">Инвентарный номер техники</param>
+        /// <param name="requestId">Идентификатор заявки на заправку техники</param>
+        public RepairEquipments(string inventoryNumber, int requestId)
         {
-            Count = count;
+            // инициализация переменных
+            InventoryNumber = inventoryNumber;
             RequestId = requestId;
-            ConsumableId = consumableId;
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
@@ -57,9 +48,8 @@
         {
             return obj is RepairEquipments equipments &&
                    Id == equipments.Id &&
-                   Count == equipments.Count &&
-                   RequestId == equipments.RequestId &&
-                   ConsumableId == equipments.ConsumableId;
+                   InventoryNumber == equipments.InventoryNumber &&
+                   RequestId == equipments.RequestId;
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 
@@ -68,7 +58,7 @@
         /// <returns>Возвращает строковое представление записи ремонтируемой техники.</returns>
         public override string ToString()
         {
-            return $"RepairEquipment object:(Id:[{Id}];Count:[{Count}];RequestId:[{RequestId}];ConsumableId:[{ConsumableId}]).";
+            return $"RepairEquipment object:(Id:[{Id}];InventoryNumber:[{InventoryNumber}];RequestId:[{RequestId}]).";
         }
         /// <summary>
         /// Метод переопределния стандартного метода получения хэш-кода объекта

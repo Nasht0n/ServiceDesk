@@ -2035,18 +2035,27 @@ namespace WebUI.Models
                 StatusModel = GetViewModel(request.Status),
                 Title = request.Title,
                 SubdivisionId = request.SubdivisionId,
-                SubdivisionModel = GetViewModel(request.Subdivision),
-                InventoryNumber = request.InventoryNumber
+                SubdivisionModel = GetViewModel(request.Subdivision)
             };
             if (request.ExecutorId.HasValue)
             {
                 model.ExecutorId = request.ExecutorId;
                 model.Executor = GetViewModel(request.Executor);
             }
+            model.Repairs = new List<RepairEquipmentViewModel>();
+            foreach (var item in request.RepairEquipments)
+            {
+                model.Repairs.Add(new RepairEquipmentViewModel
+                {
+                    Id = item.Id,
+                    InventoryNumber = item.InventoryNumber,
+                    RequestId = item.RequestId
+                });
+            }
             return model;
         }
 
-        public static EquipmentRepairDetailsRequestViewModel GetViewModel(EquipmentRepairDetailsRequestViewModel model, EquipmentRepairRequest request, Employee user, List<EquipmentRepairRequestLifeCycle> lifeCycles)
+        public static EquipmentRepairDetailsRequestViewModel GetViewModel(EquipmentRepairDetailsRequestViewModel model, EquipmentRepairRequest request, Employee user, List<EquipmentRepairRequestLifeCycle> lifeCycles, List<EquipmentRepairRequestConsumption> consumptions)
         {
             model.RequestModel = new EquipmentRepairRequestViewModel
             {
@@ -2075,18 +2084,31 @@ namespace WebUI.Models
             {
                 model.RequestModel.Executor = GetViewModel(request.Executor);
             }
-            model.Repairs = new List<RepairEquipmentViewModel>();
+
+            model.RequestModel.Repairs = new List<RepairEquipmentViewModel>();
             foreach (var item in request.RepairEquipments)
             {
-                model.Repairs.Add(new RepairEquipmentViewModel
+                model.RequestModel.Repairs.Add(new RepairEquipmentViewModel
                 {
                     Id = item.Id,
-                    Count = item.Count,
-                    ConsumableId = item.ConsumableId,
-                    RequestId = item.RequestId,
-                    ConsumableModel = GetViewModel(item.Consumable)
+                    InventoryNumber = item.InventoryNumber,
+                    RequestId = item.RequestId
                 });
             }
+
+            model.ConsumptionsListModel = new List<EquipmentRepairRequestConsumptionViewModel>();
+            foreach (var record in consumptions)
+            {
+                model.ConsumptionsListModel.Add(new EquipmentRepairRequestConsumptionViewModel
+                {
+                    Id = record.Id,
+                    RequestId = record.RequestId,
+                    ConsumableId = record.ConsumableId,
+                    ConsumableModel = GetViewModel(record.Consumable),
+                    Count = record.Count
+                });
+            }
+
             model.LifeCyclesListModel = new List<EquipmentRepairRequestLifeCycleViewModel>();
             foreach (var record in lifeCycles)
             {

@@ -1,6 +1,6 @@
 ﻿using Domain;
 using Domain.Models.Requests.Equipment;
-using Repository.Abstract.Branches.IT.Equipments;
+using Repository.Abstract.Branches.IT.Equipments.Consumptions;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -8,14 +8,11 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Repository.Concrete.Branches.IT.Equipments
+namespace Repository.Concrete.Branches.IT.Equipments.Consumptions
 {
-    /// <summary>
-    /// Класс доступа к хранилищу ремонтируемой техники
-    /// </summary>
-    public class RepairEquipmentsRepository : IRepairEquipmentsRepository
+    public class EquipmentRepairRequestConsumptionRepository : IEquipmentRepairRequestConsumptionRepository
     {
-        // Логгер системы
+        // Логгер
         private readonly ILogger log = new LoggerConfiguration().WriteTo.File("log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
         // Контекст данных доступа к данным
         private readonly ServiceDeskContext context;
@@ -25,26 +22,25 @@ namespace Repository.Concrete.Branches.IT.Equipments
         /// Конструктор класса
         /// </summary>
         /// <param name="context">Контекст данных доступа к данным</param>
-        public RepairEquipmentsRepository(ServiceDeskContext context)
+        public EquipmentRepairRequestConsumptionRepository(ServiceDeskContext context)
         {
-            // инициализация контекста данных
             this.context = context;
         }
         /// <summary>
-        /// Метод добавления записи ремонтируемой техники
+        /// Метод добавления данных о затратах расходного материала на ремонт оборудования
         /// </summary>
-        /// <param name="request">Запись ремонтируемой техники</param>
-        /// <returns>Возвращает объект ремонтируемой техники</returns>
-        public async Task<RepairEquipments> Add(RepairEquipments repair)
+        /// <param name="consumption">Объект расхода материалов на ремонт оборудования</param>
+        /// <returns>Возвращаем объект затраченных расходных материалов на ремонт оборудования</returns>
+        public async Task<EquipmentRepairRequestConsumption> Add(EquipmentRepairRequestConsumption consumption)
         {
-            log.Debug($"Метод добавления записи ремонтируемой техники");
+            log.Debug($"Метод добавления записи о затратах расходного материала на ремонт оборудования");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // добавление учетной записи
-                var inserted = context.RepairEquipments.Add(repair);
+                var inserted = context.EquipmentRepairRequestConsumptions.Add(consumption);
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений
                 await context.SaveChangesAsync();
@@ -62,26 +58,26 @@ namespace Repository.Concrete.Branches.IT.Equipments
             }
         }
         /// <summary>
-        /// Метод удаления записи ремонтируемой техники
+        /// Метод удаления данных о затратах расходного материала на ремонт оборудования
         /// </summary>
-        /// <param name="request">Запись ремонтируемой техники</param>
+        /// <param name="consumption">Объект расхода материалов на ремонт оборудования</param>
         /// <returns></returns>
-        public async Task Delete(RepairEquipments repair)
+        public async Task Delete(EquipmentRepairRequestConsumption consumption)
         {
-            log.Debug($"Метод удаления записи ремонтируемой техники");
+            log.Debug($"Метод удаления записи о затратах расходного материала на ремонт оборудования");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // поиск удаляемой записи
-                var deleted = await context.RepairEquipments.SingleOrDefaultAsync(e => e.Id == repair.Id);
+                var deleted = await context.EquipmentRepairRequestConsumptions.SingleOrDefaultAsync(e => e.Id == consumption.Id);
                 log.Debug($"Удаляемая запись найдена. Продолжение операции...");
                 // если запись найдена
                 if (deleted != null)
                 {
                     // удаление записи
-                    context.RepairEquipments.Remove(deleted);
+                    context.EquipmentRepairRequestConsumptions.Remove(deleted);
                     log.Debug($"Сохранение изменений.");
                     // сохранение изменений
                     await context.SaveChangesAsync();
@@ -92,16 +88,16 @@ namespace Repository.Concrete.Branches.IT.Equipments
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка удаления записи заявки: {ex.Message}.");
+                log.Error($"Ошибка удаления записи о затратах расходного материала на ремонт оборудования: {ex.Message}.");
             }
         }
         /// <summary>
-        /// Метод получения списка записей ремонтируемой техники
+        /// Метод получения списка затрат расходных материалов на ремонт оборудования
         /// </summary>
-        /// <returns>Возвращает список записей ремонтируемой техники</returns>
-        public async Task<List<RepairEquipments>> GetRepairs()
+        /// <returns>Возврат списка затрат расходных материалов на ремонт оборудования</returns>
+        public async Task<List<EquipmentRepairRequestConsumption>> GetRequestConsumptions()
         {
-            log.Debug($"Метод получения списка записей ремонтируемой техники");
+            log.Debug($"Метод получения списка затрат расходных материалов на ремонт оборудования");
             try
             {
                 log.Debug($"Начало выполнения метода.");
@@ -109,8 +105,11 @@ namespace Repository.Concrete.Branches.IT.Equipments
                 watch.Start();
                 log.Debug($"Получение списка...");
                 // получение списка записей
-                var list = await context.RepairEquipments
+                var list = await context.EquipmentRepairRequestConsumptions
                     .Include(a => a.Request)
+                    .Include(a => a.Consumable)
+                    .Include(a => a.Consumable.Unit)
+                    .Include(a => a.Consumable.Type)
                     .ToListAsync();
                 // остановка таймера
                 watch.Stop();
@@ -120,32 +119,33 @@ namespace Repository.Concrete.Branches.IT.Equipments
             }
             catch (Exception ex)
             {
-                log.Error($"Ошибка получения списка записей ремонтируемой техники: {ex.Message}.");
+                log.Error($"Ошибка получения списка затрат расходных материалов на ремонт оборудования: {ex.Message}.");
                 return null;
             }
         }
         /// <summary>
-        /// Метод редактировния записи ремонтируемой техники
+        /// Метод редактирования данных о затратах расходного материала на ремонт оборудования
         /// </summary>
-        /// <param name="request">Запись ремонтируемой техники</param>
-        /// <returns>Возвращает объект ремонтируемой техники</returns>
-        public async Task<RepairEquipments> Update(RepairEquipments repair)
+        /// <param name="consumption">Объект расхода материалов на ремонт оборудования</param>
+        /// <returns>Возвращаем объект затраченных расходных материалов на ремонт оборудования</returns>
+        public async Task<EquipmentRepairRequestConsumption> Update(EquipmentRepairRequestConsumption consumption)
         {
-            log.Debug($"Метод редактировния записи ремонтируемой техники");
+            log.Debug($"Метод редактировния записи о затратах расходного материала на ремонт оборудования");
             try
             {
                 log.Debug($"Начало выполнения метода.");
                 // старт таймера
                 watch.Start();
                 // поиск обновляемой записи
-                var updated = await context.RepairEquipments.SingleOrDefaultAsync(e => e.Id == repair.Id);
+                var updated = await context.EquipmentRepairRequestConsumptions.SingleOrDefaultAsync(lc => lc.Id == consumption.Id);
                 log.Debug($"Запись для редактирования найдена. Продолжение операции...");
                 // если запись найдена
                 if (updated != null)
                 {
                     // обновляем поля объекта
-                    updated.InventoryNumber = repair.InventoryNumber;
-                    updated.RequestId = repair.RequestId;
+                    updated.RequestId = consumption.RequestId;
+                    updated.ConsumableId = consumption.ConsumableId;
+                    updated.Count = consumption.Count;
                 }
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений
