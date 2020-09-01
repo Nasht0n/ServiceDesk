@@ -19,6 +19,7 @@ using BusinessLogic.Abstract.Branches.IT.Networks.Requests;
 using BusinessLogic.Abstract.Branches.IT.Softwares.Attachments;
 using BusinessLogic.Abstract.Branches.IT.Softwares.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Softwares.Requests;
+using BusinessLogic.Abstract.Views;
 using BusinessLogic.Concrete;
 using BusinessLogic.Concrete.Branches.IT.Accounts.Attachments;
 using BusinessLogic.Concrete.Branches.IT.Accounts.LifeCycles;
@@ -40,6 +41,7 @@ using BusinessLogic.Concrete.Branches.IT.Networks.Requests;
 using BusinessLogic.Concrete.Branches.IT.Softwares.Attachments;
 using BusinessLogic.Concrete.Branches.IT.Softwares.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Softwares.Requests;
+using BusinessLogic.Concrete.Views;
 using Domain.Models.Requests.Events;
 using Ninject;
 using Repository.Abstract;
@@ -63,6 +65,7 @@ using Repository.Abstract.Branches.IT.Network.Requests;
 using Repository.Abstract.Branches.IT.Software.Attachments;
 using Repository.Abstract.Branches.IT.Software.LifeCycles;
 using Repository.Abstract.Branches.IT.Software.Requests;
+using Repository.Abstract.Views;
 using Repository.Concrete;
 using Repository.Concrete.Branches.IT.Accounts.Attachments;
 using Repository.Concrete.Branches.IT.Accounts.LifeCycles;
@@ -84,6 +87,7 @@ using Repository.Concrete.Branches.IT.Network.Requests;
 using Repository.Concrete.Branches.IT.Software.Attachments;
 using Repository.Concrete.Branches.IT.Software.LifeCycles;
 using Repository.Concrete.Branches.IT.Software.Requests;
+using Repository.Concrete.Views;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -135,8 +139,13 @@ namespace WebUI.Infrastructure
             kernel.Bind<IReplaceComponentsRepository>().To<ReplaceComponentsRepository>();
             kernel.Bind<IReplaceEquipmentsRepository>().To<ReplaceEquipmentsRepository>();
             kernel.Bind<IConnectionEquipmentsRepository>().To<ConnectionEquipmentsRepository>();
+
             kernel.Bind<IRefillRequestConsumptionRepository>().To<RefillRequestConsumptionRepository>();
             kernel.Bind<IRefillRequestJournalRepository>().To<RefillRequestJournalRepository>();
+
+            kernel.Bind<IRepairRequestConsumptionRepository>().To<RepairRequestConsumptionRepository>();
+            kernel.Bind<IRepairRequestJournalRepository>().To<RepairRequestJournalRepository>();
+
             kernel.Bind<IRequestRepository>().To<RequestRepository>();
             kernel.Bind<IRefuelingLimitRepository>().To<RefuelingLimitRepository>();
             kernel.Bind<IAttachmentRepository>().To<AttachmentRepository>();
@@ -252,6 +261,9 @@ namespace WebUI.Infrastructure
 
             kernel.Bind<IRefillRequestConsumptionLogic>().To<RefillRequestConsumptionLogic>();
             kernel.Bind<IRefillRequestJournalLogic>().To<RefillRequestJournalLogic>();
+
+            kernel.Bind<IRepairRequestConsumptionLogic>().To<RepairRequestConsumptionLogic>();
+            kernel.Bind<IRepairRequestJournalLogic>().To<RepairRequestJournalLogic>();
 
             kernel.Bind<IRequestsLogic>().To<RequestsLogic>();
             kernel.Bind<IRefuelingLimitsLogic>().To<RefuelingLimitsLogic>();

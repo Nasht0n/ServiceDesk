@@ -1,7 +1,8 @@
 ﻿using BusinessLogic.Abstract;
-using BusinessLogic.Abstract.Branches.IT.Equipments.Consumption;
+using BusinessLogic.Abstract.Views;
 using Domain.Models;
 using MimeKit;
+using Report;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,12 +34,15 @@ namespace WebUI.Controllers
         private readonly IStatusLogic statusLogic;
         private readonly IExecutorGroupLogic executorGroupLogic;
         private readonly IRefillRequestJournalLogic refillJournalLogic;
-        private readonly IRefillRequestConsumptionLogic consumptionLogic;
+        private readonly IRefillRequestConsumptionLogic refillConsumptionLogic;
+        private readonly IRepairRequestJournalLogic repairJournalLogic;
+        private readonly IRepairRequestConsumptionLogic repairConsumptionLogic;
 
         public DashboardController(IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
             IRequestsLogic requestsLogic, IStatusLogic statusLogic, IExecutorGroupLogic executorGroupLogic,
-            IRefillRequestJournalLogic refillJournalLogic, IRefillRequestConsumptionLogic consumptionLogic)
+            IRefillRequestJournalLogic refillJournalLogic, IRefillRequestConsumptionLogic refillConsumptionLogic,
+            IRepairRequestJournalLogic repairJournalLogic, IRepairRequestConsumptionLogic repairConsumptionLogic)
         {
             this.accountLogic = accountLogic;
             this.accountPermissionLogic = accountPermissionLogic;
@@ -50,7 +54,9 @@ namespace WebUI.Controllers
             this.statusLogic = statusLogic;
             this.executorGroupLogic = executorGroupLogic;
             this.refillJournalLogic = refillJournalLogic;
-            this.consumptionLogic = consumptionLogic;
+            this.refillConsumptionLogic = refillConsumptionLogic;
+            this.repairJournalLogic = repairJournalLogic;
+            this.repairConsumptionLogic = repairConsumptionLogic;
         }
         /// <summary>
         /// Метод получения данных информации об авторизованном пользователе в системе.
@@ -339,10 +345,10 @@ namespace WebUI.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> DownloadJournalReport(DashboardViewModel model)
+        public async Task<ActionResult> DownloadRefillJournalReport(DashboardViewModel model)
         {
             string fileName = "Входящая корреспонденция.xlsx";
-            string path = Server.MapPath("~/Files/Templates/") + fileName;
+            string path = Server.MapPath("~/Files/Templates/Refill/") + fileName;
             string type = MimeTypes.GetMimeType(fileName);
 
             var startDate = model.StartPeriodDate;
@@ -351,7 +357,7 @@ namespace WebUI.Controllers
             var journal = await refillJournalLogic.GetJournal(startDate, endDate);                
             try
             {
-                var workbook = ReportManager.CreateJournalReport(path, journal, startDate, endDate);
+                var workbook = Reporter.EquipmentRefillReportManager.GenerateJournalReport(path, journal, startDate, endDate);
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
@@ -365,19 +371,72 @@ namespace WebUI.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> DownloadConsumptionReport(DashboardViewModel model)
+        public async Task<ActionResult> DownloadRefillConsumptionReport(DashboardViewModel model)
         {
             string fileName = "Списание.xlsx";
-            string path = Server.MapPath("~/Files/Templates/") + fileName;
+            string path = Server.MapPath("~/Files/Templates/Refill/") + fileName;
             string type = MimeTypes.GetMimeType(fileName);
 
             var startDate = model.StartPeriodDate;
             var endDate = model.EndPeriodDate;
 
-            var consumption = await consumptionLogic.GetConsumptions();
+            var consumption = await refillConsumptionLogic.GetConsumptions();
             try
             {
-                var workbook = ReportManager.CreateConsumptionReport(path, consumption, startDate, endDate);
+                var workbook = Reporter.EquipmentRefillReportManager.GenerateConsumptionReport(path, consumption, startDate, endDate);
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, type, fileName);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DownloadRepairJournalReport(DashboardViewModel model)
+        {
+            string fileName = "Входящая корреспонденция.xlsx";
+            string path = Server.MapPath("~/Files/Templates/Repair/") + fileName;
+            string type = MimeTypes.GetMimeType(fileName);
+
+            var startDate = model.StartPeriodDate;
+            var endDate = model.EndPeriodDate;
+
+            var journal = await repairJournalLogic.GetJournal(startDate, endDate);
+            try
+            {
+                var workbook = Reporter.EquipmentRepairReportManager.GenerateJournalReport(path, journal, startDate, endDate);
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, type, fileName);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> DownloadRepairConsumptionReport(DashboardViewModel model)
+        {
+            string fileName = "Списание.xlsx";
+            string path = Server.MapPath("~/Files/Templates/Repair/") + fileName;
+            string type = MimeTypes.GetMimeType(fileName);
+
+            var startDate = model.StartPeriodDate;
+            var endDate = model.EndPeriodDate;
+
+            var consumption = await repairConsumptionLogic.GetConsumptions();
+            try
+            {
+                var workbook = Reporter.EquipmentRepairReportManager.GenerateConsumptionReport(path, consumption, startDate, endDate);
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);

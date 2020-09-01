@@ -117,6 +117,10 @@
     <Compile Include="Migrations\202008240650493_DeleteInventoryFieldRepairRequest.designer.cs">
       <DependentUpon>202008240650493_DeleteInventoryFieldRepairRequest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009011349447_RepairReports.cs" />
+    <Compile Include="Migrations\202009011349447_RepairReports.designer.cs">
+      <DependentUpon>202009011349447_RepairReports.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -202,6 +206,8 @@
     <Compile Include="ServiceDeskContext.cs" />
     <Compile Include="Views\RefillRequestConsumption.cs" />
     <Compile Include="Views\RefillRequestJournal.cs" />
+    <Compile Include="Views\RepairRequestConsumption.cs" />
+    <Compile Include="Views\RepairRequestJournal.cs" />
     <Compile Include="Views\Requests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +267,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008240650493_DeleteInventoryFieldRepairRequest.resx">
       <DependentUpon>202008240650493_DeleteInventoryFieldRepairRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009011349447_RepairReports.resx">
+      <DependentUpon>202009011349447_RepairReports.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

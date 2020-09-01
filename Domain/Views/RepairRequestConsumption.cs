@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Views
 {
-    [Table("dbo.ConsumptionRefillRequestView")]
-    public class RefillRequestConsumption
+    [Table("dbo.ConsumptionRepairRequestView")]
+    public class RepairRequestConsumption
     {
         [Key]
         public long? Id { get; set; }

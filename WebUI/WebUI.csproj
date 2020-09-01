@@ -894,7 +894,6 @@
     <Compile Include="Models\MailSender.cs" />
     <Compile Include="Models\ModelFromData.cs" />
     <Compile Include="Models\PagingInfo.cs" />
-    <Compile Include="Models\ReportManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AccountModel\AccountListViewModel.cs" />
     <Compile Include="ViewModels\AccountModel\AccountViewModel.cs" />
@@ -1082,6 +1081,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{d5ab7bc3-082b-4ff4-80e0-7c409d737230}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Report\Report.csproj">
+      <Project>{A727D6FF-ED9E-434F-A6F5-96F909051CCB}</Project>
+      <Name>Report</Name>
     </ProjectReference>
     <ProjectReference Include="..\Repository\Repository.csproj">
       <Project>{3C3D6045-07E0-472E-BAEA-FEC2386F72F9}</Project>

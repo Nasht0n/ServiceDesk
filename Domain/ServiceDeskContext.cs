@@ -92,6 +92,8 @@ namespace Domain
 
         public virtual DbSet<RefillRequestConsumption> RefillRequestConsumptions { get; set; }
         public virtual DbSet<RefillRequestJournal> RefillRequestJournals { get; set; }
+        public virtual DbSet<RepairRequestConsumption> RepairRequestConsumptions { get; set; }
+        public virtual DbSet<RepairRequestJournal> RepairRequestJournals { get; set; }
 
         public virtual DbSet<RefuelingLimits> RefuelingLimits { get; set; }
         public virtual DbSet<Requests> Requests { get; set; }
