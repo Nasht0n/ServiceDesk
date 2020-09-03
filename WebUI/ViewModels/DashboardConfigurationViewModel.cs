@@ -18,7 +18,6 @@ namespace WebUI.ViewModels
         // Текущий пользователь
         public EmployeeViewModel CurrentUser { get; set; }
         public List<ExecutorGroupViewModel> UserExecutorGroups { get; set; }
-
         // Права доступа пользователя
         public UserPermissions UserPermissions { get; set; }
         // Список всех заявок
@@ -62,6 +61,8 @@ namespace WebUI.ViewModels
         public bool GetInWorkRequest { get { return Permissions.Where(p => p.AccountId == Account.Id && p.PermissionId == (int)AccountPermissionEnum.GetInWorkRequest).Any(); } }
         // Право обратного отзыва
         public bool Feedback { get { return Permissions.Where(p => p.AccountId == Account.Id && p.PermissionId == (int)AccountPermissionEnum.Feedback).Any(); } }
+        // Право формирование отчетов
+        public bool Report { get { return Permissions.Where(p => p.AccountId == Account.Id && p.PermissionId == (int)AccountPermissionEnum.Report).Any(); } }
     }
 
     // Класс статистики бокового меню рабочего стола

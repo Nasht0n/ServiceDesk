@@ -396,7 +396,6 @@ namespace WebUI.Controllers
                 throw;
             }
         }
-
         [HttpPost]
         public async Task<ActionResult> DownloadRepairJournalReport(DashboardViewModel model)
         {

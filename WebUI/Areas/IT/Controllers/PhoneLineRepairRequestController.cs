@@ -100,6 +100,8 @@ namespace WebUI.Areas.IT.Controllers
                 info.CategoryModel = ModelFromData.GetViewModel(category);
                 model.MenuInformation.CategoryStats.CategoryInfos.Add(info);
             }
+            model.StartPeriodDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            model.EndPeriodDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
         }
         /// <summary>
         /// Метод инициализации выпадающих списков

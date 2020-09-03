@@ -29,168 +29,174 @@
             </li>
         }
     </ul>
-    <h6 class="m-3 text-black-50 text-center">Документы</h6>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item list-group-item-action m-0 p-0">
-            <a href="#RefillDocuments" data-toggle="collapse" aria-expanded="true" class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
-                <span class="ml-3 mr-auto text-center">Заправка оборудования</span>
-            </a>
-            <ul class="collapse list-unstyled bg-light" id="RefillDocuments">
-                <li>
-                    <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#refillJournalModal">
-                        Входящая корреспонденция
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#refillConsumptionModal">
-                        Списание
-                    </button>
-                </li>
-            </ul>
-        </li>
 
-        <li class="list-group-item list-group-item-action m-0 p-0">
-            <a href="#RepairDocuments" data-toggle="collapse" aria-expanded="true" class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
-                <span class="ml-3 mr-auto text-center">Ремонт оборудования</span>
-            </a>
-            <ul class="collapse list-unstyled bg-light" id="RepairDocuments">
-                <li>
-                    <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#repairJournalModal">
-                        Входящая корреспонденция
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#repairConsumptionModal">
-                        Списание
-                    </button>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    @if (Model.UserPermissions.Report)
+    {
+        <h6 class="m-3 text-black-50 text-center">Документы</h6>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action m-0 p-0">
+                <a href="#RefillDocuments" data-toggle="collapse" aria-expanded="true" class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
+                    <span class="ml-3 mr-auto text-center">Заправка оборудования</span>
+                </a>
+                <ul class="collapse list-unstyled bg-light" id="RefillDocuments">
+                    <li>
+                        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#refillJournalModal">
+                            Входящая корреспонденция
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#refillConsumptionModal">
+                            Списание
+                        </button>
+                    </li>
+                </ul>
+            </li>
 
-    <!-- Modal Refill Journal -->
-    <div class="modal fade" id="refillJournalModal" tabindex="-1" role="dialog" aria-labelledby="refillJournalModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="refillJournalModalLabel">Формирование отчета</h5>
+            <li class="list-group-item list-group-item-action m-0 p-0">
+                <a href="#RepairDocuments" data-toggle="collapse" aria-expanded="true" class="d-flex align-items-center dropdown-toggle-split list-group-item list-group-item-action bg-light text-decoration-none">
+                    <span class="ml-3 mr-auto text-center">Ремонт оборудования</span>
+                </a>
+                <ul class="collapse list-unstyled bg-light" id="RepairDocuments">
+                    <li>
+                        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#repairJournalModal">
+                            Входящая корреспонденция
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#repairConsumptionModal">
+                            Списание
+                        </button>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Modal Refill Journal -->
+        <div class="modal fade" id="refillJournalModal" tabindex="-1" role="dialog" aria-labelledby="refillJournalModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="refillJournalModalLabel">Формирование отчета</h5>
+                    </div>
+
+                    @using (Html.BeginForm("DownloadRefillJournalReport", "Dashboard", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-primary">Сформировать</button>
+                        </div>
+                    }
+
                 </div>
-
-                @using (Html.BeginForm("DownloadRefillJournalReport", "Dashboard", FormMethod.Post))
-                {
-                    <div class="modal-body">
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Сформировать</button>
-                    </div>
-                }
-
             </div>
         </div>
-    </div>
-    <!-- END Modal Refill Journal-->
+        <!-- END Modal Refill Journal-->
 
-    <!-- Modal Repair Journal -->
-    <div class="modal fade" id="repairJournalModal" tabindex="-1" role="dialog" aria-labelledby="repairJournalModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="repairJournalModalLabel">Формирование отчета</h5>
+        <!-- Modal Repair Journal -->
+        <div class="modal fade" id="repairJournalModal" tabindex="-1" role="dialog" aria-labelledby="repairJournalModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="repairJournalModalLabel">Формирование отчета</h5>
+                    </div>
+
+                    @using (Html.BeginForm("DownloadRepairJournalReport", "Dashboard", new { Area = "" }, FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-primary">Сформировать</button>
+                        </div>
+                    }
+
                 </div>
-
-                @using (Html.BeginForm("DownloadRepairJournalReport", "Dashboard", FormMethod.Post))
-                {
-                    <div class="modal-body">
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Сформировать</button>
-                    </div>
-                }
-
             </div>
         </div>
-    </div>
-    <!-- END Modal Repair Journal-->
+        <!-- END Modal Repair Journal-->
 
-    <!-- Modal Refill Consumption -->
-    <div class="modal fade" id="refillConsumptionModal" tabindex="-1" role="dialog" aria-labelledby="refillConsumptionModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="refillConsumptionModalLabel">Формирование отчета</h5>
+        <!-- Modal Refill Consumption -->
+        <div class="modal fade" id="refillConsumptionModal" tabindex="-1" role="dialog" aria-labelledby="refillConsumptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="refillConsumptionModalLabel">Формирование отчета</h5>
+                    </div>
+
+                    @using (Html.BeginForm("DownloadRefillConsumptionReport", "Dashboard", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-primary">Сформировать</button>
+                        </div>
+                    }
+
                 </div>
-
-                @using (Html.BeginForm("DownloadRefillConsumptionReport", "Dashboard", FormMethod.Post))
-                {
-                    <div class="modal-body">
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Сформировать</button>
-                    </div>
-                }
-
             </div>
         </div>
-    </div>
-    <!-- END Modal Refill Journal-->
+        <!-- END Modal Refill Journal-->
 
-    <!-- Modal Refill Consumption -->
-    <div class="modal fade" id="repairConsumptionModal" tabindex="-1" role="dialog" aria-labelledby="repairConsumptionModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="repairConsumptionModalLabel">Формирование отчета</h5>
+        <!-- Modal Refill Consumption -->
+        <div class="modal fade" id="repairConsumptionModal" tabindex="-1" role="dialog" aria-labelledby="repairConsumptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="repairConsumptionModalLabel">Формирование отчета</h5>
+                    </div>
+
+                    @using (Html.BeginForm("DownloadRepairConsumptionReport", "Dashboard", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="row m-3">
+                                @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
+                                @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-primary">Сформировать</button>
+                        </div>
+                    }
+
                 </div>
-
-                @using (Html.BeginForm("DownloadRepairConsumptionReport", "Dashboard", FormMethod.Post))
-                {
-                    <div class="modal-body">
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.StartPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.StartPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                        <div class="row m-3">
-                            @Html.LabelFor(model => model.EndPeriodDate, htmlAttributes: new { @class = "control-label text-dark" })
-                            @Html.EditorFor(model => model.EndPeriodDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Сформировать</button>
-                    </div>
-                }
-
             </div>
         </div>
-    </div>
-    <!-- END Modal Refill Journal-->
+        <!-- END Modal Refill Journal-->
+    }
+
+
 </div>
 
 

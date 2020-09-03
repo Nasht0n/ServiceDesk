@@ -9,6 +9,7 @@
         ViewRequest = 5,
         ApprovalAllowed = 6,
         GetInWorkRequest = 7,
-        Feedback = 8
+        Feedback = 8,
+        Report = 9
     }
 }
