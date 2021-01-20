@@ -870,6 +870,7 @@
     <Compile Include="Areas\IT\Controllers\EquipmentRepairRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\EquipmentReplaceRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\HoldingPhoneLineRequestController.cs" />
+    <Compile Include="Areas\IT\Controllers\InformationStatusRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\NetworkConnectionRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\PhoneLineRepairRequestController.cs" />
     <Compile Include="Areas\IT\Controllers\PhoneNumberAllocationRequestController.cs" />
@@ -1062,6 +1063,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\ControlPanel\Views\Equipment\" />
     <Folder Include="Areas\IT\Data\" />
+    <Folder Include="Areas\IT\Views\InformationStatusRequest\" />
     <Folder Include="Areas\IT\Views\Shared\" />
     <Folder Include="Files\Templates\" />
     <Folder Include="Files\UploadedFiles\AccountAttachments\" />

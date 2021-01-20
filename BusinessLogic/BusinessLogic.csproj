@@ -93,8 +93,11 @@
     <Compile Include="Abstract\Branches\IT\Networks\Requests\INetworkConnectionRequestLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Softwares\Attachments\ISoftwareDevelopmentRequestAttachmentLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Softwares\Attachments\ISoftwareReworkRequestAttachmentLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Softwares\IInformationStatusRequestTitlesLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Softwares\LifeCycles\IInformationStatusRequestLifeCycleLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Softwares\LifeCycles\ISoftwareDevelopmentRequestLifeCycleLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Softwares\LifeCycles\ISoftwareReworkRequestLifeCycleLogic.cs" />
+    <Compile Include="Abstract\Branches\IT\Softwares\Requests\IInformationStatusRequestLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Softwares\Requests\ISoftwareDevelopmentRequestLogic.cs" />
     <Compile Include="Abstract\Branches\IT\Softwares\Requests\ISoftwareReworkRequestLogic.cs" />
     <Compile Include="Abstract\IAccountLogic.cs" />
@@ -165,8 +168,11 @@
     <Compile Include="Concrete\Branches\IT\Networks\Requests\NetworkConnectionRequestLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Softwares\Attachments\SoftwareDevelopmentRequestAttachmentLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Softwares\Attachments\SoftwareReworkRequestAttachmentLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Softwares\InformationStatusRequestTitlesLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Softwares\LifeCycles\InformationStatusRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Softwares\LifeCycles\SoftwareDevelopmentRequestLifeCycleLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Softwares\LifeCycles\SoftwareReworkRequestLifeCycleLogic.cs" />
+    <Compile Include="Concrete\Branches\IT\Softwares\Requests\InformationStatusRequestLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Softwares\Requests\SoftwareDevelopmentRequestLogic.cs" />
     <Compile Include="Concrete\Branches\IT\Softwares\Requests\SoftwareReworkRequestLogic.cs" />
     <Compile Include="Concrete\BranchLogic.cs" />

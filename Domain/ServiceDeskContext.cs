@@ -65,10 +65,14 @@ namespace Domain
         public virtual DbSet<NetworkConnectionRequest> NetworkConnectionRequests { get; set; }
         public virtual DbSet<NetworkConnectionRequestLifeCycle> NetworkConnectionRequestLifeCycles { get; set; }
         public virtual DbSet<ConnectionEquipments> ConnectionEquipments { get; set; }
+
         public virtual DbSet<SoftwareDevelopmentRequest> SoftwareDevelopmentRequests { get; set; }
         public virtual DbSet<SoftwareDevelopmentRequestLifeCycle> SoftwareDevelopmentRequestLifeCycles { get; set; }
         public virtual DbSet<SoftwareReworkRequest> SoftwareReworkRequests { get; set; }
         public virtual DbSet<SoftwareReworkRequestLifeCycle> SoftwareReworkRequestLifeCycles { get; set; }
+        public virtual DbSet<InformationStatusRequest> InformationStatusRequests { get; set; }
+        public virtual DbSet<InformationStatusRequestLifeCycle> InformationStatusRequestLifeCycles { get; set; }
+        public virtual DbSet<InformationStatusRequestTitle> InformationStatusRequestTitles { get; set; }
 
         public virtual DbSet<TechnicalSupportEventRequest> TechnicalSupportEventRequests { get; set; }
         public virtual DbSet<TechnicalSupportEventRequestLifeCycle> TechnicalSupportEventRequestLifeCycles { get; set; }
@@ -180,6 +184,11 @@ namespace Domain
 
             modelBuilder.Entity<SoftwareDevelopmentRequest>()
                 .HasMany(e => e.Attachments)
+                .WithRequired()
+                .HasForeignKey(c => c.RequestId);
+
+            modelBuilder.Entity<InformationStatusRequest>()
+                .HasMany(e => e.Titles)
                 .WithRequired()
                 .HasForeignKey(c => c.RequestId);
 
@@ -447,6 +456,16 @@ namespace Domain
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<SoftwareReworkRequest>()
+                .HasOptional(r => r.Executor)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<InformationStatusRequest>()
+                .HasOptional(r => r.Client)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<InformationStatusRequest>()
                 .HasOptional(r => r.Executor)
                 .WithMany()
                 .WillCascadeOnDelete(false);

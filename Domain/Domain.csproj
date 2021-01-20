@@ -121,6 +121,10 @@
     <Compile Include="Migrations\202009011349447_RepairReports.designer.cs">
       <DependentUpon>202009011349447_RepairReports.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101200640553_AddInformationStatusRequest.cs" />
+    <Compile Include="Migrations\202101200640553_AddInformationStatusRequest.designer.cs">
+      <DependentUpon>202101200640553_AddInformationStatusRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -193,6 +197,9 @@
     <Compile Include="Models\Requests\Network\ConnectionEquipments.cs" />
     <Compile Include="Models\Requests\Network\NetworkConnectionRequest.cs" />
     <Compile Include="Models\Requests\Network\NetworkConnectionRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Software\InformationStatusRequest.cs" />
+    <Compile Include="Models\Requests\Software\InformationStatusRequestLifeCycle.cs" />
+    <Compile Include="Models\Requests\Software\InformationStatusRequestTitle.cs" />
     <Compile Include="Models\Requests\Software\SoftwareDevelopmentRequest.cs" />
     <Compile Include="Models\Requests\Software\SoftwareDevelopmentRequestLifeCycle.cs" />
     <Compile Include="Models\Requests\Software\SoftwareReworkRequest.cs" />
@@ -270,6 +277,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009011349447_RepairReports.resx">
       <DependentUpon>202009011349447_RepairReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101200640553_AddInformationStatusRequest.resx">
+      <DependentUpon>202101200640553_AddInformationStatusRequest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

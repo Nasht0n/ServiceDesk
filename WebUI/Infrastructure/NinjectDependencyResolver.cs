@@ -16,6 +16,7 @@ using BusinessLogic.Abstract.Branches.IT.Events.Requests;
 using BusinessLogic.Abstract.Branches.IT.Networks;
 using BusinessLogic.Abstract.Branches.IT.Networks.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Networks.Requests;
+using BusinessLogic.Abstract.Branches.IT.Softwares;
 using BusinessLogic.Abstract.Branches.IT.Softwares.Attachments;
 using BusinessLogic.Abstract.Branches.IT.Softwares.LifeCycles;
 using BusinessLogic.Abstract.Branches.IT.Softwares.Requests;
@@ -38,6 +39,7 @@ using BusinessLogic.Concrete.Branches.IT.Events.Requests;
 using BusinessLogic.Concrete.Branches.IT.Networks;
 using BusinessLogic.Concrete.Branches.IT.Networks.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Networks.Requests;
+using BusinessLogic.Concrete.Branches.IT.Softwares;
 using BusinessLogic.Concrete.Branches.IT.Softwares.Attachments;
 using BusinessLogic.Concrete.Branches.IT.Softwares.LifeCycles;
 using BusinessLogic.Concrete.Branches.IT.Softwares.Requests;
@@ -62,6 +64,7 @@ using Repository.Abstract.Branches.IT.Events.Requests;
 using Repository.Abstract.Branches.IT.Network;
 using Repository.Abstract.Branches.IT.Network.LifeCycles;
 using Repository.Abstract.Branches.IT.Network.Requests;
+using Repository.Abstract.Branches.IT.Software;
 using Repository.Abstract.Branches.IT.Software.Attachments;
 using Repository.Abstract.Branches.IT.Software.LifeCycles;
 using Repository.Abstract.Branches.IT.Software.Requests;
@@ -84,6 +87,7 @@ using Repository.Concrete.Branches.IT.Events.Requests;
 using Repository.Concrete.Branches.IT.Network;
 using Repository.Concrete.Branches.IT.Network.LifeCycles;
 using Repository.Concrete.Branches.IT.Network.Requests;
+using Repository.Concrete.Branches.IT.Software;
 using Repository.Concrete.Branches.IT.Software.Attachments;
 using Repository.Concrete.Branches.IT.Software.LifeCycles;
 using Repository.Concrete.Branches.IT.Software.Requests;
@@ -139,6 +143,8 @@ namespace WebUI.Infrastructure
             kernel.Bind<IReplaceComponentsRepository>().To<ReplaceComponentsRepository>();
             kernel.Bind<IReplaceEquipmentsRepository>().To<ReplaceEquipmentsRepository>();
             kernel.Bind<IConnectionEquipmentsRepository>().To<ConnectionEquipmentsRepository>();
+
+            kernel.Bind<IInformationStatusRequestTitlesRepository>().To<InformationStatusRequestTitlesRepository>();
 
             kernel.Bind<IRefillRequestConsumptionRepository>().To<RefillRequestConsumptionRepository>();
             kernel.Bind<IRefillRequestJournalRepository>().To<RefillRequestJournalRepository>();
@@ -204,6 +210,7 @@ namespace WebUI.Infrastructure
 
             kernel.Bind<ISoftwareDevelopmentRequestRepository>().To<SoftwareDevelopmentRequestRepository>();
             kernel.Bind<ISoftwareReworkRequestRepository>().To<SoftwareReworkRequestRepository>();
+            kernel.Bind<IInformationStatusRequestRepository>().To<InformationStatusRequestRepository>();
         }
 
         private void AddLifeCyclesRepositoriesBindings()
@@ -234,6 +241,7 @@ namespace WebUI.Infrastructure
 
             kernel.Bind<ISoftwareDevelopmentRequestLifeCycleRepository>().To<SoftwareDevelopmentRequestLifeCycleRepository>();
             kernel.Bind<ISoftwareReworkRequestLifeCycleRepository>().To<SoftwareReworkRequestLifeCycleRepository>();
+            kernel.Bind<IInformationStatusRequestLifeCycleRepository>().To<InformationStatusRequestLifeCycleRepository>();
         }
 
         private void AddLogicBindings()
@@ -278,6 +286,7 @@ namespace WebUI.Infrastructure
             kernel.Bind<IRepairEquipmentsLogic>().To<RepairEquipmentsLogic>();
             kernel.Bind<IReplaceComponentsLogic>().To<ReplaceComponentsLogic>();
             kernel.Bind<IReplaceEquipmentsLogic>().To<ReplaceEquipmentsLogic>();
+            kernel.Bind<IInformationStatusRequestTitlesLogic>().To<InformationStatusRequestTitlesLogic>();
 
             kernel.Bind<IConnectionEquipmentsLogic>().To<ConnectionEquipmentsLogic>();
 
@@ -332,6 +341,7 @@ namespace WebUI.Infrastructure
 
             kernel.Bind<ISoftwareDevelopmentRequestLogic>().To<SoftwareDevelopmentRequestLogic>();
             kernel.Bind<ISoftwareReworkRequestLogic>().To<SoftwareReworkRequestLogic>();
+            kernel.Bind<IInformationStatusRequestLogic>().To<InformationStatusRequestLogic>();
         }
 
         private void AddLifeCyclesLogicBindings()
@@ -362,6 +372,7 @@ namespace WebUI.Infrastructure
 
             kernel.Bind<ISoftwareDevelopmentRequestLifeCycleLogic>().To<SoftwareDevelopmentRequestLifeCycleLogic>();
             kernel.Bind<ISoftwareReworkRequestLifeCycleLogic>().To<SoftwareReworkRequestLifeCycleLogic>();
+            kernel.Bind<IInformationStatusRequestLifeCycleLogic>().To<InformationStatusRequestLifeCycleLogic>();
         }
 
         public object GetService(Type serviceType)

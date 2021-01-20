@@ -109,8 +109,11 @@
     <Compile Include="Abstract\Branches\IT\Network\Requests\INetworkConnectionRequestRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Software\Attachments\ISoftwareDevelopmentRequestAttachmentsRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Software\Attachments\ISoftwareReworkRequestAttachmentsRepository.cs" />
+    <Compile Include="Abstract\Branches\IT\Software\IInformationStatusRequestTitlesRepository.cs" />
+    <Compile Include="Abstract\Branches\IT\Software\LifeCycles\IInformationStatusRequestLifeCycleRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Software\LifeCycles\ISoftwareDevelopmentRequestLifeCycleRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Software\LifeCycles\ISoftwareReworkRequestLifeCycleRepository.cs" />
+    <Compile Include="Abstract\Branches\IT\Software\Requests\IInformationStatusRequestRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Software\Requests\ISoftwareDevelopmentRequestRepository.cs" />
     <Compile Include="Abstract\Branches\IT\Software\Requests\ISoftwareReworkRequestRepository.cs" />
     <Compile Include="Abstract\IAccountPermissionRepository.cs" />
@@ -197,8 +200,11 @@
     <Compile Include="Concrete\Branches\IT\Network\Requests\NetworkConnectionRequestRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Software\Attachments\SoftwareDevelopmentRequestAttachmentsRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Software\Attachments\SoftwareReworkRequestAttachmentsRepository.cs" />
+    <Compile Include="Concrete\Branches\IT\Software\InformationStatusRequestTitlesRepository.cs" />
+    <Compile Include="Concrete\Branches\IT\Software\LifeCycles\InformationStatusRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Software\LifeCycles\SoftwareDevelopmentRequestLifeCycleRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Software\LifeCycles\SoftwareReworkRequestLifeCycleRepository.cs" />
+    <Compile Include="Concrete\Branches\IT\Software\Requests\InformationStatusRequestRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Software\Requests\SoftwareDevelopmentRequestRepository.cs" />
     <Compile Include="Concrete\Branches\IT\Software\Requests\SoftwareReworkRequestRepository.cs" />
     <Compile Include="Concrete\BranchRepository.cs" />
