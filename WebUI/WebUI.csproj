@@ -1007,6 +1007,8 @@
     <Compile Include="ViewModels\Requests\IT\Networks\NetworkConnectionDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Networks\NetworkConnectionRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\RequestViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Softwares\InformationStatusRequestTitleViewModel.cs" />
+    <Compile Include="ViewModels\Requests\IT\Softwares\InformationStatusRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Softwares\SoftwareDevelopmentDetailsRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Softwares\SoftwareDevelopmentRequestViewModel.cs" />
     <Compile Include="ViewModels\Requests\IT\Softwares\SoftwareReworkDetailsRequestViewModel.cs" />

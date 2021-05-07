@@ -147,6 +147,7 @@ namespace Repository.Concrete.Branches.IT.Software
                 {
                     // обновляем поля объекта
                     updated.RequestId = title.RequestId;
+                    updated.UpdateDate = title.UpdateDate;
                     updated.Title = title.Title;
                 }
                 log.Debug($"Сохранение изменений.");

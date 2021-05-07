@@ -125,6 +125,10 @@
     <Compile Include="Migrations\202101200640553_AddInformationStatusRequest.designer.cs">
       <DependentUpon>202101200640553_AddInformationStatusRequest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101210926316_addUpdateDateTitleInfoStatusRequest.cs" />
+    <Compile Include="Migrations\202101210926316_addUpdateDateTitleInfoStatusRequest.designer.cs">
+      <DependentUpon>202101210926316_addUpdateDateTitleInfoStatusRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -280,6 +284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101200640553_AddInformationStatusRequest.resx">
       <DependentUpon>202101200640553_AddInformationStatusRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101210926316_addUpdateDateTitleInfoStatusRequest.resx">
+      <DependentUpon>202101210926316_addUpdateDateTitleInfoStatusRequest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

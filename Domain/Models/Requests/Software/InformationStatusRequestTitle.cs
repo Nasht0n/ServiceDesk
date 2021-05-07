@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models.Requests.Software
@@ -18,6 +19,8 @@ namespace Domain.Models.Requests.Software
         /// </summary>
         [Required]
         public int RequestId { get; set; }
+        [Required]
+        public DateTime UpdateDate { get; set; }
         /// <summary>
         /// Заголовок страницы сайта
         /// </summary>
