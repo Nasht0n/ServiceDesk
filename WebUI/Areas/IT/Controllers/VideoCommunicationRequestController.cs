@@ -180,9 +180,8 @@ namespace WebUI.Areas.IT.Controllers
             // инициализация аудитории
             request.Location = model.Location;
             // инициализация даты проведения мероприятия
-            request.Date = model.Date;
-            // инициализация времени проведения мероприятия
-            request.Time = model.Time;
+            request.StartDateTime = model.StartDate;
+            request.EndDateTime = model.EndDate;
             return request;
         }
         /// <summary>
@@ -318,9 +317,36 @@ namespace WebUI.Areas.IT.Controllers
             var service = await serviceLogic.GetService(SERVICE_ID);
             // инициализация модели вида заявки в представлении
             model.ServiceModel = ModelFromData.GetViewModel(service);
-            model.Date = DateTime.Now;
+            model.StartDate = DateTime.Now;
+            model.EndDate = DateTime.Now.AddHours(2);
             return View(model);
         }
+
+        public async Task<ActionResult> GetEventData()
+        {
+            var requests = await requestLogic.GetRequests();
+            List<EventModel> events = MapEvents(requests);
+
+            return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        private List<EventModel> MapEvents(List<VideoCommunicationRequest> requests)
+        {
+            List<EventModel> events = new List<EventModel>();
+            foreach(var request in requests)
+            {
+                events.Add(new EventModel
+                {
+                    title = string.Format("[{0}] {1}", request.Location, request.Title),
+                    description = request.Description,
+                    start = request.StartDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
+                    end = request.EndDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
+                    id = request.Id
+                });
+            }
+            return events;
+        }
+
         /// <summary>
         /// Метод отправки данных страницы создания заявки
         /// </summary>

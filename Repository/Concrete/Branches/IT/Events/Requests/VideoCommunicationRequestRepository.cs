@@ -156,7 +156,8 @@ namespace Repository.Concrete.Branches.IT.Events.Requests
                 {
                     // обновляем поля объекта
                     updated.Location = request.Location;
-                    updated.Date = request.Date;
+                    updated.StartDateTime = request.StartDateTime;
+                    updated.EndDateTime = request.EndDateTime;
                     updated.CampusId = request.CampusId;
                     updated.Title = request.Title;
                     updated.Justification = request.Justification;
@@ -168,7 +169,6 @@ namespace Repository.Concrete.Branches.IT.Events.Requests
                     updated.ExecutorId = request.ExecutorId;
                     updated.ExecutorGroupId = request.ExecutorGroupId;
                     updated.SubdivisionId = request.SubdivisionId;
-                    updated.Time = request.Time;
                 }
                 log.Debug($"Сохранение изменений.");
                 // сохранение изменений

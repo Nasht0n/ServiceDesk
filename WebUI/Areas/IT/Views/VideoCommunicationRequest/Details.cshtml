@@ -53,8 +53,12 @@
                         <span class="ml-1">@Model.RequestModel.Date.ToShortDateString()</span>
                     </li>
                     <li class="list-group-item bg-white text-dark">
-                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.Time):</span>
-                        <span class="ml-1">@Model.RequestModel.Time</span>
+                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.StartTime):</span>
+                        <span class="ml-1">@Model.RequestModel.StartTime</span>
+                    </li>
+                    <li class="list-group-item bg-white text-dark">
+                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.EndTime):</span>
+                        <span class="ml-1">@Model.RequestModel.EndTime</span>
                     </li>
                 </ul>
                 <div class="card-body">

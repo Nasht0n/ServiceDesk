@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using WebUI.ViewModels.CampusModel;
@@ -17,13 +16,16 @@ namespace WebUI.ViewModels.Requests.IT.Events
         [Display(Name = "Аудитория/Кабинет")]
         public string Location { get; set; }
         [Required]
-        [Display(Name = "Дата проведения")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }        
-        [Required]        
-        [Display(Name = "Время проведения")]
-        public string Time { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
+        [Display(Name = "Начало мероприятия")]
+        public DateTime StartDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
+        [Display(Name = "Окончание мероприятия")]
+        public DateTime EndDate { get; set; }
 
         public SelectList Priorities { get; set; }
         public SelectList Campuses { get; set; }

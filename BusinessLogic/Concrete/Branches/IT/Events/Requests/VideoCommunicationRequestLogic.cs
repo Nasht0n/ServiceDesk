@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Abstract.Branches.IT.Events.Requests;
 using Domain.Models.Requests.Events;
 using Repository.Abstract.Branches.IT.Events.Requests;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +25,11 @@ namespace BusinessLogic.Concrete.Branches.IT.Events.Requests
         {
             var requests = await repository.GetRequests();
             return requests.SingleOrDefault(r => r.Id == id);
+        }
+
+        public async Task<List<VideoCommunicationRequest>> GetRequests()
+        {
+            return await repository.GetRequests();
         }
 
         public async Task<VideoCommunicationRequest> Save(VideoCommunicationRequest request)

@@ -19,13 +19,9 @@ namespace Domain.Models.Requests.Events
         /// Дата проведения мероприятия
         /// </summary>
         [Required]
-        public DateTime Date { get; set; }
-        /// <summary>
-        /// Время проведения мероприятия
-        /// </summary>
+        public DateTime StartDateTime { get; set; }
         [Required]
-        [MaxLength(100)]
-        public string Time { get; set; }
+        public DateTime EndDateTime { get; set; }
         /// <summary>
         /// Идентификатор учебного корпуса
         /// </summary>
@@ -55,7 +51,7 @@ namespace Domain.Models.Requests.Events
         /// <param name="location">Расположение</param>
         /// <param name="campusId">Идентификатор учебного корпуса</param>
         public VideoCommunicationRequest(string title, string justification, string description, int serviceId, int statusId, int priorityId, 
-            int clientId, int executorGroupId, string location, DateTime date, int campusId)
+            int clientId, int executorGroupId, string location, DateTime startDateTime, DateTime endDateTime, int campusId)
         {
             Title = title;
             Justification = justification;
@@ -66,8 +62,9 @@ namespace Domain.Models.Requests.Events
             ClientId = clientId;
             ExecutorGroupId = executorGroupId;
             Location = location;
-            Date = date;
             CampusId = campusId;
+            StartDateTime = startDateTime;
+            EndDateTime = endDateTime;
         }
         /// <summary>
         /// Метод переопределения стандартного метода ToString(). 
@@ -78,7 +75,7 @@ namespace Domain.Models.Requests.Events
         {
             return $"VideoCommunicationRequest object:(Id:[{Id}];Title:[{Title}];Justification:[{Justification}];Description:[{Description}];ServiceId:[{ServiceId}];" +
                 $"StatusId:[{StatusId}];PriorityId:[{PriorityId}];ClientId:[{ClientId}];ExecutorGroupId:[{ExecutorGroupId}]);Location:[{Location}];" +
-                $"Date:[{Date.ToString()}];CampusId:[{CampusId}].";
+                $"StartDateTime:[{StartDateTime.ToString()}];CampusId:[{CampusId}].";
         }
         /// <summary>
         /// Метод переопределения стандартного метода сравнения объектов.
@@ -92,7 +89,7 @@ namespace Domain.Models.Requests.Events
                 VideoCommunicationRequest temp = (VideoCommunicationRequest)obj;
                 if (temp.Id == Id && temp.Title == Title && temp.Justification == Justification && temp.Description == Description && temp.ServiceId == ServiceId &&
                     temp.StatusId == StatusId && temp.PriorityId == PriorityId && temp.ClientId == ClientId &&
-                    temp.ExecutorGroupId == ExecutorGroupId && temp.Location == Location && temp.Date == Date && temp.CampusId == CampusId) return true;
+                    temp.ExecutorGroupId == ExecutorGroupId && temp.Location == Location && temp.StartDateTime == StartDateTime && temp.CampusId == CampusId) return true;
                 else return false;
             }
             return false;

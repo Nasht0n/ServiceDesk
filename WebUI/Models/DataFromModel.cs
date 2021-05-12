@@ -261,7 +261,8 @@ namespace WebUI.Models
                 CampusId = model.CampusId,
                 Location = model.Location,
                 SubdivisionId = model.SubdivisionId,
-                Date = model.Date
+                StartDateTime = model.StartDate,
+                EndDateTime = model.EndDate                
             };
         }
 

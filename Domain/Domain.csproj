@@ -129,6 +129,14 @@
     <Compile Include="Migrations\202101210926316_addUpdateDateTitleInfoStatusRequest.designer.cs">
       <DependentUpon>202101210926316_addUpdateDateTitleInfoStatusRequest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105121116335_AddEndTimeField.cs" />
+    <Compile Include="Migrations\202105121116335_AddEndTimeField.designer.cs">
+      <DependentUpon>202105121116335_AddEndTimeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105121220247_AddEndDateTimeField.cs" />
+    <Compile Include="Migrations\202105121220247_AddEndDateTimeField.designer.cs">
+      <DependentUpon>202105121220247_AddEndDateTimeField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -287,6 +295,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101210926316_addUpdateDateTitleInfoStatusRequest.resx">
       <DependentUpon>202101210926316_addUpdateDateTitleInfoStatusRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105121116335_AddEndTimeField.resx">
+      <DependentUpon>202105121116335_AddEndTimeField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105121220247_AddEndDateTimeField.resx">
+      <DependentUpon>202105121220247_AddEndDateTimeField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -505,8 +505,8 @@ namespace WebUI.Models
                 StatusModel = GetViewModel(request.Status),
                 SubdivisionId = request.SubdivisionId,
                 SubdivisionModel = GetViewModel(request.Subdivision),
-                Date = request.Date,
-                Time = request.Time
+                StartDate = request.StartDateTime,
+                EndDate = request.EndDateTime
             };
             model.RequestModel.ExecutorId = request.ExecutorId ?? null;
             if (request.ExecutorId.HasValue)
@@ -613,8 +613,8 @@ namespace WebUI.Models
                 Title = request.Title,
                 SubdivisionId = request.SubdivisionId,
                 SubdivisionModel = GetViewModel(request.Subdivision),
-                Date = request.Date,
-                Time = request.Time                
+                StartDate = request.StartDateTime,
+                EndDate = request.EndDateTime
             };
             if (request.ExecutorId.HasValue)
             {

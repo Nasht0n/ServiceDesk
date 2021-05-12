@@ -3,6 +3,12 @@
     ViewBag.Title = "Заявка на проведение видеосвязи";
     Layout = "~/Views/Shared/Cerulean/_DashboardLayout.cshtml";
 }
+
+
+<script src="~/Scripts/fullcalendar/fcalendar.js"></script>
+
+
+
 <div class="container footer">
 
     <h2 class="display-4 text-center text-dark mt-3 mb-3">@ViewBag.Title</h2>
@@ -18,77 +24,91 @@
         </li>
         <li class="breadcrumb-item active">Регистрация заявки</li>
     </ol>
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="row">
-                <div class="form-group col-12">
-                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Проведение видеоконференции)", autocomplete = "off" } })
+    <div id="calendar"></div>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="addModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Регистрация мероприятия</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
+                @using (Html.BeginForm())
+                {
+                    <div class="modal-body">
 
-            <div class="row">
-                <div class="form-group col-12">
-                    @Html.LabelFor(model => model.Justification, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.EditorFor(model => model.Justification, new { htmlAttributes = new { @class = "form-control", Name = "Model.Justification", placeholder = "Опишите необходимость заявки", @rows = 4 } })
-                    @Html.ValidationMessageFor(model => model.Justification, "", new { @class = "text-danger" })
+                        @Html.AntiForgeryToken()
 
-                </div>
-            </div>
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", Name = "Model.Title", placeholder = "Введите заголовок заявки (Пример: Проведение видеоконференции)", autocomplete = "off" } })
+                                </div>
+                            </div>
 
-            <div class="row">
-                <div class="form-group col-12">
-                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Name = "Model.Description", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    @Html.LabelFor(model => model.Justification, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                                    @Html.EditorFor(model => model.Justification, new { htmlAttributes = new { @class = "form-control", Name = "Model.Justification", placeholder = "Опишите необходимость заявки", @rows = 4 } })
+                                    @Html.ValidationMessageFor(model => model.Justification, "", new { @class = "text-danger" })
 
-            <div class="row">
-                <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.PriorityModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.DropDownListFor(model => model.PriorityId, Model.Priorities, htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
-                </div>
+                                </div>
+                            </div>
 
-                <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", Name = "Model.Date", autocomplete = "off" } })
-                </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Name = "Model.Description", placeholder = "Введите дополнительную информацию о заявке", @rows = 4 } })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.DropDownListFor(model => model.Time, Model.Times, htmlAttributes: new { @class = "form-control", Name = "Model.Time" })
-                </div>
-            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    @Html.LabelFor(model => model.PriorityModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                                    @Html.DropDownListFor(model => model.PriorityId, Model.Priorities, htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
+                                </div>
 
-            <div class="row">
-                <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.DropDownListFor(model => model.CampusId, Model.Campuses, htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
-                </div>
-                <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории/кабинета", autocomplete = "off" } })
-                </div>
-            </div>
+                                <div class="form-group col-md-4">
+                                    @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                                    @Html.DropDownListFor(model => model.CampusId, Model.Campuses, htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории", autocomplete = "off" } })
+                                </div>
+                            </div>
 
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-auto">
-                        <input type="submit" value="Сохранить" class="btn btn-primary" />
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.StartDate, "{0:yyyy-MM-ddThh:mm:ss}", new { htmlAttributes = new { @class = "form-control", Name = "Model.StartDate", autocomplete = "off", type = "datetime-local" } })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.EndDate, "{0:yyyy-MM-ddThh:mm:ss}", new { htmlAttributes = new { @class = "form-control", Name = "Model.EndDate", autocomplete = "off", type = "datetime-local" } })
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-                <div class="text-dark">
-                    @Html.ActionLink("Вернуться к созданию заявки", "ChooseBranch", "Dashboard", new { Area = "" }, new { @class = "btn btn-outline-primary" })
-                </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                }
             </div>
         </div>
-    }
+    </div>
 </div>
