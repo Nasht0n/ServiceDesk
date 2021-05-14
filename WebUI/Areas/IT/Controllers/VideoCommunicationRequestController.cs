@@ -300,6 +300,7 @@ namespace WebUI.Areas.IT.Controllers
         /// <returns>Возвращает представление создания заявки</returns>
         public async Task<ActionResult> Create()
         {
+            ViewBag.Error = null;
             // создание модели представления
             VideoCommunicationRequestViewModel model = new VideoCommunicationRequestViewModel();
             // получение данных об авторизованном сотруднике
@@ -367,12 +368,30 @@ namespace WebUI.Areas.IT.Controllers
             // получение вида заявки
             var service = await serviceLogic.GetService(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);
-            // сохраняем заявку
-            await requestLogic.Save(request);
-            // создаем запись жизненного цикла заявки
-            await LifeCycleMessage(request.Id, user, "Создание заявки");
-            return RedirectToAction("Details", service.Controller, new { id = request.Id });
+
+            if (!(await Exist(request)))
+            {
+                // сохраняем заявку
+                await requestLogic.Save(request);
+                // создаем запись жизненного цикла заявки
+                await LifeCycleMessage(request.Id, user, "Создание заявки");
+                //
+                return RedirectToAction("Details", service.Controller, new { id = request.Id });
+            }
+            else
+            {
+                string errorMessage = $"На указаное время аудитория '{model.Location}' уже занята";
+                ViewBag.Error = errorMessage;
+                return View(model);
+            }
         }
+
+        private async Task<bool> Exist(VideoCommunicationRequest request)
+        {
+            var find = await requestLogic.GetRequest(request.StartDateTime, request.EndDateTime, request.Location);
+            return find==null;
+        }
+
         /// <summary>
         /// Метод отображения страницы редактирования заявки
         /// </summary>

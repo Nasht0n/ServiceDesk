@@ -1,4 +1,5 @@
 ﻿using Domain.Models.Requests.Events;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,5 +11,6 @@ namespace BusinessLogic.Abstract.Branches.IT.Events.Requests
         Task Delete(VideoCommunicationRequest request);
         Task<VideoCommunicationRequest> GetRequest(int id);
         Task<List<VideoCommunicationRequest>> GetRequests();
+        Task<VideoCommunicationRequest> GetRequest(DateTime start, DateTime end, string location);
     }
 }

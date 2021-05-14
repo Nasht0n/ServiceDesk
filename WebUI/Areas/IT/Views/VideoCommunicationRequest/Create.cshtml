@@ -25,6 +25,14 @@
         <li class="breadcrumb-item active">Регистрация заявки</li>
     </ol>
 
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-dismissible alert-warning">
+            <h4 class="alert-heading">Внимание!</h4>
+            <p class="mb-0">@ViewBag.Error</p>
+        </div>
+    }
+
     <div id="calendar"></div>
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="addModal">

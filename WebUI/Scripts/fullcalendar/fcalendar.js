@@ -5,11 +5,7 @@
         locale: 'ru',
         themeSystem: 'bootstrap',
         contentHeight: 600,
-        selectable: true,
-        unselectAuto: true,
-        select: function () {
-
-        },
+        allDaySlot: false,
 
         views: {
             timeGrid: {
@@ -27,11 +23,7 @@
         },
 
         eventClick: function (info) {
-            alert('Event: ' + info.event.id);
-            
-
-            // change the border color just for fun
-            info.el.style.borderColor = 'red';
+            window.location.href = 'Details/' + info.event.id;
         },
 
         headerToolbar: {
@@ -40,7 +32,12 @@
             end: 'dayGridMonth,timeGridWeek'
         },
 
-        events: "GetEventData"   
+        events: "GetEventData",
+        eventTimeFormat: { // like '14:30:00'
+            hour: '2-digit',
+            minute: '2-digit',
+            meridiem: false
+        }
     });
     calendar.render();
 });

@@ -55,26 +55,33 @@
             </div>
 
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.PriorityModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
                     @Html.DropDownListFor(model => model.PriorityId, Model.Priorities, htmlAttributes: new { @class = "form-control", Name = "Model.PriorityId" })
                 </div>
-                <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Date, Model.Date.ToString("{0:yyyy-MM-dd}"), new {  htmlAttributes = new { @class = "form-control", Name = "Model.Date" } })
+
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.DropDownListFor(model => model.CampusId, Model.Campuses, htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории", autocomplete = "off" } })
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.CampusModel, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.DropDownListFor(model => model.CampusId, Model.Campuses, htmlAttributes: new { @class = "form-control", Name = "Model.CampusId" })
+                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.StartDate, "{0:yyyy-MM-ddThh:mm:ss}", new { htmlAttributes = new { @class = "form-control", Name = "Model.StartDate", autocomplete = "off", type = "datetime-local" } })
                 </div>
+
                 <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
-                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", Name = "Model.Location", placeholder = "Введите номер аудитории/кабинета", autocomplete = "off" } })
+                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-12 text-dark" })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.EndDate, "{0:yyyy-MM-ddThh:mm:ss}", new { htmlAttributes = new { @class = "form-control", Name = "Model.EndDate", autocomplete = "off", type = "datetime-local" } })
                 </div>
             </div>
 

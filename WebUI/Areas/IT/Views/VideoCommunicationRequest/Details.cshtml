@@ -49,16 +49,12 @@
                         <span class="ml-1">@Model.RequestModel.Location</span>
                     </li>
                     <li class="list-group-item bg-white text-dark">
-                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.Date):</span>
-                        <span class="ml-1">@Model.RequestModel.Date.ToShortDateString()</span>
+                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.StartDate):</span>
+                        <span class="ml-1">@Model.RequestModel.StartDate</span>
                     </li>
                     <li class="list-group-item bg-white text-dark">
-                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.StartTime):</span>
-                        <span class="ml-1">@Model.RequestModel.StartTime</span>
-                    </li>
-                    <li class="list-group-item bg-white text-dark">
-                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.EndTime):</span>
-                        <span class="ml-1">@Model.RequestModel.EndTime</span>
+                        <span class="font-weight-bold">@Html.LabelFor(model => model.RequestModel.EndDate):</span>
+                        <span class="ml-1">@Model.RequestModel.EndDate</span>
                     </li>
                 </ul>
                 <div class="card-body">
