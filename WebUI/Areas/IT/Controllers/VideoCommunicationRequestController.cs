@@ -327,7 +327,6 @@ namespace WebUI.Areas.IT.Controllers
         {
             var requests = await requestLogic.GetRequests();
             List<EventModel> events = MapEvents(requests);
-
             return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
@@ -338,7 +337,8 @@ namespace WebUI.Areas.IT.Controllers
             {
                 events.Add(new EventModel
                 {
-                    title = string.Format("[{0}] {1}", request.Location, request.Title),
+                    title = string.Format("Ауд. {0}", request.Location),
+                    request = request.Title,
                     description = request.Description,
                     start = request.StartDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
                     end = request.EndDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
@@ -369,7 +369,7 @@ namespace WebUI.Areas.IT.Controllers
             var service = await serviceLogic.GetService(SERVICE_ID);
             model.ServiceModel = ModelFromData.GetViewModel(service);
 
-            if (!(await Exist(request)))
+            if (await Exist(request))
             {
                 // сохраняем заявку
                 await requestLogic.Save(request);
@@ -388,7 +388,7 @@ namespace WebUI.Areas.IT.Controllers
 
         private async Task<bool> Exist(VideoCommunicationRequest request)
         {
-            var find = await requestLogic.GetRequest(request.StartDateTime, request.EndDateTime, request.Location);
+            var find = await requestLogic.GetRequest(request.StartDateTime, request.EndDateTime, request.Location, request.CampusId);
             return find==null;
         }
 

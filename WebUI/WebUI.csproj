@@ -728,6 +728,12 @@
     <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Details.cshtml" />
     <Content Include="Areas\IT\Views\TechnicalSupportEventRequest\Edit.cshtml" />
     <Content Include="Files\SERVICE DESK. Руководство пользователя.pdf" />
+    <Content Include="Files\Templates\Refill\Входящая корреспонденция.xlsx" />
+    <Content Include="Files\Templates\Refill\Списание.xlsx" />
+    <Content Include="Files\Templates\Repair\Входящая корреспонденция.xlsx" />
+    <Content Include="Files\Templates\Repair\Списание.xlsx" />
+    <Content Include="Files\Templates\Входящая корреспонденция.xlsx" />
+    <Content Include="Files\Templates\Списание.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -1069,7 +1075,6 @@
     <Folder Include="Areas\IT\Data\" />
     <Folder Include="Areas\IT\Views\InformationStatusRequest\" />
     <Folder Include="Areas\IT\Views\Shared\" />
-    <Folder Include="Files\Templates\" />
     <Folder Include="Files\UploadedFiles\AccountAttachments\" />
     <Folder Include="Files\UploadedFiles\SoftwareAttachments\" />
   </ItemGroup>
