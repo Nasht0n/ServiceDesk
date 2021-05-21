@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using Domain.Models.Requests.Events;
 using Domain.Views;
 using System.Collections.Generic;
 
@@ -159,6 +160,38 @@ namespace Report
                     worksheet.Cell(index + 3, 8).Value = consumptions[index - 1].Campus;
                     worksheet.Cell(index + 3, 9).Value = consumptions[index - 1].Location;
                     worksheet.Cell(index + 3, 10).Value = consumptions[index - 1].Fullname;
+                }
+                return workbook;
+            }
+        }
+
+        public static class EventReportManager
+        {
+            public static XLWorkbook GenerateJournalReport(string path, List<VideoCommunicationRequest> events, System.DateTime startDate, System.DateTime endDate)
+            {
+                var workbook = new XLWorkbook(path);
+                IXLWorksheet worksheet = workbook.Worksheet("!Data");
+
+                worksheet.Cell(3, 1).Value = "№ п/п";
+                worksheet.Cell(3, 2).Value = "Корпус";
+                worksheet.Cell(3, 3).Value = "Аудитория";
+                worksheet.Cell(3, 4).Value = "Наименование мероприятия";
+                worksheet.Cell(3, 5).Value = "Время начала";
+                worksheet.Cell(3, 6).Value = "Время окончания";
+
+                worksheet.Cell(1, 1).Value = "Дата начала выборки";
+                worksheet.Cell(1, 4).Value = "Дата окончания выборки";
+                worksheet.Cell(1, 2).Value = startDate.ToShortDateString();
+                worksheet.Cell(1, 5).Value = endDate.ToShortDateString();
+
+                for (int index = 1; index <= events.Count; index++)
+                {
+                    worksheet.Cell(index + 3, 1).Value = index;
+                    worksheet.Cell(index + 3, 2).Value = events[index - 1].Campus.Name;
+                    worksheet.Cell(index + 3, 3).Value = events[index - 1].Location;
+                    worksheet.Cell(index + 3, 4).Value = events[index - 1].Title;
+                    worksheet.Cell(index + 3, 5).Value = events[index - 1].StartDateTime;
+                    worksheet.Cell(index + 3, 6).Value = events[index - 1].EndDateTime;
                 }
                 return workbook;
             }
