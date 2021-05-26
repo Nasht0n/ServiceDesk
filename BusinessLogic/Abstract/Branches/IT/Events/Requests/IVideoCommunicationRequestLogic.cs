@@ -12,6 +12,7 @@ namespace BusinessLogic.Abstract.Branches.IT.Events.Requests
         Task Delete(VideoCommunicationRequest request);
         Task<VideoCommunicationRequest> GetRequest(int id);
         Task<List<VideoCommunicationRequest>> GetRequests();
+        Task<List<VideoCommunicationRequest>> GetRequests(DateTime start, DateTime end);
         Task<VideoCommunicationRequest> GetRequest(DateTime start, DateTime end, string location, int campusId);
     }
 }

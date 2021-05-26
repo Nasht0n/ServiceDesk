@@ -43,6 +43,12 @@ namespace BusinessLogic.Concrete.Branches.IT.Events.Requests
             return await repository.GetRequests();
         }
 
+        public async Task<List<VideoCommunicationRequest>> GetRequests(DateTime start, DateTime end)
+        {
+            var requests = await repository.GetRequests();
+            return requests.Where(r => r.StartDateTime >= start && r.EndDateTime <= end).ToList();
+        }
+
         public async Task<VideoCommunicationRequest> Save(VideoCommunicationRequest request)
         {
             VideoCommunicationRequest result;
