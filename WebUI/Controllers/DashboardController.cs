@@ -1,5 +1,4 @@
 ﻿using BusinessLogic.Abstract;
-using BusinessLogic.Abstract.Branches.IT.Events.Requests;
 using BusinessLogic.Abstract.Views;
 using Domain.Models;
 using MimeKit;
@@ -38,14 +37,12 @@ namespace WebUI.Controllers
         private readonly IRefillRequestConsumptionLogic refillConsumptionLogic;
         private readonly IRepairRequestJournalLogic repairJournalLogic;
         private readonly IRepairRequestConsumptionLogic repairConsumptionLogic;
-        private readonly IVideoCommunicationRequestLogic videoLogic;
 
         public DashboardController(IAccountLogic accountLogic, IAccountPermissionLogic accountPermissionLogic,
             IEmployeeLogic employeeLogic, IBranchLogic branchLogic, ICategoryLogic categoryLogic, IServiceLogic serviceLogic,
             IRequestsLogic requestsLogic, IStatusLogic statusLogic, IExecutorGroupLogic executorGroupLogic,
             IRefillRequestJournalLogic refillJournalLogic, IRefillRequestConsumptionLogic refillConsumptionLogic,
-            IRepairRequestJournalLogic repairJournalLogic, IRepairRequestConsumptionLogic repairConsumptionLogic,
-            IVideoCommunicationRequestLogic videoLogic)
+            IRepairRequestJournalLogic repairJournalLogic, IRepairRequestConsumptionLogic repairConsumptionLogic)
         {
             this.accountLogic = accountLogic;
             this.accountPermissionLogic = accountPermissionLogic;
@@ -60,7 +57,6 @@ namespace WebUI.Controllers
             this.refillConsumptionLogic = refillConsumptionLogic;
             this.repairJournalLogic = repairJournalLogic;
             this.repairConsumptionLogic = repairConsumptionLogic;
-            this.videoLogic = videoLogic;
         }
         /// <summary>
         /// Метод получения данных информации об авторизованном пользователе в системе.
@@ -440,34 +436,6 @@ namespace WebUI.Controllers
             try
             {
                 var workbook = Reporter.EquipmentRepairReportManager.GenerateConsumptionReport(path, consumption, startDate, endDate);
-                using (var stream = new MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    var content = stream.ToArray();
-                    return File(content, type, fileName);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> DownloadVideoEventJournalReport(DashboardViewModel model)
-        {
-            string fileName = "Мероприятия.xlsx";
-            string path = Server.MapPath("~/Files/Templates/Video/") + fileName;
-            string type = MimeTypes.GetMimeType(fileName);
-
-            var startDate = model.StartPeriodDate;
-            var endDate = model.EndPeriodDate;
-
-            //var journal = await refillJournalLogic.GetJournal(startDate, endDate);
-            var events = await videoLogic.GetRequests(startDate, endDate);
-            try
-            {
-                var workbook = Reporter.EventReportManager.GenerateJournalReport(path, events, startDate, endDate);
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);

@@ -734,7 +734,6 @@
     <Content Include="Files\Templates\Repair\Списание.xlsx" />
     <Content Include="Files\Templates\Входящая корреспонденция.xlsx" />
     <Content Include="Files\Templates\Списание.xlsx" />
-    <Content Include="Files\Templates\Video\Мероприятия.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
