@@ -119,7 +119,8 @@ namespace Domain
         public virtual DbSet<SubdivisionExecutor> SubdivisionExecutors { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {     
+        {    
+            
             modelBuilder.Entity<AccountPermission>().HasKey(c => new { c.AccountId, c.PermissionId });
 
             modelBuilder.Entity<Account>()

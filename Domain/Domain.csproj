@@ -137,6 +137,10 @@
     <Compile Include="Migrations\202105121220247_AddEndDateTimeField.designer.cs">
       <DependentUpon>202105121220247_AddEndDateTimeField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105260819397_SetReferenceAccountRequestLifeCycle.cs" />
+    <Compile Include="Migrations\202105260819397_SetReferenceAccountRequestLifeCycle.designer.cs">
+      <DependentUpon>202105260819397_SetReferenceAccountRequestLifeCycle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ConsumableType.cs" />
@@ -301,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202105121220247_AddEndDateTimeField.resx">
       <DependentUpon>202105121220247_AddEndDateTimeField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105260819397_SetReferenceAccountRequestLifeCycle.resx">
+      <DependentUpon>202105260819397_SetReferenceAccountRequestLifeCycle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

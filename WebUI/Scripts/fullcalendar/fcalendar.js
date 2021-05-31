@@ -25,8 +25,9 @@
         },
 
         eventClick: function (info) {
-
             $("#title").text(info.event.extendedProps.request);
+            $("#eventId").text(info.event.id);
+
             $("#description").text(info.event.extendedProps.description);
 
             $("#location").text(info.event.title);
@@ -56,3 +57,7 @@
     console.log(calendar.events);
     calendar.render();
 });
+
+function OpenDetails() {
+    window.location.href = 'Details/' + $("#eventId").text();
+}
